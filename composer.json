@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Lakm\\LaravelComments\\": "src/"
+            "LakM\\Comments\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Lakm\\LaravelComments\\Tests\\": "tests/"
+            "LakM\\Comments\\Tests\\": "tests/"
         }
     },
     "extra": {
