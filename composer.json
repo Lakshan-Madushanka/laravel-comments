@@ -1,0 +1,52 @@
+{
+    "name": "lakm/laravel-comments",
+    "description": "Seamless comments functionality for your laravel project",
+    "keywords": [
+        "laravel",
+        "comments",
+        "Livewire",
+        "Alpine.js"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lakshan Madushanka",
+            "email": "epmadushanka@gmail.com",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0|^8.1|^8.2",
+        "laravel/framework": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "8.*",
+        "pestphp/pest": "^2.34"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lakm\\LaravelComments\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lakm\\LaravelComments\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Abbasudo\\Purity\\PurityServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable"
+}
