@@ -37,7 +37,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Abbasudo\\Purity\\PurityServiceProvider"
+                "LakM\\Comments\\CommentServiceProvider"
             ]
         }
     },
