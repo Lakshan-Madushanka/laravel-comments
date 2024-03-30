@@ -1,9 +1,9 @@
 <?php
 
-namespace Lakm\LaravelComments\Tests;
+namespace LakM\Comments\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
-use Lakm\LaravelComments\CommentServiceProvider;
+use LakM\Comments\CommentServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -21,6 +21,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $schema->create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->timestamps();
+        });
+
+        $schema->create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('commentable');
+            $table->text('text');
             $table->timestamps();
         });
 

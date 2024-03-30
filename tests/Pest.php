@@ -1,5 +1,5 @@
 <?php
 
-use Lakm\LaravelComments\Tests\TestCase;
+use LakM\Comments\Tests\TestCase;
 
 uses(TestCase::class)->in('');
