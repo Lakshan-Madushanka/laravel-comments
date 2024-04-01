@@ -1,7 +1,5 @@
 <?php
 
-return [];
-use App\Models\User;
 use LakM\Comments\CommentPolicy;
 use LakM\Comments\Models\Comment;
 
@@ -19,3 +17,22 @@ return [
     'permissions' => [
         'create-comment' => [CommentPolicy::class, 'create'],
     ],
+
+    /**
+     * Quill editor configs
+     * @see https://quilljs.com/docs/configuration
+     */
+    'editor_config' => [
+        'debug' => 'info',
+        'modules' => [
+            'toolbar' => [
+                [['header' => [1, 2, false]]],
+                ['bold', 'italic', 'underline'],
+                ['code-block'],
+            ],
+        ],
+        'placeholder' => 'write your comment',
+        'theme' => 'snow',
+    ],
+
+];

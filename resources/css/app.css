@@ -1,0 +1,6 @@
+@tailwind components;
+@tailwind utilities;
+
+#comments_editor .ql-editor {
+    min-height: 5rem;
+}
