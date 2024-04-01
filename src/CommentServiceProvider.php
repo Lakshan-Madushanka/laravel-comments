@@ -4,10 +4,16 @@ namespace LakM\Comments;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use LakM\Comments\Livewire\CommentForm;
+use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider
 {
+    const MANIFEST_PATH = __DIR__ . '/../public/build/manifest.json';
+
     public function boot(): void
     {
         $this->setViews();
@@ -64,9 +70,32 @@ class CommentServiceProvider extends ServiceProvider
        ], 'comments-config');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comment_table.php'),
+            __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comment_table.php'),
         ], 'comments-migrations');
 
+        $this->publishes([
+            __DIR__ . '/../public' => public_path('vendor/lakm/laravel-comments')
+        ], 'comments-assets');
+
+    }
+
+    protected function getStyleUrl(): string
+    {
+        $stylePath = $this->getManifestData()['resources/js/app.js']['css'][0];
+
+        return asset("vendor/lakm/laravel-comments/build/{$stylePath}");
+    }
+
+    protected function getScriptUrl(): string
+    {
+        $scriptPath = $this->getManifestData()['resources/js/app.js']['file'];
+
+        return asset("vendor/lakm/laravel-comments/build/{$scriptPath}");
+    }
+
+    protected function getManifestData(): array
+    {
+        return json_decode(file_get_contents(self::MANIFEST_PATH), true);
     }
 
     /**
