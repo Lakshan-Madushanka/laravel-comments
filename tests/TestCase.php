@@ -18,6 +18,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         $schema = $app['db']->connection()->getSchemaBuilder();
 
+        $schema->create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->nullable();
+            $table->timestamps();
+        });
+
         $schema->create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
