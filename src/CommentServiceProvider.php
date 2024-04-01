@@ -10,6 +10,7 @@ class CommentServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $this->setGates();
     }
 
     public function register(): void
@@ -20,6 +21,14 @@ class CommentServiceProvider extends ServiceProvider
     }
 
     public function configPublishing(): void
+    protected function setGates(): void
+    {
+        foreach (config('comments.permissions') as $name => $callback) {
+            Gate::define($name, $callback);
+        }
+    }
+
+    protected function configPublishing(): void
     {
        if ($this->app->runningInConsole()) {
            return;
