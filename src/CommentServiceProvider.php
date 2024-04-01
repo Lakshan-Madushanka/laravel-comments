@@ -10,6 +10,9 @@ class CommentServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $this->setViews();
+        $this->setComponents();
+        $this->setBladeDirectives();
         $this->setGates();
     }
 
@@ -20,7 +23,29 @@ class CommentServiceProvider extends ServiceProvider
         $this->configPublishing();
     }
 
-    public function configPublishing(): void
+    protected function setViews(): void
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'comments');
+    }
+
+    protected function setComponents(): void
+    {
+        Livewire::component('comments', CommentForm::class);
+    }
+
+    protected function setBladeDirectives(): void
+    {
+        Blade::directive('commentsStyles', function () {
+            $url = $this->getStyleUrl();
+            return "<link rel='stylesheet' href='{$url}'>";
+        });
+
+        Blade::directive('commentsScripts', function () {
+            $url = $this->getScriptUrl();
+            return "<script type='module' src='{$url}'> </script>";
+        });
+    }
+
     protected function setGates(): void
     {
         foreach (config('comments.permissions') as $name => $callback) {
