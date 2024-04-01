@@ -18,12 +18,13 @@
     ],
     "require": {
         "php": "^8.0|^8.1|^8.2",
-        "laravel/framework": "^10.0|^11.0"
+        "laravel/framework": "^10.0|^11.0",
         "livewire/livewire": "^3.4"
     },
     "require-dev": {
         "orchestra/testbench": "8.*",
         "pestphp/pest": "^2.34"
+        "pestphp/pest-plugin-laravel": "^2.3"
     },
     "autoload": {
         "psr-4": {
