@@ -1,4 +1,4 @@
-<div class="m-4">
+<div>
     <form class="w-full">
         @if($model->guestModeEnabled())
             <div class="flex gap-x-8 flex-col sm:flex-row">
