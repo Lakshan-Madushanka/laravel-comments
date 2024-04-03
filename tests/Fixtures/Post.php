@@ -3,7 +3,7 @@
 namespace LakM\Comments\Tests\Fixtures;
 
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\concerns\Commentable;
+use LakM\Comments\Concerns\Commentable;
 
 class Post extends Model
 {

@@ -3,11 +3,11 @@
 namespace LakM\Comments\Tests\Fixtures;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use LakM\Comments\concerns\Commentable;
+use LakM\Comments\Concerns\Commenter;
 
 class User extends Authenticatable
 {
+    use Commenter;
+
     protected $guarded = [];
 }

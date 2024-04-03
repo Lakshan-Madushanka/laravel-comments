@@ -1,6 +1,10 @@
 @tailwind components;
 @tailwind utilities;
 
-#comments_editor .ql-editor {
-    min-height: 5rem;
+.ql-toolbar {
+    @apply rounded rounded-b-none
+}
+
+#comments_editor {
+    @apply min-h-20 rounded rounded-t-none;
 }

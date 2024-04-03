@@ -31,10 +31,20 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->timestamps();
         });
 
+        $schema->create('videos', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
+
         $schema->create('comments', function (Blueprint $table) {
             $table->id();
-            $table->morphs('commentable');
+            $table->nullableMorphs('commentable');
+            $table->nullableMorphs('commenter');
             $table->text('text');
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
         });
 
