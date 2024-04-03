@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Concerns;
 
-use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
