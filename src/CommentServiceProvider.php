@@ -63,7 +63,7 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function configPublishing(): void
     {
-       if ($this->app->runningInConsole()) {
+       if (!$this->app->runningInConsole()) {
            return;
        }
 
