@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Comment extends Model
 {
     protected $fillable = [
-      'text'
+        'text',
+        'guest_name',
+        'guest_email',
+        'ip_address',
     ];
 
     public function commentable(): MorphTo

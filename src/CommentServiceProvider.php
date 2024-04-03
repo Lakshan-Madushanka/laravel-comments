@@ -36,6 +36,8 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function setComponents(): void
     {
+        Blade::componentNamespace('LakM\\Comments\\Views\\Components', 'comments');
+
         Livewire::component('comments', CommentForm::class);
     }
 

@@ -14,7 +14,13 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->morphs('commentable');
-            $table->string('name');
+            $table->morphs('commenter');
+
+            $table->text('text');
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
+            $table->string('ip_address')->nullable();
+
             $table->timestamps();
         });
     }

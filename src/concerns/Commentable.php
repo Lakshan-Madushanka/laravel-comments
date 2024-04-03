@@ -1,7 +1,8 @@
 <?php
 
-namespace LakM\Comments\concerns;
+namespace LakM\Comments\Concerns;
 
+use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -29,7 +30,7 @@ trait Commentable
             return Auth::getDefaultDriver();
         }
 
-        return config('auth.defaults.guard');
+        return config('comments.auth_guard');
     }
 
     /**
@@ -59,7 +60,8 @@ trait Commentable
             return $this->guestMode;
         }
 
-        if (config('comments.guest_mode')) {
+        if (config('comments.guest_mode.enabled')) {
+
             return true;
         }
 

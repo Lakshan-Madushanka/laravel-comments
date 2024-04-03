@@ -24,7 +24,8 @@
     "require-dev": {
         "orchestra/testbench": "8.*",
         "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-laravel": "^2.3"
+        "pestphp/pest-plugin-laravel": "^2.3",
+        "pestphp/pest-plugin-livewire": "^2.1"
     },
     "autoload": {
         "psr-4": {

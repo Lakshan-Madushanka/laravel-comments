@@ -3,7 +3,7 @@
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\concerns\Commentable;
+use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Tests\Fixtures\Post;
 
 
@@ -46,7 +46,7 @@ it('can authorize to create comment in guest mode', function () {
 });
 
 it('takes priority guest mode of the model over guest mode in config', function () {
-    config(['comments.guest_mode' => true]);
+    config(['comments.guest_mode.enabled' => true]);
 
     $post = new Post();
     $post->guestMode = false;
