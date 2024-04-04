@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->morphs('commentable');
-            $table->morphs('commenter');
+            $table->nullableMorphs('commenter');
 
             $table->text('text');
             $table->string('guest_name')->nullable();
