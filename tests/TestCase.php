@@ -39,7 +39,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $schema->create('comments', function (Blueprint $table) {
             $table->id();
-            $table->nullableMorphs('commentable');
+            $table->morphs('commentable');
             $table->nullableMorphs('commenter');
             $table->text('text');
             $table->string('guest_name')->nullable();
