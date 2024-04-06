@@ -3,19 +3,22 @@
         @if($model->guestModeEnabled())
             <div class="flex gap-x-8 flex-col sm:flex-row">
                 <div class="flex flex-col w-full">
-                    <x-comments::input wire:model="guest_name" placeholder="Comment as"/>
+                    <x-comments::input wire:model="guest_name" :shouldDisable="$limitExceeded" placeholder="Comment as"/>
                     <div class="min-h-6">
                         @if($errors->has('guest_name'))
-                            <span class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}</span>
+                            <span
+                                class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}</span>
                         @endif
                     </div>
                 </div>
                 @if(config('comments.guest_mode.email_enabled'))
                     <div class="flex flex-col w-full">
-                        <x-comments::input wire:model="guest_email" type="email" placeholder="Email"/>
+                        <x-comments::input wire:model="guest_email" :shouldDisable="$limitExceeded" type="email" placeholder="Email"/>
                         <div class="min-h-6">
                             @if($errors->has('guest_email'))
-                                <span class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}</span>
+                                <span
+                                    class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}
+                                </span>
                             @endif
                         </div>
                     </div>
@@ -26,31 +29,49 @@
             <div wire:ignore id="{{config('comments.editor_toolbar_id')}}"></div>
             <div wire:ignore id="{{config('comments.editor_id')}}" class="w-full"></div>
         </div>
-
         <div class="min-h-6">
-            @if($errors->has('text'))
-                <span class="text-red-500 text-sm align-top text-xs sm:text-sm"> {{$errors->first('text')}}</span>
-            @endif
-        </div>
-
-        @if($loginRequired)
-            <div>
-                <span>
-                    Please
-                    <x-comments::link class="text-blue-600 font-bold"
-                                      route="{{config('comments.login_route')}}">login</x-comments::link>
-                    to comment !
+            <div x-cloak x-data="successMsg" @comment-created.window="set(true)">
+                <span x-show="show"
+                      x-transition
+                      class="text-green-500 text-xs sm:text-sm align-top"
+                >
+                    Comment Created
                 </span>
             </div>
+            <div>
+                @if($errors->has('text'))
+                    <span class="text-red-500 align-top text-xs sm:text-sm"> {{$errors->first('text')}}</span>
+                @endif
+            </div>
+        </div>
+        @if(! $limitExceeded)
+            @if($loginRequired)
+                <div>
+                <span>
+                    Please
+                    <x-comments::link
+                        wire:click.prevent="redirectToLogin(window.location.href)"
+                        class="text-blue-600 font-bold"
+                    >
+                        login
+                    </x-comments::link>
+                    to comment !
+                </span>
+                </div>
+            @else
+                <x-comments::button class="w-full sm:w-auto" wire:click="create">Create</x-comments::button>
+            @endif
         @else
-            <x-comments::button class="w-full sm:w-auto" wire:click="create">Create</x-comments::button>
+            <div>
+                <span class="text-red-500">Allowed comment limit ({{$model->getCommentLimit()}}) exceeded !</span>
+            </div>
         @endif
-        <div wire:click="create">test</div>
     </form>
 
     @script
-    <script type="module" defer>
-        const quill = new Quill('#{{config('comments.editor_id')}}', @js(config('comments.editor_config')));
+    <script>
+        let editorConfig = @js(config('comments.editor_config'));
+        const quill = new Quill('#{{config('comments.editor_id')}}', editorConfig);
 
         const editorElm = document.querySelector('#{{config('comments.editor_id')}} .ql-editor');
         const toolbarParentElm = document.querySelector('#{{config('comments.editor_toolbar_id') }}');
@@ -58,7 +79,7 @@
 
         toolbarParentElm.append(toolbarElm);
 
-        if (!$wire.LoginRequired) {
+        if (!$wire.LoginRequired || $wire.limitExceeded) {
             quill.disable();
         }
 
@@ -70,6 +91,22 @@
             }
             $wire.text = html;
         });
+
+        $wire.on('comment-created', function () {
+            quill.setText($wire.text)
+        });
+
+        Alpine.data('successMsg', () => ({
+            show: false,
+            timeout: 2000,
+
+            set(show) {
+                this.show = show;
+                setTimeout(() => {
+                    this.show = false;
+                }, this.timeout)
+            }
+        }));
     </script>
     @endscript
 </div>

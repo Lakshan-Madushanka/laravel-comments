@@ -21,6 +21,12 @@ return [
         'create-comment' => [CommentPolicy::class, 'create'],
     ],
 
+    /**
+     * Limit no of comments a user make for a model
+     * keep null means unlimited
+     */
+    'limit' => null,
+
     // Quill editor container id
     'editor_id' => 'comments_editor',
 

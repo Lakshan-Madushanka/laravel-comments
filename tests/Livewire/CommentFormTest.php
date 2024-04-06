@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Livewire\CommentForm;
 use LakM\Comments\Models\Comment;
@@ -166,3 +167,71 @@ it('dispatch a event after comment is created', function () {
 
     Event::dispatch(CommentCreated::class);
 });
+
+it('can limit comments creation for guest mode', function ($shouldLimit) {
+    onGuestMode();
+
+    if ($shouldLimit) {
+        config(['comments.limit' => 1]);
+    } else {
+        config(['comments.limit' => null]);
+
+    }
+
+    $video = \video();
+    $video->comments()->create([
+        'text' => Str::random(),
+        'ip_address' => request()->ip(),
+    ]);
+
+    $c = livewire(CommentForm::class, ['modelClass' => Video::class, 'modelId' => $video->getkey()])
+        ->set('text', 'test comment')
+        ->set('guest_name', 'guest')
+        ->set('guest_email', 'gues@mail.com')
+        ->call('create')
+        ->assertHasNoErrors()
+        ->assertOk();
+
+    if ($shouldLimit) {
+        expect($c->get('limitExceeded'))->toBeTrue();
+    } else {
+        expect($c->get('limitExceeded'))->toBeFalse();
+    }
+})->with([
+    true,
+    false,
+]);
+
+it('can limit comments creation for auth mode', function ($shouldLimit) {
+    onGuestMode(false);
+
+    if (!Auth::check()) {
+        $user = actAsAuth();
+    }
+
+    if ($shouldLimit) {
+        config(['comments.limit' => 1]);
+    } else {
+        config(['comments.limit' => null]);
+
+    }
+
+    $video = \video();
+    $comment = $video->comments()->create(['text' => 'comment']);
+    $user->comments()->save($comment);
+
+
+    $c = livewire(CommentForm::class, ['modelClass' => Video::class, 'modelId' => $video->getkey()])
+        ->set('text', 'test comment')
+        ->assertHasNoErrors()
+        ->assertOk();
+
+    if ($shouldLimit) {
+        expect($c->get('limitExceeded'))->toBeTrue();
+    } else {
+        expect($c->get('limitExceeded'))->toBeFalse();
+    }
+})->with([
+    true,
+    false,
+]);

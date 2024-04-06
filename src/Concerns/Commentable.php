@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use LakM\Comments\Exceptions\CommentLimitExceeded;
+use LakM\Comments\Repository;
 
 /**
  * @mixin Model
@@ -35,11 +37,16 @@ trait Commentable
     /**
      * @throws \Throwable
      */
-    public function canCreateComment(): bool
+    public function canCreateComment(Model $relatedModel, Model $user = null): bool
     {
         if (method_exists($this, 'commentCanCreate')) {
-            return $this->commentCanCreate();
+            return $this->commentCanCreate($relatedModel, $user);
         }
+
+        throw_if(
+            $this->limitExceeded($relatedModel, $user),
+            CommentLimitExceeded::make($relatedModel::class, $this->getCommentLimit())
+        );
 
         if ($this->guestModeEnabled()) {
             return true;
@@ -65,5 +72,41 @@ trait Commentable
         }
 
         return false;
+    }
+
+    public function limitExceeded(Model $relatedModel, Model $user = null): bool
+    {
+        $limit = $this->getCommentLimit();
+
+        if (is_null($limit)) {
+            return false;
+        }
+
+        if (is_null($user)) {
+            return $this->checkLimitForGuest($relatedModel, $limit);
+        }
+
+        return $this->checkLimitForAuthUser($user, $relatedModel, $limit);
+    }
+
+    public function checkLimitForGuest(Model $relatedModel, int $limit): bool
+    {
+        return Repository::guestCommentCount($relatedModel) >= $limit;
+    }
+
+    public function checkLimitForAuthUser(Model $user, Model $relatedModel, int $limit): bool
+    {
+        return Repository::userCommentCount($user, $relatedModel) >= $limit;
+    }
+
+    public function getCommentLimit(): ?int
+    {
+        $limit = config('comments.limit');
+
+        if (property_exists($this, 'commentLimit')) {
+            $limit =  $this->commentLimit;
+        }
+
+        return $limit;
     }
 }
