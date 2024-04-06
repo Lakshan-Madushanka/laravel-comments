@@ -3,6 +3,7 @@
 namespace LakM\Comments\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -14,9 +15,9 @@ class CommentCreated
 
     /**
      * Model is the commentable model type defined in config
-     * @param $model
+     * @param  Model  $model
      */
-    public function __construct($model)
+    public function __construct(public Model $model)
     {
     }
 
