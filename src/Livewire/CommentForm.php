@@ -53,6 +53,8 @@ class CommentForm extends Component
 
     public function create(): void
     {
+        $this->validate();
+
         if ($this->model->canCreateComment($this->model, Auth::user())) {
             CreateCommentAction::execute($this->model, $this->only('guest_name', 'guest_email', 'text'));
 
