@@ -5,6 +5,6 @@ coverage
 .phpunit.result.cache
 /.idea
 node_modules
-public/
+public
 resources/css
 resources/js
