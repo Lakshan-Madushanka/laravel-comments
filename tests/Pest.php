@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
@@ -9,7 +10,7 @@ use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
 
-function actAsAuth()
+function actAsAuth(): Authenticatable
 {
     $user = User::create();
 
@@ -18,12 +19,12 @@ function actAsAuth()
     return $user;
 }
 
-function post()
+function post(): Post
 {
     return Post::create(['name' => 'post']);
 }
 
-function video()
+function video(): Video
 {
     return Video::create(['name' => 'post']);
 }

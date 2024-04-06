@@ -47,7 +47,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });
-
     }
 
     protected function getPackageProviders($app): array
