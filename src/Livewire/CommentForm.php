@@ -11,9 +11,13 @@ use LakM\Comments\Actions\CreateCommentAction;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
+use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
 class CommentForm extends Component
 {
+    use UsesSpamProtection;
+
     #[Locked]
     public Model $model;
 
@@ -22,6 +26,8 @@ class CommentForm extends Component
 
     #[Locked]
     public bool $limitExceeded;
+
+    public HoneypotData $honeyPostData;
 
     public string $guest_name = '';
 
@@ -44,6 +50,8 @@ class CommentForm extends Component
         $this->setLoginRequired();
 
         $this->limitExceeded = $this->model->limitExceeded($this->model, Auth::user());
+
+        $this->honeyPostData = new HoneypotData();
     }
 
     public function rules(): array
@@ -53,6 +61,8 @@ class CommentForm extends Component
 
     public function create(): void
     {
+        $this->protectAgainstSpam();
+
         $this->validate();
 
         if ($this->model->canCreateComment($this->model, Auth::user())) {

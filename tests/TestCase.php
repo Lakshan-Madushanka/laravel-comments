@@ -4,7 +4,11 @@ namespace LakM\Comments\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use LakM\Comments\CommentServiceProvider;
+use Laravel\Sail\SailServiceProvider;
 use Livewire\LivewireServiceProvider;
+use Spatie\Honeypot\HoneypotServiceProvider;
+use Spatie\Honeypot\View\HoneypotComponent;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -13,6 +17,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->setUpDatabase($this->app);
+
+        config(['honeypot.enabled' => false]);
     }
 
     public function setUpDatabase($app)
@@ -54,6 +60,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [
             CommentServiceProvider::class,
             LivewireServiceProvider::class,
+            HoneypotServiceProvider::class,
         ];
     }
 

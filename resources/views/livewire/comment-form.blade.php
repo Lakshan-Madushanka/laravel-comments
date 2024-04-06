@@ -1,23 +1,27 @@
 <div>
     <form class="w-full">
+        <x-honeypot wire:model="honeyPostData"/>
+
         @if($model->guestModeEnabled())
             <div class="flex gap-x-8 flex-col sm:flex-row">
                 <div class="flex flex-col w-full">
-                    <x-comments::input wire:model="guest_name" :shouldDisable="$limitExceeded" placeholder="Comment as"/>
+                    <x-comments::input wire:model="guest_name" :shouldDisable="$limitExceeded"
+                                       placeholder="Comment as"/>
                     <div class="min-h-6">
                         @if($errors->has('guest_name'))
                             <span
-                                class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}</span>
+                                    class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}</span>
                         @endif
                     </div>
                 </div>
                 @if(config('comments.guest_mode.email_enabled'))
                     <div class="flex flex-col w-full">
-                        <x-comments::input wire:model="guest_email" :shouldDisable="$limitExceeded" type="email" placeholder="Email"/>
+                        <x-comments::input wire:model="guest_email" :shouldDisable="$limitExceeded" type="email"
+                                           placeholder="Email"/>
                         <div class="min-h-6">
                             @if($errors->has('guest_email'))
                                 <span
-                                    class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}
+                                        class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}
                                 </span>
                             @endif
                         </div>
@@ -50,8 +54,8 @@
                 <span>
                     Please
                     <x-comments::link
-                        wire:click.prevent="redirectToLogin(window.location.href)"
-                        class="text-blue-600 font-bold"
+                            wire:click.prevent="redirectToLogin(window.location.href)"
+                            class="text-blue-600 font-bold"
                     >
                         login
                     </x-comments::link>
