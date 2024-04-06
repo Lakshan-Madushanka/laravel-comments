@@ -1,4 +1,4 @@
-@props(['route'])
+@props(['route' => '#'])
 
 <a
     wire:navigate
