@@ -2,12 +2,14 @@
 
 namespace LakM\Comments\Livewire;
 
+use GrahamCampbell\Security\Facades\Security;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use LakM\Comments\Actions\CreateCommentAction;
+use LakM\Comments\PurityDefinitons\TrixPurifierDefinitions;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -33,7 +35,7 @@ class CommentForm extends Component
 
     public string $guest_email = '';
 
-    public string $text = '';
+    public string $text = "Hello, i try to <script>alert('Hack');</script> your site";
 
     /**
      * @param  string  $modelClass
@@ -66,12 +68,28 @@ class CommentForm extends Component
         $this->validate();
 
         if ($this->model->canCreateComment($this->model, Auth::user())) {
-            CreateCommentAction::execute($this->model, $this->only('guest_name', 'guest_email', 'text'));
+            CreateCommentAction::execute($this->model, $this->getFormData());
 
             $this->clear();
 
             $this->dispatch('comment-created');
         }
+    }
+
+    private function getFormData(): array
+    {
+        $data = $this->only('guest_name', 'guest_email', 'text');
+        return  $this->clearFormData($data);
+
+    }
+
+    private function clearFormData(array $data): array
+    {
+        $data =  array_map(function (string $value) {
+            return  Security::clean($value);
+        }, $data);
+
+        return $data;
     }
 
     public function setLoginRequired(): void

@@ -2,13 +2,11 @@
 
 namespace LakM\Comments\Tests;
 
+use GrahamCampbell\Security\SecurityServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use LakM\Comments\CommentServiceProvider;
-use Laravel\Sail\SailServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Spatie\Honeypot\HoneypotServiceProvider;
-use Spatie\Honeypot\View\HoneypotComponent;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -61,6 +59,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             CommentServiceProvider::class,
             LivewireServiceProvider::class,
             HoneypotServiceProvider::class,
+            SecurityServiceProvider::class,
         ];
     }
 
