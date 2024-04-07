@@ -27,12 +27,6 @@ return [
      */
     'limit' => null,
 
-    // Quill editor container id
-    'editor_id' => 'comments_editor',
-
-    // Quill editor toolbar id
-    'editor_toolbar_id' => 'comments_editor_toolbar',
-
     /**
      * Quill editor configs
      * @see https://quilljs.com/docs/configuration

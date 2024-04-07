@@ -5,6 +5,3 @@
     @apply rounded rounded-b-none
 }
 
-#comments_editor {
-    @apply min-h-20 rounded rounded-t-none;
-}

@@ -5,23 +5,31 @@
         @if($model->guestModeEnabled())
             <div class="flex gap-x-8 flex-col sm:flex-row">
                 <div class="flex flex-col w-full">
-                    <x-comments::input wire:model="guest_name" :shouldDisable="$limitExceeded"
-                                       placeholder="Comment as"/>
+                    <x-comments::input
+                        wire:model="guest_name"
+                        :shouldDisable="$limitExceeded"
+                        placeholder="Comment as"
+                    />
                     <div class="min-h-6">
                         @if($errors->has('guest_name'))
                             <span
-                                    class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}</span>
+                                class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}
+                            </span>
                         @endif
                     </div>
                 </div>
                 @if(config('comments.guest_mode.email_enabled'))
                     <div class="flex flex-col w-full">
-                        <x-comments::input wire:model="guest_email" :shouldDisable="$limitExceeded" type="email"
-                                           placeholder="Email"/>
+                        <x-comments::input
+                            wire:model="guest_email"
+                            :shouldDisable="$limitExceeded"
+                            type="email"
+                            placeholder="Email"
+                        />
                         <div class="min-h-6">
                             @if($errors->has('guest_email'))
                                 <span
-                                        class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}
+                                    class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}
                                 </span>
                             @endif
                         </div>
@@ -29,12 +37,12 @@
                 @endif
             </div>
         @endif
-        <div>
-            <div wire:ignore id="{{config('comments.editor_toolbar_id')}}"></div>
-            <div wire:ignore id="{{config('comments.editor_id')}}" class="w-full"></div>
+        <div wire:ignore>
+            <div id="{{$editorId}}" class="min-h-32 rounded rounded-t-none"></div>
+            <div id="{{$toolbarId}}" class="w-full"></div>
         </div>
         <div class="min-h-6">
-            <div x-cloak x-data="successMsg" @comment-created.window="set(true)">
+            <div x-cloak x-data="successMsg" @comment-created.window="set(true, $event)">
                 <span x-show="show"
                       x-transition
                       class="text-green-500 text-xs sm:text-sm align-top"
@@ -54,8 +62,8 @@
                 <span>
                     Please
                     <x-comments::link
-                            wire:click.prevent="redirectToLogin(window.location.href)"
-                            class="text-blue-600 font-bold"
+                        wire:click.prevent="redirectToLogin(window.location.href)"
+                        class="text-blue-600 font-bold"
                     >
                         login
                     </x-comments::link>
@@ -75,13 +83,14 @@
     @script
     <script>
         let editorConfig = @js(config('comments.editor_config'));
-        const quill = new Quill('#{{config('comments.editor_id')}}', editorConfig);
+        const quill = new Quill(`#${$wire.editorId}`, editorConfig);
 
-        const editorElm = document.querySelector('#{{config('comments.editor_id')}} .ql-editor');
-        const toolbarParentElm = document.querySelector('#{{config('comments.editor_toolbar_id') }}');
-        const toolbarElm = document.querySelector('.ql-toolbar');
+        const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
+        const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
 
-        toolbarParentElm.append(toolbarElm);
+        const toolbars =  Array.from(document.querySelector('.ql-toolbar'));
+
+        toolbarParentElm.append(toolbars.slice(-1));
 
         if (!$wire.LoginRequired || $wire.limitExceeded) {
             quill.disable();
@@ -104,7 +113,10 @@
             show: false,
             timeout: 2000,
 
-            set(show) {
+            set(show, event) {
+                if(event.detail.id !== $wire.editorId) {
+                    return;
+                }
                 this.show = show;
                 setTimeout(() => {
                     this.show = false;

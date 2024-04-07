@@ -8,8 +8,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentAction;
-use LakM\Comments\PurityDefinitons\TrixPurifierDefinitions;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -35,7 +35,10 @@ class CommentForm extends Component
 
     public string $guest_email = '';
 
-    public string $text = "Hello, i try to <script>alert('Hack');</script> your site";
+    public string $text = "";
+
+    public string $editorId;
+    public string $toolbarId;
 
     /**
      * @param  string  $modelClass
@@ -54,6 +57,9 @@ class CommentForm extends Component
         $this->limitExceeded = $this->model->limitExceeded($this->model, Auth::user());
 
         $this->honeyPostData = new HoneypotData();
+
+        $this->editorId = 'editor' . Str::random();
+        $this->toolbarId ='toolbar' . Str::random();
     }
 
     public function rules(): array
@@ -72,7 +78,7 @@ class CommentForm extends Component
 
             $this->clear();
 
-            $this->dispatch('comment-created');
+            $this->dispatch('comment-created', id: $this->editorId);
         }
     }
 
