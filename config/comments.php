@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use LakM\Comments\CommentPolicy;
 use LakM\Comments\Models\Comment;
 
@@ -9,13 +10,25 @@ return [
 
     // When guest mode unable no authentication required
     'guest_mode' => [
-        'enabled' => false,
+        'enabled' => true,
         'email_enabled' => true,
     ],
 
     'auth_guard' => 'default',
 
     'login_route' => 'login',
+
+    /**
+     * Database column or model accessor name to
+     * get the url of profile photo.
+     * Leave null if profile photo is not supported
+     */
+    'profile_photo_url_column' => 'profile_photo_url',
+
+    'pagination' => [
+        'enabled' => true,
+        'per_page' => 15,
+    ],
 
     'permissions' => [
         'create-comment' => [CommentPolicy::class, 'create'],

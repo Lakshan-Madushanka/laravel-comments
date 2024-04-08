@@ -4,7 +4,14 @@ export default {
       "./resources/**/*.blade.php",
   ],
   theme: {
-    extend: {},
+    extend: {
+        gridTemplateColumns: {
+            '14': 'repeat(18, minmax(0, 1fr))',
+        },
+        gridColumn: {
+            'span-17': 'span 17 / span 17',
+        }
+    },
   },
   plugins: [],
 }

@@ -3,6 +3,7 @@
 namespace LakM\Comments\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
@@ -15,6 +16,11 @@ class Comment extends Model
     ];
 
     public function commentable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function commenter(): MorphTo
     {
         return $this->morphTo();
     }
