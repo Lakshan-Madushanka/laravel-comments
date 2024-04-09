@@ -16,7 +16,7 @@ use Livewire\Component;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
-class CommentForm extends Component
+class CreateCommentForm extends Component
 {
     use UsesSpamProtection;
 
