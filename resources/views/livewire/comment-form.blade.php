@@ -13,7 +13,7 @@
                     <div class="min-h-6">
                         @if($errors->has('guest_name'))
                             <span
-                                class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_name')}}
+                                class="text-red-500 align-top text-xs sm:text-sm">{{__($errors->first('guest_name'))}}
                             </span>
                         @endif
                     </div>
@@ -29,7 +29,7 @@
                         <div class="min-h-6">
                             @if($errors->has('guest_email'))
                                 <span
-                                    class="text-red-500 align-top text-xs sm:text-sm">{{$errors->first('guest_email')}}
+                                    class="text-red-500 align-top text-xs sm:text-sm">{{__($errors->first('guest_email'))}}
                                 </span>
                             @endif
                         </div>
@@ -47,12 +47,12 @@
                       x-transition
                       class="text-green-500 text-xs sm:text-sm align-top"
                 >
-                    Comment Created
+                    {{__('Comment Created')}}
                 </span>
             </div>
             <div>
                 @if($errors->has('text'))
-                    <span class="text-red-500 align-top text-xs sm:text-sm"> {{$errors->first('text')}}</span>
+                    <span class="text-red-500 align-top text-xs sm:text-sm"> {{__($errors->first('text'))}}</span>
                 @endif
             </div>
         </div>
@@ -60,14 +60,14 @@
             @if($loginRequired)
                 <div>
                 <span>
-                    Please
+                    {{__('Please')}}
                     <x-comments::link
                         wire:click.prevent="redirectToLogin(window.location.href)"
                         class="text-blue-600 font-bold"
                     >
-                        login
+                        {{__('login')}}
                     </x-comments::link>
-                    to comment !
+                    {{__('to comment !')}}
                 </span>
                 </div>
             @else
@@ -75,7 +75,7 @@
             @endif
         @else
             <div>
-                <span class="text-red-500">Allowed comment limit ({{$model->getCommentLimit()}}) exceeded !</span>
+                <span class="text-red-500">{{__('Allowed comment limit')}} ({{$model->getCommentLimit()}}) {{__('exceeded !')}}</span>
             </div>
         @endif
     </form>

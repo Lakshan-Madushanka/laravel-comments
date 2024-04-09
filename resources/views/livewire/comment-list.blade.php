@@ -1,6 +1,6 @@
 <div @comment-created.window="$wire.$refresh" class="space-y-4">
     <div class="text-lg font-bold">
-        Comments ({{$total}})
+        {{__('Comments')}} ({{$total}})
     </div>
     @if($comments->isNotEmpty())
         @foreach($comments as $comment)
@@ -8,12 +8,17 @@
                 <div class="basis-12">
                     @if(!$guestMode && $profilePhotoUrl)
                         <a href="{{$comment->commenter->$profilePhotoUrl}}" target="_blank">
-                            <img class="border border-gray-200 rounded-full" src="{{$comment->commenter->$profilePhotoUrl}}" alt="{{$comment->commenter->name}}">
+                            <img
+                                class="border border-gray-200 rounded-full"
+                                src="{{$comment->commenter->$profilePhotoUrl}}"
+                                alt="{{$comment->commenter->name}}"
+                            >
                         </a>
                     @else
                         <img
-                                class="border border-gray-200 rounded-full" src="vendor/lakm/laravel-comments/img/user.png"
-                                alt="{{$guestMode ? $comment->guest_name : $comment->commenter->name}}"
+                            class="border border-gray-200 rounded-full"
+                            src="vendor/lakm/laravel-comments/img/user.png"
+                            alt="{{$guestMode ? $comment->guest_name : $comment->commenter->name}}"
                         >
                     @endif
                 </div>
@@ -29,17 +34,17 @@
             </div>
         @endforeach
     @else
-        <div class="text-lg">Be the first one to make the comment !</div>
+        <div class="text-lg">{{__('Be the first one to make the comment !')}}</div>
     @endif
 
     @if($comments->isNotEmpty())
         <div class="flex justify-center items-center">
             @if($limit < $total)
                 <x-comments::button wire:click="paginate" type="button" loadingTarget="paginate">
-                    Load More
+                    {{__('Load More')}}
                 </x-comments::button>
             @else
-                <div class="font-bold">End of comments</div>
+                <div class="font-bold">{{__('End of comments')}}</div>
             @endif
         </div>
     @endif
