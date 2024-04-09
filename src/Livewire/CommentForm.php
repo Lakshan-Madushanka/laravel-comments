@@ -58,8 +58,8 @@ class CommentForm extends Component
 
         $this->honeyPostData = new HoneypotData();
 
-        $this->editorId = 'editor' . Str::random();
-        $this->toolbarId ='toolbar' . Str::random();
+        $this->editorId = 'editor'.Str::random();
+        $this->toolbarId = 'toolbar'.Str::random();
     }
 
     public function rules(): array
@@ -67,6 +67,9 @@ class CommentForm extends Component
         return ValidationRules::get($this->model);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function create(): void
     {
         $this->protectAgainstSpam();
@@ -77,7 +80,6 @@ class CommentForm extends Component
             CreateCommentAction::execute($this->model, $this->getFormData());
 
             $this->clear();
-
             $this->dispatch('comment-created', id: $this->editorId);
         }
     }
@@ -85,17 +87,16 @@ class CommentForm extends Component
     private function getFormData(): array
     {
         $data = $this->only('guest_name', 'guest_email', 'text');
-        return  $this->clearFormData($data);
+        return $this->clearFormData($data);
 
     }
 
     private function clearFormData(array $data): array
     {
-        $data =  array_map(function (string $value) {
-            return  Security::clean($value);
+        return array_map(function (string $value) {
+            return Security::clean($value);
         }, $data);
 
-        return $data;
     }
 
     public function setLoginRequired(): void

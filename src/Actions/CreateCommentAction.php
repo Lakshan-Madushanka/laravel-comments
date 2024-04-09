@@ -36,7 +36,7 @@ class CreateCommentAction
             return static::createForGuest($model, $commentData);
         }
 
-        return $comment = self::createForAuthUser($model, $commentData);
+        return self::createForAuthUser($model, $commentData);
     }
 
     protected static function createUsingCustom(Model $model, array $commentData)
