@@ -48,7 +48,6 @@ class CommentList extends Component
     public function render()
     {
         return view('comments::livewire.comment-list',
-            ['comments' => Repository::allRelatedCommentsForAuthUser($this->model, $this->limit)]);
-
+            ['comments' => Repository::allRelatedComments($this->model, $this->limit)]);
     }
 }

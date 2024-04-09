@@ -48,6 +48,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->text('text');
             $table->string('guest_name')->nullable();
             $table->string('guest_email')->nullable();
+            $table->boolean('approved')->default(false);
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });

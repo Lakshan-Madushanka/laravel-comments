@@ -47,16 +47,17 @@ function createCommentsForAuthUser(User $user, Model $relatedModel, int $count =
     return $user->comments;
 }
 
-function createCommentsForGuest(Model $relatedModel, int $count = 1): Collection
+function createCommentsForGuest(Model $relatedModel, int $count = 1, bool $approved = false): Collection
 {
     $email = fake()->email();
     $name = fake()->name();
 
     for ($i = 0; $i < $count; $i++) {
-         $relatedModel->comments()->create([
+        $relatedModel->comments()->create([
             'text' => Str::random(),
             'guest_name' => $name,
             'guest_email' => $email,
+            'approved' =>$approved,
         ]);
     }
 

@@ -1,19 +1,10 @@
 <?php
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
-use LakM\Comments\Events\CommentCreated;
-use LakM\Comments\Exceptions\CommentLimitExceeded;
-use LakM\Comments\Livewire\CommentForm;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\Post;
-use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
-use Pest\Expectation;
 use function Pest\Livewire\livewire;
 
 it('can render comment list', function () {
@@ -22,12 +13,14 @@ it('can render comment list', function () {
 });
 
 it('can render paginated comment list for auth user', function ($count) {
+    config(['comments.guest_mode.enabled' => false]);
+    config(['comments.approval_required' => false]);
     config(['comments.pagination.per_page' => $count]);
 
     $user = actAsAuth();
     $video = \video();
 
-    $comments = createCommentsForAuthUser($user, $video, 5);
+    createCommentsForAuthUser($user, $video, 5);
 
     livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {
@@ -44,11 +37,13 @@ it('can render paginated comment list for auth user', function ($count) {
 ]);
 
 it('can render paginated comment list for guest', function ($count) {
+    config(['comments.guest_mode.enabled' => true]);
+    config(['comments.approval_required' => false]);
     config(['comments.pagination.per_page' => $count]);
 
     $video = \video();
 
-    $comments = createCommentsForGuest($video, 5);
+    createCommentsForGuest($video, 5);
 
     livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {
@@ -62,4 +57,30 @@ it('can render paginated comment list for guest', function ($count) {
 })->with([
     1,
     2,
+]);
+
+it('only shows approved comments when enabled in config', function ($approval) {
+    config(['comments.guest_mode.enabled' => true]);
+    config(['comments.approval_required' => $approval]);
+
+    $video = \video();
+
+    createCommentsForGuest($video, 2);
+    createCommentsForGuest($video, 1, true);
+
+    livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
+        ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($approval) {
+            $e = expect($comments);
+
+            if ($approval) {
+                $e->toHaveCount(1);
+            } else {
+                $e->toHaveCount(3);
+            }
+            return true;
+        })
+        ->assertOk();
+})->with([
+    true,
+    false,
 ]);

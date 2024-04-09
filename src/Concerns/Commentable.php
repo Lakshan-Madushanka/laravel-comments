@@ -109,4 +109,13 @@ trait Commentable
 
         return $limit;
     }
+
+    public function approvalRequired(): bool
+    {
+        if (property_exists($this, 'approvalRequired')) {
+            return $this->approvalRequired;
+        }
+
+        return config('comments.approval_required');
+    }
 }

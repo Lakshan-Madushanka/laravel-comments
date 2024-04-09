@@ -67,6 +67,7 @@ it('can validate text field', function () {
 });
 
 it('shows login link when guest mode disabled', function () {
+    config(['comments.guest_mode.enabled' => false]);
     $video = \video();
 
     livewire(CommentForm::class, ['modelClass' => Video::class, 'modelId' => $video->getkey()])

@@ -28,12 +28,13 @@ class Repository
             ->count();
     }
 
-    public static function allRelatedCommentsForAuthUser(Model $relatedModel, int $limit)
+    public static function allRelatedComments(Model $relatedModel, int $limit)
     {
         return $relatedModel
             ->comments()
             ->when(! $relatedModel->guestModeEnabled(),  fn(Builder $query) => $query->with('commenter'))
             ->latest()
+            ->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved())
             ->when(
                 config('comments.pagination.enabled'),
                 fn(Builder $query) => $query->paginate($limit),

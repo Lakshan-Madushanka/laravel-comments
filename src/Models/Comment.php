@@ -2,8 +2,8 @@
 
 namespace LakM\Comments\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
@@ -13,7 +13,13 @@ class Comment extends Model
         'guest_name',
         'guest_email',
         'ip_address',
+        'approved',
     ];
+
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->whereApproved(true);
+    }
 
     public function commentable(): MorphTo
     {

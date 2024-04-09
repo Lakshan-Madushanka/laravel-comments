@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('text');
             $table->string('guest_name')->nullable();
             $table->string('guest_email')->nullable();
+            $table->boolean('approved')->default(false);
             $table->string('ip_address')->nullable();
 
             $table->timestamps();
