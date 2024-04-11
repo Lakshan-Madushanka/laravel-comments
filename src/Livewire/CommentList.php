@@ -2,9 +2,13 @@
 
 namespace LakM\Comments\Livewire;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -23,8 +27,8 @@ class CommentList extends Component
 
     public ?string $profilePhotoUrl;
 
+    #[Locked]
     public bool $guestMode;
-
 
     public function mount(string $modelClass, mixed $modelId): void
     {
@@ -45,7 +49,13 @@ class CommentList extends Component
         $this->limit += $this->perPage;
     }
 
-    public function render()
+    #[On('comment-created')]
+    public function increaseCommentCount(): void
+    {
+        $this->total += 1;
+    }
+
+    public function render(): View|Factory|Application
     {
         return view('comments::livewire.comment-list',
             ['comments' => Repository::allRelatedComments($this->model, $this->limit)]);
