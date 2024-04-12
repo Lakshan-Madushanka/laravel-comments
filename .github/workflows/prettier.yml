@@ -9,9 +9,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
+
+      - name: Install dependencies
+        run: npm install -D
+
       - run: npm run prettier:write
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
