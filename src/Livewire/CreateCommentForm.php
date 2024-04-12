@@ -64,7 +64,7 @@ class CreateCommentForm extends Component
 
     public function rules(): array
     {
-        return ValidationRules::get($this->model);
+        return ValidationRules::get($this->model, 'create');
     }
 
     /**
@@ -118,6 +118,6 @@ class CreateCommentForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.comment-form');
+        return view('comments::livewire.create-comment-form');
     }
 }
