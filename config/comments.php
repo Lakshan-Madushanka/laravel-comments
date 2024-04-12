@@ -18,6 +18,8 @@ return [
 
     'login_route' => 'login',
 
+    'approval_required' => false,
+
     /**
      * Database column or model accessor name to
      * get the url of profile photo.
@@ -32,6 +34,7 @@ return [
 
     'permissions' => [
         'create-comment' => [CommentPolicy::class, 'create'],
+        'update-comment' => [CommentPolicy::class, 'update']
     ],
 
     /**
