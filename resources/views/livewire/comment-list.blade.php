@@ -72,9 +72,6 @@
                             {!! $comment->text !!}
                         </div>
                     </div>
-                    <div x-show="!showUpdateForm" class="mt-2">
-                        <livewire:comments-reactions-manager :key="$comment->getKey()" />
-                    </div>
                     <div x-show="showUpdateForm" x-transition class="basis-full">
                         @if ($model->canCreateComment($comment))
                             <livewire-comments-update-form
