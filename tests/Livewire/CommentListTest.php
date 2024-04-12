@@ -66,7 +66,7 @@ it('only shows approved comments when enabled in config', function ($approval) {
     $video = \video();
 
     createCommentsForGuest($video, 2);
-    createCommentsForGuest($video, 1, true);
+    createCommentsForGuest($video, 1, ['approved' => true]);
 
     livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($approval) {

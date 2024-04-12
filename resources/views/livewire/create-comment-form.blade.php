@@ -47,7 +47,11 @@
                       x-transition
                       class="text-green-500 text-xs sm:text-sm align-top"
                 >
-                    {{__('Comment Created')}}
+                    @if($model->approvalRequired())
+                        {{__('Comment created and will be displayed once approved')}}
+                    @else
+                        {{__('Comment created')}}
+                    @endif
                 </span>
             </div>
             <div>
