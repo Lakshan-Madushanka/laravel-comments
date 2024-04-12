@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentCreated;
+use LakM\Comments\Models\Comment;
 
 class CreateCommentAction
 {
@@ -46,11 +47,11 @@ class CreateCommentAction
 
     protected static function createForGuest(Model $model, array $commentData)
     {
-        $model =  $model->comments()->create($commentData);
+        $comment =  $model->comments()->create($commentData);
 
-         self::dispatchEvent($model);
+         self::dispatchEvent($comment);
 
-         return $model;
+         return $comment;
     }
 
     protected static function createForAuthUser(Model $model, array $commentData)
@@ -72,7 +73,7 @@ class CreateCommentAction
      * @param $comment
      * @return void
      */
-    protected static function dispatchEvent($comment): void
+    protected static function dispatchEvent(Comment $comment): void
     {
         Event::dispatch(new CommentCreated($comment));
     }
