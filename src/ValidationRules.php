@@ -5,17 +5,45 @@ namespace LakM\Comments;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\RequiredIf;
-use function Laravel\Prompts\confirm;
 
 class ValidationRules
 {
-    public static array $rules = [];
-    public static $validateUsing;
+    /** @var callable $createCommentUsing */
+    public static $createCommentUsing;
 
-    public static function set(Model $model)
+    /** @var callable $updateCommentUsing */
+    public static $updateCommentUsing;
+
+    public static function get(Model $model, string $type): array
+    {
+        return match ($type) {
+            'create' => self::createCommentRules($model),
+            'update' => self::updateCommentRules($model),
+        };
+    }
+
+    private static function createCommentRules(Model $model)
+    {
+        if (! isset(self::$createCommentUsing)) {
+            return self::getCreateCommentRules($model);
+        }
+
+        return call_user_func(self::$createCommentUsing, $model);
+    }
+
+    private static function updateCommentRules(Model $model)
+    {
+        if (! isset(self::$updateCommentUsing)) {
+            return self::getUpdateCommentRules();
+        }
+
+        return call_user_func(self::$updateCommentUsing, $model);
+    }
+
+    private static function getCreateCommentRules(Model $model): array
     {
 
-        self::$rules = [
+        return [
             'guest_email' => [
                 new RequiredIf($model->guestModeEnabled() && config('comments.guest_mode.email_enabled')),
                 'nullable',
@@ -26,18 +54,20 @@ class ValidationRules
         ];
     }
 
-    public static function setRulesUsing(callable $setRules)
+    private static function getUpdateCommentRules(): array
     {
-        self::$validateUsing = $setRules;
+        return [
+            'text' => ['required']
+        ];
     }
 
-    public static function get(Model $model): array
+    public static function createCommentUsing(callable $callable): void
     {
-        if (! isset(self::$validateUsing)) {
-            self::set($model);
-            return self::$rules;
-        }
+        self::$createCommentUsing = $callable;
+    }
 
-        return self::$rules = call_user_func(self::$validateUsing, $model);
+    public static function updateCommentUsing(callable $callable): void
+    {
+        self::$updateCommentUsing = $callable;
     }
 }
