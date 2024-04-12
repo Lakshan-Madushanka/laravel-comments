@@ -5,7 +5,10 @@ use LakM\Comments\CommentPolicy;
 use LakM\Comments\Models\Comment;
 
 return [
-    // Commentable Model
+    /**
+     * Commentable Model
+     * Must extends base model LakM\Comments\Models\Comment
+     */
     'model' => Comment::class,
 
     // When guest mode unable no authentication required
