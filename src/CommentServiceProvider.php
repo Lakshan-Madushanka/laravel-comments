@@ -7,8 +7,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use LakM\Comments\Livewire\CommentForm;
+use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CommentList;
+use LakM\Comments\Livewire\ReactionsManager;
+use LakM\Comments\Livewire\UpdateCommentForm;
 use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider
@@ -39,8 +41,10 @@ class CommentServiceProvider extends ServiceProvider
     {
         Blade::componentNamespace('LakM\\Comments\\Views\\Components', 'comments');
 
-        Livewire::component('comments-form', CommentForm::class);
+        Livewire::component('comments-create-form', CreateCommentForm::class);
+        Livewire::component('comments-update-form', UpdateCommentForm::class);
         Livewire::component('comments-list', CommentList::class);
+        Livewire::component('comments-reactions-manager', ReactionsManager::class);
     }
 
     protected function setBladeDirectives(): void

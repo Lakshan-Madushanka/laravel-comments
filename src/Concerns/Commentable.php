@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use LakM\Comments\Exceptions\CommentLimitExceeded;
+use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 
 /**
@@ -117,5 +118,14 @@ trait Commentable
         }
 
         return config('comments.approval_required');
+    }
+
+    public function canEditComment(Comment $comment): bool
+    {
+        if (method_exists($this, 'commentCanEdit')) {
+            return $this->commentCanEdit($comment);
+        }
+
+        return Gate::allows('update-comment', $comment);
     }
 }

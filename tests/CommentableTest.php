@@ -31,7 +31,7 @@ it('can auth check', function () {
 it('can authorize to create comment', function () {
     $post = new Post();
 
-   expect($post->canCreateComment($post))->toThrow(AuthenticationException::class);
+    expect($post->canCreateComment($post))->toThrow(AuthenticationException::class);
 
     actAsAuth();
 
@@ -69,3 +69,29 @@ test('commentCanCreate method takes highest priority', function () {
     expect($post->canCreateComment($post))->toBeTrue();
 });
 
+it('can authorize to edit comment for auth mode', function () {
+    $user1 = actAsAuth();
+
+    $user2 = user();
+
+    $video = video();
+
+    $comment1 = createCommentsForAuthUser($user2, $video);
+    $comment2 = createCommentsForAuthUser($user1, $video);
+
+    expect($video->canEditComment($comment1))->toBeFalse()
+        ->and($video->canEditComment($comment2))->toBeTrue();
+});
+
+it('can authorize to edit comment for guest mode', function () {
+    $video = video();
+
+    $comment1 = createCommentsForGuest($video);
+    $comment1->ip_address = request()->ip();
+    $comment1->save();
+
+    $comment2 = createCommentsForGuest($video);
+
+    expect($video->canEditComment($comment2))->toBeFalse()
+        ->and($video->canEditComment($comment1))->toBeTrue();
+});

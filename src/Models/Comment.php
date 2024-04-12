@@ -16,6 +16,10 @@ class Comment extends Model
         'approved',
     ];
 
+    protected $casts = [
+        'approved' => 'bool'
+    ];
+
     public function scopeApproved(Builder $query): Builder
     {
         return $query->whereApproved(true);

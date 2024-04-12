@@ -22,6 +22,11 @@ function actAsAuth(): User
     return $user;
 }
 
+function user(): User
+{
+    return User::create(['email' => fake()->email()]);
+}
+
 function post(): Post
 {
     return Post::create(['name' => 'post']);
@@ -37,17 +42,20 @@ function onGuestMode($status = true): void
     config(['comments.guest_mode.enabled' => $status]);
 }
 
-function createCommentsForAuthUser(User $user, Model $relatedModel, int $count = 1): Collection
+function createCommentsForAuthUser(User $user, Model $relatedModel, int $count = 1, array $data =  []): Model|Collection
 {
     for ($i = 0; $i < $count; $i++) {
-        $comment = $relatedModel->comments()->create(['text' => Str::random()]);
+        $comment = $relatedModel->comments()->create([
+            'text' => Str::random(),
+            ...$data
+        ]);
         $user->comments()->save($comment);
     }
 
-    return $user->comments;
+    return $count === 1 ? $user->comments[0] : $user->comments;
 }
 
-function createCommentsForGuest(Model $relatedModel, int $count = 1, bool $approved = false): Collection
+function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data =  []): Comment|Collection
 {
     $email = fake()->email();
     $name = fake()->name();
@@ -57,9 +65,15 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, bool $appro
             'text' => Str::random(),
             'guest_name' => $name,
             'guest_email' => $email,
-            'approved' =>$approved,
+            ...$data,
         ]);
     }
 
-    return Comment::whereEmail($email)->get();
+    $comments =  Comment::where('guest_email', $email)->get();
+
+    if ($comments->count() === 1){
+        return  $comments[0];
+    }
+
+    return $comments;
 }
