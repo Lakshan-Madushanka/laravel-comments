@@ -25,8 +25,6 @@ class CommentList extends Component
 
     public int $perPage;
 
-    public ?string $profilePhotoUrl;
-
     #[Locked]
     public bool $guestMode;
 
@@ -35,8 +33,6 @@ class CommentList extends Component
         $this->model = $modelClass::findOrFail($modelId);
 
         $this->total = Repository::getTotalCommentsCountForRelated($this->model);
-
-        $this->profilePhotoUrl = config('comments.profile_photo_url_column');
 
         $this->perPage = config('comments.pagination.per_page');
         $this->limit = config('comments.pagination.per_page');

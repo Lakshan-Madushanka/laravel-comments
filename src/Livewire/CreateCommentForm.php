@@ -40,6 +40,12 @@ class CreateCommentForm extends Component
     public string $editorId;
     public string $toolbarId;
 
+    #[Locked]
+    public bool $authenticated;
+
+    #[Locked]
+    public bool $guestModeEnabled;
+
     /**
      * @param  string  $modelClass
      * @param  mixed  $modelId

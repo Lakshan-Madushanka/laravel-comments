@@ -7,22 +7,14 @@
                 wire:key="{{ $comment->getKey() }}"
                 class="flex gap-x-2 sm:gap-x-4"
             >
-                <div class="basis-12">
-                    @if (! $guestMode && $profilePhotoUrl)
-                        <a href="{{ $comment->commenter->$profilePhotoUrl }}" target="_blank">
-                            <img
-                                class="rounded-full border border-gray-200"
-                                src="{{ $comment->commenter->$profilePhotoUrl }}"
-                                alt="{{ $comment->commenter->name }}"
-                            />
-                        </a>
-                    @else
+                <div class="basis-14">
+                    <a href="{{ $comment->owner_photo_url }}" target="_blank">
                         <img
-                            class="rounded-full border border-gray-200"
-                            src="vendor/lakm/laravel-comments/img/user.png"
-                            alt="{{ $guestMode ? $comment->guest_name : $comment->commenter->name }}"
+                            class="rounded-full border border-gray-200 w-12 h-12"
+                            src="{{ $comment->owner_photo_url }}"
+                            alt="{{ $comment->commenter->name }}"
                         />
-                    @endif
+                    </a>
                 </div>
                 <div
                     wire:ignore
@@ -72,6 +64,11 @@
                             {!! $comment->text !!}
                         </div>
                     </div>
+
+                    <div wire:ignore x-show="!showUpdateForm" class="mt-2">
+                        <livewire:comments-reactions-manager :key="$comment->getKey()" :comment="$comment"/>
+                    </div>
+
                     <div x-show="showUpdateForm" x-transition class="basis-full">
                         @if ($model->canCreateComment($comment))
                             <livewire-comments-update-form
