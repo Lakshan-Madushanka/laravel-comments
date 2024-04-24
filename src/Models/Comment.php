@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
 {
+    use HasOwnerPhoto;
+
+    protected $userRelationshipName = 'commenter';
+
     protected $fillable = [
         'text',
         'guest_name',
