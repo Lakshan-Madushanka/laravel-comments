@@ -10,7 +10,7 @@
                 <div class="basis-14">
                     <a href="{{ $comment->owner_photo_url }}" target="_blank">
                         <img
-                            class="rounded-full border border-gray-200 w-12 h-12"
+                            class="h-12 w-12 rounded-full border border-gray-200"
                             src="{{ $comment->owner_photo_url }}"
                             alt="{{ $comment->owner_name }}"
                         />
@@ -66,7 +66,7 @@
                     </div>
 
                     <div wire:ignore x-show="!showUpdateForm" class="mt-2">
-                        <livewire:comments-reactions-manager :key="$comment->getKey()" :comment="$comment"/>
+                        <livewire:comments-reactions-manager :key="$comment->getKey()" :comment="$comment" />
                     </div>
 
                     <div x-show="showUpdateForm" x-transition class="basis-full">

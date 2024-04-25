@@ -1,6 +1,6 @@
 @props(['route' => '#', 'type' => 'navigate'])
 
-@if($type === 'navigate')
+@if ($type === 'navigate')
     <a
         wire:navigate
         href="{{ $route }}"
@@ -15,5 +15,3 @@
         {{ $slot }}
     </span>
 @endif
-
-
