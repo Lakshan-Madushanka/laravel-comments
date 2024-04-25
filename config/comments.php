@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use LakM\Comments\CommentPolicy;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Reactions\Like;
