@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Str;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Reaction;
 use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
@@ -76,4 +77,23 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
     }
 
     return $comments;
+}
+
+function createReaction(int $commentId, string $type, ?int $userId = null, int $count = 1, array $data = []): Reaction|Collection
+{
+    for ($i = 0; $i < $count; $i++) {
+        Reaction::query()->create([
+            'comment_id' => $commentId,
+            'type' => $type,
+            'user_id' => $userId,
+            'ip_address' => request()->ip(),
+            ...$data
+        ]);
+    }
+
+    if ($count === 1) {
+        return Reaction::query()->first();
+    }
+
+    return Reaction::all();
 }

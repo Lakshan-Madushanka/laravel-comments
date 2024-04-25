@@ -5,6 +5,8 @@ namespace LakM\Comments\Tests;
 use GrahamCampbell\Security\SecurityServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use LakM\Comments\CommentServiceProvider;
+use LakM\Comments\Models\Comment;
+use LakM\Comments\Tests\Fixtures\User;
 use Livewire\LivewireServiceProvider;
 use Spatie\Honeypot\HoneypotServiceProvider;
 
@@ -50,6 +52,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->string('guest_email')->nullable();
             $table->boolean('approved')->default(false);
             $table->string('ip_address')->nullable();
+            $table->timestamps();
+        });
+
+        $schema->create('reactions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)->nullable();
+            $table->foreignIdFor(Comment::class);
+            $table->string('type');
+            $table->string('ip_address');
             $table->timestamps();
         });
     }

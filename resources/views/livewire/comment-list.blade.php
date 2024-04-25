@@ -12,7 +12,7 @@
                         <img
                             class="rounded-full border border-gray-200 w-12 h-12"
                             src="{{ $comment->owner_photo_url }}"
-                            alt="{{ $comment->commenter->name }}"
+                            alt="{{ $comment->owner_name }}"
                         />
                     </a>
                 </div>

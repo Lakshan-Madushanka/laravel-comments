@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
 use LakM\Comments\CommentPolicy;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Reactions\Like;
 
 return [
     /**
@@ -10,6 +10,9 @@ return [
      * Must extends base model LakM\Comments\Models\Comment
      */
     'model' => Comment::class,
+
+    // Comment owner model
+    'user_model' => User::class,
 
     // When guest mode unable no authentication required
     'guest_mode' => [
@@ -37,7 +40,7 @@ return [
 
     'permissions' => [
         'create-comment' => [CommentPolicy::class, 'create'],
-        'update-comment' => [CommentPolicy::class, 'update']
+        'update-comment' => [CommentPolicy::class, 'update'],
     ],
 
     /**
@@ -63,4 +66,11 @@ return [
         'theme' => 'snow',
     ],
 
+    'reactions' => [
+        'like' => ['model' => Like::class, 'position' => 'left', 'fill' => 'gray'],
+        'dislike' => ['model' => '', 'position' => 'left', 'fill' => 'gray'],
+        'happy' => ['model' => '', 'position' => 'right', 'fill' => 'orange'],
+        'love' => ['model' => '', 'position' => 'right', 'fill' => 'red'],
+        'sad' => ['model' => '', 'position' => 'right', 'fill' => 'orange'],
+    ],
 ];

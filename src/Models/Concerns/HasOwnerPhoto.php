@@ -19,4 +19,15 @@ trait HasOwnerPhoto
             return $url;
         });
     }
+
+    protected function ownerName(): Attribute
+    {
+        return Attribute::make(get: function () {
+            if (Auth::check()) {
+                return $this->{$this->userRelationshipName}->name;
+            }
+
+            return $this->name;
+        });
+    }
 }
