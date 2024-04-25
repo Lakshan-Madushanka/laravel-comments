@@ -1,10 +1,9 @@
 @props([
-    'modelClass',
-    'modelId',
-])
+    'model',
+    ])
 
 <div x-cloak x-data class="space-y-8">
-    <livewire:comments-list modelClass="{{ $modelClass }}" modelId="{{ $modelId }}" />
+    <livewire:comments-list :model="$model" />
     <hr />
-    <livewire:comments-create-form modelClass="{{ $modelClass }}" modelId="{{ $modelId }}" />
+    <livewire:comments-create-form :model="$model" />
 </div>

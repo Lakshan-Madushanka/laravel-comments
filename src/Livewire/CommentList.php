@@ -28,9 +28,9 @@ class CommentList extends Component
     #[Locked]
     public bool $guestMode;
 
-    public function mount(string $modelClass, mixed $modelId): void
+    public function mount(Model $model): void
     {
-        $this->model = $modelClass::findOrFail($modelId);
+        $this->model = $model;
 
         $this->total = Repository::getTotalCommentsCountForRelated($this->model);
 

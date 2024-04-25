@@ -51,9 +51,9 @@ class CreateCommentForm extends Component
      * @param  mixed  $modelId
      * @return void
      */
-    public function mount(string $modelClass, mixed $modelId): void
+    public function mount(Model $model): void
     {
-        $this->model = $modelClass::findOrFail($modelId);
+        $this->model = $model;
 
         $this->authenticated = $this->model->authCheck();
         $this->guestModeEnabled = $this->model->guestModeEnabled();
