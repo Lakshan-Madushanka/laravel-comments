@@ -7,8 +7,6 @@
         "build": "vite build",
         "prettier:check": "npx prettier --check resources/",
         "prettier:write": "npx prettier --write resources/"
-
-
     },
     "devDependencies": {
         "autoprefixer": "^10.4.19",
@@ -21,6 +19,7 @@
         "vite": "^5.2.7"
     },
     "dependencies": {
+        "highlight.js": "^11.9.0",
         "moment": "^2.30.1",
         "quill": "^2.0.0-rc.4"
     }
