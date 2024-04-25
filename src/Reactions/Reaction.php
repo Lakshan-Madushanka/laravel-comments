@@ -25,7 +25,7 @@ class Reaction extends ReactionContract
         return $this->comment
             ->reactions()
             ->where('type', $this->type)
-            ->checkMode()
+            ->checkMode($this->authMode)
             ->first()
             ?->delete();
     }

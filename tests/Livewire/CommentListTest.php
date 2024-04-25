@@ -3,12 +3,11 @@
 use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\Video;
 use function Pest\Livewire\livewire;
 
 it('can render comment list', function () {
-    livewire(CommentList::class, ['modelClass' => Post::class, 'modelId' => \post()->getKey()])
+    livewire(CommentList::class, ['model' => \post()])
         ->assertOk();
 });
 
@@ -22,7 +21,7 @@ it('can render paginated comment list for auth user', function ($count) {
 
     createCommentsForAuthUser($user, $video, 5);
 
-    livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
+    livewire(CommentList::class, ['model' => $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {
             expect($comments)
                 ->toHaveCount($count)
@@ -45,7 +44,7 @@ it('can render paginated comment list for guest', function ($count) {
 
     createCommentsForGuest($video, 5);
 
-    livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
+    livewire(CommentList::class, ['model' => $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {
             expect($comments)
                 ->toHaveCount($count)
@@ -68,7 +67,7 @@ it('only shows approved comments when enabled in config', function ($approval) {
     createCommentsForGuest($video, 2);
     createCommentsForGuest($video, 1, ['approved' => true]);
 
-    livewire(CommentList::class, ['modelClass' => Video::class, 'modelId' => $video->getKey()])
+    livewire(CommentList::class, ['model' =>  $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($approval) {
             $e = expect($comments);
 

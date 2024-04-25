@@ -10,12 +10,12 @@ class ReactionManager
     {
     }
 
-    public function handle(string $type, Comment $comment): ?bool
+    public function handle(string $type, Comment $comment, $authMode): ?bool
     {
         return match ($type) {
-            'like' => (new Like($comment))->handle(),
-            'dislike' => (new Dislike($comment))->handle(),
-            default => (new Reaction($comment, $type))->handle()
+            'like' => (new Like($comment, $authMode))->handle(),
+            'dislike' => (new Dislike($comment, $authMode))->handle(),
+            default => (new Reaction($comment, $authMode, $type))->handle()
         };
     }
 }

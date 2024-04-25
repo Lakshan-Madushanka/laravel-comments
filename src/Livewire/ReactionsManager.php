@@ -13,6 +13,7 @@ use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Reactions\ReactionManager;
 use LakM\Comments\Repository;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class ReactionsManager extends Component
@@ -22,6 +23,7 @@ class ReactionsManager extends Component
 
     public mixed $id;
 
+    #[Locked]
     public Comment $comment;
 
     public array $reactions = [];
@@ -34,7 +36,13 @@ class ReactionsManager extends Component
 
     public int $total = 0;
 
-    public function mount(Comment $comment): void
+    #[Locked]
+    public bool $guestMode;
+
+    #[Locked]
+    public bool $authMode;
+
+    public function mount(Comment $comment, bool $guestMode): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
@@ -44,11 +52,16 @@ class ReactionsManager extends Component
         $this->id = $comment->getKey();
 
         $this->setReactions($comment);
+
+        $this->guestMode = $guestMode;
+
+        $this->authMode = !$guestMode;
+
     }
 
     public function handle(ReactionManager $reactionManager, string $type): void
     {
-        if(! $reactionManager->handle($type, $this->comment)) {
+        if(! $reactionManager->handle($type, $this->comment, $this->authMode)) {
             return;
         }
 
@@ -182,7 +195,7 @@ class ReactionsManager extends Component
             $limit += $this->reactedUsers[$type]['limit'];
         }
 
-        $user = Repository::reactedUsers($this->comment, $type, $limit);
+        $user = Repository::reactedUsers($this->comment, $type, $limit, $this->authMode);
 
         $this->reactedUsers[$type]['users'] = $user;
         $this->reactedUsers[$type]['limit'] = $limit;
@@ -192,7 +205,7 @@ class ReactionsManager extends Component
 
     public function lastReactedUser(string $type): void
     {
-        $user = Repository::lastReactedUser($this->comment, $type);
+        $user = Repository::lastReactedUser($this->comment, $type, $this->authMode);
         $this->lastReactedUserName =  $user?->name;
     }
 

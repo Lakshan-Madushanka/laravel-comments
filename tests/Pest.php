@@ -16,7 +16,7 @@ uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
 
 function actAsAuth(): User
 {
-    $user = User::create();
+    $user = user();
 
     actingAs($user);
 
@@ -25,7 +25,7 @@ function actAsAuth(): User
 
 function user(): User
 {
-    return User::create(['email' => fake()->email()]);
+    return User::create(['name' => fake()->name(), 'email' => fake()->email()]);
 }
 
 function post(): Post

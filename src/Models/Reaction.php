@@ -21,10 +21,10 @@ class Reaction extends Model
         'ip_address',
     ];
 
-    public function scopeCheckMode(Builder $query): Builder
+    public function scopeCheckMode(Builder $query, bool $authMode): Builder
     {
         return $query->when(
-            Auth::check(),
+            $authMode,
             function (Builder $query) {
                 return $query->authMode();
             },

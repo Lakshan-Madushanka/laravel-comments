@@ -8,11 +8,11 @@
                 class="flex gap-x-2 sm:gap-x-4"
             >
                 <div class="basis-14">
-                    <a href="{{ $comment->owner_photo_url }}" target="_blank">
+                    <a href="{{ $comment->ownerPhotoUrl($authMode) }}" target="_blank">
                         <img
                             class="h-12 w-12 rounded-full border border-gray-200"
-                            src="{{ $comment->owner_photo_url }}"
-                            alt="{{ $comment->owner_name }}"
+                            src="{{ $comment->ownerPhotoUrl($authMode) }}"
+                            alt="{{ $comment->ownerName($authMode) }}"
                         />
                     </a>
                 </div>
@@ -66,7 +66,11 @@
                     </div>
 
                     <div wire:ignore x-show="!showUpdateForm" class="mt-2">
-                        <livewire:comments-reactions-manager :key="$comment->getKey()" :comment="$comment" />
+                        <livewire:comments-reactions-manager
+                                :key="$comment->getKey()"
+                                :$comment
+                                :$guestMode
+                        />
                     </div>
 
                     <div x-show="showUpdateForm" x-transition class="basis-full">

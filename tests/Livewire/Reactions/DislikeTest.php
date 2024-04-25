@@ -10,7 +10,7 @@ it('remove already existing dislike for auth mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['comment' => $comment])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => false])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -23,7 +23,7 @@ it('can create dislike for auth mode', function () {
     $user = actAsAuth();
     $comment = createCommentsForAuthUser($user, video());
 
-    livewire(ReactionsManager::class, ['comment' => $comment])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => false])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -44,7 +44,7 @@ it('can create dislike when already has liked for auth mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('like');
 
-    livewire(ReactionsManager::class, ['comment' => $comment])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => false])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -62,7 +62,7 @@ it('remove already existing dislike for guest mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['comment' => $comment])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => true])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -74,7 +74,7 @@ it('remove already existing dislike for guest mode', function () {
 it('can create dislike for guest mode', function () {
     $comment = createCommentsForGuest(video());
 
-    livewire(ReactionsManager::class, ['comment' => $comment])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => true])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -94,7 +94,7 @@ it('can create dislike when already has liked for guest mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('like');
 
-    livewire(ReactionsManager::class, ['comment' => $comment])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => true])
         ->call('handle', type: 'dislike')
         ->assertOk();
 

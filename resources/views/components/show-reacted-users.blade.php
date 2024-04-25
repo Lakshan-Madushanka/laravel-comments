@@ -3,6 +3,7 @@
     'reactions',
     'key',
     'comment',
+    'authMode'
 ])
 
 <div class="relative" x-show="showUsers" x-transition>
@@ -10,7 +11,7 @@
         <x-comments::spin class="!text-black" />
     </div>
 
-    @if (Auth::check() && $lastReactedUserName)
+    @if ($authMode && $lastReactedUserName)
         <div
             {{ $attributes->merge(['class' => 'absolute flex items-end h-16 left-[-12rem] bottom-[-3.8rem] min-w-[12rem]']) }}
             wire:loading.remove

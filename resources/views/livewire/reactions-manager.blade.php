@@ -27,14 +27,13 @@
                         <div
                             @click="isLiked = !isLiked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
-                            @if (Auth::check())
-                                @mouseover
-                                ="
-                                                                if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                                                     showUsers = true;
-                                                                     $wire.lastReactedUser('{{ $key }}')
-                                                                 }
-                                                                 "
+                            @if (! $authMode)
+                                @mouseover="
+                                    if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                         showUsers = true;
+                                         $wire.lastReactedUser('{{ $key }}')
+                                     }
+                                     "
                             @endif
                             class="flex cursor-pointer items-center"
                         >
@@ -54,10 +53,11 @@
 
                         <x-comments::show-reacted-users
                             @mouseleave="showUsers=false"
-                            :lastReactedUserName="$lastReactedUserName"
-                            :reactions="$reactions"
-                            :key="$key"
-                            :comment="$comment"
+                            :$lastReactedUserName
+                            :$reactions
+                            :$key
+                            :$comment
+                            :$authMode
                             class="bottom-[-3.4rem] left-[-2rem]"
                             wrapperClass="left-0 bottom-[-2rem]"
                         />
@@ -84,14 +84,13 @@
                         <div
                             @click="isDisliked = !isDisliked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
-                            @if (Auth::check())
-                                @mouseover
-                                ="
-                                                                 if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                                                     showUsers = true;
-                                                                     $wire.lastReactedUser('{{ $key }}')
-                                                                 }
-                                                                 "
+                            @if (!$authMode)
+                                @mouseover="
+                                 if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                     showUsers = true;
+                                     $wire.lastReactedUser('{{ $key }}')
+                                 }
+                                 "
                             @endif
                             class="flex cursor-pointer items-center"
                         >
@@ -116,24 +115,25 @@
                             :$reactions
                             :$key
                             :$comment
+                            :$authMode
                             class="bottom-[-3.4rem] left-[-2rem]"
                             wrapperClass="left-0 bottom-[-2rem]"
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key />
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode />
                 @endif
             @endforeach
         </div>
 
         <div class="flex space-x-2 rounded border bg-gray-100">
             @foreach ($rReactions as $key => $value)
-                <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key />
+                <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
             @endforeach
         </div>
     </div>
 
-    @if (Auth::check())
+    @if ($authMode)
         <x-comments::modal
             x-data="{show: false, type: ''}"
             @show-user-list.window="
@@ -153,8 +153,7 @@
                         <div
                             @if ($reactions[$key]["count"] > 0)
                                 wire:click="loadReactedUsers('{{ $key }}')"
-                                @click
-                                ="type = '{{ $key }}'"
+                                @click="type = '{{ $key }}'"
                                 class="cursor-pointer p-4 relative"
                             @endif
                             wire:loading.class="cursor-not-allowed"

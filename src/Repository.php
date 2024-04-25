@@ -2,10 +2,8 @@
 
 namespace LakM\Comments;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Models\Comment;
@@ -57,7 +55,6 @@ class Repository
 
     public static function addCount()
     {
-
         $count = [];
 
         foreach (array_keys(config('comments.reactions')) as $reaction) {
@@ -71,13 +68,13 @@ class Repository
         return $count;
     }
 
-    public static function reactedUsers(Comment $comment, string $reactionType, int $limit)
+    public static function reactedUsers(Comment $comment, string $reactionType, int $limit, bool $authMode)
     {
         $reactions =  $comment
             ->reactions()
             ->whereType($reactionType)
             ->when(
-                Auth::check(),
+                $authMode,
                 function (Builder $query) {
                     $query->with('user');
                 }
@@ -85,18 +82,18 @@ class Repository
             ->limit($limit)
             ->get();
 
-        return $reactions->map(function (Reaction $reaction) {
-            return new UserData(name: $reaction->user?->name, photo: $reaction->owner_photo_url);
+        return $reactions->map(function (Reaction $reaction) use ($authMode) {
+            return new UserData(name: $reaction->user?->name, photo: $reaction->ownerPhotoUrl($authMode));
         });
     }
 
-    public static function lastReactedUser(Comment $comment, string $reactionType): ?UserData
+    public static function lastReactedUser(Comment $comment, string $reactionType, bool $authMode): ?UserData
     {
         $reaction = $comment
             ->reactions()
             ->whereType($reactionType)
             ->when(
-                Auth::check(),
+                $authMode,
                 function (Builder $query) {
                     $query->with('user');
                 }
@@ -105,7 +102,7 @@ class Repository
             ->first();
 
         if ($reaction) {
-            return new UserData(name: $reaction->user?->name, photo: $reaction->owner_photo_url);
+            return new UserData(name: $reaction->user?->name, photo: $reaction->ownerPhotoUrl($authMode));
         }
 
         return $reaction;

@@ -7,27 +7,23 @@ use Illuminate\Support\Facades\Auth;
 
 trait HasOwnerPhoto
 {
-    protected function ownerPhotoUrl(): Attribute
+    public function ownerPhotoUrl(bool $authMode): string
     {
-        return Attribute::make(get: function () {
-            $url = "/vendor/lakm/laravel-comments/img/user.png";
+        $url = "/vendor/lakm/laravel-comments/img/user.png";
 
-            if (Auth::check() && $col = config('comments.profile_photo_url_column')) {
-                return $this->{$this->userRelationshipName}->{$col};
-            }
+        if ($authMode && $col = config('comments.profile_photo_url_column')) {
+            return $this->{$this->userRelationshipName}->{$col};
+        }
 
-            return $url;
-        });
+        return $url;
     }
 
-    protected function ownerName(): Attribute
+    public function ownerName(bool $authMode): string
     {
-        return Attribute::make(get: function () {
-            if (Auth::check()) {
-                return $this->{$this->userRelationshipName}->name;
-            }
+        if ($authMode) {
+            return $this->{$this->userRelationshipName}->name;
+        }
 
-            return $this->name;
-        });
+        return $this->name;
     }
 }

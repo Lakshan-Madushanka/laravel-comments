@@ -6,6 +6,6 @@ use LakM\Comments\Models\Comment;
 
 abstract class ReactionContract
 {
-    public function __construct(protected Comment $comment, protected ?string $type = null)
+    public function __construct(protected Comment $comment, protected bool $authMode, protected ?string $type = null)
     {}
 }

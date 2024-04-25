@@ -28,6 +28,9 @@ class CommentList extends Component
     #[Locked]
     public bool $guestMode;
 
+    #[Locked]
+    public bool $authMode;
+
     public function mount(Model $model): void
     {
         $this->model = $model;
@@ -38,6 +41,9 @@ class CommentList extends Component
         $this->limit = config('comments.pagination.per_page');
 
         $this->guestMode = $this->model->guestModeEnabled();
+
+        $this->authMode = !$this->model->guestModeEnabled();
+
     }
 
     public function paginate()

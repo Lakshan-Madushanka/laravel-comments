@@ -27,7 +27,7 @@ class Like extends ReactionContract
     {
         return $this->comment
             ->reactions()
-            ->checkMode()
+            ->checkMode($this->authMode)
             ->where('type', 'dislike')
             ->first()
             ?->delete();
@@ -38,7 +38,7 @@ class Like extends ReactionContract
         return $this->comment
             ->reactions()
             ->where('type', 'like')
-            ->checkMode()
+            ->checkMode($this->authMode)
             ->first()
             ?->delete();
     }

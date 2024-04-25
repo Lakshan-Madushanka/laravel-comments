@@ -98,7 +98,7 @@ it('can update a comment for a guest', function () {
     Event::assertDispatched(CommentUpdated::class);
 });
 
-it('can update a comment for a invalid guest', function () {
+it('cannot update a comment for a invalid guest', function () {
     config(['comments.guest_mode.enabled' => true]);
 
     Event::fake();
