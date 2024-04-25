@@ -96,4 +96,25 @@
             @endif
         </div>
     @endif
+
+
+    @script
+    <script>
+        const highlightSyntax = () => {
+            document.querySelectorAll('.ql-code-block').forEach((el) => {
+                el.removeAttribute('data-highlighted')
+                window.hljs.highlightElement(el);
+            }, {once: true});
+        }
+
+        highlightSyntax();
+
+        $wire.on('comment-updated', () => {
+            setTimeout(() => {
+                highlightSyntax();
+
+            }, 500)
+        });
+    </script>
+    @endscript
 </div>
