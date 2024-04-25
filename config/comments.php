@@ -55,7 +55,7 @@ return [
      * @see https://quilljs.com/docs/configuration
      */
     'editor_config' => [
-        'debug' => 'info',
+        'debug' => false,
         'modules' => [
             'toolbar' => [
                 [['header' => [1, 2, false]]],
