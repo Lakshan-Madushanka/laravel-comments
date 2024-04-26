@@ -128,4 +128,13 @@ trait Commentable
 
         return Gate::allows('update-comment', $comment);
     }
+
+    public function canDeleteComment(Comment $comment): bool
+    {
+        if (method_exists($this, 'commentCanEdit')) {
+            return $this->commentCanEdit($comment);
+        }
+
+        return Gate::allows('delete-comment', $comment);
+    }
 }

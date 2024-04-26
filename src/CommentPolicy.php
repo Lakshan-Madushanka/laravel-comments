@@ -14,6 +14,16 @@ class CommentPolicy
 
     public function update(?Authenticatable $user, Comment $comment): bool
     {
+        return $this->canManpulate($user, $comment);
+    }
+
+    public function delete(?Authenticatable $user, Comment $comment): bool
+    {
+        return $this->canManpulate($user, $comment);
+    }
+
+    private function canManpulate(?Authenticatable $user, Comment $comment): bool
+    {
         if (!is_null($user)) {
             return $user->getMorphClass() === $comment->commenter_type &&
                 $user->getKey() === $comment->commenter->id;

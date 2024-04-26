@@ -1,4 +1,8 @@
-<div @comment-created.window="$wire.$refresh" class="space-y-8">
+<div
+    @comment-created.window="$wire.$refresh"
+    @comment-deleted.window="$wire.$refresh"
+    class="space-y-8"
+>
     <div class="text-lg font-bold">{{ __('Comments') }} ({{ $total }})</div>
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
@@ -37,11 +41,20 @@
                                     class="text-xs"
                                 ></span>
                             </div>
-                                <div @click="showUpdateForm = !showUpdateForm">
-                                    <x-comments::action class="text-sm">Edit</x-comments::action>
-                                </div>
-                            @endif
+
+                            <div class="flex justify-center items-center space-x-4">
                                 @if ($model->canEditComment($comment))
+                                    <div @click="showUpdateForm = !showUpdateForm">
+                                        <x-comments::action class="text-sm">Edit</x-comments::action>
+                                    </div>
+                                @endif
+                                    @if ($model->canDeleteComment($comment))
+                                        <div wire:click="delete({{$comment}})" class="flex items-center">
+                                            <x-comments::action wire:loading.remove wire:target="delete({{$comment}})" class="text-sm">Delete</x-comments::action>
+                                            <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="text-blue-500"/>
+                                        </div>
+                                    @endif
+                            </div>
                         </div>
                         <div
                             x-ref="text"

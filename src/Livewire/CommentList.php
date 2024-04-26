@@ -6,6 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use LakM\Comments\Actions\DeleteCommentAction;
+use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -49,6 +51,15 @@ class CommentList extends Component
     public function paginate()
     {
         $this->limit += $this->perPage;
+    }
+
+    public function delete(Comment $comment, DeleteCommentAction $deleteCommentAction): void
+    {
+        if($this->model->canDeleteComment($comment) && $deleteCommentAction->execute($comment)) {
+            $this->dispatch('comment-deleted', commentId: $comment->getKey());
+
+            $this->total -= 1;
+        }
     }
 
     #[On('comment-created')]

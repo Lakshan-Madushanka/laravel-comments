@@ -42,6 +42,7 @@ return [
     'permissions' => [
         'create-comment' => [CommentPolicy::class, 'create'],
         'update-comment' => [CommentPolicy::class, 'update'],
+        'delete-comment' => [CommentPolicy::class, 'delete'],
     ],
 
     /**
