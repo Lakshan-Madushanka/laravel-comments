@@ -63,7 +63,6 @@ class UpdateCommentForm extends Component
         return Security::clean($this->only('text'));
     }
 
-
     public function discard(): void
     {
         $this->dispatch('comment-update-discarded', commentId: $this->comment->getKey());

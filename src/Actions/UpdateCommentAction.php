@@ -18,7 +18,7 @@ class UpdateCommentAction
     public static function execute(Comment $comment, array $data,): bool
     {
         if (isset(static::$using)) {
-            return static::createUsingCustom($comment);
+            return static::updateUsingCustom($comment);
         }
 
         $comment->text = $data['text'];
@@ -35,7 +35,7 @@ class UpdateCommentAction
         return false;
     }
 
-    protected static function createUsingCustom(Comment $comment, Model $relatedModel)
+    protected static function updateUsingCustom(Comment $comment, Model $relatedModel)
     {
         return call_user_func_array(self::$using, [$comment, $relatedModel]);
     }
