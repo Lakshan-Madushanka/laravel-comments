@@ -37,11 +37,11 @@
                                     class="text-xs"
                                 ></span>
                             </div>
-                            @if ($model->canCreateComment($comment))
                                 <div @click="showUpdateForm = !showUpdateForm">
                                     <x-comments::action class="text-sm">Edit</x-comments::action>
                                 </div>
                             @endif
+                                @if ($model->canEditComment($comment))
                         </div>
                         <div
                             x-ref="text"
