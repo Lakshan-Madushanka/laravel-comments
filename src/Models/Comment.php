@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use LakM\Comments\Models\Concerns\HasOwnerPhoto;
+use LakM\Comments\Models\Concerns\HasOwner;
 
 class Comment extends Model
 {
-    use HasOwnerPhoto;
+    use HasOwner;
 
     protected $userRelationshipName = 'commenter';
 

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
-use LakM\Comments\Models\Concerns\HasOwnerPhoto;
+use LakM\Comments\Models\Concerns\HasOwner;
 
 class Reaction extends Model
 {
-    use HasOwnerPhoto;
+    use HasOwner;
 
     protected $userRelationshipName = 'user';
 

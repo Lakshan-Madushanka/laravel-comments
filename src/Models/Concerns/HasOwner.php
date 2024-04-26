@@ -2,17 +2,14 @@
 
 namespace LakM\Comments\Models\Concerns;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Auth;
-
-trait HasOwnerPhoto
+trait HasOwner
 {
     public function ownerPhotoUrl(bool $authMode): string
     {
         $url = "/vendor/lakm/laravel-comments/img/user.png";
 
         if ($authMode && $col = config('comments.profile_photo_url_column')) {
-            return $this->{$this->userRelationshipName}->{$col};
+            return $this->{$this->userRelationshipName}->{$col} ?? $url;
         }
 
         return $url;
@@ -24,6 +21,6 @@ trait HasOwnerPhoto
             return $this->{$this->userRelationshipName}->name;
         }
 
-        return $this->name;
+        return $this->guest_name;
     }
 }
