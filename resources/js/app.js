@@ -17,7 +17,6 @@ document.addEventListener('alpine:init', () => {
         timeout: 2000,
 
         show(id) {
-            console.log(messageId === id)
             if (messageId !== id) {
                 return;
             }

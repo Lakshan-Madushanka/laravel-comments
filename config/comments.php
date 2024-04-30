@@ -59,8 +59,12 @@ return [
         /** when enabled email field is required to reply in guest mode */
         'email_enabled' => true,
         /** Keep null to allow unlimited replies for a comment */
-        'limit' => 1,
-        'approval_required' => true,
+        'limit' => null,
+        'approval_required' => false,
+        'pagination' => [
+            'enabled' => true,
+            'per_page' => 15,
+        ],
     ],
     /**
      * Quill editor configs

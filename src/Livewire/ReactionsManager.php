@@ -215,8 +215,6 @@ class ReactionsManager extends Component
         $this->reactedUsers[$type]['limit'] = $limit;
     }
 
-
-
     public function lastReactedUser(string $type): void
     {
         $user = Repository::lastReactedUser($this->comment, $type, $this->authMode);

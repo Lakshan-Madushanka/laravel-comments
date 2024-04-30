@@ -48,31 +48,41 @@
                                         <x-comments::action class="text-sm">Edit</x-comments::action>
                                     </div>
                                 @endif
-                                    @if ($model->canDeleteComment($comment))
-                                        <div wire:click="delete({{$comment}})" class="flex items-center">
-                                            <x-comments::action wire:loading.remove wire:target="delete({{$comment}})" class="text-sm">Delete</x-comments::action>
-                                            <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="text-blue-500"/>
-                                        </div>
-                                    @endif
+                                @if ($model->canDeleteComment($comment))
+                                    <div wire:click="delete({{$comment}})" class="flex items-center">
+                                        <x-comments::action
+                                                wire:loading.remove
+                                                wire:target="delete({{$comment}})"
+                                                class="text-sm"
+                                        >
+                                            Delete
+                                        </x-comments::action>
+                                        <x-comments::spin
+                                                wire:loading
+                                                wire:target="delete({{$comment}})"
+                                                class="text-blue-500"
+                                        />
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div
-                            x-ref="text"
-                            @comment-updated.window="(e) => {
-                                let key = @js($comment->getKey());
-                                if(e.detail.commentId === key) {
-                                    if(@js($model->approvalRequired())) {
-                                        let elm = 'comment'+ key;
-                                         setTimeout(() => {
-                                           $refs[elm].remove();
-                                         }, 2000);
-                                        return;
+                                x-ref="text"
+                                @comment-updated.window="(e) => {
+                                    let key = @js($comment->getKey());
+                                    if(e.detail.commentId === key) {
+                                        if(@js($model->approvalRequired())) {
+                                            let elm = 'comment'+ key;
+                                             setTimeout(() => {
+                                               $refs[elm].remove();
+                                             }, 2000);
+                                            return;
+                                        }
+                                        $refs.text.innerHTML = e.detail.text;
+                                        showUpdateForm = false;
                                     }
-                                    $refs.text.innerHTML = e.detail.text;
-                                    showUpdateForm = false;
-                                }
-                            }"
-                            class="p-1"
+                                }"
+                                class="p-1"
                         >
                             {!! $comment->text !!}
                         </div>
@@ -90,9 +100,9 @@
                     <div x-show="showUpdateForm" x-transition class="basis-full">
                         @if ($model->canEditComment($comment))
                             <livewire:comments-update-form
-                                :comment="$comment"
-                                :model="$model"
-                                :key="$comment->getKey()"
+                                    :comment="$comment"
+                                    :model="$model"
+                                    :key="$comment->getKey()"
                             />
                         @endif
                     </div>
@@ -118,21 +128,21 @@
 
     @script
     <script>
-        const highlightSyntax = () => {
-            document.querySelectorAll('.ql-code-block').forEach((el) => {
-                el.removeAttribute('data-highlighted')
-                window.hljs.highlightElement(el);
-            }, {once: true});
-        }
+      const highlightSyntax = () => {
+        document.querySelectorAll(".ql-code-block").forEach((el) => {
+          el.removeAttribute("data-highlighted");
+          window.hljs.highlightElement(el);
+        }, { once: true });
+      };
 
-        highlightSyntax();
+      highlightSyntax();
 
-        $wire.on('comment-updated', () => {
-            setTimeout(() => {
-                highlightSyntax();
+      $wire.on("comment-updated", () => {
+        setTimeout(() => {
+          highlightSyntax();
 
-            }, 500)
-        });
+        }, 500);
+      });
     </script>
     @endscript
 </div>
