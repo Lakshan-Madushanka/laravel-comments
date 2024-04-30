@@ -36,4 +36,9 @@ class Reply extends Model
     {
         return $this->belongsTo(Comment::class);
     }
+
+    public function commenter(): MorphTo
+    {
+        return $this->morphTo();
+    }
 }

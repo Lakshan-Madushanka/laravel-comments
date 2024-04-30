@@ -40,6 +40,7 @@ class Repository
             ->comments()
             ->with(['reactions'])
             ->withCount(self::addCount())
+            ->withCount('replies')
             ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
             ->latest()
             ->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved())
@@ -122,4 +123,27 @@ class Repository
             })
             ->count();
     }
+
+    public static function getCommentReplyCount(Comment $comment)
+    {
+        return $comment->replies()->count();
+    }
+
+    public static function commentReplies(Comment $comment, Model $relatedModel, int $limit)
+    {
+        return $comment
+            ->replies()
+            //->with(['reactions'])
+           // ->withCount(self::addCount())
+            ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
+            ->latest()
+            ->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved())
+            ->when(
+                config('comments.reply.pagination.enabled'),
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
+            );
+    }
 }
+
+

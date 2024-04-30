@@ -1,34 +1,34 @@
 <div
-    @comment-created.window="$wire.$refresh"
-    @comment-deleted.window="$wire.$refresh"
-    class="space-y-8"
+        @comment-created.window="$wire.$refresh"
+        @comment-deleted.window="$wire.$refresh"
+        class="space-y-8"
 >
     <div class="text-lg font-bold">{{ __('Comments') }} ({{ $total }})</div>
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
             <div
-                x-ref="comment{{ $comment->getKey() }}"
-                wire:key="{{ $comment->getKey() }}"
-                class="flex gap-x-2 sm:gap-x-4"
+                    x-ref="comment{{ $comment->getKey() }}"
+                    wire:key="{{ $comment->getKey() }}"
+                    class="flex gap-x-2 sm:gap-x-4"
             >
                 <div class="basis-14">
                     <a href="{{ $comment->ownerPhotoUrl($authMode) }}" target="_blank">
                         <img
-                            class="h-12 w-12 rounded-full border border-gray-200"
-                            src="{{ $comment->ownerPhotoUrl($authMode) }}"
-                            alt="{{ $comment->ownerName($authMode) }}"
+                                class="h-12 w-12 rounded-full border border-gray-200"
+                                src="{{ $comment->ownerPhotoUrl($authMode) }}"
+                                alt="{{ $comment->ownerName($authMode) }}"
                         />
                     </a>
                 </div>
                 <div
-                    wire:ignore
-                    x-data="{ showUpdateForm: false }"
-                    @comment-update-discarded.window="(e) => {
+                        wire:ignore
+                        x-data="{ showUpdateForm: false }"
+                        @comment-update-discarded.window="(e) => {
                              if(e.detail.commentId === @js($comment->getKey())) {
                                    showUpdateForm = false;
                              }
                         }"
-                    class="basis-full"
+                        class="basis-full"
                 >
                     <div x-show="!showUpdateForm" x-transition class="rounded border">
                         <div class="mb-2 flex items-center justify-between space-x-4 border-b bg-gray-100 p-1">
@@ -37,8 +37,8 @@
                                     {{ $guestMode ? $comment->guest_name : $comment->commenter->name }}
                                 </span>
                                 <span
-                                    x-text="moment(@js($comment->created_at)).format('YYYY/M/D H:mm')"
-                                    class="text-xs"
+                                        x-text="moment(@js($comment->created_at)).format('YYYY/M/D H:mm')"
+                                        class="text-xs"
                                 ></span>
                             </div>
 
@@ -95,6 +95,36 @@
                                 :$guestMode
                                 :relatedModel="$model"
                         />
+                    </div>
+
+                    <div
+                            x-data="{showReplyList: false, replyCount: @js($comment->replies_count)}"
+                            @reply-created.window="
+                            if($event.detail.commentId === {{$comment->getKey()}}) {
+                                console.log('hello')
+                                replyCount += 1;
+                            }
+                        "
+                            class="mt-2"
+                    >
+                        <div @click="showReplyList = !showReplyList">
+                            <x-comments::link type="popup" class="inline-flex items-center [&>*]:pr-1">
+                                <x-comments::icons.chevron-down x-show="!showReplyList" />
+                                <x-comments::icons.chevron-up x-show="showReplyList" />
+                                <span x-text="replyCount"></span>
+                                <span>replies</span>
+                            </x-comments::link>
+                        </div>
+                        <div
+                                class="mt-4 ml-8"
+                                x-show="showReplyList" x-transition
+                        >
+                            <livewire:comments-reply-list
+                                    :$comment
+                                    :relatedModel="$model"
+                                    wire:key="replies-{{$comment->getKey()}}"
+                            />
+                        </div>
                     </div>
 
                     <div x-show="showUpdateForm" x-transition class="basis-full">
