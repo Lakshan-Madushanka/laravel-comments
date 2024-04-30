@@ -60,7 +60,7 @@ class CreateCommentForm extends Component
 
         $this->setLoginRequired();
 
-        $this->limitExceeded = $this->model->limitExceeded($this->model, Auth::user());
+        $this->limitExceeded = $this->model->limitExceeded($this->model, $model->getAuthUser());
 
         $this->honeyPostData = new HoneypotData();
 

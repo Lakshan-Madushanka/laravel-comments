@@ -13,7 +13,7 @@
 
     @if ($authMode && $lastReactedUserName)
         <div
-            {{ $attributes->merge(['class' => 'absolute flex items-end h-16 left-[-12rem] bottom-[-3.8rem] min-w-[12rem]']) }}
+            {{ $attributes->merge(['class' => 'absolute z-10 flex items-end h-16 left-[-12rem] bottom-[-3.8rem] min-w-[12rem]']) }}
             wire:loading.remove
             wire:target="lastReactedUser"
         >

@@ -8,7 +8,6 @@ use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Exceptions\CommentLimitExceeded;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 use function Pest\Livewire\livewire;
@@ -167,7 +166,7 @@ it('dispatch a event after comment is created', function () {
         ->assertHasNoErrors()
         ->assertOk();
 
-    Event::dispatch(CommentCreated::class);
+    Event::assertDispatched(CommentCreated::class);
 });
 
 it('can limit comments creation for guest mode', function ($shouldLimit) {

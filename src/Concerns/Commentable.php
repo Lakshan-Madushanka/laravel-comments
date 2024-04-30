@@ -3,6 +3,7 @@
 namespace LakM\Comments\Concerns;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
@@ -118,6 +119,11 @@ trait Commentable
         }
 
         return config('comments.approval_required');
+    }
+
+    public function getAuthUser(): ?Authenticatable
+    {
+        return Auth::guard($this->getAuthGuard())->user();
     }
 
     public function canEditComment(Comment $comment): bool
