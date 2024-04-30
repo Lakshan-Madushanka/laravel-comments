@@ -4,6 +4,7 @@ use App\Models\User;
 use LakM\Comments\CommentPolicy;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Reactions\Like;
+use LakM\Comments\ReplyPolicy;
 
 return [
     /**
@@ -43,6 +44,9 @@ return [
         'create-comment' => [CommentPolicy::class, 'create'],
         'update-comment' => [CommentPolicy::class, 'update'],
         'delete-comment' => [CommentPolicy::class, 'delete'],
+        'create-reply' => [ReplyPolicy::class, 'create'],
+        'update-reply' => [ReplyPolicy::class, 'update'],
+        'delete-reply' => [ReplyPolicy::class, 'delete'],
     ],
 
     /**
@@ -51,6 +55,13 @@ return [
      */
     'limit' => null,
 
+    'reply' => [
+        /** when enabled email field is required to reply in guest mode */
+        'email_enabled' => true,
+        /** Keep null to allow unlimited replies for a comment */
+        'limit' => 1,
+        'approval_required' => true,
+    ],
     /**
      * Quill editor configs
      * @see https://quilljs.com/docs/configuration

@@ -4,6 +4,7 @@ namespace LakM\Comments\Tests;
 
 use GrahamCampbell\Security\SecurityServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use LakM\Comments\CommentServiceProvider;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
@@ -19,6 +20,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->setUpDatabase($this->app);
 
         config(['honeypot.enabled' => false]);
+        config(['comments.user_model' => User::class]);
     }
 
     public function setUpDatabase($app)
@@ -46,14 +48,20 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $schema->create('comments', function (Blueprint $table) {
             $table->id();
-            $table->morphs('commentable');
+            $table->nullableMorphs('commentable');
             $table->nullableMorphs('commenter');
+            $table->unsignedBigInteger('reply_id')->nullable();
             $table->text('text');
             $table->string('guest_name')->nullable();
             $table->string('guest_email')->nullable();
             $table->boolean('approved')->default(false);
             $table->string('ip_address')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('comments', function (Blueprint $table) {
+            $table->foreign('reply_id')->references('id')->on('comments')->cascadeOnDelete();
+
         });
 
         $schema->create('reactions', function (Blueprint $table) {

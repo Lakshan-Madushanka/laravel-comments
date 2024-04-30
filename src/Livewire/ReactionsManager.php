@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -26,6 +27,9 @@ class ReactionsManager extends Component
     #[Locked]
     public Comment $comment;
 
+    #[Locked]
+    public Model $relatedModel;
+
     public array $reactions = [];
 
     public array $reactedUsers = [];
@@ -42,21 +46,31 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $authMode;
 
-    public function mount(Comment $comment, bool $guestMode): void
+    #[Locked]
+    public bool $authenticated;
+
+    #[Locked]
+    public bool $loginRequired;
+
+    public function mount(Comment $comment, bool $guestMode, Model $relatedModel): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
 
         $this->comment = $comment;
+        $this->relatedModel = $relatedModel;
 
         $this->id = $comment->getKey();
 
         $this->setReactions($comment);
 
+        $this->authenticated = $this->relatedModel->authCheck();
+
         $this->guestMode = $guestMode;
 
         $this->authMode = !$guestMode;
 
+        $this->setLoginRequired();
     }
 
     public function handle(ReactionManager $reactionManager, string $type): void
@@ -217,6 +231,17 @@ class ReactionsManager extends Component
     public function getReactedUsersLimit(string $type)
     {
         return $this->reactedUsers[$type]['limit'] ?? 0;
+    }
+
+    public function setLoginRequired(): void
+    {
+        $this->loginRequired = !$this->authenticated && !$this->guestMode;
+    }
+
+    public function redirectToLogin(string $intendedUrl): void
+    {
+        session(['url.intended' => $intendedUrl]);
+        $this->redirect(config('comments.login_route'));
     }
 
     public function render(): View|Factory|Application

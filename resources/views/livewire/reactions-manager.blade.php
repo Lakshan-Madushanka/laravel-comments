@@ -2,9 +2,9 @@
     use Illuminate\Support\Facades\Auth;
 @endphp
 
-<div>
+<div x-data="{showReplyForm: false}">
     <div class="flex w-full justify-between">
-        <div class="flex space-x-4 rounded border bg-gray-100 p-1">
+        <div class="flex items-center space-x-4 rounded border bg-gray-100 p-1">
             @foreach ($lReactions as $key => $value)
                 @if ($key === "like")
                     <div
@@ -27,7 +27,7 @@
                         <div
                             @click="isLiked = !isLiked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
-                            @if (! $authMode)
+                            @if ($authMode)
                                 @mouseover="
                                     if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                                          showUsers = true;
@@ -84,7 +84,7 @@
                         <div
                             @click="isDisliked = !isDisliked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
-                            @if (!$authMode)
+                            @if ($authMode)
                                 @mouseover="
                                  if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                                      showUsers = true;
@@ -124,12 +124,53 @@
                     <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode />
                 @endif
             @endforeach
+
+            <div @click="
+                if ($wire.loginRequired) {
+                    $wire.redirectToLogin('window.location.ref')
+                    return;
+                }
+                showReplyForm = !showReplyForm
+            "
+                 @reply-discarded.window="
+                    if ($event.detail.commentId === @js($comment->getKey())) {
+                        showReplyForm = false;
+                    }
+                 "
+                 @reply-drafted.window="
+                    if ($event.detail.commentId === @js($comment->getKey())) {
+                        showReplyForm = false;
+                    }
+                 "
+                 @reply-created.window="
+                    if ($event.detail.commentId === @js($comment->getKey())) {
+                        showReplyForm = false;
+                    }
+                 "
+            >
+                <x-comments::link  class="text-sm" type="popup">reply</x-comments::link>
+            </div>
         </div>
 
         <div class="flex space-x-2 rounded border bg-gray-100">
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
             @endforeach
+        </div>
+    </div>
+
+    <div x-show="showReplyForm" x-transition class="my-4 ml-8">
+        <livewire:comments-reply-form :$comment :$guestMode :$relatedModel/>
+    </div>
+
+    <div x-data="{approvalRequired: false}">
+        <div x-cloak x-data="message(@js($comment->getKey()))" @reply-created.window="show($event.detail.commentId); approvalRequired=$event.detail.approvalRequired">
+            <div x-show="showMsg" x-transition class="align-top mt-2 text-xs text-green-500 sm:text-sm">
+                    <span x-show="approvalRequired">
+                        {{ __('Reply created and will be displayed once approved') }}
+                    </span>
+                <span x-show="!approvalRequired">{{ __('Reply created') }}</span>
+            </div>
         </div>
     </div>
 

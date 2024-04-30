@@ -2,8 +2,10 @@
 
 namespace LakM\Comments;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Models\Comment;
@@ -38,7 +40,7 @@ class Repository
             ->comments()
             ->with(['reactions'])
             ->withCount(self::addCount())
-            ->when(! $relatedModel->guestModeEnabled(),  fn(Builder $query) => $query->with('commenter'))
+            ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
             ->latest()
             ->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved())
             ->when(
@@ -60,7 +62,7 @@ class Repository
         foreach (array_keys(config('comments.reactions')) as $reaction) {
             $name = Str::plural($reaction);
             $key = "reactions as {$name}_count";
-            $count[$key] = function(Builder $query) use ($reaction){
+            $count[$key] = function (Builder $query) use ($reaction) {
                 return $query->whereType($reaction);
             };
 
@@ -70,7 +72,7 @@ class Repository
 
     public static function reactedUsers(Comment $comment, string $reactionType, int $limit, bool $authMode)
     {
-        $reactions =  $comment
+        $reactions = $comment
             ->reactions()
             ->whereType($reactionType)
             ->when(
@@ -106,5 +108,18 @@ class Repository
         }
 
         return $reaction;
+    }
+
+    public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int
+    {
+        return $comment
+            ->replies()
+            ->when(!$guestMode, function (Builder $query) use ($user) {
+                $query->where('commenter_type', $user->getMorphClass())
+                    ->where('commenter_id', $user->getAuthIdentifier());
+            }, function (Builder $query) {
+                $query->where('ip_address', request()->ip());
+            })
+            ->count();
     }
 }

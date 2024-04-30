@@ -83,12 +83,13 @@
                                 :key="$comment->getKey()"
                                 :$comment
                                 :$guestMode
+                                :relatedModel="$model"
                         />
                     </div>
 
                     <div x-show="showUpdateForm" x-transition class="basis-full">
-                        @if ($model->canCreateComment($comment))
-                            <livewire-comments-update-form
+                        @if ($model->canEditComment($comment))
+                            <livewire:comments-update-form
                                 :comment="$comment"
                                 :model="$model"
                                 :key="$comment->getKey()"

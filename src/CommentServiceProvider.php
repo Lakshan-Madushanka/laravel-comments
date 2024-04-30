@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use LakM\Comments\Livewire\CreateCommentReplyForm;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\ReactionsManager;
@@ -45,6 +46,7 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-update-form', UpdateCommentForm::class);
         Livewire::component('comments-list', CommentList::class);
         Livewire::component('comments-reactions-manager', ReactionsManager::class);
+        Livewire::component('comments-reply-form', CreateCommentReplyForm::class);
     }
 
     protected function setBladeDirectives(): void
