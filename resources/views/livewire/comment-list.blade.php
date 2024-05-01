@@ -1,7 +1,6 @@
 <div
-        x-data="{total: $wire.total}"
+        x-data="{total: $wire.entangle('total')}"
         @comment-created.window="$wire.$refresh"
-        @comment-deleted.window="$wire.$refresh"
         class="space-y-8"
 >
     <div class="text-lg font-bold">{{ __('Comments') }} (<span x-text="total"></span>)</div>
@@ -61,7 +60,7 @@
                                         <x-comments::spin
                                                 wire:loading
                                                 wire:target="delete({{$comment}})"
-                                                class="text-blue-500"
+                                                class="!text-blue-500"
                                         />
                                     </div>
                                 @endif

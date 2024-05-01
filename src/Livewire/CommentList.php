@@ -53,11 +53,10 @@ class CommentList extends Component
         $this->limit += $this->perPage;
     }
 
-    public function delete(Comment $comment, DeleteCommentAction $deleteCommentAction): void
+    public function delete(Comment $comment): void
     {
-        if($this->model->canDeleteComment($comment) && $deleteCommentAction->execute($comment)) {
+        if($this->model->canDeleteComment($comment) && DeleteCommentAction::execute($comment)) {
             $this->dispatch('comment-deleted', commentId: $comment->getKey());
-
             $this->total -= 1;
         }
     }
