@@ -5,11 +5,11 @@ namespace LakM\Comments;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
+use LakM\Comments\Models\Reply;
 
 class Repository
 {
@@ -71,7 +71,7 @@ class Repository
         return $count;
     }
 
-    public static function reactedUsers(Comment $comment, string $reactionType, int $limit, bool $authMode)
+    public static function reactedUsers(Reply|Comment $comment, string $reactionType, int $limit, bool $authMode)
     {
         $reactions = $comment
             ->reactions()
@@ -90,7 +90,7 @@ class Repository
         });
     }
 
-    public static function lastReactedUser(Comment $comment, string $reactionType, bool $authMode): ?UserData
+    public static function lastReactedUser(Reply|Comment $comment, string $reactionType, bool $authMode): ?UserData
     {
         $reaction = $comment
             ->reactions()
@@ -133,8 +133,8 @@ class Repository
     {
         return $comment
             ->replies()
-            //->with(['reactions'])
-           // ->withCount(self::addCount())
+            ->with(['reactions'])
+            ->withCount(self::addCount())
             ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
             ->latest()
             ->when($approvalRequired, fn(Builder $query) => $query->approved())

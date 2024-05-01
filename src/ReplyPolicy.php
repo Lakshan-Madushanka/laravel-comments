@@ -3,7 +3,7 @@
 namespace LakM\Comments;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Reply;
 
 class ReplyPolicy
 {
@@ -12,23 +12,23 @@ class ReplyPolicy
         return true;
     }
 
-    public function update(?Authenticatable $user, Comment $comment): bool
+    public function update(?Authenticatable $user, Reply $reply): bool
     {
-        return $this->canManpulate($user, $comment);
+        return $this->canManipulate($user, $reply);
     }
 
-    public function delete(?Authenticatable $user, Comment $comment): bool
+    public function delete(?Authenticatable $user, Reply $reply): bool
     {
-        return $this->canManpulate($user, $comment);
+        return $this->canManipulate($user, $reply);
     }
 
-    private function canManpulate(?Authenticatable $user, Comment $comment): bool
+    private function canManipulate(?Authenticatable $user, Reply $reply): bool
     {
         if (!is_null($user)) {
-            return $user->getMorphClass() === $comment->commenter_type &&
-                $user->getKey() === $comment->commenter->id;
+            return $user->getMorphClass() === $reply->commenter_type &&
+                $user->getKey() === $reply->commenter->id;
         }
 
-        return $comment->ip_address === request()->ip();
+        return $reply->ip_address === request()->ip();
     }
 }
