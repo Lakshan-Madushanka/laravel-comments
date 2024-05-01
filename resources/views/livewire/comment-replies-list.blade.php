@@ -1,6 +1,6 @@
 <div
-    @comment-created.window="$wire.$refresh"
-    @comment-deleted.window="$wire.$refresh"
+    @reply-created.window="$wire.$refresh"
+    @reply-deleted.window="$wire.$refresh"
     class="space-y-8"
 >
     @if ($replies->isNotEmpty())
