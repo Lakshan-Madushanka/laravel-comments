@@ -3,6 +3,7 @@
 namespace LakM\Comments\Reactions;
 
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Reply;
 
 class ReactionManager
 {
@@ -10,7 +11,7 @@ class ReactionManager
     {
     }
 
-    public function handle(string $type, Comment $comment, $authMode): ?bool
+    public function handle(string $type, Reply|Comment $comment, $authMode): ?bool
     {
         return match ($type) {
             'like' => (new Like($comment, $authMode))->handle(),

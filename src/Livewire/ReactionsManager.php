@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
+use LakM\Comments\Models\Reply;
 use LakM\Comments\Reactions\ReactionManager;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Locked;
@@ -25,7 +26,7 @@ class ReactionsManager extends Component
     public mixed $id;
 
     #[Locked]
-    public Comment $comment;
+    public Reply|Comment $comment;
 
     #[Locked]
     public Model $relatedModel;
@@ -52,7 +53,7 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $loginRequired;
 
-    public function mount(Comment $comment, bool $guestMode, Model $relatedModel): void
+    public function mount(Reply|Comment $comment, bool $guestMode, Model $relatedModel): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
@@ -106,7 +107,7 @@ class ReactionsManager extends Component
         });
     }
 
-    private function setReactions(Comment $comment): void
+    private function setReactions(Reply|Comment $comment): void
     {
         $reactions = array_keys(config('comments.reactions'));
 

@@ -101,7 +101,6 @@
                             x-data="{showReplyList: false, replyCount: @js($comment->replies_count)}"
                             @reply-created.window="
                             if($event.detail.commentId === {{$comment->getKey()}}) {
-                                console.log('hello')
                                 replyCount += 1;
                             }
                         "

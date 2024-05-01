@@ -1,7 +1,3 @@
-@php
-    use Illuminate\Support\Facades\Auth;
-@endphp
-
 <div x-data="{showReplyForm: false}">
     <div class="flex w-full justify-between">
         <div class="flex items-center space-x-4 rounded border bg-gray-100 p-1">
@@ -38,7 +34,7 @@
                             class="flex cursor-pointer items-center"
                         >
                             <div x-show="!isLiked">
-                                <x-dynamic-component component="comments::icons.{{$key}}" />
+                                <x-dynamic-component component="comments::icons.{{$key}}"/>
                             </div>
                             <div x-show="isLiked">
                                 <x-dynamic-component
@@ -95,7 +91,7 @@
                             class="flex cursor-pointer items-center"
                         >
                             <div x-show="!isDisliked">
-                                <x-dynamic-component component="comments::icons.{{$key}}" />
+                                <x-dynamic-component component="comments::icons.{{$key}}"/>
                             </div>
 
                             <div x-show="isDisliked">
@@ -121,7 +117,7 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode />
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
                 @endif
             @endforeach
 
@@ -148,7 +144,7 @@
                     }
                  "
             >
-                <x-comments::link  class="text-sm" type="popup">reply</x-comments::link>
+                <x-comments::link class="text-sm" type="popup">reply</x-comments::link>
             </div>
         </div>
 
@@ -159,12 +155,15 @@
         </div>
     </div>
 
-    <div x-show="showReplyForm" x-transition class="my-4 ml-8">
-        <livewire:comments-reply-form :$comment :$guestMode :$relatedModel/>
-    </div>
+    @if($comment instanceof LakM\Comments\Models\Comment)
+        <div x-show="showReplyForm" x-transition class="my-4 ml-8">
+            <livewire:comments-reply-form :$comment :$guestMode :$relatedModel/>
+        </div>
+    @endif
 
     <div x-data="{approvalRequired: false}">
-        <div x-cloak x-data="message(@js($comment->getKey()))" @reply-created.window="show($event.detail.commentId); approvalRequired=$event.detail.approvalRequired">
+        <div x-cloak x-data="message(@js($comment->getKey()))"
+             @reply-created.window="show($event.detail.commentId); approvalRequired=$event.detail.approvalRequired">
             <div x-show="showMsg" x-transition class="align-top mt-2 text-xs text-green-500 sm:text-sm">
                     <span x-show="approvalRequired">
                         {{ __('Reply created and will be displayed once approved') }}
@@ -194,8 +193,8 @@
                         <div
                             @if ($reactions[$key]["count"] > 0)
                                 wire:click="loadReactedUsers('{{ $key }}')"
-                                @click="type = '{{ $key }}'"
-                                class="cursor-pointer p-4 relative"
+                            @click="type = '{{ $key }}'"
+                            class="cursor-pointer p-4 relative"
                             @endif
                             wire:loading.class="cursor-not-allowed"
                             target="loadReactedUsers"
@@ -208,7 +207,7 @@
                                     :fill="$this->fillColor($key)"
                                 />
                             @else
-                                <x-dynamic-component component="comments::icons.{{$key}}" />
+                                <x-dynamic-component component="comments::icons.{{$key}}"/>
                             @endif
 
                             <span class="absolute left-8 top-1 rounded bg-gray-300 px-1 text-xs">
