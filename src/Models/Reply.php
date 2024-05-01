@@ -37,6 +37,16 @@ class Reply extends Model
         return $this->belongsTo(Comment::class);
     }
 
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->whereApproved(true);
+    }
+
+    public function reactions(): HasMany
+    {
+        return $this->hasMany(Reaction::class, 'comment_id');
+    }
+
     public function commenter(): MorphTo
     {
         return $this->morphTo();

@@ -105,6 +105,11 @@
                                 replyCount += 1;
                             }
                         "
+                        @reply-deleted.window="
+                        if($event.detail.commentId === {{$comment->getKey()}}) {
+                            replyCount -= 1;
+                        }
+                        "
                             class="mt-2"
                     >
                         <div @click="showReplyList = !showReplyList">

@@ -6,7 +6,7 @@
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
             <div
-                x-ref="comment{{ $reply->getKey() }}"
+                x-ref="reply{{ $reply->getKey() }}"
                 wire:key="{{ $reply->getKey() }}"
                 class="flex gap-x-2 sm:gap-x-4"
             >
@@ -41,27 +41,27 @@
                                 ></span>
                             </div>
 
-{{--                            <div class="flex justify-center items-center space-x-4">--}}
-{{--                                @if ($model->canEditComment($reply))--}}
-{{--                                    <div @click="showUpdateForm = !showUpdateForm">--}}
-{{--                                        <x-comments::action class="text-sm">Edit</x-comments::action>--}}
-{{--                                    </div>--}}
-{{--                                @endif--}}
-{{--                                    @if ($model->canDeleteComment($reply))--}}
-{{--                                        <div wire:click="delete({{$reply}})" class="flex items-center">--}}
-{{--                                            <x-comments::action wire:loading.remove wire:target="delete({{$reply}})" class="text-sm">Delete</x-comments::action>--}}
-{{--                                            <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="text-blue-500"/>--}}
-{{--                                        </div>--}}
-{{--                                    @endif--}}
-{{--                            </div>--}}
+                            <div class="flex justify-center items-center space-x-4">
+                                @if ($this->canUpdateReply($reply))
+                                    <div @click="showUpdateForm = !showUpdateForm">
+                                        <x-comments::action class="text-sm">Edit</x-comments::action>
+                                    </div>
+                                @endif
+                                @if ($this->canDeleteReply($reply))
+                                    <div wire:click="delete({{$reply}})" class="flex items-center">
+                                        <x-comments::action wire:loading.remove wire:target="delete({{$reply}})" class="text-sm">Delete</x-comments::action>
+                                        <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500"/>
+                                    </div>
+                                    @endif
+                            </div>
                         </div>
                         <div
                             x-ref="text"
-                            @comment-updated.window="(e) => {
+                            @reply-updated.window="(e) => {
                                 let key = @js($reply->getKey());
-                                if(e.detail.commentId === key) {
-                                    if(@js($relatedModel->approvalRequired())) {
-                                        let elm = 'comment'+ key;
+                                if(e.detail.replyId === key) {
+                                    if(e.detail.approvalRequired) {
+                                        let elm = 'reply'+ key;
                                          setTimeout(() => {
                                            $refs[elm].remove();
                                          }, 2000);
@@ -77,29 +77,26 @@
                         </div>
                     </div>
 
-{{--                    <div wire:ignore x-show="!showUpdateForm" class="mt-2">--}}
-{{--                        <livewire:comments-reactions-manager--}}
-{{--                                :key="$reply->getKey()"--}}
-{{--                                :$reply--}}
-{{--                                :$guestMode--}}
-{{--                                :$relatedModel--}}
-{{--                        />--}}
-{{--                    </div>--}}
+                    <div wire:ignore x-show="!showUpdateForm" class="mt-2">
+                        <livewire:comments-reactions-manager
+                                :key="$reply->getKey()"
+                                :comment="$reply"
+                                :$guestMode
+                                :$relatedModel
+                        />
+                    </div>
 
-{{--                    <div x-show="showUpdateForm" x-transition class="basis-full">--}}
-{{--                        @if ($model->canEditComment($reply))--}}
-{{--                            <livewire:comments-update-form--}}
-{{--                                :comment="$reply"--}}
-{{--                                :model="$model"--}}
-{{--                                :key="$reply->getKey()"--}}
-{{--                            />--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
+                    <div x-show="showUpdateForm" x-transition class="basis-full">
+                        @if ($this->canUpdateReply($reply))
+                            <livewire:comments-reply-update-form
+                                 :$reply
+                                 :key="$reply->getKey()"
+                            />
+                        @endif
+                    </div>
                 </div>
             </div>
         @endforeach
-    @else
-{{--        <div class="text-lg">{{ __('Be the first one to make the comment !') }}</div>--}}
     @endif
 
     @if ($replies->isNotEmpty())
@@ -113,7 +110,6 @@
             @endif
         </div>
     @endif
-
 
     @script
     <script>

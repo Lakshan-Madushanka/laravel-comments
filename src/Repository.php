@@ -129,7 +129,7 @@ class Repository
         return $comment->replies()->count();
     }
 
-    public static function commentReplies(Comment $comment, Model $relatedModel, int $limit)
+    public static function commentReplies(Comment $comment, Model $relatedModel, bool $approvalRequired, int $limit)
     {
         return $comment
             ->replies()
@@ -137,7 +137,7 @@ class Repository
            // ->withCount(self::addCount())
             ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
             ->latest()
-            ->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved())
+            ->when($approvalRequired, fn(Builder $query) => $query->approved())
             ->when(
                 config('comments.reply.pagination.enabled'),
                 fn(Builder $query) => $query->paginate($limit),

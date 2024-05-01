@@ -6,8 +6,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Actions\DeleteCommentAction;
+use Illuminate\Support\Facades\Gate;
+use LakM\Comments\Actions\DeleteCommentReplyAction;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Reply;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -36,6 +38,9 @@ class CommentReplyList extends Component
     #[Locked]
     public bool $authMode;
 
+    #[Locked]
+    public bool $approvalRequired;
+
     public function mount(Comment $comment, Model $relatedModel): void
     {
         $this->comment = $comment;
@@ -50,6 +55,7 @@ class CommentReplyList extends Component
 
         $this->authMode = !$this->relatedModel->guestModeEnabled();
 
+        $this->setApprovalRequired();
     }
 
     public function paginate()
@@ -57,14 +63,14 @@ class CommentReplyList extends Component
         $this->limit += $this->perPage;
     }
 
-//    public function delete(Comment $comment, DeleteCommentAction $deleteCommentAction): void
-//    {
-//        if($this->model->canDeleteComment($comment) && $deleteCommentAction->execute($comment)) {
-//            $this->dispatch('comment-deleted', commentId: $comment->getKey());
-//
-//            $this->total -= 1;
-//        }
-//    }
+    public function delete(Reply $reply): void
+    {
+        if($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
+            $this->dispatch('reply-deleted', replyId: $reply->getKey(), commentId: $this->comment->getKey());
+
+            $this->total -= 1;
+        }
+    }
 
     #[On('reply-created')]
     public function onReplyCreated($commentId)
@@ -75,9 +81,24 @@ class CommentReplyList extends Component
         }
     }
 
+    public function canUpdateReply(Reply $reply): bool
+    {
+        return Gate::allows('update-reply', $reply);
+    }
+
+    public function canDeleteReply(Reply $reply): bool
+    {
+        return Gate::allows('delete-reply', $reply);
+    }
+
+    public function setApprovalRequired()
+    {
+        $this->approvalRequired = config('comments.reply.approval_required');
+    }
+
     public function render(): View|Factory|Application
     {
         return view('comments::livewire.comment-replies-list',
-            ['replies' => Repository::commentReplies($this->comment, $this->relatedModel, $this->limit)]);
+            ['replies' => Repository::commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit)]);
     }
 }
