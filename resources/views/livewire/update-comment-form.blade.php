@@ -63,20 +63,5 @@
         $wire.on('comment-update-discarded', function () {
             editorElm.innerHTML = @js($comment->text);
         });
-
-        Alpine.data('successMsg', () => ({
-            show: false,
-            timeout: 2000,
-
-            set(show, event) {
-                if (event.detail.id !== $wire.editorId) {
-                    return;
-                }
-                this.show = show;
-                setTimeout(() => {
-                    this.show = false;
-                }, this.timeout);
-            },
-        }));
     </script>
 @endscript
