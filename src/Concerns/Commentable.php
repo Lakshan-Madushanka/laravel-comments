@@ -39,15 +39,15 @@ trait Commentable
     /**
      * @throws \Throwable
      */
-    public function canCreateComment(Model $relatedModel, Model $user = null): bool
+    public function canCreateComment(Authenticatable $user = null): bool
     {
         if (method_exists($this, 'commentCanCreate')) {
-            return $this->commentCanCreate($relatedModel, $user);
+            return $this->commentCanCreate($user);
         }
 
         throw_if(
-            $this->limitExceeded($relatedModel, $user),
-            CommentLimitExceeded::make($relatedModel::class, $this->getCommentLimit())
+            $this->limitExceeded($user),
+            CommentLimitExceeded::make($this, $this->getCommentLimit())
         );
 
         if ($this->guestModeEnabled()) {
@@ -76,7 +76,7 @@ trait Commentable
         return false;
     }
 
-    public function limitExceeded(Model $relatedModel, Model $user = null): bool
+    public function limitExceeded(Model $user = null): bool
     {
         $limit = $this->getCommentLimit();
 
@@ -85,20 +85,20 @@ trait Commentable
         }
 
         if (is_null($user)) {
-            return $this->checkLimitForGuest($relatedModel, $limit);
+            return $this->checkLimitForGuest($limit);
         }
 
-        return $this->checkLimitForAuthUser($user, $relatedModel, $limit);
+        return $this->checkLimitForAuthUser($user, $limit);
     }
 
-    public function checkLimitForGuest(Model $relatedModel, int $limit): bool
+    public function checkLimitForGuest(int $limit): bool
     {
-        return Repository::guestCommentCount($relatedModel) >= $limit;
+        return Repository::guestCommentCount($this) >= $limit;
     }
 
-    public function checkLimitForAuthUser(Model $user, Model $relatedModel, int $limit): bool
+    public function checkLimitForAuthUser(Model $user, int $limit): bool
     {
-        return Repository::userCommentCount($user, $relatedModel) >= $limit;
+        return Repository::userCommentCount($user, $this) >= $limit;
     }
 
     public function getCommentLimit(): ?int

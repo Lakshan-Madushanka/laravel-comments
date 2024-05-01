@@ -46,9 +46,9 @@
             <div x-cloak x-data="successMsg" @comment-created.window="set(true, $event)">
                 <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
                     @if ($model->approvalRequired())
-                        {{ __('Comment created and will be displayed once approved') }}
+                        {{ __('Comment created and will be displayed once approved.') }}
                     @else
-                        {{ __('Comment created') }}
+                        {{ __('Comment created.') }}
                     @endif
                 </span>
             </div>

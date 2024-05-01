@@ -27,3 +27,12 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 });
+
+const highlightSyntax = (selector = "div.ql-code-block") => {
+    document.querySelectorAll(selector).forEach((el) => {
+        el.removeAttribute("data-highlighted");
+        window.hljs.highlightElement(el);
+    }, { once: true });
+};
+
+window.highlightSyntax = highlightSyntax;

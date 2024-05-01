@@ -31,18 +31,18 @@ it('can auth check', function () {
 it('can authorize to create comment', function () {
     $post = new Post();
 
-    expect($post->canCreateComment($post))->toThrow(AuthenticationException::class);
+    expect($post->canCreateComment())->toThrow(AuthenticationException::class);
 
-    actAsAuth();
+    $user = actAsAuth();
 
-    expect($post->canCreateComment($post))->toBeTrue();
+    expect($post->canCreateComment($user))->toBeTrue();
 })->throws(AuthenticationException::class);
 
 it('can authorize to create comment in guest mode', function () {
     $post = new Post();
     $post->guestMode = true;
 
-    expect($post->canCreateComment($post))->toBeTrue();
+    expect($post->canCreateComment())->toBeTrue();
 });
 
 it('takes priority guest mode of the model over guest mode in config', function () {
@@ -51,7 +51,7 @@ it('takes priority guest mode of the model over guest mode in config', function 
     $post = new Post();
     $post->guestMode = false;
 
-    expect($post->canCreateComment($post))->toThrow(AuthenticationException::class);
+    expect($post->canCreateComment())->toThrow(AuthenticationException::class);
 })->throws(AuthenticationException::class);
 
 test('commentCanCreate method takes highest priority', function () {
@@ -66,7 +66,7 @@ test('commentCanCreate method takes highest priority', function () {
         }
     };
 
-    expect($post->canCreateComment($post))->toBeTrue();
+    expect($post->canCreateComment())->toBeTrue();
 });
 
 it('can authorize to edit comment for auth mode', function () {

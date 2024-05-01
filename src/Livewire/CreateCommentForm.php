@@ -60,7 +60,7 @@ class CreateCommentForm extends Component
 
         $this->setLoginRequired();
 
-        $this->limitExceeded = $this->model->limitExceeded($this->model, $model->getAuthUser());
+        $this->setLimitExceededStatus();
 
         $this->honeyPostData = new HoneypotData();
 
@@ -82,11 +82,14 @@ class CreateCommentForm extends Component
 
         $this->validate();
 
-        if ($this->model->canCreateComment($this->model, Auth::user())) {
+        if ($this->model->canCreateComment(Auth::guard($this->model->getAuthGuard())->user())) {
             CreateCommentAction::execute($this->model, $this->getFormData());
 
             $this->clear();
+
             $this->dispatch('comment-created', id: $this->editorId);
+
+            $this->setLimitExceededStatus();
         }
     }
 
@@ -108,6 +111,11 @@ class CreateCommentForm extends Component
     public function setLoginRequired(): void
     {
         $this->loginRequired = !$this->authenticated && !$this->guestModeEnabled;
+    }
+
+    public function setLimitExceededStatus()
+    {
+      $this->limitExceeded = $this->model->limitExceeded($this->model->getAuthUser());
     }
 
     public function clear(): void
