@@ -23,12 +23,23 @@ class Comment extends Model
     ];
 
     protected $casts = [
-        'approved' => 'bool'
+        'approved' => 'bool',
     ];
 
     public function scopeApproved(Builder $query): Builder
     {
         return $query->whereApproved(true);
+    }
+
+    public function scopecheckApproval(Builder $query, Model $relatedModel): Builder
+    {
+        return $query->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved());
+    }
+
+    public function scopeWithCommenter(Builder $query, Model $relatedModel): Builder
+    {
+        return $query->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
+            ;
     }
 
     public function commentable(): MorphTo

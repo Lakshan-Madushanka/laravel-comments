@@ -91,6 +91,11 @@ trait Commentable
         return $this->checkLimitForAuthUser($user, $limit);
     }
 
+    public function paginationEnabled(): bool
+    {
+        return config('comments.pagination.enabled');
+    }
+
     public function checkLimitForGuest(int $limit): bool
     {
         return Repository::guestCommentCount($this) >= $limit;

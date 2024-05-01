@@ -116,7 +116,7 @@
         const highlightSyntax = () => {
             document.querySelectorAll('.ql-code-block').forEach((el) => {
                 el.removeAttribute('data-highlighted')
-                window.hljs.highlightElement(el);
+                //window.hljs.highlightElement(el);
             }, {once: true});
         }
 

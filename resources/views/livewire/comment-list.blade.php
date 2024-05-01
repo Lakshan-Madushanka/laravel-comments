@@ -1,9 +1,10 @@
 <div
+        x-data="{total: $wire.total}"
         @comment-created.window="$wire.$refresh"
         @comment-deleted.window="$wire.$refresh"
         class="space-y-8"
 >
-    <div class="text-lg font-bold">{{ __('Comments') }} ({{ $total }})</div>
+    <div class="text-lg font-bold">{{ __('Comments') }} (<span x-text="total"></span>)</div>
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
             <div
@@ -75,6 +76,7 @@
                                             let elm = 'comment'+ key;
                                              setTimeout(() => {
                                                $refs[elm].remove();
+                                               total -= 1;
                                              }, 2000);
                                             return;
                                         }
@@ -147,7 +149,7 @@
         <div class="text-lg">{{ __('Be the first one to make the comment !') }}</div>
     @endif
 
-    @if ($comments->isNotEmpty())
+    @if ($comments->isNotEmpty() && $model->paginationEnabled())
         <div class="flex items-center justify-center">
             @if ($limit < $total)
                 <x-comments::button wire:click="paginate" type="button" loadingTarget="paginate">
@@ -159,24 +161,21 @@
         </div>
     @endif
 
-
     @script
     <script>
-      const highlightSyntax = () => {
-        document.querySelectorAll(".ql-code-block").forEach((el) => {
-          el.removeAttribute("data-highlighted");
-          window.hljs.highlightElement(el);
-        }, { once: true });
-      };
-
       highlightSyntax();
 
       $wire.on("comment-updated", () => {
         setTimeout(() => {
           highlightSyntax();
-
-        }, 500);
+        }, 1000);
       });
+
+      Livewire.on("comment-created", () => {
+          setTimeout(() => {
+              highlightSyntax();
+          }, 1000);
+      })
     </script>
     @endscript
 </div>

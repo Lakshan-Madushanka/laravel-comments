@@ -39,13 +39,13 @@ class Repository
         return $relatedModel
             ->comments()
             ->with(['reactions'])
+            ->withCommenter($relatedModel)
             ->withCount(self::addCount())
             ->withCount('replies')
-            ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
+            ->checkApproval($relatedModel)
             ->latest()
-            ->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved())
             ->when(
-                config('comments.pagination.enabled'),
+                $relatedModel->paginationEnabled(),
                 fn(Builder $query) => $query->paginate($limit),
                 fn(Builder $query) => $query->get()
             );
@@ -53,7 +53,10 @@ class Repository
 
     public static function getTotalCommentsCountForRelated(Model $relatedModel)
     {
-        return $relatedModel->comments()->count();
+        return $relatedModel
+            ->comments()
+            ->checkApproval($relatedModel)
+            ->count();
     }
 
     public static function addCount()
