@@ -20,6 +20,8 @@ class CommentReplyList extends Component
 {
     use WithPagination;
 
+    public bool $show = false;
+
     #[Locked]
     public Comment $comment;
 
@@ -41,12 +43,16 @@ class CommentReplyList extends Component
     #[Locked]
     public bool $approvalRequired;
 
-    public function mount(Comment $comment, Model $relatedModel): void
+    public function mount(Comment $comment, Model $relatedModel, int $total): void
     {
+        if (!$this->show) {
+            $this->skipRender();
+        }
+
         $this->comment = $comment;
         $this->relatedModel = $relatedModel;
 
-        $this->total = Repository::getCommentReplyCount($this->comment);
+        $this->total = $total;
 
         $this->perPage = config('comments.reply.pagination.per_page');
         $this->limit = config('comments.reply.pagination.per_page');
@@ -77,7 +83,6 @@ class CommentReplyList extends Component
     {
         if ($commentId === $this->comment->getKey()) {
             $this->total += 1;
-            $this->render();
         }
     }
 
@@ -95,6 +100,13 @@ class CommentReplyList extends Component
     {
         $this->approvalRequired = config('comments.reply.approval_required');
     }
+
+    #[On('show-replies.{comment.id}')]
+    public function setShowStatus()
+    {
+        $this->show = !$this->show;
+    }
+
 
     public function render(): View|Factory|Application
     {

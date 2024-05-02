@@ -1,8 +1,12 @@
 <div
-    @reply-created.window="$wire.$refresh"
     @reply-deleted.window="$wire.$refresh"
     class="space-y-8"
 >
+    <div wire:loading.delay>
+        <x-comments::spin class="!text-blue-500"/>
+    </div>
+
+
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
             <div
@@ -99,35 +103,33 @@
         @endforeach
     @endif
 
-    @if ($replies->isNotEmpty())
+    @if ($replies->isNotEmpty() && config('comments.reply.pagination.enabled'))
         <div class="flex items-center justify-center">
             @if ($limit < $total)
                 <x-comments::button wire:click="paginate" size="sm" type="button" loadingTarget="paginate">
                     {{ __('Load More') }}
                 </x-comments::button>
             @else
-                <div class="font-bold">{{ __('End of comments') }}</div>
+                <div class="font-bold">{{ __('End of replies') }}</div>
             @endif
         </div>
     @endif
 
     @script
     <script>
-        const highlightSyntax = () => {
-            document.querySelectorAll('.ql-code-block').forEach((el) => {
-                el.removeAttribute('data-highlighted')
-                //window.hljs.highlightElement(el);
-            }, {once: true});
-        }
+      highlightSyntax();
 
-        highlightSyntax();
+      $wire.on("reply-updated", () => {
+        setTimeout(() => {
+          highlightSyntax();
+        }, 1000);
+      });
 
-        $wire.on('comment-updated', () => {
-            setTimeout(() => {
-                highlightSyntax();
-
-            }, 500)
-        });
+      Livewire.on("reply-created", () => {
+        setTimeout(() => {
+          highlightSyntax();
+        }, 1000);
+      })
     </script>
     @endscript
 </div>
