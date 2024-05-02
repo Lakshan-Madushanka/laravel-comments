@@ -1,6 +1,5 @@
 <div
         x-data="{total: $wire.entangle('total')}"
-        @comment-created.window="$wire.$refresh"
         class="space-y-8"
 >
     <div class="text-lg font-bold">{{ __('Comments') }} (<span x-text="total"></span>)</div>
@@ -111,7 +110,7 @@
                         "
                             class="mt-2"
                     >
-                        <div @click="showReplyList = !showReplyList">
+                        <div @click="$dispatch('show-replies.' + @js($comment->getKey())); showReplyList = !showReplyList">
                             <x-comments::link type="popup" class="inline-flex items-center [&>*]:pr-1">
                                 <x-comments::icons.chevron-down x-show="!showReplyList" />
                                 <x-comments::icons.chevron-up x-show="showReplyList" />
@@ -119,13 +118,12 @@
                                 <span>replies</span>
                             </x-comments::link>
                         </div>
-                        <div
-                                class="mt-4 ml-8"
-                                x-show="showReplyList" x-transition
-                        >
+
+                        <div x-show="showReplyList" x-transtion class="mt-4 ml-8">
                             <livewire:comments-reply-list
                                     :$comment
                                     :relatedModel="$model"
+                                    :total="$comment->replies_count"
                                     wire:key="replies-{{$comment->getKey()}}"
                             />
                         </div>
