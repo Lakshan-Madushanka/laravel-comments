@@ -10,7 +10,7 @@ it('remove already existing dislike for auth mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => false, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -23,7 +23,7 @@ it('can create dislike for auth mode', function () {
     $user = actAsAuth();
     $comment = createCommentsForAuthUser($user, video());
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => false, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -44,7 +44,7 @@ it('can create dislike when already has liked for auth mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('like');
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'guestMode' => false, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 

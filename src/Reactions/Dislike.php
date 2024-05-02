@@ -48,7 +48,7 @@ class Dislike extends ReactionContract
     {
         return $this->comment->reactions()->create([
             'type' => 'dislike',
-            'user_id' => Auth::id(),
+            'user_id' => $this->authId,
             'ip_address' => request()->ip(),
         ]);
     }

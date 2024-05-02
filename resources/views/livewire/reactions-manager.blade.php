@@ -28,6 +28,7 @@
                                     if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                                          showUsers = true;
                                          $wire.lastReactedUser('{{ $key }}')
+                                         console.log($wire.lastReactedUserName);
                                      }
                                      "
                             @endif

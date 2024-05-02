@@ -34,7 +34,7 @@ class Reaction extends ReactionContract
     {
         return $this->comment->reactions()->create([
             'type' => $this->type,
-            'user_id' => Auth::id(),
+            'user_id' => $this->authId,
             'ip_address' => request()->ip(),
         ]);
     }

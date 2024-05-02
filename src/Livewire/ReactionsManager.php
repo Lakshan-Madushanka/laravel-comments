@@ -53,7 +53,7 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $loginRequired;
 
-    public function mount(Reply|Comment $comment, bool $guestMode, Model $relatedModel): void
+    public function mount(Reply|Comment $comment, Model $relatedModel): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
@@ -67,16 +67,16 @@ class ReactionsManager extends Component
 
         $this->authenticated = $this->relatedModel->authCheck();
 
-        $this->guestMode = $guestMode;
+        $this->guestMode = $this->relatedModel->guestModeEnabled();
 
-        $this->authMode = !$guestMode;
+        $this->authMode = !$this->guestMode;
 
         $this->setLoginRequired();
     }
 
     public function handle(ReactionManager $reactionManager, string $type): void
     {
-        if(! $reactionManager->handle($type, $this->comment, $this->authMode)) {
+        if(! $reactionManager->handle($type, $this->comment, $this->authMode, $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
             return;
         }
 

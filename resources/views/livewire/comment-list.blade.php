@@ -93,7 +93,6 @@
                         <livewire:comments-reactions-manager
                                 :key="$comment->getKey()"
                                 :$comment
-                                :$guestMode
                                 :relatedModel="$model"
                         />
                     </div>

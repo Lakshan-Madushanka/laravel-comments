@@ -11,12 +11,12 @@ class ReactionManager
     {
     }
 
-    public function handle(string $type, Reply|Comment $comment, $authMode): ?bool
+    public function handle(string $type, Reply|Comment $comment, $authMode, mixed $authId): ?bool
     {
         return match ($type) {
-            'like' => (new Like($comment, $authMode))->handle(),
-            'dislike' => (new Dislike($comment, $authMode))->handle(),
-            default => (new Reaction($comment, $authMode, $type))->handle()
+            'like' => (new Like(comment: $comment, authMode:  $authMode, authId: $authId))->handle(),
+            'dislike' => (new Dislike(comment: $comment, authMode:  $authMode, authId: $authId))->handle(),
+            default => (new Reaction(comment: $comment, authMode:  $authMode, authId:$authId, type: $type))->handle()
         };
     }
 }

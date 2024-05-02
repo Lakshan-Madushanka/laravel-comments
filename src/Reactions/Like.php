@@ -47,7 +47,7 @@ class Like extends ReactionContract
     {
         return $this->comment->reactions()->create([
             'type' => 'like',
-            'user_id' => Auth::id(),
+            'user_id' => $this->authId,
             'ip_address' => request()->ip(),
         ]);
     }

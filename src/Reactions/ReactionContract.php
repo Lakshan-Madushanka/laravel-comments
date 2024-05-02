@@ -7,6 +7,11 @@ use LakM\Comments\Models\Reply;
 
 abstract class ReactionContract
 {
-    public function __construct(protected Reply|Comment $comment, protected bool $authMode, protected ?string $type = null)
+    public function __construct(
+        protected Reply|Comment $comment,
+        protected bool $authMode,
+        protected mixed $authId,
+        protected ?string $type = null
+    )
     {}
 }
