@@ -15,6 +15,7 @@ use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
@@ -22,6 +23,8 @@ use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 class CreateCommentReplyForm extends Component
 {
     use UsesSpamProtection;
+
+    public bool $show = false;
 
     #[Locked]
     public Comment $comment;
@@ -72,8 +75,6 @@ class CreateCommentReplyForm extends Component
 
         $this->setLoginRequired();
 
-        $this->setLimitExceeded();
-
         $this->setApprovalRequired();
 
         $this->honeyPostData = new HoneypotData();
@@ -107,6 +108,7 @@ class CreateCommentReplyForm extends Component
         $this->clear();
         $this->dispatch('reply-created', commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
 
+        $this->setLimitExceeded();
     }
 
     private function getFormData(): array
@@ -174,6 +176,17 @@ class CreateCommentReplyForm extends Component
     {
         session(['url.intended' => $redirectUrl]);
         $this->redirect(config('comments.login_route'));
+    }
+
+
+    #[On('show-create-reply-form.{comment.id}')]
+    public function setShowStatus(): void
+    {
+        $this->show = !$this->show;
+
+        if ($this->show && !isset($this->limitExceeded)) {
+            $this->setLimitExceeded();
+        }
     }
 
     public function render(): View|Factory|Application
