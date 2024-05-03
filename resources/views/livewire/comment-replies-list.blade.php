@@ -1,4 +1,5 @@
 <div
+    x-data="{total: $wire.entangle('total')}"
     @reply-deleted.window="$wire.$refresh"
     class="space-y-8"
 >
@@ -68,6 +69,7 @@
                                         let elm = 'reply'+ key;
                                          setTimeout(() => {
                                            $refs[elm].remove();
+                                           total -= 1;
                                          }, 2000);
                                         return;
                                     }
