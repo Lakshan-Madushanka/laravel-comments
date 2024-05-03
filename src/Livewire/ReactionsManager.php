@@ -53,7 +53,10 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $loginRequired;
 
-    public function mount(Reply|Comment $comment, Model $relatedModel): void
+    #[Locked]
+    public bool $enableReply;
+
+    public function mount(Reply|Comment $comment, Model $relatedModel, bool $enableReply = true): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
@@ -62,6 +65,8 @@ class ReactionsManager extends Component
         $this->relatedModel = $relatedModel;
 
         $this->id = $comment->getKey();
+
+        $this->enableReply = $enableReply;
 
         $this->setReactions($comment);
 

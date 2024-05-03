@@ -122,32 +122,34 @@
                 @endif
             @endforeach
 
-            <div @click="
-                if ($wire.loginRequired) {
-                    $wire.redirectToLogin('window.location.ref')
-                    return;
-                }
-                $dispatch('show-create-reply-form.' + @js($comment->getKey()));
-                showReplyForm = !showReplyForm
-                "
-                 @reply-discarded.window="
-                    if ($event.detail.commentId === @js($comment->getKey())) {
-                        showReplyForm = false;
+            @if($enableReply)
+                <div @click="
+                    if ($wire.loginRequired) {
+                        $wire.redirectToLogin('window.location.ref')
+                        return;
                     }
-                 "
-                 @reply-drafted.window="
-                    if ($event.detail.commentId === @js($comment->getKey())) {
-                        showReplyForm = false;
-                    }
-                 "
-                 @reply-created.window="
-                    if ($event.detail.commentId === @js($comment->getKey())) {
-                        showReplyForm = false;
-                    }
-                 "
-            >
-                <x-comments::link class="text-sm" type="popup">reply</x-comments::link>
-            </div>
+                    $dispatch('show-create-reply-form.' + @js($comment->getKey()));
+                    showReplyForm = !showReplyForm
+                    "
+                     @reply-discarded.window="
+                        if ($event.detail.commentId === @js($comment->getKey())) {
+                            showReplyForm = false;
+                        }
+                     "
+                     @reply-drafted.window="
+                        if ($event.detail.commentId === @js($comment->getKey())) {
+                            showReplyForm = false;
+                        }
+                     "
+                     @reply-created.window="
+                        if ($event.detail.commentId === @js($comment->getKey())) {
+                            showReplyForm = false;
+                        }
+                     "
+                >
+                    <x-comments::link class="text-sm" type="popup">reply</x-comments::link>
+                </div>
+            @endif
         </div>
 
         <div class="flex space-x-2 rounded border bg-gray-100">
@@ -157,7 +159,7 @@
         </div>
     </div>
 
-    @if($comment instanceof LakM\Comments\Models\Comment)
+    @if($enableReply)
         <div x-show="showReplyForm" x-transition class="my-4 ml-8">
             <livewire:comments-reply-form :$comment :$guestMode :$relatedModel/>
         </div>

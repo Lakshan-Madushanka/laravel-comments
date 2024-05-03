@@ -89,6 +89,7 @@
                                 :comment="$reply"
                                 :$guestMode
                                 :$relatedModel
+                                :enableReply="false"
                         />
                     </div>
 
