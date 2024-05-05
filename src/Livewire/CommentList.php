@@ -33,6 +33,8 @@ class CommentList extends Component
     #[Locked]
     public bool $authMode;
 
+    public string $sortBy = 'top';
+
     public function mount(Model $model): void
     {
         $this->model = $model;
@@ -61,6 +63,11 @@ class CommentList extends Component
         }
     }
 
+    public function setSortBy(string $sortBy): void
+    {
+        $this->sortBy = $sortBy;
+    }
+
     #[On('comment-created')]
     public function increaseCommentCount(): void
     {
@@ -70,6 +77,6 @@ class CommentList extends Component
     public function render(): View|Factory|Application
     {
         return view('comments::livewire.comment-list',
-            ['comments' => Repository::allRelatedComments($this->model, $this->limit)]);
+            ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy)]);
     }
 }

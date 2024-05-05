@@ -5,6 +5,7 @@ namespace LakM\Comments;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Models\Comment;
@@ -34,7 +35,7 @@ class Repository
             ->count();
     }
 
-    public static function allRelatedComments(Model $relatedModel, int $limit)
+    public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy)
     {
         return $relatedModel
             ->comments()
@@ -43,7 +44,25 @@ class Repository
             ->withCount(self::addCount())
             ->withCount('replies')
             ->checkApproval($relatedModel)
-            ->latest()
+            ->when($sortBy === 'latest', function (Builder $query) {
+                return $query->latest();
+            })
+            ->when($sortBy === 'oldest', function (Builder $query) {
+                return $query->oldest();
+            })
+            ->when($sortBy === 'replies', function (Builder $query) {
+                return $query->orderByDesc('replies_count');
+            })
+            ->when($sortBy === 'top', function (Builder $query) {
+                return $query->withCount([
+                    'reactions',
+                    'replyReactions',
+                    'replyReactions as reply_reactons_dislikes_count' => function (Builder $query) {
+                        $query->where('type', 'dislike');
+                    },
+                ])
+                    ->orderByDesc(DB::raw('reactions_count - (dislikes_count * 2) + (replies_count * 2) + reply_reactions_count - (reply_reactons_dislikes_count * 2)'));
+            })
             ->when(
                 $relatedModel->paginationEnabled(),
                 fn(Builder $query) => $query->paginate($limit),
