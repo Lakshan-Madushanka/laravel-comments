@@ -1,13 +1,8 @@
 <div
     x-data="{total: $wire.entangle('total')}"
     @reply-deleted.window="$wire.$refresh"
-    class="space-y-8"
+    class="space-y-6"
 >
-    <div wire:loading.delay>
-        <x-comments::spin class="!text-blue-500"/>
-    </div>
-
-
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
             <div

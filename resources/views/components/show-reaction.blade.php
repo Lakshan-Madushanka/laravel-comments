@@ -12,7 +12,7 @@
         showUsers: false,
     }"
     @mouseleave="showUsers=false"
-    class="flex flex-row items-center justify-center p-1"
+    class="flex flex-row items-center justify-center bg-gray-300 px-1 py-[2px] rounded-md hover:bg-gray-400"
 >
     <div
         @if ($authMode)
@@ -29,18 +29,20 @@
                 $wire.lastReactedUser('{{ $key }}')
                 showUsers=false
                 "
-        class="cursor-pointer pr-1"
+        class="cursor-pointer flex items-center gap-x-1"
         wire:loading.class="cursor-not-allowed"
         wire:target="lastReactedUser"
+        title="{{$key}}"
     >
         @if ($reactions[$key]["reacted"])
             <x-dynamic-component component="comments::icons.{{$key}}" :fill="$this->fillColor($key)" />
         @else
             <x-dynamic-component component="comments::icons.{{$key}}" />
         @endif
+
+        <span class="text-sm">{{ $reactions[$key]["count"] }}</span>
     </div>
 
-    <span class="text-sm">{{ $reactions[$key]["count"] }}</span>
 
     <x-comments::show-reacted-users
         :$lastReactedUserName

@@ -5,6 +5,7 @@ namespace LakM\Comments\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Models\Concerns\HasOwner;
 
@@ -60,5 +61,10 @@ class Comment extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(Reply::class, 'reply_id', 'id');
+    }
+
+    public function replyReactions(): HasManyThrough
+    {
+        return $this->hasManyThrough(Reaction::class, Reply::class, 'reply_id', 'comment_id');
     }
 }

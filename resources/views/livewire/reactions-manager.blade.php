@@ -1,6 +1,6 @@
 <div x-data="{showReplyForm: false}">
-    <div class="flex w-full justify-between">
-        <div class="flex items-center space-x-4 rounded border bg-gray-100 p-1">
+    <div class="flex gap-x-4 w-full justify-between">
+        <div class="flex items-center gap-x-1 sm:gap-x-2 rounded border bg-gray-100 p-1">
             @foreach ($lReactions as $key => $value)
                 @if ($key === "like")
                     <div
@@ -19,6 +19,7 @@
                                 $dispatch('comment-liked', {id: @js($comment->getKey())});
                             }
                         "
+                        class="bg-gray-300 px-1 rounded hover:bg-gray-400"
                     >
                         <div
                             @click="isLiked = !isLiked; showUsers=false"
@@ -33,6 +34,7 @@
                                      "
                             @endif
                             class="flex cursor-pointer items-center"
+                            title="like"
                         >
                             <div x-show="!isLiked">
                                 <x-dynamic-component component="comments::icons.{{$key}}"/>
@@ -43,7 +45,7 @@
                                     :fill="$this->fillColor('like')"
                                 />
                             </div>
-                            <div class="ml-2">
+                            <div class="pl-1 sm:pl-2">
                                 <span class="text-sm">{{ $reactions["like"]["count"] }}</span>
                             </div>
                         </div>
@@ -76,7 +78,8 @@
                                 $dispatch('comment-disliked', {id: @js($comment->getKey())});
                             }
                         "
-                        class="cursor-pointer"
+                        class="cursor-pointer bg-gray-300 px-1 rounded hover:bg-gray-400"
+
                     >
                         <div
                             @click="isDisliked = !isDisliked; showUsers=false"
@@ -90,6 +93,7 @@
                                  "
                             @endif
                             class="flex cursor-pointer items-center"
+                            title="dislike"
                         >
                             <div x-show="!isDisliked">
                                 <x-dynamic-component component="comments::icons.{{$key}}"/>
@@ -102,7 +106,7 @@
                                 />
                             </div>
 
-                            <div class="ml-2">
+                            <div class="pl-1 sm:pl-2">
                                 <span class="text-sm">{{ $reactions["dislike"]["count"] }}</span>
                             </div>
                         </div>
@@ -147,12 +151,12 @@
                         }
                      "
                 >
-                    <x-comments::link class="text-sm" type="popup">reply</x-comments::link>
+                    <x-comments::link class="text-sm align-text-bottom" type="popup">reply</x-comments::link>
                 </div>
             @endif
         </div>
 
-        <div class="flex space-x-2 rounded border bg-gray-100">
+        <div class="flex max-w-32 md:max-w-64 items-center px-1 gap-x-1 sm:gap-x-2 rounded border bg-gray-100 overflow-auto scrollbar">
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
             @endforeach

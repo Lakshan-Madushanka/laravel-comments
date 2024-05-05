@@ -13,7 +13,7 @@
 
     @if ($authMode && $lastReactedUserName)
         <div
-            {{ $attributes->merge(['class' => 'absolute z-10 flex items-end h-16 left-[-12rem] bottom-[-3.8rem] min-w-[12rem]']) }}
+            {{ $attributes->merge(['class' => 'absolute z-10 flex items-center h-16 left-[-12rem] bottom-[-3.8rem] min-w-[12rem]']) }}
             wire:loading.remove
             wire:target="lastReactedUser"
         >
@@ -30,7 +30,7 @@
                     <span
                         wire:click="loadReactedUsers('{{ $key }}')"
                         @click="$dispatch('show-user-list', {id: '{{ $comment->getKey() }}', type: '{{ $key }}'})"
-                        class="w-full cursor-pointer text-center"
+                        class="w-full pb-1 cursor-pointer text-center"
                     >
                         <x-comments::link type="popup">show all</x-comments::link>
                     </span>
