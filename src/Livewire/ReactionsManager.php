@@ -62,11 +62,12 @@ class ReactionsManager extends Component
         $this->rReactions = $this->getRightSideReactions();
 
         $this->comment = $comment;
+
         $this->relatedModel = $relatedModel;
 
         $this->id = $comment->getKey();
 
-        $this->enableReply = $enableReply;
+        $this->setEnableReply($enableReply);
 
         $this->setReactions($comment);
 
@@ -240,6 +241,16 @@ class ReactionsManager extends Component
     public function setLoginRequired(): void
     {
         $this->loginRequired = !$this->authenticated && !$this->guestMode;
+    }
+
+    public function setEnableReply(bool $enabled): void
+    {
+        if (!config('comments.reply.enabled')) {
+            $this->enableReply = false;
+            return;
+        }
+
+        $this->enableReply = $enabled;
     }
 
     public function redirectToLogin(string $intendedUrl): void
