@@ -29,16 +29,24 @@
                         }"
                     class="basis-full"
                 >
-                    <div x-show="!showUpdateForm" x-transition class="rounded border">
-                        <div class="mb-2 flex items-center justify-between space-x-4 border-b bg-gray-100 p-1">
+                    <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
+                        <div class="mb-2 flex items-center justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1">
                             <div class="space-x-4">
                                 <span class="font-bold">
                                     {{ $guestMode ? $reply->guest_name : $reply->commenter->name }}
                                 </span>
+
+                                <span class="inline-block h-2 w-[1px] bg-black"></span>
+
                                 <span
                                     x-text="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')"
                                     class="text-xs"
                                 ></span>
+
+                                @if($comment->isEdited())
+                                    <span class="inline-block h-2 w-[1px] bg-black"></span>
+                                    <span class="text-xs">Edited</span>
+                                @endif
                             </div>
 
                             <div class="flex justify-center items-center space-x-4">

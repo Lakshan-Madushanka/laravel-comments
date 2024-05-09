@@ -81,12 +81,14 @@
                         }"
                         class="basis-full"
                 >
-                    <div x-show="!showUpdateForm" x-transition class="rounded border">
-                        <div class="mb-2 flex items-center justify-between space-x-4 border-b bg-gray-100 p-1">
-                            <div class="space-x-1 sm:space-x-2">
+                    <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
+                        <div class="mb-2 flex items-center justify-between space-x-4 border-b border-gray-100 bg-gray-100 p-1">
+                            <div class="space-x-1">
                                 <span class="font-bold">
                                     {{ $guestMode ? $comment->guest_name : $comment->commenter->name }}
                                 </span>
+
+                                <span class="inline-block h-2 w-[1px] bg-black"></span>
 
                                 @if(config('comments.date_format') === 'diff')
                                     <span class="text-xs">{{$comment->created_at->diffForHumans()}}</span>
@@ -96,6 +98,11 @@
                                             class="text-xs"
                                     >
                                     </span>
+                                @endif
+
+                                @if($comment->isEdited())
+                                    <span class="inline-block h-2 w-[1px] bg-black"></span>
+                                    <span class="text-xs">Edited</span>
                                 @endif
                             </div>
 
@@ -154,6 +161,16 @@
                         />
                     </div>
 
+                    <div x-show="showUpdateForm" x-transition class="basis-full">
+                        @if ($model->canEditComment($comment))
+                            <livewire:comments-update-form
+                                    :comment="$comment"
+                                    :model="$model"
+                                    :key="$comment->getKey()"
+                            />
+                        @endif
+                    </div>
+
                     @if(config('comments.reply.enabled'))
                         <div
                             x-data="{showReplyList: false, replyCount: @js($comment->replies_count)}"
@@ -195,16 +212,6 @@
                             </div>
                         </div>
                     @endif
-
-                    <div x-show="showUpdateForm" x-transition class="basis-full">
-                        @if ($model->canEditComment($comment))
-                            <livewire:comments-update-form
-                                    :comment="$comment"
-                                    :model="$model"
-                                    :key="$comment->getKey()"
-                            />
-                        @endif
-                    </div>
                 </div>
             </div>
         @endforeach

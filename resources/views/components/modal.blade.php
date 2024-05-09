@@ -8,7 +8,7 @@
     <div
         @keydown.escape.window="show=false"
         @click.outside="show=false"
-        class="rounded border bg-white shadow-lg lg:min-w-96"
+        class="rounded border border-gray-200 bg-white shadow-lg lg:min-w-96"
     >
         <div @click="show=false" class="flex w-full cursor-pointer justify-end p-1">
             <x-comments::icons.close />

@@ -1,6 +1,6 @@
 <div x-data="{showReplyForm: false}">
     <div class="flex gap-x-4 w-full justify-between">
-        <div class="flex items-center gap-x-1 sm:gap-x-2 rounded border bg-gray-100 p-1">
+        <div class="flex items-center gap-x-1 sm:gap-x-2 rounded border border-gray-200 bg-gray-100 p-1">
             @foreach ($lReactions as $key => $value)
                 @if ($key === "like")
                     <div
@@ -156,7 +156,7 @@
             @endif
         </div>
 
-        <div class="flex max-w-32 md:max-w-64 items-center px-1 gap-x-1 sm:gap-x-2 rounded border bg-gray-100 overflow-auto scrollbar">
+        <div class="flex max-w-32 md:max-w-64 items-center px-1 gap-x-1 sm:gap-x-2 rounded border border-gray-200 bg-gray-100 overflow-auto scrollbar">
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
             @endforeach
@@ -193,8 +193,8 @@
             loadingTarget="loadReactedUsers"
         >
             <div class="flex py-4">
-                <div class="space-y-2 border-r-2">
-                    <div class="mb-4 border-b-2 p-4">
+                <div class="space-y-2 border-r-2 border-gray-200">
+                    <div class="mb-4 border-b-2 border-gray-200 p-4">
                         <span class="bg-gray-300 px-4 py-2 font-bold">{{ $total }}</span>
                     </div>
                     @foreach (config("comments.reactions") as $key => $reaction)
@@ -228,7 +228,7 @@
                 @if ($selectedReactionType)
                     <div class="mt-4 flex w-full flex-col items-start px-4">
                         @foreach ($this->getReactedUsers($selectedReactionType) as $user)
-                            <div class="flex w-full items-center space-x-4 border-b p-2">
+                            <div class="flex w-full items-center space-x-4 border-b border-gray-200 p-2">
                                 <div>
                                     <img
                                         class="h-[1.8rem] w-[1.8rem] rounded-full border border-gray-200"
