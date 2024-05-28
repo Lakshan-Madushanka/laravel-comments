@@ -18,8 +18,8 @@
             wire:target="{{ $dirtyTarget }},{{ $loadingTarget }}"
         @endif
         disabled
-        type="button"
-        {{ $attributes->merge(["class" => $class . $severity . "inline-flex items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-not-allowed"]) }}
+        type="submit"
+        {{ $attributes->merge(["class" => $class . $severity . "inline-flex items-center gap-x-2 font-semibold justify-center rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-not-allowed"]) }}
     >
         {{ $slot }}
     </button>
@@ -31,7 +31,7 @@
         @endif
         type="button"
         disabled
-        {{ $attributes->merge(["class" => $class . $severity . "inline-flex justify-between items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"]) }}
+        {{ $attributes->merge(["class" => $class . $severity . "inline-flex justify-center items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"]) }}
     >
         <span>{{ $slot }}</span>
         <x-comments::spin />
@@ -45,12 +45,17 @@
             wire:target="{{ $loadingTarget }}"
         @endif
         type="button"
-        {{ $attributes->merge(["class" => $class . $severity . "inline-flex items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"]) }}
+        {{ $attributes->merge(["class" => $class . $severity . "inline-flex justify-center items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"]) }}
     >
         {{ $slot }}
     </button>
 
-    <div wire:loading.delay.longer>
+    <div
+        wire:loading.delay.longer
+        @if ($loadingTarget)
+            wire:target="{{ $loadingTarget }}"
+        @endif
+    >
         <button
             wire:loading.inline-flex
             @if ($loadingTarget)
@@ -58,7 +63,7 @@
             @endif
             disabled
             type="button"
-            {{ $attributes->merge(["class" => $class . $severity . "inline-flex items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-not-allowed"]) }}
+            {{ $attributes->merge(["class" => $class . $severity . "inline-flex justify-center items-center gap-x-2 font-semibold rounded border border-transparent text-white disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-not-allowed"]) }}
         >
             <span>{{ $slot }}</span>
             <x-comments::spin />
