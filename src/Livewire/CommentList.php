@@ -35,6 +35,8 @@ class CommentList extends Component
 
     public string $sortBy = 'top';
 
+    public string $filter = '';
+
     public function mount(Model $model): void
     {
         $this->model = $model;

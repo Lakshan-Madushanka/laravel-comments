@@ -35,10 +35,21 @@ class Repository
             ->count();
     }
 
-    public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy)
+    public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy, string $filter = '')
     {
+        $userModelName = config('comments.user_model');
+        $alias = (new $userModelName)->getMorphClass();
+
         return $relatedModel
             ->comments()
+            ->when($filter === 'my_comments' && $relatedModel->guestModeEnabled(),
+                fn(Builder $query) => $query->where('ip_address', request()->ip())
+            )
+            ->when($filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
+                fn(Builder $query) => $query
+                    ->where('commenter_type', $alias)
+                    ->where('commenter_type', $relatedModel->getAuthUser()->getAuthIdentifier())
+            )
             ->with(['reactions'])
             ->withCommenter($relatedModel)
             ->withCount(self::addCount())

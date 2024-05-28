@@ -3,52 +3,63 @@
         class="space-y-6"
 >
     <div class="text-lg font-bold">{{ __('Comments') }} (<span x-text="total"></span>)</div>
+    <div class="flex flex-col sm:flex-row gap-y-2 sm:justify-between sm:items-center">
+        @if($comments->count() > 1)
+            <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
+                <div class="w-14"></div>
+                <x-comments::chip
+                    wire:click="setSortBy('top')"
+                    wire:loading.class="!pointer-events-none"
+                    @class([
+                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
+                        '!bg-gray-500' => $sortBy === 'top'
+                    ])
+                >
+                    Top
+                </x-comments::chip>
+                <x-comments::chip
+                    wire:click="setSortBy('latest')"
+                    wire:loading.class="!pointer-events-none"
+                    @class([
+                        'hover:bg-gray-500 cursor-pointer text-nowrap transition',
+                        '!bg-gray-500' => $sortBy === 'latest'
+                    ])
+                >
+                    Newest
+                </x-comments::chip>
+                <x-comments::chip
+                    wire:click="setSortBy('oldest')"
+                    wire:loading.class="!pointer-events-none"
+                    @class([
+                        "hover:bg-gray-500 cursor-pointer text-nowrap transition",
+                       '!bg-gray-500' => $sortBy === 'oldest'
+                   ])
+                >
+                    Oldest
+                </x-comments::chip>
+                <x-comments::chip
+                    wire:click="setSortBy('replies')"
+                    wire:loading.class="!pointer-events-none"
+                    @class([
+                        "hover:bg-gray-500 cursor-pointer text-nowrap transition",
+                       '!bg-gray-500' => $sortBy === 'replies'
+                   ])
+                >
+                    Replies
+                </x-comments::chip>
 
-    @if($comments->count() > 1)
-        <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
-            <div class="basis-14"></div>
-            <x-comments::chip
-                wire:click="setSortBy('top')"
-                wire:loading.class="!pointer-events-none"
-                @class([
-                    'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px]',
-                    '!bg-gray-500' => $sortBy === 'top'
-                ])
-            >
-                Top
-            </x-comments::chip>
-            <x-comments::chip
-                wire:click="setSortBy('latest')"
-                wire:loading.class="!pointer-events-none"
-                @class([
-                    'hover:bg-gray-500 cursor-pointer transition',
-                    '!bg-gray-500' => $sortBy === 'latest'
-                ])
-            >
-                Newest
-            </x-comments::chip>
-            <x-comments::chip
-                wire:click="setSortBy('oldest')"
-                wire:loading.class="!pointer-events-none"
-                @class([
-                    "hover:bg-gray-500 cursor-pointer transition",
-                   '!bg-gray-500' => $sortBy === 'oldest'
-               ])
-            >
-                Oldest
-            </x-comments::chip>
-            <x-comments::chip
-                wire:click="setSortBy('replies')"
-                wire:loading.class="!pointer-events-none"
-                @class([
-                    "hover:bg-gray-500 cursor-pointer transition",
-                   '!bg-gray-500' => $sortBy === 'replies'
-               ])
-            >
-                Replies
-            </x-comments::chip>
-        </div>
-    @endif
+                <x-comments::chip
+                    wire:click="$set('filter', 'my_comments')"
+                    wire:loading.class="!pointer-events-none"
+                    @class([
+                        "hover:bg-gray-500 cursor-pointer text-nowrap transition",
+                       '!bg-gray-500' => $filter === 'my_comments'
+                   ])
+                >
+                    My Comments
+                </x-comments::chip>
+            </div>
+        @endif
 
     <div wire:loading.flex class="flex items-center gap-x-2 sm:gap-x-4">
         <div class="basis-14"></div>
