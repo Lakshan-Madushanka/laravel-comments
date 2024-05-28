@@ -53,7 +53,14 @@ class Repository
             ->with(['reactions'])
             ->withCommenter($relatedModel)
             ->withCount(self::addCount())
-            ->withCount('replies')
+            ->withCount([
+                'replies' => function (Builder $query) {
+                    $query->when(
+                        config('comments.reply.approval_required'),
+                        fn(Builder $query) => $query->approved()
+                    );
+                },
+            ])
             ->checkApproval($relatedModel)
             ->when($sortBy === 'latest', function (Builder $query) {
                 return $query->latest();
