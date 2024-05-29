@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentReplyAction;
+use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceeded;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
@@ -42,6 +43,8 @@ class CreateCommentReplyForm extends Component
     public bool $approvalRequired;
 
     public HoneypotData $honeyPostData;
+
+    public ?UserData $guest = null;
 
     public string $guest_name = '';
 
@@ -77,6 +80,10 @@ class CreateCommentReplyForm extends Component
 
         $this->setApprovalRequired();
 
+        $this->setLimitExceeded();
+
+        $this->setGuest();
+
         $this->honeyPostData = new HoneypotData();
 
         $this->editorId = 'editor'.Str::random();
@@ -103,12 +110,14 @@ class CreateCommentReplyForm extends Component
 
         throw_if($this->limitExceeded, new ReplyLimitExceeded($this->replyLimit()));
 
-        CreateCommentReplyAction::execute($this->comment, $this->getFormData(), $this->guestMode);
+        CreateCommentReplyAction::execute($this->comment, $this->getFormData(), $this->guestMode, $this->guest);
 
         $this->clear();
         $this->dispatch('reply-created', commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
 
         $this->setLimitExceeded();
+
+        $this->setGuest();
     }
 
     private function getFormData(): array
@@ -124,11 +133,6 @@ class CreateCommentReplyForm extends Component
             return Security::clean($value);
         }, $data);
 
-    }
-
-    public function draft(): void
-    {
-        $this->dispatch('reply-drafted', commentId: $this->comment->getKey());
     }
 
     public function discard(): void
@@ -166,6 +170,18 @@ class CreateCommentReplyForm extends Component
         return config('comments.reply.limit');
     }
 
+    private function setGuest(): void
+    {
+        if ($this->guestMode) {
+            $this->guest = Repository::guest();
+
+            $this->guest_name = $this->guest->name;
+            $this->guest_email = $this->guest->email;
+        }
+
+        $this->guest = new UserData(null, null);
+    }
+
     public function clear(): void
     {
         $this->resetValidation();
@@ -178,7 +194,6 @@ class CreateCommentReplyForm extends Component
         $this->redirect(config('comments.login_route'));
     }
 
-
     #[On('show-create-reply-form.{comment.id}')]
     public function setShowStatus(): void
     {
@@ -187,6 +202,8 @@ class CreateCommentReplyForm extends Component
         if ($this->show && !isset($this->limitExceeded)) {
             $this->setLimitExceeded();
         }
+
+        $this->setGuest();
     }
 
     public function render(): View|Factory|Application

@@ -4,7 +4,9 @@ namespace LakM\Comments;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
+use LakM\Comments\Models\Comment;
 
 class ValidationRules
 {
@@ -42,14 +44,20 @@ class ValidationRules
 
     private static function getCreateCommentRules(Model $model): array
     {
+        $commentModel = config('comments.model');
+        $commentTableName = (new $commentModel)->getTable();
 
         return [
             'guest_email' => [
                 new RequiredIf($model->guestModeEnabled() && config('comments.guest_mode.email_enabled')),
                 'nullable',
-                'email'
+                'email',
+                Rule::unique($commentTableName, 'guest_email')->ignore(request()->ip(), 'ip_address')
             ],
-            'guest_name' => [new RequiredIf($model->guestModeEnabled())],
+            'guest_name' => [
+                new RequiredIf($model->guestModeEnabled()),
+                Rule::unique($commentTableName, 'guest_name')->ignore(request()->ip(), 'ip_address')
+            ],
             'text' => ['required'],
         ];
     }

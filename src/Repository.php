@@ -14,6 +14,8 @@ use LakM\Comments\Models\Reply;
 
 class Repository
 {
+    public static ?UserData $guest = null;
+
     public static function guestCommentCount(Model $relatedModel)
     {
         $alias = $relatedModel->getMorphClass();
@@ -184,6 +186,7 @@ class Repository
                 fn(Builder $query) => $query->get()
             );
     }
+    public static function guest(): null|UserData
 }
 
 

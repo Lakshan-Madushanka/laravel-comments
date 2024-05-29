@@ -56,12 +56,78 @@ it('can validate guest email', function () {
 });
 
 it('can validate text field', function () {
+    onGuestMode();
+
     $video = \video();
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', '')
         ->call('create')
         ->assertHasErrors(['text' => 'required'])
+        ->assertOk();
+});
+
+test('guest_name must be unique for different ip address', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test')
+        ->set('guest_name', $comment->guest_name)
+        ->set('guest_email', fake()->email())
+        ->call('create')
+        ->assertHasErrors(['guest_name' => 'unique'])
+        ->assertOk();
+});
+
+test('guest_name must not be unique for the same ip address', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test')
+        ->set('guest_name', $comment->guest_name)
+        ->set('guest_email', fake()->email())
+        ->call('create')
+        ->assertHasNoErrors()
+        ->assertOk();
+});
+
+test('guest_email must be unique for different ip address', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test')
+        ->set('guest_name', fake()->name())
+        ->set('guest_email', $comment->guest_email)
+        ->call('create')
+        ->assertHasErrors(['guest_email' => 'unique'])
+        ->assertOk();
+});
+
+test('guest_email must not be unique for the same ip address', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test')
+        ->set('guest_name', fake()->name)
+        ->set('guest_email', fake()->email())
+        ->call('create')
+        ->assertHasNoErrors()
         ->assertOk();
 });
 
@@ -97,9 +163,26 @@ it('shows email field when guest mode enabled', function ($emailEnabled, $guestM
     ['emailEnabled' => false, 'guestMode' => false],
 ]);
 
+it('load user data in guest mode', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment1 = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+    createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
+
+    $component = livewire(CreateCommentForm::class, ['model' => $video])
+        ->assertOk();
+
+    expect($component->get('guest_name'))
+        ->toBe($comment1->guest_name)
+        ->and($component->get('guest_email'))
+        ->toBe($comment1->guest_email);
+});
+
 it('can create comment for guest mode', function () {
     onGuestMode();
-    config(['comments.guest_mode.enabled' => true]);
+
     $video = \video();
 
     livewire(CreateCommentForm::class, ['model' => $video])
@@ -252,3 +335,49 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     true,
     false,
 ]);
+
+it('can change the guest name for all the same ip address', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test')
+        ->set('guest_name', 'lakm')
+        ->set('guest_email', fake()->email())
+        ->call('create')
+        ->assertHasNoErrors()
+        ->assertOk();
+
+    $comments = Comment::all()->unique('guest_name')->pluck('guest_name');
+
+    expect($comments)
+        ->toHaveCount(1)
+        ->and($comments[0])
+        ->toBe('lakm');
+});
+
+it('can change the guest email for all the same ip address', function () {
+    onGuestMode();
+
+    $video = \video();
+
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test')
+        ->set('guest_name', 'lakm')
+        ->set('guest_email', 'lakm@gmail.com')
+        ->call('create')
+        ->assertHasNoErrors()
+        ->assertOk();
+
+    $comments = Comment::all()->unique('guest_email')->pluck('guest_email');
+
+    expect($comments)
+        ->toHaveCount(1)
+        ->and($comments[0])
+        ->toBe('lakm@gmail.com');
+});

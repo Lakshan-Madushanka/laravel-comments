@@ -5,10 +5,13 @@ namespace LakM\Comments\Actions;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentReplyCreated;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
+use LakM\Comments\Repository;
 
 class CreateCommentReplyAction
 {
@@ -24,7 +27,7 @@ class CreateCommentReplyAction
      * @param  array  $replyData
      * @return mixed
      */
-    public static function execute(Comment $comment, array $replyData, bool $guestMode): mixed
+    public static function execute(Comment $comment, array $replyData, bool $guestMode, ?UserData $guest = null): mixed
     {
         $replyData = [
             ...$replyData,
@@ -32,24 +35,41 @@ class CreateCommentReplyAction
         ];
 
         if (isset(static::$using)) {
-            return static::createUsingCustom($comment, $replyData, $guestMode);
+            return static::createUsingCustom($comment, $replyData, $guestMode, $guest);
         }
 
         if ($guestMode) {
-            return static::createForGuest($comment, $replyData);
+            return static::createForGuest($comment, $replyData, $guest);
         }
 
         return self::createForAuthUser($comment, $replyData);
     }
 
-    protected static function createUsingCustom(Model $model, array $replyData, bool $guestMode)
+    protected static function createUsingCustom(Model $model, array $replyData, bool $guestMode, ?UserData $guest)
     {
-        return call_user_func(self::$using, $model, $replyData, $guestMode);
+        return call_user_func(self::$using, $model, $replyData, $guestMode, $guest);
     }
 
-    protected static function createForGuest(Comment $comment, array $replyData)
+    protected static function createForGuest(Comment $comment, array $replyData, ?UserData $guest)
     {
-        $reply = $comment->replies()->create($replyData);
+        $reply =  DB::transaction(function () use ($comment, $replyData, $guest) {
+            $reply = $comment->replies()->create($replyData);
+
+            if ($guest->name !== $replyData['guest_name'] || $guest->email !== $replyData['guest_email']) {
+                $user = ['guest_name' => $replyData['guest_name']];
+
+                if ($email = $replyData['guest_email']) {
+                    $user['guest_email'] = $email;
+                }
+
+                $comment->where('ip_address', $replyData['ip_address'])
+                    ->update($user);
+
+                Repository::$guest = new UserData($replyData['guest_name'], $replyData['guest_email']);
+            }
+
+            return $reply;
+        });
 
         self::dispatchEvent($comment, $reply);
 

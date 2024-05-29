@@ -4,9 +4,12 @@ namespace LakM\Comments\Actions;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Repository;
 
 class CreateCommentAction
 {
@@ -22,7 +25,7 @@ class CreateCommentAction
      * @param  array  $commentData
      * @return mixed
      */
-    public static function execute(Model $model, array $commentData): mixed
+    public static function execute(Model $model, array $commentData, ?UserData $guest): mixed
     {
         $commentData = [
             ...$commentData,
@@ -30,24 +33,42 @@ class CreateCommentAction
         ];
 
         if (isset(static::$using)) {
-            return static::createUsingCustom($model, $commentData);
+            return static::createUsingCustom($model, $commentData, $guest);
         }
 
         if ($model->guestModeEnabled()) {
-            return static::createForGuest($model, $commentData);
+            return static::createForGuest($model, $commentData, $guest);
         }
 
         return self::createForAuthUser($model, $commentData);
     }
 
-    protected static function createUsingCustom(Model $model, array $commentData)
+    protected static function createUsingCustom(Model $model, array $commentData, ?UserData $guest)
     {
-        return call_user_func(self::$using, $model, $commentData);
+        return call_user_func(self::$using, $model, $commentData, $guest);
     }
 
-    protected static function createForGuest(Model $model, array $commentData)
+    protected static function createForGuest(Model $model, array $commentData, ?UserData $guest)
     {
-        $comment =  $model->comments()->create($commentData);
+       $comment =  DB::transaction(function () use ($model, $commentData, $guest) {
+           $comment =   $model->comments()->create($commentData);
+
+           if ($guest->name !== $commentData['guest_name'] || $guest->email !== $commentData['guest_email']) {
+               $user = ['guest_name' => $commentData['guest_name']];
+
+               if ($email = $commentData['guest_email']) {
+                   $user['guest_email'] = $email;
+               }
+
+               $model->comments()
+                   ->where('ip_address', $commentData['ip_address'])
+                   ->update($user);
+
+               Repository::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
+           }
+
+           return $comment;
+        });
 
          self::dispatchEvent($comment);
 

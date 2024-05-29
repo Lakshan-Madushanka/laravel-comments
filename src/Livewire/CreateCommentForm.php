@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentAction;
+use LakM\Comments\Data\UserData;
+use LakM\Comments\Repository;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -29,7 +31,12 @@ class CreateCommentForm extends Component
     #[Locked]
     public bool $limitExceeded;
 
+    #[Locked]
+    public bool $approvalRequired;
+
     public HoneypotData $honeyPostData;
+
+    public ?UserData $guest = null;
 
     public string $guest_name = '';
 
@@ -62,6 +69,10 @@ class CreateCommentForm extends Component
 
         $this->setLimitExceededStatus();
 
+        $this->setGuest();
+
+        $this->setApprovalRequired();
+
         $this->honeyPostData = new HoneypotData();
 
         $this->editorId = 'editor'.Str::random();
@@ -83,11 +94,11 @@ class CreateCommentForm extends Component
         $this->validate();
 
         if ($this->model->canCreateComment(Auth::guard($this->model->getAuthGuard())->user())) {
-            CreateCommentAction::execute($this->model, $this->getFormData());
+            CreateCommentAction::execute($this->model, $this->getFormData(), $this->guest);
 
             $this->clear();
 
-            $this->dispatch('comment-created', id: $this->editorId);
+            $this->dispatch('comment-created', id: $this->editorId, approvalRequired: $this->approvalRequired);
 
             $this->setLimitExceededStatus();
         }
@@ -118,10 +129,25 @@ class CreateCommentForm extends Component
       $this->limitExceeded = $this->model->limitExceeded($this->model->getAuthUser());
     }
 
+    private function setGuest(): void
+    {
+        if ($this->guestModeEnabled) {
+            $this->guest = Repository::guest();
+
+            $this->guest_name = $this->guest->name;
+            $this->guest_email = $this->guest->email;
+        }
+    }
+
+    public function setApprovalRequired()
+    {
+        $this->approvalRequired = $this->model->approvalRequired();
+    }
+
     public function clear(): void
     {
         $this->resetValidation();
-        $this->reset('guest_name', 'guest_email', 'text');
+        $this->reset( 'text');
     }
 
     public function redirectToLogin(string $redirectUrl): void
