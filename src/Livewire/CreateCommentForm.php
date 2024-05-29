@@ -14,6 +14,7 @@ use LakM\Comments\Data\UserData;
 use LakM\Comments\Repository;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
@@ -124,12 +125,13 @@ class CreateCommentForm extends Component
         $this->loginRequired = !$this->authenticated && !$this->guestModeEnabled;
     }
 
-    public function setLimitExceededStatus()
+    public function setLimitExceededStatus(): void
     {
       $this->limitExceeded = $this->model->limitExceeded($this->model->getAuthUser());
     }
 
-    private function setGuest(): void
+    #[On('guest-credentials-changed')]
+    public function setGuest(): void
     {
         if ($this->guestModeEnabled) {
             $this->guest = Repository::guest();
