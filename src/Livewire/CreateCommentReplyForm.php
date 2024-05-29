@@ -113,6 +113,7 @@ class CreateCommentReplyForm extends Component
         CreateCommentReplyAction::execute($this->comment, $this->getFormData(), $this->guestMode, $this->guest);
 
         $this->clear();
+
         $this->dispatch('reply-created', commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
 
         $this->setLimitExceeded();

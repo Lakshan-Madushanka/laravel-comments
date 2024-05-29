@@ -67,7 +67,7 @@
                 </div>
             @else
                 <div class="flex gap-x-2">
-                    <x-comments::button wire:click="create" loadingTarget="create" class="w-full sm:w-auto" size="sm">Create</x-comments::button>
+                    <x-comments::button loadingTarget="create" class="w-full sm:w-auto" size="sm">Create</x-comments::button>
                     <x-comments::button wire:click="discard" loadingTarget="discard" type="button" class="w-full sm:w-auto" size="sm">Discard</x-comments::button>
 
                 </div>
