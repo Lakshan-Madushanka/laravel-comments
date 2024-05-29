@@ -37,7 +37,7 @@ return [
 
     'pagination' => [
         'enabled' => true,
-        'per_page' => 15,
+        'per_page' => 35,
     ],
 
     'permissions' => [
@@ -56,6 +56,7 @@ return [
     'limit' => null,
 
     'reply' => [
+        'enabled' => true,
         /** when enabled email field is required to reply in guest mode */
         'email_enabled' => true,
         /** Keep null to allow unlimited replies for a comment */
@@ -90,4 +91,18 @@ return [
         'love' => ['model' => '', 'position' => 'right', 'fill' => 'red'],
         'sad' => ['model' => '', 'position' => 'right', 'fill' => 'orange'],
     ],
+
+    /**
+     * available options
+     * 'diff' (hour ago), 'standard' (2024/5/2 17:48)
+     */
+    'date_format' => 'diff',
+
+    'admin_panel' => [
+        'enabled' => true,
+        'routes' => [
+            'middlewares' => [],
+            'prefix' => 'admin'
+        ]
+    ]
 ];

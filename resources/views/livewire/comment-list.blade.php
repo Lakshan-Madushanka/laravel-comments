@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 <div
         x-data="{total: $wire.entangle('total')}"
         class="space-y-6"
@@ -61,6 +62,10 @@
             </div>
         @endif
 
+            <x-comments::link type="a" route="#create-comment-form">Create Comment</x-comments::link>
+    </div>
+
+
     <div wire:loading.flex class="flex items-center gap-x-2 sm:gap-x-4">
         <div class="basis-14"></div>
         <x-comments::spin class="!text-blue-500 !size-5"/>
@@ -93,10 +98,14 @@
                         class="basis-full"
                 >
                     <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
-                        <div class="mb-2 flex items-center justify-between space-x-4 border-b border-gray-100 bg-gray-100 p-1">
+                        <div class="mb-2 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between border-b border-gray-100 bg-gray-100 p-1">
                             <div class="space-x-1">
-                                <span class="font-bold">
-                                    {{ $guestMode ? $comment->guest_name : $comment->commenter->name }}
+                                <span class="font-bold sm:hidden">
+                                    {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
+                                </span>
+
+                                <span class="font-bold hidden sm:inline">
+                                    {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
                                 </span>
 
                                 <span class="inline-block h-2 w-[1px] bg-black"></span>
@@ -117,18 +126,22 @@
                                 @endif
                             </div>
 
-                            <div class="flex justify-center items-center space-x-4">
+                            <div class="flex justify-center self-end items-center space-x-2 sm:space-x-4">
                                 @if ($model->canEditComment($comment))
                                     <div @click="showUpdateForm = !showUpdateForm" class="flex items-center">
-                                        <x-comments::action class="text-sm">Edit</x-comments::action>
+                                        <x-comments::action class="text-xs sm:text-sm">Edit</x-comments::action>
                                     </div>
                                 @endif
                                 @if ($model->canDeleteComment($comment))
-                                    <div wire:click="delete({{$comment}})" class="flex items-center">
+                                    <div
+                                        wire:click="delete({{$comment}})"
+                                        wire:confirm="Are you sure you want to delete this comment?"
+                                        class="flex items-center"
+                                    >
                                         <x-comments::action
                                                 wire:loading.remove
                                                 wire:target="delete({{$comment}})"
-                                                class="text-sm align-text-bottom"
+                                                class="text-xs sm:text-sm align-text-bottom"
                                         >
                                             Delete
                                         </x-comments::action>
@@ -227,7 +240,7 @@
             </div>
         @endforeach
     @else
-        <div class="text-lg">{{ __('Be the first one to make the comment !') }}</div>
+        <div class="text-lg">{{ __('Be the first one to make a comment !') }}</div>
     @endif
 
     @if ($comments->isNotEmpty() && $model->paginationEnabled())
@@ -249,14 +262,21 @@
       $wire.on("comment-updated", () => {
         setTimeout(() => {
           highlightSyntax();
-        }, 1000);
+        }, 1500);
       });
 
       Livewire.on("comment-created", () => {
-        setTimeout(() => {
-          highlightSyntax();
-        }, 1000);
+          setTimeout(() => {
+              highlightSyntax();
+          }, 1500);
       });
+
+      $wire.on("more-comments-loaded", () => {
+          setTimeout(() => {
+              highlightSyntax();
+          }, 1500);
+      })
+
     </script>
     @endscript
 </div>

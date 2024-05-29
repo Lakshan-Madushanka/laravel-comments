@@ -14,6 +14,8 @@ use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\ReactionsManager;
 use LakM\Comments\Livewire\UpdateCommentForm;
 use LakM\Comments\Livewire\UpdateCommentReplyForm;
+use LakM\Comments\Livewire\UserList;
+use LakM\Comments\Models\Reply;
 use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider
@@ -51,7 +53,7 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-reply-form', CreateCommentReplyForm::class);
         Livewire::component('comments-reply-list', CommentReplyList::class);
         Livewire::component('comments-reply-update-form', UpdateCommentReplyForm::class);
-
+        Livewire::component('comments-user-list', UserList::class);
     }
 
     protected function setBladeDirectives(): void

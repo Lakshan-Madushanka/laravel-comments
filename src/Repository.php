@@ -186,7 +186,88 @@ class Repository
                 fn(Builder $query) => $query->get()
             );
     }
+
+    public static function usersStartWithName(string $name, bool $guestMode, int $limit): \Illuminate\Support\Collection
+    {
+        if ($guestMode) {
+            return Comment::query()
+                ->where('guest_name', 'like', "{$name}%")
+                ->limit($limit)
+                ->get()
+                ->map(function (Comment $comment) use ($guestMode) {
+                    return new UserData(name: $comment->guest_name, photo: $comment->ownerPhotoUrl(!$guestMode));
+                });
+        }
+
+        return config('comments.user_model')::query()
+            ->where('name', 'like', "{$name}%")
+            ->limit($limit)
+            ->get()
+            ->map(function ($user) {
+                return new UserData(name: $user->name(true), photo: $user->photoUrl(true));
+            });
+    }
+
+    public static function usersCount()
+    {
+        return config('comments.user_model')::query()->count();
+    }
+
+    public static function commentsCountOf(Model $model)
+    {
+        $alias = $model->getMorphClass();
+
+        return Comment::query()->where('commentable_type', $alias)->count();
+    }
+
+    public static function commentsOfModelType(Model $model)
+    {
+        $alias = $model->getMorphClass();
+
+        return Comment::query()
+            ->selectRaw('*, count(1) as comments_count')
+            ->where('commentable_type', $alias)
+            ->groupBy('commentable_type');
+    }
+
+    public static function commentsOf(Model $model)
+    {
+        return $model
+            ->comments()
+            ->withCount([
+                'replies',
+                'reactions',
+                'replyReactions',
+                'replyReactions as reply_reactons_dislikes_count' => function (Builder $query) {
+                    $query->where('type', 'dislike');
+                },
+            ])
+            ->withCount(self::addCount());
+    }
+
+    public static function repliesOf(Comment $comment)
+    {
+        return $comment
+            ->replies()
+            ->withCount([
+                'reactions',
+            ])
+            ->withCount(self::addCount());
+    }
+
     public static function guest(): null|UserData
+    {
+        if (!is_null(self::$guest)) {
+            return self::$guest;
+        }
+
+        $comment = Comment::query()
+            ->whereNotNull('guest_name')
+            ->where('ip_address', request()->ip())
+            ->first();
+
+            return self::$guest = new UserData(name: $comment->guest_name ?? '', email: $comment->guest_email ?? '');
+    }
 }
 
 

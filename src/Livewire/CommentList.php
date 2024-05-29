@@ -49,12 +49,13 @@ class CommentList extends Component
         $this->guestMode = $this->model->guestModeEnabled();
 
         $this->authMode = !$this->model->guestModeEnabled();
-
     }
 
     public function paginate()
     {
         $this->limit += $this->perPage;
+
+        $this->dispatch('more-comments-loaded');
     }
 
     public function delete(Comment $comment): void
@@ -71,14 +72,18 @@ class CommentList extends Component
     }
 
     #[On('comment-created')]
-    public function increaseCommentCount(): void
+    public function increaseCommentCount(bool $approvalRequired): void
     {
+        if ($approvalRequired) {
+            return;
+        }
+
         $this->total += 1;
     }
 
     public function render(): View|Factory|Application
     {
         return view('comments::livewire.comment-list',
-            ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy)]);
+            ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter)]);
     }
 }

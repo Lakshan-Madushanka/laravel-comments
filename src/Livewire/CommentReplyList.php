@@ -67,6 +67,8 @@ class CommentReplyList extends Component
     public function paginate()
     {
         $this->limit += $this->perPage;
+
+        $this->dispatch('more-comments-loaded');
     }
 
     public function delete(Reply $reply): void
@@ -106,7 +108,6 @@ class CommentReplyList extends Component
     {
         $this->show = !$this->show;
     }
-
 
     public function render(): View|Factory|Application
     {

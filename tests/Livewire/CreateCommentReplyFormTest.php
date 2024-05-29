@@ -115,6 +115,8 @@ it('shows email field when guest mode enabled', function ($emailEnabled, $guestM
 ]);
 
 it('can create comment for guest mode', function () {
+    onGuestMode();
+
     $video = \video();
     $comment = createCommentsForGuest($video);
 

@@ -140,11 +140,6 @@
                             showReplyForm = false;
                         }
                      "
-                     @reply-drafted.window="
-                        if ($event.detail.commentId === @js($comment->getKey())) {
-                            showReplyForm = false;
-                        }
-                     "
                      @reply-created.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
                             showReplyForm = false;

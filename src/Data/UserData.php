@@ -7,15 +7,17 @@ use Livewire\Wireable;
 class UserData implements Wireable
 {
     public function __construct(
-     public ?string $name,
-     public ?string $photo,
-    )
-    {}
+        public ?string $name,
+        public ?string $email = null,
+        public ?string $photo = null,
+    ) {
+    }
 
     public function toLivewire()
     {
         return [
             'name' => $this->name,
+            'email' => $this->email,
             'photo' => $this->photo,
         ];
     }
@@ -23,9 +25,10 @@ class UserData implements Wireable
     public static function fromLivewire($value)
     {
         $name = $value['name'];
+        $email = $value['email'];
         $photo = $value['photo'];
 
-        return new static($name, $photo);
+        return new static($name, $email, $photo);
     }
 
 }

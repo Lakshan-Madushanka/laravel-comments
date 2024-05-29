@@ -4,6 +4,8 @@ use LakM\Comments\Livewire\ReactionsManager;
 use function Pest\Livewire\livewire;
 
 it('remove already existing like for auth mode', function () {
+    onGuestMode(false);
+
     $user = actAsAuth();
     $comment = createCommentsForAuthUser($user, video());
     createReaction($comment->getKey(), 'like', $user->id);
@@ -36,6 +38,8 @@ it('can create like for auth mode', function () {
 });
 
 it('can create like when already has disliked for auth mode', function () {
+    onGuestMode(false);
+
     $user = actAsAuth();
     $comment = createCommentsForAuthUser($user, video());
     createReaction($comment->getKey(), 'dislike', $user->id);
@@ -57,6 +61,8 @@ it('can create like when already has disliked for auth mode', function () {
 });
 
 it('remove already existing like for guest mode', function () {
+    onGuestMode();
+
     $comment = createCommentsForGuest(video());
     createReaction($comment->getKey(), 'like');
 
@@ -72,6 +78,8 @@ it('remove already existing like for guest mode', function () {
 });
 
 it('can create like for guest mode', function () {
+    onGuestMode();
+
     $comment = createCommentsForGuest(video());
 
     livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
@@ -87,6 +95,8 @@ it('can create like for guest mode', function () {
 });
 
 it('can create like when already has disliked for guest mode', function () {
+    onGuestMode();
+
     $comment = createCommentsForGuest(video());
     createReaction($comment->getKey(), 'dislike');
 

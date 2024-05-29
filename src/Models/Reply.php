@@ -37,6 +37,11 @@ class Reply extends Model
         return $this->belongsTo(Comment::class);
     }
 
+    public function isEdited(): bool
+    {
+        return $this->created_at->diffInSeconds($this->updated_at) > 0;
+    }
+
     public function scopeApproved(Builder $query): Builder
     {
         return $query->whereApproved(true);
