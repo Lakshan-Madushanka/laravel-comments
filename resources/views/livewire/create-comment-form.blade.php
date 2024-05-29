@@ -1,5 +1,5 @@
 <div>
-    <form class="w-full">
+    <form wire:submit.prevent="create" id="create-comment-form" class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 
         @if ($model->guestModeEnabled())
@@ -38,14 +38,18 @@
             </div>
         @endif
 
-        <div wire:ignore>
+        <div wire:ignore class="relative">
             <div id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none"></div>
             <div id="{{ $toolbarId }}" class="w-full"></div>
+
+            <div @click.outside="$wire.dispatch('user-not-mentioned.' + '{{$editorId}}')" class="absolute bottom-[12rem] left-0 w-full z-10">
+                <livewire:comments-user-list :$guestModeEnabled :$editorId/>
+            </div>
         </div>
         <div class="min-h-6">
             <div x-cloak x-data="successMsg" @comment-created.window="set(true, $event)">
                 <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
-                    @if ($model->approvalRequired())
+                    @if ($approvalRequired)
                         {{ __('Comment created and will be displayed once approved.') }}
                     @else
                         {{ __('Comment created.') }}
@@ -73,7 +77,7 @@
                     </span>
                 </div>
             @else
-                <x-comments::button class="w-full sm:w-auto" wire:click="create">Create</x-comments::button>
+                <x-comments::button class="w-full sm:w-auto">Create</x-comments::button>
             @endif
         @else
             <div>
@@ -96,22 +100,12 @@
 
             toolbarParentElm.append(toolbars.slice(-1));
 
-            if (!$wire.LoginRequired || $wire.limitExceeded) {
-                quill.disable();
-            }
-
-            quill.on('text-change', (delta, oldDelta, source) => {
-                let html = editorElm.innerHTML;
-                if (html === '<p><br></p>') {
-                    $wire.text = '';
-                    return;
-                }
-                $wire.text = html;
-            });
-
             $wire.on('comment-created', function () {
                 quill.setText($wire.text);
             });
+
+            quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
+            Livewire.on('user-selected.' + $wire.editorId, () => window.onMentionedUserSelected(event, quill, editorElm))
 
             Alpine.data('successMsg', () => ({
                 show: false,

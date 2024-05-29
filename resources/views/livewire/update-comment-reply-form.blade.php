@@ -1,7 +1,11 @@
 <div x-data="{ showMsg: false }">
-    <div wire:ignore>
+    <div wire:ignore class="relative">
         <div id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none"></div>
         <div id="{{ $toolbarId }}" class="w-full"></div>
+
+        <div @click.outside="$wire.dispatch('user-not-mentioned.' + '{{$editorId}}')" class="absolute bottom-[12rem] left-0 w-full z-10">
+            <livewire:comments-user-list :$guestModeEnabled :$editorId/>
+        </div>
     </div>
     <div class="min-h-6">
         @if ($errors->has('text'))
@@ -20,9 +24,8 @@
                     showMsg = true;
                 }
             }"
-        class="space-x-4"
     >
-        <x-comments::button wire:click="save" size="sm" dirtyTarget="text" loadingTarget="save">
+        <x-comments::button wire:click="save" size="sm" dirtyTarget="text" loadingTarget="save" class="mr-4">
             Save
         </x-comments::button>
         <x-comments::button wire:click="discard" size="sm" severity="info" type="button" loadingTarget="discard">
@@ -64,5 +67,7 @@
             editorElm.innerHTML = @js($reply->text);
         });
 
+        quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
+        Livewire.on('user-selected.' + $wire.editorId, () => window.onMentionedUserSelected(event, quill, editorElm))
     </script>
 @endscript

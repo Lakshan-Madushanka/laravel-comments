@@ -24,7 +24,9 @@ class UpdateCommentReplyForm extends Component
     #[Locked]
     public bool $approvalRequired;
 
-    public function mount(Reply $reply): void
+    public bool $guestModeEnabled;
+
+    public function mount(Reply $reply, bool $guestModeEnabled): void
     {
         $this->editorId = 'editor'.Str::random();
         $this->toolbarId = 'toolbar'.Str::random();
@@ -60,7 +62,7 @@ class UpdateCommentReplyForm extends Component
 
     public function discard(): void
     {
-        $this->dispatch('reply-update-discarded', replyId: $this->comment->getKey());
+        $this->dispatch('reply-update-discarded', replyId: $this->reply->getKey());
     }
 
     public function setApprovalRequired()

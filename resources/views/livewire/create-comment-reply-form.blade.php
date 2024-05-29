@@ -1,5 +1,5 @@
 <div>
-    <form class="w-full">
+    <form wire:submit.prevent="create" class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 
         @if($guestMode)
@@ -36,9 +36,13 @@
             </div>
         @endif
 
-        <div wire:ignore>
+        <div wire:ignore class="relative">
             <div id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none"></div>
             <div id="{{ $toolbarId }}" class="w-full"></div>
+
+            <div @click.outside="$wire.dispatch('user-not-mentioned.' + '{{$editorId}}')" class="absolute bottom-[12rem] left-0 w-full z-10">
+                <livewire:comments-user-list :guestModeEnabled="$guestMode" :$editorId/>
+            </div>
         </div>
         <div class="min-h-6">
             <div>
@@ -62,9 +66,8 @@
                     </span>
                 </div>
             @else
-                <div class="flex space-x-2">
+                <div class="flex gap-x-2">
                     <x-comments::button wire:click="create" loadingTarget="create" class="w-full sm:w-auto" size="sm">Create</x-comments::button>
-                    <x-comments::button wire:click="draft" loadingTarget="draft" type="button" class="w-full sm:w-auto" size="sm">Draft</x-comments::button>
                     <x-comments::button wire:click="discard" loadingTarget="discard" type="button" class="w-full sm:w-auto" size="sm">Discard</x-comments::button>
 
                 </div>
@@ -110,6 +113,9 @@
             $wire.on('reply-discarded', function () {
                 quill.setText('');
             });
+
+            quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
+            Livewire.on('user-selected.' + $wire.editorId, () => window.onMentionedUserSelected(event, quill, editorElm))
         </script>
     @endscript
 </div>
