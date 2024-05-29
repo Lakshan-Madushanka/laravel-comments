@@ -77,7 +77,7 @@
                     </span>
                 </div>
             @else
-                <x-comments::button class="w-full sm:w-auto">Create</x-comments::button>
+                <x-comments::button loadingTarget="create" class="w-full sm:w-auto">Create</x-comments::button>
             @endif
         @else
             <div>
