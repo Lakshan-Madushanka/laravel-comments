@@ -121,7 +121,6 @@
                                 :key="$reply->getKey()"
                                 :$reply
                                 :guestModeEnabled="$guestMode"
-
                             />
                         @endif
                     </div>

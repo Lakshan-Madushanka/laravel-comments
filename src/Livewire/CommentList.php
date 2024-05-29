@@ -37,6 +37,8 @@ class CommentList extends Component
 
     public string $filter = '';
 
+    public bool $showReplyList = false;
+
     public function mount(Model $model): void
     {
         $this->model = $model;
@@ -79,6 +81,8 @@ class CommentList extends Component
         }
 
         $this->total += 1;
+
+        $this->showReplyList = true;
     }
 
     public function render(): View|Factory|Application

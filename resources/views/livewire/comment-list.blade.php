@@ -197,7 +197,7 @@
 
                     @if(config('comments.reply.enabled'))
                         <div
-                            x-data="{showReplyList: false, replyCount: @js($comment->replies_count)}"
+                            x-data="{showReplyList: @js($showReplyList), replyCount: @js($comment->replies_count)}"
                             @reply-created.window="
                                 if($event.detail.commentId === {{$comment->getKey()}}) {
                                     replyCount += 1;

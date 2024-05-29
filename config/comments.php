@@ -18,7 +18,7 @@ return [
 
     // When guest mode unable no authentication required
     'guest_mode' => [
-        'enabled' => false,
+        'enabled' => true,
         'email_enabled' => true,
     ],
 

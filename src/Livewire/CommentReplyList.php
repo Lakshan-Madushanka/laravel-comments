@@ -64,7 +64,7 @@ class CommentReplyList extends Component
         $this->setApprovalRequired();
     }
 
-    public function paginate()
+    public function paginate(): void
     {
         $this->limit += $this->perPage;
 
@@ -81,7 +81,7 @@ class CommentReplyList extends Component
     }
 
     #[On('reply-created')]
-    public function onReplyCreated($commentId)
+    public function onReplyCreated($commentId): void
     {
         if ($commentId === $this->comment->getKey()) {
             $this->total += 1;
