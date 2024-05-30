@@ -15,6 +15,10 @@
                             }
                         }"
                         @click="
+                            if ($wire.loginRequired) {
+                                $wire.redirectToLogin('window.location.ref')
+                                return;
+                            }
                             if(isLiked === true) {
                                 $dispatch('comment-liked', {id: @js($comment->getKey())});
                             }
@@ -22,14 +26,13 @@
                         class="bg-gray-300 px-1 rounded hover:bg-gray-400"
                     >
                         <div
-                            @click="isLiked = !isLiked; showUsers=false"
+                            @click="if($wire.loginRequired){return}; isLiked = !isLiked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
                             @if ($authMode)
                                 @mouseover="
-                                    if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                    if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                                          showUsers = true;
                                          $wire.lastReactedUser('{{ $key }}')
-                                         console.log($wire.lastReactedUserName);
                                      }
                                      "
                             @endif
@@ -74,6 +77,10 @@
                             }
                         }"
                         @click="
+                             if ($wire.loginRequired) {
+                                $wire.redirectToLogin('window.location.ref')
+                                return;
+                            }
                             if(isDisliked === true) {
                                 $dispatch('comment-disliked', {id: @js($comment->getKey())});
                             }
@@ -82,11 +89,11 @@
 
                     >
                         <div
-                            @click="isDisliked = !isDisliked; showUsers=false"
+                            @click="if($wire.logiinRequired){return}; isDisliked = !isDisliked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
                             @if ($authMode)
                                 @mouseover="
-                                 if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                 if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                                      showUsers = true;
                                      $wire.lastReactedUser('{{ $key }}')
                                  }
@@ -151,9 +158,9 @@
             @endif
         </div>
 
-        <div class="flex max-w-32 md:max-w-64 items-center px-1 gap-x-1 sm:gap-x-2 rounded border border-gray-200 bg-gray-100 overflow-auto scrollbar">
+        <div class="flex max-w-32 md:max-w-64 items-center px-1 gap-x-1 sm:gap-x-2 rounded border border-gray-200 bg-gray-100 overflow-x-scroll scrollbar">
             @foreach ($rReactions as $key => $value)
-                <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
+                <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$loginRequired :showReactedUsers="false"/>
             @endforeach
         </div>
     </div>

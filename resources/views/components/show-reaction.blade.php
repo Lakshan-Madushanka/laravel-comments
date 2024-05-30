@@ -3,7 +3,8 @@
     "reactions",
     "lastReactedUserName",
     "comment",
-    'authMode'
+    'authMode',
+    'loginRequired',
 ])
 
 <div
@@ -17,13 +18,17 @@
     <div
         @if ($authMode)
             @mouseover="
-                 if($wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                 if(@js(!$loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                      showUsers = true;
                      $wire.lastReactedUser('{{ $key }}')
                  }
                  "
         @endif
         @click="
+                if(@js($loginRequired)) {
+                    $wire.redirectToLogin('window.location.ref')
+                    return;
+                }
                 isReacted = !isReacted
                 $wire.handle('{{ $key }}')
                 $wire.lastReactedUser('{{ $key }}')
@@ -43,7 +48,6 @@
         <span class="text-sm">{{ $reactions[$key]["count"] }}</span>
     </div>
 
-
     <x-comments::show-reacted-users
         :$lastReactedUserName
         :$reactions
@@ -51,6 +55,6 @@
         :$comment
         :$authMode
         class="bottom-[-3.8rem] left-[-12rem]"
-        wrapperClass="left-[-2rem] bottom-[-3rem]"
+        wrapperClass="left-[-0.8rem] bottom-[-3rem]"
     />
 </div>

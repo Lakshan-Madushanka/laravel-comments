@@ -6,8 +6,8 @@
     'authMode'
 ])
 
-<div class="relative" x-show="showUsers" x-transition>
-    <div class="{{ $attributes->get('wrapperClass') }} absolute p-1" wire:loading wire:target="lastReactedUser">
+<div class="absolute" x-show="showUsers" x-transition>
+    <div class="{{ $attributes->get('wrapperClass') }} !absolute p-1" wire:loading wire:target="lastReactedUser">
         <x-comments::spin class="!text-black" />
     </div>
 
@@ -17,9 +17,9 @@
             wire:loading.remove
             wire:target="lastReactedUser"
         >
-            <div class="flex w-full flex-col rounded border border-gray-200 p-1 text-sm">
+            <div class="flex w-full flex-col rounded border border-gray-200 bg-white shadow p-1 text-sm">
                 <span>
-                    {{ Str::limit($lastReactedUserName, 5) }}
+                    {{ Str::limit($lastReactedUserName, 10) }}
                     @if ($reactions[$key]['count'] > 1)
                         and {{ $reactions[$key]['count'] - 1 }} other
                     @endif

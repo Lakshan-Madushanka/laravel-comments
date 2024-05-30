@@ -82,6 +82,10 @@ class ReactionsManager extends Component
 
     public function handle(ReactionManager $reactionManager, string $type): void
     {
+        if ($this->loginRequired) {
+            return;
+        }
+
         if(! $reactionManager->handle($type, $this->comment, $this->authMode, $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
             return;
         }
