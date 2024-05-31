@@ -4,5 +4,5 @@ coverage
 .phpunit.result.cache
 /.idea
 node_modules
-public/build/laravel-comments.hot
+public/laravel-comments.hot
 
