@@ -31,11 +31,11 @@
                             @if ($authMode)
                                 @mouseover
                                 ="
-                                                                                                                        if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                                                                                                             showUsers = true;
-                                                                                                                             $wire.lastReactedUser('{{ $key }}')
-                                                                                                                         }
-                                                                                                                         "
+                                                                                                                                                    if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                                                                                                                                         showUsers = true;
+                                                                                                                                                         $wire.lastReactedUser('{{ $key }}')
+                                                                                                                                                     }
+                                                                                                                                                     "
                             @endif
                             class="flex cursor-pointer items-center"
                             title="like"
@@ -94,11 +94,11 @@
                             @if ($authMode)
                                 @mouseover
                                 ="
-                                                                                                                     if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                                                                                                         showUsers = true;
-                                                                                                                         $wire.lastReactedUser('{{ $key }}')
-                                                                                                                     }
-                                                                                                                     "
+                                                                                                                                                 if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                                                                                                                                     showUsers = true;
+                                                                                                                                                     $wire.lastReactedUser('{{ $key }}')
+                                                                                                                                                 }
+                                                                                                                                                 "
                             @endif
                             class="flex cursor-pointer items-center"
                             title="dislike"
