@@ -4,6 +4,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\Video;
+
 use function Pest\Livewire\livewire;
 
 it('can render comment list', function () {

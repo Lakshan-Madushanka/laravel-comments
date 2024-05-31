@@ -10,6 +10,7 @@ use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 use LakM\Comments\Tests\TestCase;
+
 use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
@@ -72,7 +73,7 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
 
     $comments =  Comment::where('guest_email', $email)->get();
 
-    if ($comments->count() === 1){
+    if ($comments->count() === 1) {
         return  $comments[0];
     }
 

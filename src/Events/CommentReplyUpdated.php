@@ -16,5 +16,4 @@ class CommentReplyUpdated
     public function __construct(public Reply $model)
     {
     }
-
 }

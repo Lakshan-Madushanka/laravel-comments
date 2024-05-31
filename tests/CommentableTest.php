@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Tests\Fixtures\Post;
 
-
 it('can create a comment', function () {
     $post = Post::create(['name' => 'post1']);
 
@@ -55,7 +54,7 @@ it('takes priority guest mode of the model over guest mode in config', function 
 })->throws(AuthenticationException::class);
 
 test('commentCanCreate method takes highest priority', function () {
-    $post = new class extends Model {
+    $post = new class () extends Model {
         use Commentable;
 
         public bool $guestMode = false;

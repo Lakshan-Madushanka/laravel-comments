@@ -15,10 +15,10 @@ use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
+
 use function Pest\Livewire\livewire;
 
 it('render comment form', function () {
-
     $video = \video();
     $comment = createCommentsForGuest($video);
 
@@ -96,8 +96,10 @@ it('shows email field when guest mode enabled', function ($emailEnabled, $guestM
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-    $component = livewire(CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => $guestMode])
+    $component = livewire(
+        CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => $guestMode]
+    )
         ->assertOk();
 
     if (!$guestMode || !$emailEnabled) {
@@ -120,14 +122,16 @@ it('can create comment for guest mode', function () {
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-     livewire(CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
-        ->set('guest_name', 'test user')
-        ->set('guest_email', 'testuser@gmail.com')
-        ->set('text', 'test comment')
-        ->call('create')
-        ->assertHasNoErrors()
-        ->assertOk();
+    livewire(
+        CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true]
+    )
+       ->set('guest_name', 'test user')
+       ->set('guest_email', 'testuser@gmail.com')
+       ->set('text', 'test comment')
+       ->call('create')
+       ->assertHasNoErrors()
+       ->assertOk();
 
     expect(Comment::all())
         ->toBeInstanceOf(Collection::class)
@@ -149,8 +153,10 @@ it('can create comment for auth mode', function () {
     $video = \video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false])
+    livewire(
+        CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
+    )
         ->set('text', 'reply')
         ->call('create')
         ->assertHasNoErrors()
@@ -179,8 +185,10 @@ it('dispatch a event after reply is created', function () {
     $video = \video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false])
+    livewire(
+        CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
+    )
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -196,7 +204,6 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
         config(['comments.limit' => 1]);
     } else {
         config(['comments.limit' => null]);
-
     }
 
     $video = \video();
@@ -212,7 +219,8 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
 
     if ($shouldLimit) {
-        expect(fn() => $c
+        expect(
+            fn () => $c
             ->call('create')
             ->assertHasNoErrors()
             ->assertOk()
@@ -242,7 +250,6 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
         config(['comments.reply.limit' => 1]);
     } else {
         config(['comments.reply.limit' => null]);
-
     }
 
     $video = \video();
@@ -256,7 +263,8 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
         ->set('text', 'test comment');
 
     if ($shouldLimit) {
-        expect(fn() => $c
+        expect(
+            fn () => $c
             ->call('create')
             ->assertSeeText(__('Allowed reply limit'))
             ->assertHasNoErrors()

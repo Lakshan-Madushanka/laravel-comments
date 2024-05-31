@@ -23,7 +23,6 @@ class DeleteCommentReplyAction
         }
 
         if ($reply->delete()) {
-
             Event::dispatch(new CommentReplyDeleted($reply));
 
             return true;

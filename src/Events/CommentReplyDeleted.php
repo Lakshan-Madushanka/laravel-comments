@@ -17,5 +17,4 @@ class CommentReplyDeleted
     public function __construct(public Reply $model)
     {
     }
-
 }

@@ -76,8 +76,8 @@ class CreateCommentForm extends Component
 
         $this->honeyPostData = new HoneypotData();
 
-        $this->editorId = 'editor'.Str::random();
-        $this->toolbarId = 'toolbar'.Str::random();
+        $this->editorId = 'editor' . Str::random();
+        $this->toolbarId = 'toolbar' . Str::random();
     }
 
     public function rules(): array
@@ -109,7 +109,6 @@ class CreateCommentForm extends Component
     {
         $data = $this->only('guest_name', 'guest_email', 'text');
         return $this->clearFormData($data);
-
     }
 
     private function clearFormData(array $data): array
@@ -117,7 +116,6 @@ class CreateCommentForm extends Component
         return array_map(function (string $value) {
             return Security::clean($value);
         }, $data);
-
     }
 
     public function setLoginRequired(): void
@@ -127,7 +125,7 @@ class CreateCommentForm extends Component
 
     public function setLimitExceededStatus(): void
     {
-      $this->limitExceeded = $this->model->limitExceeded($this->model->getAuthUser());
+        $this->limitExceeded = $this->model->limitExceeded($this->model->getAuthUser());
     }
 
     #[On('guest-credentials-changed')]
@@ -149,7 +147,7 @@ class CreateCommentForm extends Component
     public function clear(): void
     {
         $this->resetValidation();
-        $this->reset( 'text');
+        $this->reset('text');
     }
 
     public function redirectToLogin(string $redirectUrl): void

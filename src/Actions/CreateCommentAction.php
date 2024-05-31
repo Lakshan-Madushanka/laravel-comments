@@ -50,29 +50,29 @@ class CreateCommentAction
 
     protected static function createForGuest(Model $model, array $commentData, ?UserData $guest)
     {
-       $comment =  DB::transaction(function () use ($model, $commentData, $guest) {
-           $comment =   $model->comments()->create($commentData);
+        $comment =  DB::transaction(function () use ($model, $commentData, $guest) {
+            $comment =   $model->comments()->create($commentData);
 
-           if ($guest->name !== $commentData['guest_name'] || $guest->email !== $commentData['guest_email']) {
-               $user = ['guest_name' => $commentData['guest_name']];
+            if ($guest->name !== $commentData['guest_name'] || $guest->email !== $commentData['guest_email']) {
+                $user = ['guest_name' => $commentData['guest_name']];
 
-               if ($email = $commentData['guest_email']) {
-                   $user['guest_email'] = $email;
-               }
+                if ($email = $commentData['guest_email']) {
+                    $user['guest_email'] = $email;
+                }
 
-               $model->comments()
-                   ->where('ip_address', $commentData['ip_address'])
-                   ->update($user);
+                $model->comments()
+                    ->where('ip_address', $commentData['ip_address'])
+                    ->update($user);
 
-               Repository::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
-           }
+                Repository::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
+            }
 
-           return $comment;
+            return $comment;
         });
 
-         self::dispatchEvent($comment);
+        self::dispatchEvent($comment);
 
-         return $comment;
+        return $comment;
     }
 
     protected static function createForAuthUser(Model $model, array $commentData)

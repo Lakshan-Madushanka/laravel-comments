@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentUpdated;
 use LakM\Comments\Livewire\UpdateCommentForm;
+
 use function Pest\Livewire\livewire;
 
 it('can validate the form', function () {
@@ -82,7 +83,7 @@ it('can update a comment for a guest', function () {
     Event::fake();
 
     $video = video();
-    $comment = createCommentsForGuest($video, 1,  ['ip_address' => request()->ip()]);
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
 
     livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
@@ -104,7 +105,7 @@ it('cannot update a comment for a invalid guest', function () {
     Event::fake();
 
     $video = video();
-    $comment = createCommentsForGuest($video, 1,  ['ip_address' => fake()->ipv4()]);
+    $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
 
     livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')

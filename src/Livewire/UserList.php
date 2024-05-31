@@ -50,7 +50,6 @@ class UserList extends Component
     public function setPerPage(): void
     {
         $this->perPage = 15;
-
     }
 
     public function loadMore(): void
@@ -77,7 +76,7 @@ class UserList extends Component
     #[On('user-not-mentioned.{editorId}')]
     public function close(): void
     {
-        if(! $this->show) {
+        if (!$this->show) {
             $this->skipRender();
         }
 

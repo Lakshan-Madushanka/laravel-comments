@@ -21,5 +21,4 @@ class CommentUpdated
     public function __construct(public Comment $model)
     {
     }
-
 }
