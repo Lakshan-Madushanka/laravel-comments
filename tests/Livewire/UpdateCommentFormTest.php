@@ -121,6 +121,8 @@ it('cannot update a comment for a invalid guest', function () {
 });
 
 it('revoke the approval after updated', function () {
+    onGuestMode(false);
+
     $user = actAsAuth();
     $video = video();
     $comment = createCommentsForAuthUser($user, $video, 1, ['approved' => true]);

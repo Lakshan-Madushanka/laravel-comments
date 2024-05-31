@@ -70,6 +70,8 @@ test('commentCanCreate method takes highest priority', function () {
 });
 
 it('can authorize to edit comment for auth mode', function () {
+    onGuestMode(false);
+
     $user1 = actAsAuth();
 
     $user2 = user();
