@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
-use LakM\Comments\Policies\CommentPolicy;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Reactions\Like;
+use LakM\Comments\Policies\CommentPolicy;
 use LakM\Comments\Policies\ReplyPolicy;
+use LakM\Comments\Reactions\Like;
 
 return [
     /**

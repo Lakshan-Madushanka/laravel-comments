@@ -5,7 +5,6 @@ namespace LakM\Comments\Actions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentReplyUpdated;
-use LakM\Comments\Events\CommentUpdated;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 

@@ -5,16 +5,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentReplyAction;
-use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Events\CommentReplyCreated;
 use LakM\Comments\Exceptions\CommentLimitExceeded;
 use LakM\Comments\Exceptions\ReplyLimitExceeded;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CreateCommentReplyForm;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Tests\Fixtures\Post;
-use LakM\Comments\Tests\Fixtures\User;
-use LakM\Comments\Tests\Fixtures\Video;
 
 use function Pest\Livewire\livewire;
 
