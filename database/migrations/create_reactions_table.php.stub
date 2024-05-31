@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('reactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable();
-            $table->foreignIdFor(Comment::class);
-            $table->string('type');
-            $table->string('ip_address');
+            $table->foreignIdFor(User::class)->nullable()->index();
+            $table->foreignIdFor(Comment::class)->index();
+            $table->string('type')->index();
+            $table->string('ip_address')->index();
             $table->timestamps();
         });
     }
