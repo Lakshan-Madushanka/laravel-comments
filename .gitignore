@@ -1,9 +1,8 @@
-build
 composer.lock
 vendor
 coverage
 .phpunit.result.cache
 /.idea
 node_modules
-public
+public/build/laravel-comments.hot
 
