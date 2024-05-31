@@ -1,1 +1,5 @@
 preset: psr12
+
+enabled:
+  - no_unused_imports
+  - alpha_ordered_imports
