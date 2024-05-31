@@ -28,12 +28,31 @@ return [
 
     'approval_required' => false,
 
-    /**
-     * Database column or model accessor name to
-     * get the url of profile photo.
-     * Leave null if profile photo is not supported
-     */
-    'profile_photo_url_column' => 'profile_photo_url',
+    'profile_photo' => [
+        /**
+         * Database column or model accessor name to
+         * get the url of profile photo.
+         * Leave null if profile photo is not supported
+         */
+        'url_column' => '',
+        'default' => [
+            /**
+             * when profile photo url haven't been set
+             * this url is used.
+             */
+            'url' => '',
+            /**
+             * if this is empty
+             *  gravatar service (https://docs.gravatar.com/api/avatars/images/) is used
+             * to generate an avatar.
+             */
+            'gravatar' => [
+                'default' => 'mp'
+            ]
+        ]
+    ],
+
+    //''
 
     'pagination' => [
         'enabled' => true,

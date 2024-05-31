@@ -24,27 +24,7 @@ trait Commenter
         return $this->hasMany(Reply::class);
     }
 
-    public function photoUrl(bool $authMode): string
-    {
-        $url = "/vendor/lakm/laravel-comments/img/user.png";
-
-        if ($authMode && $col = config('comments.profile_photo_url_column')) {
-            return $this->{$col} ?? $url;
-        }
-
-        return $url;
-    }
-
-    public function name(bool $authMode): string
-    {
-        if ($authMode) {
-            return $this->name;
-        }
-
-        return $this->guest_name;
-    }
-
-    public function isAdminPanelAccesible()
+    public function isAdminPanelAccessible()
     {
         if (!App::isProduction()) {
             return true;

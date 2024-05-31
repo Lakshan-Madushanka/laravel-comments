@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Models\Concerns\HasOwner;
+use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
 class Reply extends Model
 {
     use HasOwner;
+    use HasProfilePhoto;
 
     protected $table = 'comments';
 

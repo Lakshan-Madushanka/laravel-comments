@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Models\Concerns\HasOwner;
+use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
 class Comment extends Model
 {
     use HasOwner;
+    use HasProfilePhoto;
 
     protected $userRelationshipName = 'commenter';
 
