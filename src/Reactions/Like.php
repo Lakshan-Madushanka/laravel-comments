@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Reactions;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Like extends ReactionContract

@@ -7,15 +7,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use LakM\Comments\Livewire\CommentReplyList;
-use LakM\Comments\Livewire\CreateCommentReplyForm;
-use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CommentList;
+use LakM\Comments\Livewire\CommentReplyList;
+use LakM\Comments\Livewire\CreateCommentForm;
+use LakM\Comments\Livewire\CreateCommentReplyForm;
 use LakM\Comments\Livewire\ReactionsManager;
 use LakM\Comments\Livewire\UpdateCommentForm;
 use LakM\Comments\Livewire\UpdateCommentReplyForm;
 use LakM\Comments\Livewire\UserList;
-use LakM\Comments\Models\Reply;
 use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider

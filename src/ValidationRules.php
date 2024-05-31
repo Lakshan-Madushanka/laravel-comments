@@ -5,7 +5,6 @@ namespace LakM\Comments;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
-use LakM\Comments\Models\Comment;
 
 class ValidationRules
 {

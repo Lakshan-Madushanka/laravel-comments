@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentDeleted;
-use LakM\Comments\Events\CommentUpdated;
 use LakM\Comments\Livewire\CommentList;
-use LakM\Comments\Livewire\UpdateCommentForm;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;
