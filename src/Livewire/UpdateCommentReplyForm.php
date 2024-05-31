@@ -28,8 +28,8 @@ class UpdateCommentReplyForm extends Component
 
     public function mount(Reply $reply, bool $guestModeEnabled): void
     {
-        $this->editorId = 'editor'.Str::random();
-        $this->toolbarId = 'toolbar'.Str::random();
+        $this->editorId = 'editor' . Str::random();
+        $this->toolbarId = 'toolbar' . Str::random();
 
         $this->reply = $reply;
         $this->text = $this->reply->text;

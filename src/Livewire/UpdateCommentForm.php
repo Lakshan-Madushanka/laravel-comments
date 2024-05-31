@@ -29,8 +29,8 @@ class UpdateCommentForm extends Component
 
     public function mount(Comment $comment, Model $model): void
     {
-        $this->editorId = 'editor'.Str::random();
-        $this->toolbarId = 'toolbar'.Str::random();
+        $this->editorId = 'editor' . Str::random();
+        $this->toolbarId = 'toolbar' . Str::random();
 
         $this->comment = $comment;
         $this->text = $this->comment->text;

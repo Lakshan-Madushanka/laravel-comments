@@ -2,7 +2,6 @@
 
 namespace LakM\Comments;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -26,7 +25,7 @@ class ValidationRules
 
     private static function createCommentRules(Model $model)
     {
-        if (! isset(self::$createCommentUsing)) {
+        if (!isset(self::$createCommentUsing)) {
             return self::getCreateCommentRules($model);
         }
 
@@ -35,7 +34,7 @@ class ValidationRules
 
     private static function updateCommentRules(Model $model)
     {
-        if (! isset(self::$updateCommentUsing)) {
+        if (!isset(self::$updateCommentUsing)) {
             return self::getUpdateCommentRules();
         }
 
@@ -45,7 +44,7 @@ class ValidationRules
     private static function getCreateCommentRules(Model $model): array
     {
         $commentModel = config('comments.model');
-        $commentTableName = (new $commentModel)->getTable();
+        $commentTableName = (new $commentModel())->getTable();
 
         return [
             'guest_email' => [

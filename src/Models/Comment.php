@@ -37,13 +37,13 @@ class Comment extends Model
 
     public function scopecheckApproval(Builder $query, Model $relatedModel): Builder
     {
-        return $query->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved());
+        return $query->when($relatedModel->approvalRequired(), fn (Builder $query) => $query->approved());
     }
 
     public function scopeWithCommenter(Builder $query, Model $relatedModel): Builder
     {
-        return $query->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
-            ;
+        return $query->when(!$relatedModel->guestModeEnabled(), fn (Builder $query) => $query->with('commenter'))
+        ;
     }
 
     public function isEdited(): bool

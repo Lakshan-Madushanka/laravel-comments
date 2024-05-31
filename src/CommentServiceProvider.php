@@ -20,7 +20,7 @@ use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider
 {
-    const MANIFEST_PATH = __DIR__ . '/../public/build/manifest.json';
+    public const MANIFEST_PATH = __DIR__ . '/../public/build/manifest.json';
 
     public function boot(): void
     {
@@ -78,13 +78,13 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function configPublishing(): void
     {
-       if (!$this->app->runningInConsole()) {
-           return;
-       }
+        if (!$this->app->runningInConsole()) {
+            return;
+        }
 
-       $this->publishes([
-           __DIR__ . '/../config/comments.php' => config_path('comments.php')
-       ], 'comments-config');
+        $this->publishes([
+            __DIR__ . '/../config/comments.php' => config_path('comments.php')
+        ], 'comments-config');
 
         $this->publishes([
             __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comment_table.php'),
@@ -123,9 +123,9 @@ class CommentServiceProvider extends ServiceProvider
 
         $filesystem = $this->app->make(Filesystem::class);
 
-        return Collection::make([$this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR])
-            ->flatMap(fn ($path) => $filesystem->glob($path.'*_'.$migrationFileName))
-            ->push($this->app->databasePath()."/migrations/{$timestamp}_{$migrationFileName}")
+        return Collection::make([$this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR])
+            ->flatMap(fn ($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->push($this->app->databasePath() . "/migrations/{$timestamp}_{$migrationFileName}")
             ->first();
     }
 }

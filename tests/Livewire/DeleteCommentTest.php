@@ -5,6 +5,7 @@ use LakM\Comments\Events\CommentDeleted;
 use LakM\Comments\Events\CommentUpdated;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\UpdateCommentForm;
+
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Livewire\livewire;
@@ -89,4 +90,3 @@ it('cannot delete a comment for a invalid guest', function () {
 
     Event::assertNotDispatched(CommentDeleted::class);
 });
-

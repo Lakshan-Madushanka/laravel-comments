@@ -40,15 +40,17 @@ class Repository
     public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy, string $filter = '')
     {
         $userModelName = config('comments.user_model');
-        $alias = (new $userModelName)->getMorphClass();
+        $alias = (new $userModelName())->getMorphClass();
 
         return $relatedModel
             ->comments()
-            ->when($filter === 'my_comments' && $relatedModel->guestModeEnabled(),
-                fn(Builder $query) => $query->where('ip_address', request()->ip())
+            ->when(
+                $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
+                fn (Builder $query) => $query->where('ip_address', request()->ip())
             )
-            ->when($filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
-                fn(Builder $query) => $query
+            ->when(
+                $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
+                fn (Builder $query) => $query
                     ->where('commenter_type', $alias)
                     ->where('commenter_type', $relatedModel->getAuthUser()->getAuthIdentifier())
             )
@@ -59,7 +61,7 @@ class Repository
                 'replies' => function (Builder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn(Builder $query) => $query->approved()
+                        fn (Builder $query) => $query->approved()
                     );
                 },
             ])
@@ -85,8 +87,8 @@ class Repository
             })
             ->when(
                 $relatedModel->paginationEnabled(),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -108,7 +110,6 @@ class Repository
             $count[$key] = function (Builder $query) use ($reaction) {
                 return $query->whereType($reaction);
             };
-
         }
         return $count;
     }
@@ -177,13 +178,13 @@ class Repository
             ->replies()
             ->with(['reactions'])
             ->withCount(self::addCount())
-            ->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'))
+            ->when(!$relatedModel->guestModeEnabled(), fn (Builder $query) => $query->with('commenter'))
             ->latest()
-            ->when($approvalRequired, fn(Builder $query) => $query->approved())
+            ->when($approvalRequired, fn (Builder $query) => $query->approved())
             ->when(
                 config('comments.reply.pagination.enabled'),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -266,8 +267,6 @@ class Repository
             ->where('ip_address', request()->ip())
             ->first();
 
-            return self::$guest = new UserData(name: $comment->guest_name ?? '', email: $comment->guest_email ?? '');
+        return self::$guest = new UserData(name: $comment->guest_name ?? '', email: $comment->guest_email ?? '');
     }
 }
-
-

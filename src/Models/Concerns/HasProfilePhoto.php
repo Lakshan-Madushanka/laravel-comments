@@ -9,7 +9,7 @@ trait HasProfilePhoto
         $col = config('comments.profile_photo.url_column');
 
         if ($authMode && $col) {
-            if(isset($this->userRelationshipName)) {
+            if (isset($this->userRelationshipName)) {
                 if ($url = $this->{$this->userRelationshipName}->{$col}) {
                     return $url;
                 }
@@ -24,7 +24,7 @@ trait HasProfilePhoto
             return $url;
         }
 
-        $hash = hash( "sha256", strtolower(trim($this->guest_email)));
+        $hash = hash("sha256", strtolower(trim($this->guest_email)));
         $d = config('comments.profile_photo.default.gravatar.default');
 
         return "https://gravatar.com/avatar/{$hash}?d={$d}";

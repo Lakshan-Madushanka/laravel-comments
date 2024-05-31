@@ -30,7 +30,7 @@ trait Commenter
             return true;
         }
 
-        if(method_exists($this, 'canAccessAdminPanel')) {
+        if (method_exists($this, 'canAccessAdminPanel')) {
             return $this->canAccessAdminPanel();
         }
 

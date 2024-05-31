@@ -86,7 +86,7 @@ class ReactionsManager extends Component
             return;
         }
 
-        if(! $reactionManager->handle($type, $this->comment, $this->authMode, $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
+        if (!$reactionManager->handle($type, $this->comment, $this->authMode, $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
             return;
         }
 
@@ -151,7 +151,7 @@ class ReactionsManager extends Component
             return false;
         }
 
-        return $reactions->some(function (Reaction $reaction) use($key) {
+        return $reactions->some(function (Reaction $reaction) use ($key) {
             return $reaction->user_id === Auth::id() && $reaction->type === $key;
         });
     }
@@ -163,7 +163,7 @@ class ReactionsManager extends Component
             $this->reactions['dislike']['status'] = false;
         }
 
-        if (! $this->reactions['like']['reacted']) {
+        if (!$this->reactions['like']['reacted']) {
             $this->reactions['like']['count'] += 1;
 
             $this->reactions['like']['reacted'] = true;
@@ -182,7 +182,7 @@ class ReactionsManager extends Component
             $this->reactions['like']['reacted'] = false;
         }
 
-        if (! $this->reactions['dislike']['reacted']) {
+        if (!$this->reactions['dislike']['reacted']) {
             $this->reactions['dislike']['count'] += 1;
 
             $this->reactions['dislike']['reacted'] = true;
@@ -216,7 +216,7 @@ class ReactionsManager extends Component
         $this->selectedReactionType = $type;
         $limit = config('comments.pagination.per_page');
 
-        if ( Arr::get($this->reactedUsers, $type)) {
+        if (Arr::get($this->reactedUsers, $type)) {
             $limit += $this->reactedUsers[$type]['limit'];
         }
 

@@ -12,6 +12,6 @@ abstract class ReactionContract
         protected bool $authMode,
         protected mixed $authId,
         protected ?string $type = null
-    )
-    {}
+    ) {
+    }
 }

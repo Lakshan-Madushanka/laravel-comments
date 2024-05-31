@@ -21,5 +21,4 @@ class CommentReplyCreated
     public function __construct(public Comment $model, public Reply $reply)
     {
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 
 use LakM\Comments\Livewire\ReactionsManager;
+
 use function Pest\Livewire\livewire;
 
 it('remove already existing like for auth mode', function () {
@@ -115,4 +116,3 @@ it('can create like when already has disliked for guest mode', function () {
         ->first()->type->toBe('like')
         ->first()->user_id->toBe(null);
 });
-

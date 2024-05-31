@@ -29,7 +29,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-
     }
 
     public function setUpDatabase($app)
@@ -70,7 +69,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         Schema::table('comments', function (Blueprint $table) {
             $table->foreign('reply_id')->references('id')->on('comments')->cascadeOnDelete();
-
         });
 
         $schema->create('reactions', function (Blueprint $table) {

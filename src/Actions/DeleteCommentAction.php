@@ -22,7 +22,6 @@ class DeleteCommentAction
         }
 
         if ($comment->delete()) {
-
             Event::dispatch(new CommentDeleted($comment));
 
             return true;

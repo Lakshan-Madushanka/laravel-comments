@@ -17,7 +17,7 @@ class UpdateCommentReplyAction
      */
     public static $using;
 
-    public static function execute(Reply $reply, array $data,): bool
+    public static function execute(Reply $reply, array $data): bool
     {
         if (isset(static::$using)) {
             return static::updateUsingCustom($reply);

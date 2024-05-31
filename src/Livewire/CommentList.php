@@ -62,7 +62,7 @@ class CommentList extends Component
 
     public function delete(Comment $comment): void
     {
-        if($this->model->canDeleteComment($comment) && DeleteCommentAction::execute($comment)) {
+        if ($this->model->canDeleteComment($comment) && DeleteCommentAction::execute($comment)) {
             $this->dispatch('comment-deleted', commentId: $comment->getKey());
             $this->total -= 1;
         }
@@ -87,7 +87,9 @@ class CommentList extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.comment-list',
-            ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter)]);
+        return view(
+            'comments::livewire.comment-list',
+            ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter)]
+        );
     }
 }

@@ -20,5 +20,4 @@ class CommentCreated
     public function __construct(public Comment $model)
     {
     }
-
 }

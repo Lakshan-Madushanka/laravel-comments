@@ -15,7 +15,7 @@ class UpdateCommentAction
      */
     public static $using;
 
-    public static function execute(Comment $comment, array $data,): bool
+    public static function execute(Comment $comment, array $data): bool
     {
         if (isset(static::$using)) {
             return static::updateUsingCustom($comment);

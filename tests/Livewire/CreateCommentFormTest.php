@@ -10,6 +10,7 @@ use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
+
 use function Pest\Livewire\livewire;
 
 it('render comment form', function () {
@@ -259,7 +260,6 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
         config(['comments.limit' => 1]);
     } else {
         config(['comments.limit' => null]);
-
     }
 
     $video = \video();
@@ -275,7 +275,8 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
 
     if ($shouldLimit) {
-        expect(fn() => $c
+        expect(
+            fn () => $c
             ->call('create')
             ->assertHasNoErrors()
             ->assertOk()
@@ -305,7 +306,6 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
         config(['comments.limit' => 1]);
     } else {
         config(['comments.limit' => null]);
-
     }
 
     $video = \video();
@@ -317,7 +317,8 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
         ->set('text', 'test comment');
 
     if ($shouldLimit) {
-        expect(fn() => $c
+        expect(
+            fn () => $c
             ->call('create')
             ->assertHasNoErrors()
             ->assertOk()

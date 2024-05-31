@@ -49,5 +49,4 @@ class Reaction extends Model
     {
         return $this->belongsTo(config('comments.user_model'));
     }
-
 }

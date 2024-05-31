@@ -10,7 +10,6 @@ class Like extends ReactionContract
     public function handle(): bool
     {
         return DB::transaction(function () {
-
             $this->removeDislike();
 
             if ($this->removeExistingLike()) {

@@ -86,8 +86,8 @@ class CreateCommentReplyForm extends Component
 
         $this->honeyPostData = new HoneypotData();
 
-        $this->editorId = 'editor'.Str::random();
-        $this->toolbarId = 'toolbar'.Str::random();
+        $this->editorId = 'editor' . Str::random();
+        $this->toolbarId = 'toolbar' . Str::random();
     }
 
     public function rules(): array
@@ -104,7 +104,7 @@ class CreateCommentReplyForm extends Component
 
         $this->validate();
 
-        if (! $this->guestMode) {
+        if (!$this->guestMode) {
             Gate::authorize('create-reply');
         }
 
@@ -129,7 +129,6 @@ class CreateCommentReplyForm extends Component
     {
         $data = $this->only('guest_name', 'guest_email', 'text');
         return $this->clearFormData($data);
-
     }
 
     private function clearFormData(array $data): array
@@ -137,7 +136,6 @@ class CreateCommentReplyForm extends Component
         return array_map(function (string $value) {
             return Security::clean($value);
         }, $data);
-
     }
 
     public function discard(): void
@@ -160,9 +158,10 @@ class CreateCommentReplyForm extends Component
         }
 
         $this->limitExceeded = Repository::userReplyCountForComment(
-                $this->comment, $this->guestMode, $this->relatedModel->getAuthUser()
-            ) >= $limit;
-
+            $this->comment,
+            $this->guestMode,
+            $this->relatedModel->getAuthUser()
+        ) >= $limit;
     }
 
     public function setApprovalRequired(): void
