@@ -1,0 +1,2 @@
+resources/views/livewire/reactions-manager.blade.php
+resources/views/components/show-reaction.blade.php

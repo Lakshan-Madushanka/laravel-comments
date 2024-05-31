@@ -17,13 +17,12 @@
 >
     <div
         @if ($authMode)
-            @mouseover
-            ="
-                                                 if(@js(! $loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                                     showUsers = true;
-                                                     $wire.lastReactedUser('{{ $key }}')
-                                                 }
-                                                 "
+            @mouseover="
+                 if(@js(! $loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                     showUsers = true;
+                     $wire.lastReactedUser('{{ $key }}')
+                 }
+                 "
         @endif
         @click="
                 if(@js($loginRequired)) {
