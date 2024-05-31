@@ -137,7 +137,7 @@ trait Commentable
             return $this->commentCanEdit($comment);
         }
 
-        return Gate::allows('update-comment', $comment);
+        return Gate::allows('update-comment',  [$comment,  $this->guestModeEnabled()]);
     }
 
     public function canDeleteComment(Comment $comment): bool
@@ -146,6 +146,6 @@ trait Commentable
             return $this->commentCanEdit($comment);
         }
 
-        return Gate::allows('delete-comment', $comment);
+        return Gate::allows('delete-comment', [$comment, $this->guestModeEnabled()]);
     }
 }

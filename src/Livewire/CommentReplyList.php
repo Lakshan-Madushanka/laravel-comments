@@ -90,12 +90,12 @@ class CommentReplyList extends Component
 
     public function canUpdateReply(Reply $reply): bool
     {
-        return Gate::allows('update-reply', $reply);
+        return Gate::allows('update-reply', [$reply, $this->guestMode]);
     }
 
     public function canDeleteReply(Reply $reply): bool
     {
-        return Gate::allows('delete-reply', $reply);
+        return Gate::allows('delete-reply', [$reply, $this->guestMode]);
     }
 
     public function setApprovalRequired()

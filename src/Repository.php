@@ -255,7 +255,7 @@ class Repository
             ->withCount(self::addCount());
     }
 
-    public static function guest(): null|UserData
+    public static function guest(): UserData
     {
         if (!is_null(self::$guest)) {
             return self::$guest;
