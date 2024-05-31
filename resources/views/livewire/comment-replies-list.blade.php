@@ -1,10 +1,8 @@
-@php use Illuminate\Support\Str; @endphp
+@php
+    use Illuminate\Support\Str;
+@endphp
 
-<div
-    x-data="{total: $wire.entangle('total')}"
-    @reply-deleted.window="$wire.$refresh"
-    class="space-y-6"
->
+<div x-data="{ total: $wire.entangle('total') }" @reply-deleted.window="$wire.$refresh" class="space-y-6">
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
             <div
@@ -33,51 +31,59 @@
                 >
                     <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
                         <div
-                            class="mb-2 flex items-center justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1">
+                            class="mb-2 flex items-center justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1"
+                        >
                             <div class="space-x-1">
                                 <span class="font-bold sm:hidden">
                                     {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 10) }}
                                 </span>
 
-                                <span class="font-bold hidden sm:inline">
+                                <span class="hidden font-bold sm:inline">
                                     {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 25) }}
                                 </span>
 
                                 <span class="inline-block h-2 w-[1px] bg-black"></span>
 
-                                @if(config('comments.date_format') === 'diff')
-                                    <span class="text-xs">{{$reply->created_at->diffForHumans()}}</span>
+                                @if (config('comments.date_format') === 'diff')
+                                    <span class="text-xs">{{ $reply->created_at->diffForHumans() }}</span>
                                 @else
                                     <span
-                                            x-text="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')"
-                                            class="text-xs"
-                                    >
-                                    </span>
+                                        x-text="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')"
+                                        class="text-xs"
+                                    ></span>
                                 @endif
 
-                                @if($reply->isEdited())
+                                @if ($reply->isEdited())
                                     <span class="inline-block h-2 w-[1px] bg-black"></span>
                                     <span class="text-xs">Edited</span>
                                 @endif
                             </div>
 
-                            <div class="flex justify-center items-center space-x-4">
+                            <div class="flex items-center justify-center space-x-4">
                                 @if ($this->canUpdateReply($reply))
                                     <div @click="showUpdateForm = !showUpdateForm">
                                         <x-comments::action class="text-sm">Edit</x-comments::action>
                                     </div>
                                 @endif
+
                                 @if ($this->canDeleteReply($reply))
                                     <div
-                                            wire:click="delete({{$reply}})"
-                                            wire:confirm="Are you sure you want to delete this reply?"
-                                            class="flex items-center"
+                                        wire:click="delete({{ $reply }})"
+                                        wire:confirm="Are you sure you want to delete this reply?"
+                                        class="flex items-center"
                                     >
-                                        <x-comments::action wire:loading.remove wire:target="delete({{$reply}})"
-                                                            class="text-sm">Delete
+                                        <x-comments::action
+                                            wire:loading.remove
+                                            wire:target="delete({{$reply}})"
+                                            class="text-sm"
+                                        >
+                                            Delete
                                         </x-comments::action>
-                                        <x-comments::spin wire:loading wire:target="delete({{$reply}})"
-                                                          class="!text-blue-500"/>
+                                        <x-comments::spin
+                                            wire:loading
+                                            wire:target="delete({{$reply}})"
+                                            class="!text-blue-500"
+                                        />
                                     </div>
                                 @endif
                             </div>
@@ -142,29 +148,28 @@
     @endif
 
     @script
-    <script>
-        setTimeout(() => {
-            highlightSyntax();
-        }, 1500);
-
-        $wire.on("reply-updated", () => {
+        <script>
             setTimeout(() => {
                 highlightSyntax();
             }, 1500);
-        });
 
-        Livewire.on("reply-created", () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        })
+            $wire.on('reply-updated', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
 
-        $wire.on("more-comments-loaded", () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        })
+            Livewire.on('reply-created', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
 
-    </script>
+            $wire.on('more-comments-loaded', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
+        </script>
     @endscript
 </div>

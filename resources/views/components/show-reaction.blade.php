@@ -3,8 +3,8 @@
     "reactions",
     "lastReactedUserName",
     "comment",
-    'authMode',
-    'loginRequired',
+    "authMode",
+    "loginRequired",
 ])
 
 <div
@@ -13,16 +13,17 @@
         showUsers: false,
     }"
     @mouseleave="showUsers=false"
-    class="flex flex-row items-center justify-center bg-gray-300 px-1 py-[2px] rounded-md hover:bg-gray-400"
+    class="flex flex-row items-center justify-center rounded-md bg-gray-300 px-1 py-[2px] hover:bg-gray-400"
 >
     <div
         @if ($authMode)
-            @mouseover="
-                 if(@js(!$loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                     showUsers = true;
-                     $wire.lastReactedUser('{{ $key }}')
-                 }
-                 "
+            @mouseover
+            ="
+                                         if(@js(! $loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                             showUsers = true;
+                                             $wire.lastReactedUser('{{ $key }}')
+                                         }
+                                         "
         @endif
         @click="
                 if(@js($loginRequired)) {
@@ -34,10 +35,10 @@
                 $wire.lastReactedUser('{{ $key }}')
                 showUsers=false
                 "
-        class="cursor-pointer flex items-center gap-x-1"
+        class="flex cursor-pointer items-center gap-x-1"
         wire:loading.class="cursor-not-allowed"
         wire:target="lastReactedUser"
-        title="{{$key}}"
+        title="{{ $key }}"
     >
         @if ($reactions[$key]["reacted"])
             <x-dynamic-component component="comments::icons.{{$key}}" :fill="$this->fillColor($key)" />

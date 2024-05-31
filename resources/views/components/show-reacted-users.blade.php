@@ -3,7 +3,7 @@
     'reactions',
     'key',
     'comment',
-    'authMode'
+    'authMode',
 ])
 
 <div class="absolute" x-show="showUsers" x-transition>
@@ -17,7 +17,7 @@
             wire:loading.remove
             wire:target="lastReactedUser"
         >
-            <div class="flex w-full flex-col rounded border border-gray-200 bg-white shadow p-1 text-sm">
+            <div class="flex w-full flex-col rounded border border-gray-200 bg-white p-1 text-sm shadow">
                 <span>
                     {{ Str::limit($lastReactedUserName, 10) }}
                     @if ($reactions[$key]['count'] > 1)
@@ -30,7 +30,7 @@
                     <span
                         wire:click="loadReactedUsers('{{ $key }}')"
                         @click="$dispatch('show-user-list', {id: '{{ $comment->getKey() }}', type: '{{ $key }}'})"
-                        class="w-full pb-1 cursor-pointer text-center"
+                        class="w-full cursor-pointer pb-1 text-center"
                     >
                         <x-comments::link type="popup">show all</x-comments::link>
                     </span>

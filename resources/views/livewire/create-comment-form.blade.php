@@ -42,8 +42,11 @@
             <div id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none"></div>
             <div id="{{ $toolbarId }}" class="w-full"></div>
 
-            <div @click.outside="$wire.dispatch('user-not-mentioned.' + '{{$editorId}}')" class="absolute bottom-[12rem] left-0 w-full z-10">
-                <livewire:comments-user-list :$guestModeEnabled :$editorId/>
+            <div
+                @click.outside="$wire.dispatch('user-not-mentioned.' + '{{ $editorId }}')"
+                class="absolute bottom-[12rem] left-0 z-10 w-full"
+            >
+                <livewire:comments-user-list :$guestModeEnabled :$editorId />
             </div>
         </div>
         <div class="min-h-6">
@@ -105,7 +108,9 @@
             });
 
             quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
-            Livewire.on('user-selected.' + $wire.editorId, () => window.onMentionedUserSelected(event, quill, editorElm))
+            Livewire.on('user-selected.' + $wire.editorId, () =>
+                window.onMentionedUserSelected(event, quill, editorElm)
+            );
 
             Alpine.data('successMsg', () => ({
                 show: false,

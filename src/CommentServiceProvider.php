@@ -93,7 +93,6 @@ class CommentServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/lakm/laravel-comments')
         ], 'comments-assets');
-
     }
 
     protected function getStyleUrl(): string

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .ql-toolbar {
-    @apply rounded rounded-b-none
+    @apply rounded rounded-b-none;
 }
 
 .scrollbar::-webkit-scrollbar {

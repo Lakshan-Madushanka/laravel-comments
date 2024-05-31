@@ -30,5 +30,4 @@ class UserData implements Wireable
 
         return new static($name, $email, $photo);
     }
-
 }

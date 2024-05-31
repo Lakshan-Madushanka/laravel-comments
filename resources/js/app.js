@@ -28,43 +28,48 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-const highlightSyntax = (selector = "div.ql-code-block") => {
-    document.querySelectorAll(selector).forEach((el) => {
-        el.removeAttribute("data-highlighted");
-        window.hljs.highlightElement(el);
-    }, { once: true });
+const highlightSyntax = (selector = 'div.ql-code-block') => {
+    document.querySelectorAll(selector).forEach(
+        (el) => {
+            el.removeAttribute('data-highlighted');
+            window.hljs.highlightElement(el);
+        },
+        { once: true }
+    );
 };
 
 window.highlightSyntax = highlightSyntax;
 
-const debounce = function (func, timeout = 500){
+const debounce = function (func, timeout = 500) {
     let timer;
     return (...args) => {
         clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, timeout);
     };
-}
+};
 
 window.debounce = debounce;
 
-const showUserList = ()  => {
+const showUserList = () => {
     let userMentioned = false;
 
     return (content, $wire) => {
         let subContent = content.split(' ').slice(-1);
 
-        if(subContent.toString()[0] === '@') {
+        if (subContent.toString()[0] === '@') {
             $wire.dispatch('user-mentioned.' + $wire.editorId, {
-                'id': $wire.editorId,
-                'content': subContent.toString().slice(1)
+                id: $wire.editorId,
+                content: subContent.toString().slice(1),
             });
             userMentioned = true;
-        } else if (userMentioned){
+        } else if (userMentioned) {
             $wire.dispatch('user-not-mentioned.' + $wire.editorId);
-            userMentioned = false
+            userMentioned = false;
         }
-    }
-}
+    };
+};
 
 let showListFunc = showUserList();
 
@@ -78,22 +83,22 @@ const handleEditorTextChange = (editorElement, $wire) => {
     $wire.text = html;
 
     debounce(() => showListFunc(editorElement.textContent, $wire))();
-}
+};
 
 window.handleEditorTextChange = handleEditorTextChange;
 
 const onMentionedUserSelected = (e, quill, editorElm) => {
-    const span = document.createElement("strong");
+    const span = document.createElement('strong');
     const textnode = document.createTextNode(e.detail.name + ' ');
-    const lastChild =  editorElm.lastChild;
-    span.appendChild(textnode)
+    const lastChild = editorElm.lastChild;
+    span.appendChild(textnode);
 
     lastChild.append(span);
 
-    quill.update()
+    quill.update();
 
     quill.setSelection(quill.getLength(), 0);
     quill.format('bold', false);
-}
+};
 
-window.onMentionedUserSelected = onMentionedUserSelected
+window.onMentionedUserSelected = onMentionedUserSelected;

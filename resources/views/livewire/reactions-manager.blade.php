@@ -1,6 +1,6 @@
-<div x-data="{showReplyForm: false}">
-    <div class="flex gap-x-4 w-full justify-between">
-        <div class="flex items-center gap-x-1 sm:gap-x-2 rounded border border-gray-200 bg-gray-100 p-1">
+<div x-data="{ showReplyForm: false }">
+    <div class="flex w-full justify-between gap-x-4">
+        <div class="flex items-center gap-x-1 rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2">
             @foreach ($lReactions as $key => $value)
                 @if ($key === "like")
                     <div
@@ -23,24 +23,25 @@
                                 $dispatch('comment-liked', {id: @js($comment->getKey())});
                             }
                         "
-                        class="bg-gray-300 px-1 rounded hover:bg-gray-400"
+                        class="rounded bg-gray-300 px-1 hover:bg-gray-400"
                     >
                         <div
                             @click="if($wire.loginRequired){return}; isLiked = !isLiked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
                             @if ($authMode)
-                                @mouseover="
-                                    if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                         showUsers = true;
-                                         $wire.lastReactedUser('{{ $key }}')
-                                     }
-                                     "
+                                @mouseover
+                                ="
+                                                                                                                        if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                                                                                                             showUsers = true;
+                                                                                                                             $wire.lastReactedUser('{{ $key }}')
+                                                                                                                         }
+                                                                                                                         "
                             @endif
                             class="flex cursor-pointer items-center"
                             title="like"
                         >
                             <div x-show="!isLiked">
-                                <x-dynamic-component component="comments::icons.{{$key}}"/>
+                                <x-dynamic-component component="comments::icons.{{$key}}" />
                             </div>
                             <div x-show="isLiked">
                                 <x-dynamic-component
@@ -85,25 +86,25 @@
                                 $dispatch('comment-disliked', {id: @js($comment->getKey())});
                             }
                         "
-                        class="cursor-pointer bg-gray-300 px-1 rounded hover:bg-gray-400"
-
+                        class="cursor-pointer rounded bg-gray-300 px-1 hover:bg-gray-400"
                     >
                         <div
                             @click="if($wire.logiinRequired){return}; isDisliked = !isDisliked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
                             @if ($authMode)
-                                @mouseover="
-                                 if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
-                                     showUsers = true;
-                                     $wire.lastReactedUser('{{ $key }}')
-                                 }
-                                 "
+                                @mouseover
+                                ="
+                                                                                                                     if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                                                                                                                         showUsers = true;
+                                                                                                                         $wire.lastReactedUser('{{ $key }}')
+                                                                                                                     }
+                                                                                                                     "
                             @endif
                             class="flex cursor-pointer items-center"
                             title="dislike"
                         >
                             <div x-show="!isDisliked">
-                                <x-dynamic-component component="comments::icons.{{$key}}"/>
+                                <x-dynamic-component component="comments::icons.{{$key}}" />
                             </div>
 
                             <div x-show="isDisliked">
@@ -129,12 +130,13 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode/>
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode />
                 @endif
             @endforeach
 
-            @if($enableReply)
-                <div @click="
+            @if ($enableReply)
+                <div
+                    @click="
                     if ($wire.loginRequired) {
                         $wire.redirectToLogin('window.location.ref')
                         return;
@@ -142,43 +144,56 @@
                     $dispatch('show-create-reply-form.' + @js($comment->getKey()));
                     showReplyForm = !showReplyForm
                     "
-                     @reply-discarded.window="
+                    @reply-discarded.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
                             showReplyForm = false;
                         }
                      "
-                     @reply-created.window="
+                    @reply-created.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
                             showReplyForm = false;
                         }
                      "
                 >
-                    <x-comments::link class="text-sm align-text-bottom" type="popup">reply</x-comments::link>
+                    <x-comments::link class="align-text-bottom text-sm" type="popup">reply</x-comments::link>
                 </div>
             @endif
         </div>
 
-        <div class="flex max-w-32 md:max-w-64 items-center px-1 gap-x-1 sm:gap-x-2 rounded border border-gray-200 bg-gray-100 overflow-x-scroll scrollbar">
+        <div
+            class="scrollbar flex max-w-32 items-center gap-x-1 overflow-x-scroll rounded border border-gray-200 bg-gray-100 px-1 sm:gap-x-2 md:max-w-64"
+        >
             @foreach ($rReactions as $key => $value)
-                <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$loginRequired :showReactedUsers="false"/>
+                <x-comments::show-reaction
+                    :$comment
+                    :$lastReactedUserName
+                    :$reactions
+                    :$key
+                    :$authMode
+                    :$loginRequired
+                    :showReactedUsers="false"
+                />
             @endforeach
         </div>
     </div>
 
-    @if($enableReply)
+    @if ($enableReply)
         <div x-show="showReplyForm" x-transition class="my-4 ml-8">
-            <livewire:comments-reply-form :$comment :$guestMode :$relatedModel/>
+            <livewire:comments-reply-form :$comment :$guestMode :$relatedModel />
         </div>
     @endif
 
-    <div x-data="{approvalRequired: false}">
-        <div x-cloak x-data="message(@js($comment->getKey()))"
-             @reply-created.window="show($event.detail.commentId); approvalRequired=$event.detail.approvalRequired">
-            <div x-show="showMsg" x-transition class="align-top mt-2 text-xs text-green-500 sm:text-sm">
-                    <span x-show="approvalRequired">
-                        {{ __('Reply created and will be displayed once approved') }}
-                    </span>
-                <span x-show="!approvalRequired">{{ __('Reply created') }}</span>
+    <div x-data="{ approvalRequired: false }">
+        <div
+            x-cloak
+            x-data="message(@js($comment->getKey()))"
+            @reply-created.window="show($event.detail.commentId); approvalRequired=$event.detail.approvalRequired"
+        >
+            <div x-show="showMsg" x-transition class="mt-2 align-top text-xs text-green-500 sm:text-sm">
+                <span x-show="approvalRequired">
+                    {{ __("Reply created and will be displayed once approved") }}
+                </span>
+                <span x-show="!approvalRequired">{{ __("Reply created") }}</span>
             </div>
         </div>
     </div>
@@ -203,8 +218,9 @@
                         <div
                             @if ($reactions[$key]["count"] > 0)
                                 wire:click="loadReactedUsers('{{ $key }}')"
-                            @click="type = '{{ $key }}'"
-                            class="cursor-pointer p-4 relative"
+                                @click
+                                ="type = '{{ $key }}'"
+                                class="cursor-pointer p-4 relative"
                             @endif
                             wire:loading.class="cursor-not-allowed"
                             target="loadReactedUsers"
@@ -217,7 +233,7 @@
                                     :fill="$this->fillColor($key)"
                                 />
                             @else
-                                <x-dynamic-component component="comments::icons.{{$key}}"/>
+                                <x-dynamic-component component="comments::icons.{{$key}}" />
                             @endif
 
                             <span class="absolute left-8 top-1 rounded bg-gray-300 px-1 text-xs">
