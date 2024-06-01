@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('reactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable()->index();
-            $table->foreignIdFor(Comment::class)->index();
+            $table->foreignIdFor(config('comments.user_model'))->nullable()->index();
+            $table->foreignIdFor(config('comments.model'))->index();
             $table->string('type')->index();
             $table->string('ip_address')->index();
             $table->timestamps();

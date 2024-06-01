@@ -86,7 +86,8 @@ class CommentServiceProvider extends ServiceProvider
         ], 'comments-config');
 
         $this->publishes([
-            __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comment_table.php'),
+            __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comments_table.php'),
+            __DIR__ . '/../database/migrations/create_reactions_table.php.stub' => $this->getMigrationFileName('create_reactions_table.php'),
         ], 'comments-migrations');
 
         $this->publishes([
