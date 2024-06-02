@@ -4,9 +4,12 @@ namespace LakM\Comments\Policies;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Policies\Concerns\CanManipulate;
 
 class CommentPolicy
 {
+    use CanManipulate;
+
     public function create(): bool
     {
         return true;
@@ -20,15 +23,5 @@ class CommentPolicy
     public function delete(?Authenticatable $user, Comment $comment, bool $isGuestMode): bool
     {
         return $this->canManipulate($user, $comment, $isGuestMode);
-    }
-
-    private function canManipulate(?Authenticatable $user, Comment $comment, bool $isGuestMode): bool
-    {
-        if (!$isGuestMode) {
-            return $user->getMorphClass() === $comment->commenter_type &&
-                $user->getKey() === $comment->commenter->id;
-        }
-
-        return $comment->ip_address === request()->ip();
     }
 }
