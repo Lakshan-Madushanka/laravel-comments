@@ -69,8 +69,6 @@ class ReactionsManager extends Component
 
         $this->setEnableReply($enableReply);
 
-        $this->setReactions($comment);
-
         $this->authenticated = $this->relatedModel->authCheck();
 
         $this->guestMode = $this->relatedModel->guestModeEnabled();
@@ -78,6 +76,8 @@ class ReactionsManager extends Component
         $this->authMode = !$this->guestMode;
 
         $this->setLoginRequired();
+
+        $this->setReactions($comment);
     }
 
     public function handle(ReactionManager $reactionManager, string $type): void
@@ -152,6 +152,10 @@ class ReactionsManager extends Component
         }
 
         return $reactions->some(function (Reaction $reaction) use ($key) {
+            if ($this->guestMode) {
+                return $reaction->ip_address === request()->ip();
+            }
+
             return $reaction->user_id === Auth::id() && $reaction->type === $key;
         });
     }
