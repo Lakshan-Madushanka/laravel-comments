@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use LakM\Comments\Models\Concerns\HasOwner;
+use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
 class Reaction extends Model
 {
     use HasOwner;
+    use HasProfilePhoto;
 
     protected $userRelationshipName = 'user';
 
