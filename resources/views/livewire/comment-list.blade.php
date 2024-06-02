@@ -11,6 +11,10 @@
     }"
     class="space-y-6"
 >
+    <div class="text-lg font-bold">
+        {{ __('Comments') }}
+        <span x-text="getTotal()"></span>
+    </div>
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if ($comments->count() > 1)
             <div class="flex gap-x-2 overflow-auto sm:gap-x-3">
@@ -58,10 +62,6 @@
         @endif
 
         <x-comments::link type="a" route="#create-comment-form">Create Comment</x-comments::link>
-    </div>
-    <div class="text-lg font-bold">
-        {{ __('Comments') }}
-        <span x-text="getTotal()"></span>
     </div>
 
     <div wire:loading.flex class="flex items-center gap-x-2 sm:gap-x-4">
