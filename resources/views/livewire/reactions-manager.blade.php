@@ -30,11 +30,7 @@
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
                             @if ($authMode)
                                 @mouseover="
-                                    if(
-                                        !$wire.loginRequired &&
-                                        $wire.reactions['{{ $key }}']['count'] > 0 &&
-                                        !showUsers
-                                     ) {
+                                    if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                                             showUsers = true;
                                             $wire.lastReactedUser('{{ $key }}')
                                         }
