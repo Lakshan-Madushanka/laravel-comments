@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use LakM\Comments\Console\InstallCommand;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\CommentReplyList;
 use LakM\Comments\Livewire\CreateCommentForm;
@@ -27,6 +28,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->setComponents();
         $this->setBladeDirectives();
         $this->setGates();
+        $this->registerCommands();
     }
 
     public function register(): void
@@ -93,6 +95,19 @@ class CommentServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/lakm/laravel-comments')
         ], 'comments-assets');
+		
+		$this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/comments'),
+        ], 'comments-views');
+    }
+
+    protected function registerCommands(): void
+    {
+        if($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+            ]);
+        }
     }
 
     protected function getStyleUrl(): string
