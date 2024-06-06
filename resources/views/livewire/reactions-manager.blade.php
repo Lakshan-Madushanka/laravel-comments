@@ -88,7 +88,7 @@
                         class="cursor-pointer rounded bg-gray-300 px-1 hover:bg-gray-400"
                     >
                         <div
-                            @click="if($wire.logiinRequired){return}; isDisliked = !isDisliked; showUsers=false"
+                            @click="if($wire.loginRequired){return}; isDisliked = !isDisliked; showUsers=false"
                             wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
                             @if ($authMode)
                                 @mouseover="
