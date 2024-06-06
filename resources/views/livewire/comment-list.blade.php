@@ -207,7 +207,7 @@
                                     replyCount -= 1;
                                 }
                                 "
-                            class="mt-2"
+                            class="mt-2 inline-block"
                         >
                             <div
                                 x-show="replyCount > 0"

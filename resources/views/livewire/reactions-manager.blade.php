@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Number; @endphp
 <div x-data="{ showReplyForm: false }">
     <div class="flex w-full justify-between gap-x-4">
         <div class="flex items-center gap-x-1 rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2">
@@ -36,7 +37,7 @@
                                         }
                                     "
                             @endif
-                            class="flex cursor-pointer items-center"
+                            class="min-w-[2.2rem] flex cursor-pointer items-center justify-between"
                             title="like"
                         >
                             <div x-show="!isLiked">
@@ -49,7 +50,7 @@
                                 />
                             </div>
                             <div class="pl-1 sm:pl-2">
-                                <span class="text-sm">{{ $reactions["like"]["count"] }}</span>
+                                <span class="text-sm">{{ Number::abbreviate($reactions["like"]["count"]) }}</span>
                             </div>
                         </div>
 
@@ -98,7 +99,7 @@
                                      }
                                      "
                             @endif
-                            class="flex cursor-pointer items-center"
+                            class="min-w-[2.2rem] flex cursor-pointer justify-between items-center"
                             title="dislike"
                         >
                             <div x-show="!isDisliked">
@@ -113,7 +114,7 @@
                             </div>
 
                             <div class="pl-1 sm:pl-2">
-                                <span class="text-sm">{{ $reactions["dislike"]["count"] }}</span>
+                                <span class="text-sm">{{ Number::abbreviate($reactions["dislike"]["count"]) }}</span>
                             </div>
                         </div>
                         <x-comments::show-reacted-users
@@ -159,7 +160,7 @@
         </div>
 
         <div
-            class="scrollbar flex max-w-32 items-center gap-x-1 overflow-x-scroll rounded border border-gray-200 bg-gray-100 px-1 sm:gap-x-2 md:max-w-64"
+            class="scrollbar flex max-w-32 items-center gap-x-1 overflow-x-scroll rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2 md:max-w-64"
         >
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction

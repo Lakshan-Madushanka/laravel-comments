@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Number; @endphp
 @props([
     "key",
     "reactions",
@@ -34,7 +35,7 @@
                 $wire.lastReactedUser('{{ $key }}')
                 showUsers=false
                 "
-        class="flex cursor-pointer items-center gap-x-1"
+        class="min-w-[2.2rem] flex cursor-pointer justify-between items-center gap-x-1"
         wire:loading.class="cursor-not-allowed"
         wire:target="lastReactedUser"
         title="{{ $key }}"
@@ -45,7 +46,7 @@
             <x-dynamic-component component="comments::icons.{{$key}}" />
         @endif
 
-        <span class="text-sm">{{ $reactions[$key]["count"] }}</span>
+        <span class="text-sm">{{ Number::abbreviate($reactions[$key]["count"]) }}</span>
     </div>
 
     <x-comments::show-reacted-users
