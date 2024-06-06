@@ -52,7 +52,7 @@ return [
         ]
     ],
 
-    //''
+    'show_filters' => true,
 
     'pagination' => [
         'enabled' => true,
