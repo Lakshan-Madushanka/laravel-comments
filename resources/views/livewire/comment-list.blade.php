@@ -124,7 +124,7 @@
                                 @endif
                             </div>
 
-                            <div class="flex items-center justify-center space-x-2 self-end sm:space-x-4">
+                            <div class="flex items-center justify-center space-x-2 sm:space-x-4">
                                 @if ($model->canEditComment($comment))
                                     <div @click="showUpdateForm = !showUpdateForm" class="flex items-center">
                                         <x-comments::action class="text-xs sm:text-sm">Edit</x-comments::action>

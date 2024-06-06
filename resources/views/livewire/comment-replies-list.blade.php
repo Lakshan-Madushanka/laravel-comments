@@ -31,7 +31,7 @@
                 >
                     <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
                         <div
-                            class="mb-2 flex items-center justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1"
+                            class="mb-2 flex flex-col items-start justify-between sm:flex-row sm:items-center sm:justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1"
                         >
                             <div class="space-x-1">
                                 <span class="font-bold sm:hidden">
