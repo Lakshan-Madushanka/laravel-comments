@@ -28,7 +28,7 @@
                     >
                         <div
                             @click="if($wire.loginRequired){return}; isLiked = !isLiked; showUsers=false"
-                            wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
+                            wire:click="handle('{{ $key }}', 'like')"
                             @if ($authMode)
                                 @mouseover="
                                     if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
@@ -90,7 +90,7 @@
                     >
                         <div
                             @click="if($wire.loginRequired){return}; isDisliked = !isDisliked; showUsers=false"
-                            wire:click="handle('{{ $key }}', '{{ $value["model"] }}')"
+                            wire:click="handle('{{ $key }}', 'dislike')"
                             @if ($authMode)
                                 @mouseover="
                                     if(!$wire.loginRequired && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {

@@ -24,8 +24,15 @@ return [
 
     'auth_guard' => 'default',
 
+    /**
+     * In Auth mode unauthenticated users will be redirected to this route for login
+     */
     'login_route' => 'login',
 
+    /**
+     * When set to true only approved commands will be displayed.
+     * To approve a comment, approved column must be set to true in comments table.
+     */
     'approval_required' => false,
 
     'profile_photo' => [
@@ -47,13 +54,15 @@ return [
              * to generate an avatar.
              */
             'gravatar' => [
-                'default' => 'mp'
-            ]
-        ]
+                'default' => 'mp',
+            ],
+        ],
     ],
 
+    // When set to false filters won't be displayed in comments list
     'show_filters' => true,
 
+    // Comments pagination
     'pagination' => [
         'enabled' => true,
         'per_page' => 35,
@@ -74,12 +83,17 @@ return [
      */
     'limit' => null,
 
+    // Control comment's replies
     'reply' => [
         'enabled' => true,
         /** when enabled email field is required to reply in guest mode */
         'email_enabled' => true,
         /** Keep null to allow unlimited replies for a comment */
         'limit' => null,
+        /**
+         * When set to true only approved replies will be displayed.
+         * To approve a comment, approved column must be set to true in comments table.
+         */
         'approval_required' => false,
         'pagination' => [
             'enabled' => true,
@@ -104,11 +118,11 @@ return [
     ],
 
     'reactions' => [
-        'like' => ['model' => Like::class, 'position' => 'left', 'fill' => 'gray'],
-        'dislike' => ['model' => '', 'position' => 'left', 'fill' => 'gray'],
-        'happy' => ['model' => '', 'position' => 'right', 'fill' => 'orange'],
-        'love' => ['model' => '', 'position' => 'right', 'fill' => 'red'],
-        'sad' => ['model' => '', 'position' => 'right', 'fill' => 'orange'],
+        'like' => ['position' => 'left', 'fill' => 'gray'],
+        'dislike' => ['position' => 'left', 'fill' => 'gray'],
+        'happy' => ['position' => 'right', 'fill' => 'orange'],
+        'love' => ['position' => 'right', 'fill' => 'red'],
+        'sad' => ['position' => 'right', 'fill' => 'orange'],
     ],
 
     /**
@@ -121,7 +135,7 @@ return [
         'enabled' => true,
         'routes' => [
             'middlewares' => [],
-            'prefix' => 'admin'
-        ]
-    ]
+            'prefix' => 'admin',
+        ],
+    ],
 ];
