@@ -43,10 +43,6 @@ class Like extends ReactionContract
 
     protected function createLike(): \LakM\Comments\Models\Reaction
     {
-        return $this->comment->reactions()->create([
-            'type' => 'like',
-            'user_id' => $this->authId,
-            'ip_address' => request()->ip(),
-        ]);
+        return $this->createReaction();
     }
 }

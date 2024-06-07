@@ -44,10 +44,6 @@ class Dislike extends ReactionContract
 
     protected function createDislike(): Reaction
     {
-        return $this->comment->reactions()->create([
-            'type' => 'dislike',
-            'user_id' => $this->authId,
-            'ip_address' => request()->ip(),
-        ]);
+        return $this->createReaction();
     }
 }

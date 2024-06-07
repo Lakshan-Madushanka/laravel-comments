@@ -13,7 +13,7 @@ class Reaction extends ReactionContract
                 return true;
             }
 
-            $this->createReaction();
+            $this->create();
 
             return true;
         });
@@ -29,12 +29,8 @@ class Reaction extends ReactionContract
             ?->delete();
     }
 
-    protected function createReaction(): \LakM\Comments\Models\Reaction
+    protected function create(): \LakM\Comments\Models\Reaction
     {
-        return $this->comment->reactions()->create([
-            'type' => $this->type,
-            'user_id' => $this->authId,
-            'ip_address' => request()->ip(),
-        ]);
+        return $this->createReaction();
     }
 }

@@ -67,7 +67,9 @@ class Comment extends Model
 
     public function reactions(): HasMany
     {
-        return $this->hasMany(Reaction::class);
+        return $this->hasMany(\LakM\Comments\Model::reactionClass());
+    }
+
     public function ownerReactions(): HasMany
     {
         return $this->hasMany(\LakM\Comments\Model::reactionClass());

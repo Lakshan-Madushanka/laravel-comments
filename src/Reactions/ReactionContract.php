@@ -14,4 +14,17 @@ abstract class ReactionContract
         protected ?string $type = null
     ) {
     }
+
+    public function createReaction(): \LakM\Comments\Models\Reaction
+    {
+        $data = [
+            'type' => $this->type,
+            'ip_address' => request()->ip(),
+        ];
+
+        if ($this->authMode) {
+            $data['user_id'] = $this->authId;
+        }
+        return $this->comment->reactions()->create($data);
+    }
 }
