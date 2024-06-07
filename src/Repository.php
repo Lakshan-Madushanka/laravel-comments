@@ -4,29 +4,32 @@ namespace LakM\Comments;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
+use LakM\Comments\Model as M;
 
 class Repository
 {
     public static ?UserData $guest = null;
 
-    public static function guestCommentCount(Model $relatedModel)
+    public static function guestCommentCount(Model $relatedModel): int
     {
         $alias = $relatedModel->getMorphClass();
 
-        return config('comments.model')::where('commentable_type', $alias)
+        return  M::commentQuery()->where('commentable_type', $alias)
             ->where('commentable_id', $relatedModel->getKey())
             ->where('ip_address', request()->ip())
             ->count();
     }
 
-    public static function userCommentCount(Model $user, Model $relatedModel)
+    public static function userCommentCount(Model $user, Model $relatedModel): int
     {
         $alias = $relatedModel->getMorphClass();
 
@@ -37,10 +40,9 @@ class Repository
             ->count();
     }
 
-    public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy, string $filter = '')
+    public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy, string $filter = ''): LengthAwarePaginator|Collection
     {
-        $userModelName = config('comments.user_model');
-        $alias = (new $userModelName())->getMorphClass();
+        $alias = M::userModel()->getMorphClass();
 
         return $relatedModel
             ->comments()
@@ -92,7 +94,7 @@ class Repository
             );
     }
 
-    public static function getTotalCommentsCountForRelated(Model $relatedModel)
+    public static function getTotalCommentsCountForRelated(Model $relatedModel): int
     {
         return $relatedModel
             ->comments()
@@ -100,7 +102,7 @@ class Repository
             ->count();
     }
 
-    public static function addCount()
+    public static function addCount(): array
     {
         $count = [];
 
@@ -114,7 +116,14 @@ class Repository
         return $count;
     }
 
-    public static function reactedUsers(Reply|Comment $comment, string $reactionType, int $limit, bool $authMode)
+    /**
+     * @param  Reply|Comment  $comment
+     * @param  string  $reactionType
+     * @param  int  $limit
+     * @param  bool  $authMode
+     * @return \Illuminate\Support\Collection<int, UserData>
+     */
+    public static function reactedUsers(Reply|Comment $comment, string $reactionType, int $limit, bool $authMode): \Illuminate\Support\Collection
     {
         $reactions = $comment
             ->reactions()
@@ -167,12 +176,12 @@ class Repository
             ->count();
     }
 
-    public static function getCommentReplyCount(Comment $comment)
+    public static function getCommentReplyCount(Comment $comment): int
     {
         return $comment->replies()->count();
     }
 
-    public static function commentReplies(Comment $comment, Model $relatedModel, bool $approvalRequired, int $limit)
+    public static function commentReplies(Comment $comment, Model $relatedModel, bool $approvalRequired, int $limit): LengthAwarePaginator|Collection
     {
         return $comment
             ->replies()
@@ -191,7 +200,7 @@ class Repository
     public static function usersStartWithName(string $name, bool $guestMode, int $limit): \Illuminate\Support\Collection
     {
         if ($guestMode) {
-            return Comment::query()
+            return M::commentQuery()
                 ->where('guest_name', 'like', "{$name}%")
                 ->limit($limit)
                 ->get()
@@ -200,7 +209,7 @@ class Repository
                 });
         }
 
-        return config('comments.user_model')::query()
+        return M::userQuery()
             ->where('name', 'like', "{$name}%")
             ->limit($limit)
             ->get()
@@ -209,23 +218,23 @@ class Repository
             });
     }
 
-    public static function usersCount()
+    public static function usersCount(): int
     {
         return config('comments.user_model')::query()->count();
     }
 
-    public static function commentsCountOf(Model $model)
+    public static function commentsCountOf(Model $model): int
     {
         $alias = $model->getMorphClass();
 
-        return Comment::query()->where('commentable_type', $alias)->count();
+        return M::commentQuery()->where('commentable_type', $alias)->count();
     }
 
     public static function commentsOfModelType(Model $model)
     {
         $alias = $model->getMorphClass();
 
-        return Comment::query()
+        return M::commentQuery()
             ->selectRaw('*, count(1) as comments_count')
             ->where('commentable_type', $alias)
             ->groupBy('commentable_type');
@@ -262,7 +271,7 @@ class Repository
             return self::$guest;
         }
 
-        $comment = Comment::query()
+        $comment = M::commentQuery()
             ->whereNotNull('guest_name')
             ->where('ip_address', request()->ip())
             ->first();

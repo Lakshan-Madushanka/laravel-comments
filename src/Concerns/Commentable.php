@@ -19,7 +19,7 @@ trait Commentable
 {
     public function comments(): MorphMany
     {
-        return $this->morphMany(config('comments.model'), 'commentable');
+        return $this->morphMany(\LakM\Comments\Model::commentClass(), 'commentable');
     }
 
     public function authCheck(): bool

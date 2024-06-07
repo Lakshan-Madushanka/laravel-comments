@@ -2,9 +2,9 @@
 
 use App\Models\User;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Reaction;
 use LakM\Comments\Policies\CommentPolicy;
 use LakM\Comments\Policies\ReplyPolicy;
-use LakM\Comments\Reactions\Like;
 
 return [
     /**
@@ -13,8 +13,17 @@ return [
      */
     'model' => Comment::class,
 
-    // Comment owner model
+    /**
+     * Comment owner model
+     * Must extends Illuminate\Contracts\Auth\Authenticatable
+     */
     'user_model' => User::class,
+
+    /**
+     * Reaction model
+     * Must extends LakM\Comments\Models\Reaction
+     */
+    'reaction_model' => Reaction::class,
 
     // When guest mode unable no authentication required
     'guest_mode' => [

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
+use LakM\Comments\Model as M;
 
 class Reply extends Model
 {
@@ -36,7 +37,7 @@ class Reply extends Model
 
     public function comment(): BelongsTo
     {
-        return $this->belongsTo(Comment::class);
+        return $this->belongsTo(M::commentClass());
     }
 
     public function isEdited(): bool
@@ -51,7 +52,7 @@ class Reply extends Model
 
     public function reactions(): HasMany
     {
-        return $this->hasMany(Reaction::class, 'comment_id');
+        return $this->hasMany(M::reactionClass(), 'comment_id');
     }
 
     public function commenter(): MorphTo

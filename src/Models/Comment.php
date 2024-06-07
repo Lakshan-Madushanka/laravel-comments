@@ -82,6 +82,6 @@ class Comment extends Model
 
     public function replyReactions(): HasManyThrough
     {
-        return $this->hasManyThrough(Reaction::class, Reply::class, 'reply_id', 'comment_id');
+        return $this->hasManyThrough(\LakM\Comments\Model::reactionClass(), Reply::class, 'reply_id', 'comment_id');
     }
 }
