@@ -54,7 +54,7 @@ class Repository
                     ->where('commenter_type', $alias)
                     ->where('commenter_type', $relatedModel->getAuthUser()->getAuthIdentifier())
             )
-            ->with(['reactions'])
+            ->withOwnerReactions($relatedModel)
             ->withCommenter($relatedModel)
             ->withCount(self::addCount())
             ->withCount([

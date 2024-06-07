@@ -14,8 +14,8 @@ class ReactionManager
     public function handle(string $type, Reply|Comment $comment, $authMode, mixed $authId): ?bool
     {
         return match ($type) {
-            'like' => (new Like(comment: $comment, authMode:  $authMode, authId: $authId))->handle(),
-            'dislike' => (new Dislike(comment: $comment, authMode:  $authMode, authId: $authId))->handle(),
+            'like' => (new Like(comment: $comment, authMode:  $authMode, authId: $authId, type: $type))->handle(),
+            'dislike' => (new Dislike(comment: $comment, authMode:  $authMode, authId: $authId, type: $type))->handle(),
             default => (new Reaction(comment: $comment, authMode:  $authMode, authId:$authId, type: $type))->handle()
         };
     }

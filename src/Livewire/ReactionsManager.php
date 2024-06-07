@@ -125,9 +125,9 @@ class ReactionsManager extends Component
             $countName = $this->reactionCountName($reaction);
             $this->setReactionCount($reaction, $comment->{$countName});
             $this->total += $comment->{$countName};
-
-            $this->setReactedStatus($reaction, $comment->reactions);
         }
+
+        $this->setReactedStatus($reaction, $comment->ownerReactions);
     }
 
     private function reactionCountName(string $key): string
@@ -140,25 +140,15 @@ class ReactionsManager extends Component
         $this->reactions[$key]['count'] = $count ?? 0;
     }
 
-    private function setReactedStatus(string $key, Collection $collection): void
+    private function setReactedStatus(string $key, Collection $ownerReactions): void
     {
-        $this->reactions[$key]['reacted'] = $this->isReacted($key, $collection) ;
-    }
+        $ownerReactionsTypes = $ownerReactions->pluck('type')->toArray();
 
-    private function isReacted(string $key, Collection $reactions): bool
-    {
-        if ($reactions->isEmpty()) {
-            return false;
+        foreach ($this->reactions as $type => $reaction) {
+            $this->reactions[$type]['reacted'] = is_int(array_search($type, $ownerReactionsTypes));
         }
-
-        return $reactions->some(function (Reaction $reaction) use ($key) {
-            if ($this->guestMode) {
-                return $reaction->ip_address === request()->ip();
-            }
-
-            return $reaction->user_id === Auth::id() && $reaction->type === $key;
-        });
     }
+
 
     public function refineLikeStatus(): void
     {

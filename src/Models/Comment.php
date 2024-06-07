@@ -45,6 +45,11 @@ class Comment extends Model
         ;
     }
 
+    public function scopeWithOwnerReactions(Builder $query, Model $relatedModel): Builder
+    {
+        return $query->with(['ownerReactions' => fn( $query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+    }
+
     public function isEdited(): bool
     {
         return $this->created_at->diffInSeconds($this->updated_at) > 0;
@@ -63,6 +68,9 @@ class Comment extends Model
     public function reactions(): HasMany
     {
         return $this->hasMany(Reaction::class);
+    public function ownerReactions(): HasMany
+    {
+        return $this->hasMany(\LakM\Comments\Model::reactionClass());
     }
 
     public function replies(): HasMany
