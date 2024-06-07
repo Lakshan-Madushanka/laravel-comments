@@ -8,7 +8,7 @@ A Laravel package that brings powerful commenting functionality to your apps ðŸ˜
 ![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)
 ![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)
 
-**[Click here to read the documentation](https://docs.saloon.dev)**
+**[Click here to read the documentation]()**
 </div>
 
 
