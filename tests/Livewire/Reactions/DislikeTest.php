@@ -2,6 +2,7 @@
 
 use LakM\Comments\Livewire\ReactionsManager;
 
+use LakM\Comments\Models\Reaction;
 use function Pest\Livewire\livewire;
 
 it('remove already existing dislike for auth mode', function () {
@@ -23,10 +24,13 @@ it('remove already existing dislike for auth mode', function () {
 });
 
 it('can create dislike for auth mode', function () {
-    $user = actAsAuth();
-    $comment = createCommentsForAuthUser($user, video());
+    onGuestMode(false);
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    $user = actAsAuth();
+    $video = video();
+    $comment = createCommentsForAuthUser($user, $video);
+
+    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' =>$video])
         ->call('handle', type: 'dislike')
         ->assertOk();
 

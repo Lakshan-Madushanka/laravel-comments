@@ -23,6 +23,8 @@ it('remove already existing like for auth mode', function () {
 });
 
 it('can create like for auth mode', function () {
+    onGuestMode(false);
+    
     $user = actAsAuth();
     $comment = createCommentsForAuthUser($user, video());
 
