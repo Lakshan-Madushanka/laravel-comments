@@ -39,6 +39,8 @@ class CommentList extends Component
 
     public bool $showReplyList = false;
 
+    public string|false $profileUrl = false;
+
     public function mount(Model $model): void
     {
         $this->model = $model;
@@ -51,6 +53,8 @@ class CommentList extends Component
         $this->guestMode = $this->model->guestModeEnabled();
 
         $this->authMode = !$this->model->guestModeEnabled();
+
+        $this->setProfileUrl();
     }
 
     public function paginate()
@@ -91,5 +95,12 @@ class CommentList extends Component
             'comments::livewire.comment-list',
             ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter)]
         );
+    }
+
+    private function setProfileUrl(): void
+    {
+        if($user = $this->model->getAuthUser()) {
+            $this->profileUrl = $user->profileUrl();
+        }
     }
 }

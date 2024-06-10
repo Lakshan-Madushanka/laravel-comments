@@ -43,6 +43,8 @@ class CommentReplyList extends Component
     #[Locked]
     public bool $approvalRequired;
 
+    public string|false $profileUrl = false;
+
     public function mount(Comment $comment, Model $relatedModel, int $total): void
     {
         if (!$this->show) {
@@ -62,6 +64,8 @@ class CommentReplyList extends Component
         $this->authMode = !$this->relatedModel->guestModeEnabled();
 
         $this->setApprovalRequired();
+
+        $this->setProfileUrl();
     }
 
     public function paginate(): void
@@ -101,6 +105,13 @@ class CommentReplyList extends Component
     public function setApprovalRequired()
     {
         $this->approvalRequired = config('comments.reply.approval_required');
+    }
+
+    private function setProfileUrl(): void
+    {
+        if($user = $this->relatedModel->getAuthUser()) {
+            $this->profileUrl = $user->profileUrl();
+        }
     }
 
     #[On('show-replies.{comment.id}')]

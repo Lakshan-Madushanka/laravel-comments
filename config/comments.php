@@ -9,19 +9,19 @@ use LakM\Comments\Policies\ReplyPolicy;
 return [
     /**
      * Commentable Model
-     * Must extends base model LakM\Comments\Models\Comment
+     * Must extend base model LakM\Comments\Models\Comment
      */
     'model' => Comment::class,
 
     /**
      * Comment owner model
-     * Must extends Illuminate\Contracts\Auth\Authenticatable
+     * Must extend Illuminate\Contracts\Auth\Authenticatable
      */
     'user_model' => User::class,
 
     /**
      * Reaction model
-     * Must extends LakM\Comments\Models\Reaction
+     * Must extend LakM\Comments\Models\Reaction
      */
     'reaction_model' => Reaction::class,
 
@@ -67,6 +67,13 @@ return [
             ],
         ],
     ],
+
+    /**
+     * In Auth mode clicking profile photo will be redirected to this url
+     * Keep null to disable this feature.
+     * This can be table column name or accessor
+     */
+    'profile_url_column' => 'name',
 
     // When set to false filters won't be displayed in comments list
     'show_filters' => true,

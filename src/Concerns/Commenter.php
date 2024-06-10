@@ -24,6 +24,15 @@ trait Commenter
         return $this->hasMany(Reply::class);
     }
 
+    public function profileUrl(): false|string
+    {
+        if (is_null($url = config('comments.profile_url_column'))) {
+            return false;
+        }
+
+        return $this->{$url};
+    }
+
     public function isAdminPanelAccessible()
     {
         if (!App::isProduction()) {

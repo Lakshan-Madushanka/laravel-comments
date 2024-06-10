@@ -11,7 +11,7 @@
                 class="flex gap-x-2 sm:gap-x-4"
             >
                 <div class="basis-14">
-                    <a href="{{ $reply->ownerPhotoUrl($authMode) }}" target="_blank">
+                    <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
                         <img
                             class="h-12 w-12 rounded-full border border-gray-200"
                             src="{{ $reply->ownerPhotoUrl($authMode) }}"

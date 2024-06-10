@@ -77,7 +77,7 @@
                 class="flex gap-x-2 sm:gap-x-4"
             >
                 <div class="basis-14">
-                    <a href="{{ $comment->ownerPhotoUrl($authMode) }}" target="_blank">
+                    <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
                         <img
                             class="h-12 w-12 rounded-full border border-gray-200"
                             src="{{ $comment->ownerPhotoUrl($authMode) }}"
