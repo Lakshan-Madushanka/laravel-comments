@@ -207,12 +207,13 @@
                                     replyCount -= 1;
                                 }
                                 "
-                            class="mt-2 inline-block"
+                            class="mt-2"
                         >
                             <div
                                 x-show="replyCount > 0"
                                 x-transition
                                 @click="$dispatch('show-replies.' + @js($comment->getKey())); showReplyList = !showReplyList"
+                                class="inline-block"
                             >
                                 <x-comments::link
                                     type="popup"
@@ -242,7 +243,7 @@
         <div class="text-lg">{{ __('Be the first one to make a comment !') }}</div>
     @endif
 
-    @if ($comments->isNotEmpty() && $model->paginationEnabled())
+    @if ($comments->isNotEmpty() && $model->paginationEnabled() && $limit < $total)
         <div class="flex items-center justify-center">
             @if ($limit < $total)
                 <x-comments::button wire:click="paginate" type="button" loadingTarget="paginate">

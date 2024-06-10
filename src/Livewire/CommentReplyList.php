@@ -102,7 +102,7 @@ class CommentReplyList extends Component
         return Gate::allows('delete-reply', [$reply, $this->guestMode]);
     }
 
-    public function setApprovalRequired()
+    public function setApprovalRequired(): void
     {
         $this->approvalRequired = config('comments.reply.approval_required');
     }

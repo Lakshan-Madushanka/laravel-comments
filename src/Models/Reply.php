@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Models\Concerns\HasOwner;
+use LakM\Comments\Models\Concerns\HasOwnerReactions;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Model as M;
 
@@ -48,6 +49,16 @@ class Reply extends Model
     public function scopeApproved(Builder $query): Builder
     {
         return $query->whereApproved(true);
+    }
+
+    public function scopeWithOwnerReactions(Builder $query, Model $relatedModel): Builder
+    {
+        return $query->with(['ownerReactions' => fn( $query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+    }
+
+    public function ownerReactions(): HasMany
+    {
+        return $this->reactions();
     }
 
     public function reactions(): HasMany

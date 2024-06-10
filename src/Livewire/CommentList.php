@@ -57,7 +57,7 @@ class CommentList extends Component
         $this->setProfileUrl();
     }
 
-    public function paginate()
+    public function paginate(): void
     {
         $this->limit += $this->perPage;
 
