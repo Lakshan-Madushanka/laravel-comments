@@ -185,7 +185,7 @@ class Repository
     {
         return $comment
             ->replies()
-            ->with(['reactions'])
+            ->withOwnerReactions($relatedModel)
             ->withCount(self::addCount())
             ->when(!$relatedModel->guestModeEnabled(), fn (Builder $query) => $query->with('commenter'))
             ->latest()
@@ -223,47 +223,6 @@ class Repository
         return config('comments.user_model')::query()->count();
     }
 
-    public static function commentsCountOf(Model $model): int
-    {
-        $alias = $model->getMorphClass();
-
-        return M::commentQuery()->where('commentable_type', $alias)->count();
-    }
-
-    public static function commentsOfModelType(Model $model)
-    {
-        $alias = $model->getMorphClass();
-
-        return M::commentQuery()
-            ->selectRaw('*, count(1) as comments_count')
-            ->where('commentable_type', $alias)
-            ->groupBy('commentable_type');
-    }
-
-    public static function commentsOf(Model $model)
-    {
-        return $model
-            ->comments()
-            ->withCount([
-                'replies',
-                'reactions',
-                'replyReactions',
-                'replyReactions as reply_reactons_dislikes_count' => function (Builder $query) {
-                    $query->where('type', 'dislike');
-                },
-            ])
-            ->withCount(self::addCount());
-    }
-
-    public static function repliesOf(Comment $comment)
-    {
-        return $comment
-            ->replies()
-            ->withCount([
-                'reactions',
-            ])
-            ->withCount(self::addCount());
-    }
 
     public static function guest(): UserData
     {
