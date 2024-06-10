@@ -9,10 +9,10 @@ use Illuminate\Validation\Rules\RequiredIf;
 class ValidationRules
 {
     /** @var callable $createCommentUsing */
-    public static $createCommentUsing;
+    protected static $createCommentUsing;
 
     /** @var callable $updateCommentUsing */
-    public static $updateCommentUsing;
+    protected static $updateCommentUsing;
 
     public static function get(Model $model, string $type): array
     {
