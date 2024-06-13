@@ -15,7 +15,7 @@ class InstallCommand extends Command
 
     public function handle()
     {
-        $this->info("❤️ Commants installer");
+        $this->info("❤️ Commenter installer");
 
         $this->publishConfigs();
         $this->publishAssets();
