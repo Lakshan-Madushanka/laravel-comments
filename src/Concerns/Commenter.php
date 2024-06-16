@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\App;
+use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Models\Reply;
 
 /**
@@ -14,6 +15,8 @@ use LakM\Comments\Models\Reply;
  */
 trait Commenter
 {
+    use HasProfilePhoto;
+
     public function comments(): MorphMany
     {
         return $this->morphMany(\LakM\Comments\Model::commentClass(), 'commenter');
@@ -31,6 +34,11 @@ trait Commenter
         }
 
         return $this->{$url};
+    }
+
+    public function photoUrl()
+    {
+        return $this->ownerPhotoUrl(true);
     }
 
     public function isAdminPanelAccessible()

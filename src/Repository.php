@@ -214,7 +214,7 @@ class Repository
             ->limit($limit)
             ->get()
             ->map(function ($user) {
-                return new UserData(name: $user->name(true), photo: $user->photoUrl(true));
+                return new UserData(name: $user->name, photo: $user->photoUrl());
             });
     }
 
