@@ -34,12 +34,12 @@ class InstallCommand extends Command
 
     private function publishAssets(): void
     {
-        $this->callSilent('vendor:publish', ['--tag' => 'comments-assets']);
+        $this->callSilent('vendor:publish', ['--tag' => 'comments-assets', '--force' => true]);
     }
 
     private function publishMigrations(): void
     {
-        $this->callSilent('vendor:publish', ['--tag' => 'comments-migrations']);
+        $this->callSilent('vendor:publish', ['--tag' => 'comments-migrations', '--force' => true]);
     }
 
     private function runMigrations(): bool
