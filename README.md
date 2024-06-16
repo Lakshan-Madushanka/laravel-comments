@@ -44,6 +44,12 @@ Due to these issues, most companies tend to opt for commercial packages or plugi
 
 > As a full stack developer, I have personally encountered these issues. That's why I developed this package—not only for my own projects but also to benefit other developers.
 
+## Demo
+
+### Project
+https://github.com/Lakshan-Madushanka/laravel-comments-demo
+
+
 ## Changelog
 Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/CHANGELOG.md) for more information what has changed recently.
 
