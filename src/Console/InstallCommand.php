@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 
 class InstallCommand extends Command
 {
-    protected $signature = 'comments:install';
+    protected $signature = 'commenter:install';
 
     protected $description = 'This will install the package';
 
