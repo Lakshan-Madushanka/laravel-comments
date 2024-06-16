@@ -11,7 +11,9 @@ A Laravel package that brings powerful commenting functionality to your apps ðŸ˜
 [![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
-**[Click here to read the documentation](https://lakm.gitbook.io/commenter)**
+**[Documentation](https://lakm.gitbook.io/commenter)**
+
+**[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)**
 </div>
 
 ## Overview
