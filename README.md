@@ -11,7 +11,9 @@ A Laravel package that brings powerful commenting functionality to your apps ðŸ˜
 [![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
-**[Click here to read the documentation](https://lakm.gitbook.io/commenter)**
+**[Documentation](https://lakm.gitbook.io/commenter)**
+
+**[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)**
 </div>
 
 ## Overview
@@ -25,6 +27,28 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 <x-comments :model="$post" />
 ```
 <p align="center"><img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/9bff3f61-4afb-418b-88d1-f232da8eebdc" alt="screenshot"></p>
+
+## Why Commenter
+
+The commenting feature is a common requirement for most websites. Allowing users to comment enables interaction and enhances the user experience. While Laravel offers a wealth of packages to meet various project needs, there are limited options when it comes to commenting features. Here are some drawbacks of existing commenting packages:
+
+- Outdated: Uses outdated technologies and is not actively maintained.
+- Lack of Features: Missing many essential features.
+- No Admin Panel: Requires additional time to implement an admin panel independently.
+- User Interface: Interfaces are not user-friendly.
+- Mobile Responsiveness: Not optimized for mobile devices.
+- Performance Issues: May cause performance slowdowns.
+- Lack of Configurability: Limited options for customization and configuration.
+
+Due to these issues, most companies tend to opt for commercial packages or plugins. However, spending extra money on commercial packages reduces the company's overall profit. This package is developed to address all these shortcomings.
+
+> As a full stack developer, I have personally encountered these issues. That's why I developed this packageâ€”not only for my own projects but also to benefit other developers.
+
+## Demo
+
+### Project
+https://github.com/Lakshan-Madushanka/laravel-comments-demo
+
 
 ## Changelog
 Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/CHANGELOG.md) for more information what has changed recently.
