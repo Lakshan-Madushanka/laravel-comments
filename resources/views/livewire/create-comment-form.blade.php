@@ -8,7 +8,7 @@
                     <x-comments::input
                         wire:model="guest_name"
                         :shouldDisable="$limitExceeded"
-                        placeholder="Comment as"
+                        placeholder="{{__('Comment as')}}"
                     />
                     <div class="min-h-6">
                         @if ($errors->has('guest_name'))
@@ -24,7 +24,7 @@
                             wire:model="guest_email"
                             :shouldDisable="$limitExceeded"
                             type="email"
-                            placeholder="Email"
+                            placeholder="{{__('Email')}}"
                         />
                         <div class="min-h-6">
                             @if ($errors->has('guest_email'))
@@ -80,7 +80,7 @@
                     </span>
                 </div>
             @else
-                <x-comments::button loadingTarget="create" class="w-full sm:w-auto">Create</x-comments::button>
+                <x-comments::button loadingTarget="create" class="w-full sm:w-auto">{{__('Create')}}</x-comments::button>
             @endif
         @else
             <div>

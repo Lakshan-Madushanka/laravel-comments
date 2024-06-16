@@ -5,7 +5,7 @@
         @if ($guestMode)
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
-                    <x-comments::input wire:model="guest_name" placeholder="Comment as" />
+                    <x-comments::input wire:model="guest_name" placeholder="{{__('Comment as')}}" />
                     <div class="min-h-6">
                         @if ($errors->has('guest_name'))
                             <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -16,7 +16,7 @@
                 </div>
                 @if (config('comments.reply.email_enabled'))
                     <div class="flex w-full flex-col">
-                        <x-comments::input wire:model="guest_email" type="email" placeholder="Email" />
+                        <x-comments::input wire:model="guest_email" type="email" placeholder="{{__('Email')}}" />
                         <div class="min-h-6">
                             @if ($errors->has('guest_email'))
                                 <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -64,7 +64,7 @@
             @else
                 <div class="flex gap-x-2">
                     <x-comments::button loadingTarget="create" class="w-full sm:w-auto" size="sm">
-                        Create
+                        {{ __('Create') }}
                     </x-comments::button>
                     <x-comments::button
                         wire:click="discard"
@@ -73,7 +73,7 @@
                         class="w-full sm:w-auto"
                         size="sm"
                     >
-                        Discard
+                        {{ __('Discard') }}
                     </x-comments::button>
                 </div>
             @endif
@@ -87,42 +87,42 @@
     </form>
 
     @script
-        <script>
-            let editorConfig = @js(config('comments.editor_config'));
-            const quill = new Quill(`#${$wire.editorId}`, editorConfig);
+    <script>
+        let editorConfig = @js(config('comments.editor_config'));
+        const quill = new Quill(`#${$wire.editorId}`, editorConfig);
 
-            const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
-            const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
+        const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
+        const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
 
-            const toolbars = Array.from(document.querySelector('.ql-toolbar'));
+        const toolbars = Array.from(document.querySelector(".ql-toolbar"));
 
-            toolbarParentElm.append(toolbars.slice(-1));
+        toolbarParentElm.append(toolbars.slice(-1));
 
-            if (!$wire.LoginRequired || $wire.limitExceeded) {
-                quill.disable();
+        if (!$wire.LoginRequired || $wire.limitExceeded) {
+            quill.disable();
+        }
+
+        quill.on("text-change", (delta, oldDelta, source) => {
+            let html = editorElm.innerHTML;
+            if (html === "<p><br></p>") {
+                $wire.text = "";
+                return;
             }
+            $wire.text = html;
+        });
 
-            quill.on('text-change', (delta, oldDelta, source) => {
-                let html = editorElm.innerHTML;
-                if (html === '<p><br></p>') {
-                    $wire.text = '';
-                    return;
-                }
-                $wire.text = html;
-            });
+        $wire.on("reply-created", function() {
+            quill.setText($wire.text);
+        });
 
-            $wire.on('reply-created', function () {
-                quill.setText($wire.text);
-            });
+        $wire.on("reply-discarded", function() {
+            quill.setText("");
+        });
 
-            $wire.on('reply-discarded', function () {
-                quill.setText('');
-            });
-
-            quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
-            Livewire.on('user-selected.' + $wire.editorId, () =>
-                window.onMentionedUserSelected(event, quill, editorElm)
-            );
-        </script>
+        quill.on("text-change", () => handleEditorTextChange(editorElm, $wire));
+        Livewire.on("user-selected." + $wire.editorId, () =>
+            window.onMentionedUserSelected(event, quill, editorElm)
+        );
+    </script>
     @endscript
 </div>

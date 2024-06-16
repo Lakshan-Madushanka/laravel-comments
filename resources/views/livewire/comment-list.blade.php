@@ -27,28 +27,28 @@
                         '!bg-gray-500' => $sortBy === 'top',
                     ])
                 >
-                    Top
+                    {{__('Top')}}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
                     @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'latest'])
                 >
-                    Newest
+                    {{__('Newest')}}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
                     @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'oldest'])
                 >
-                    Oldest
+                    {{__('Oldest')}}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setSortBy('replies')"
                     wire:loading.class="!pointer-events-none"
                     @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'replies'])
                 >
-                    Replies
+                    {{__('Replies')}}
                 </x-comments::chip>
 
                 <x-comments::chip
@@ -56,12 +56,12 @@
                     wire:loading.class="!pointer-events-none"
                     @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $filter === 'my_comments'])
                 >
-                    My Comments
+                    {{__('My Comments')}}
                 </x-comments::chip>
             </div>
         @endif
 
-        <x-comments::link type="a" route="#create-comment-form">Create Comment</x-comments::link>
+        <x-comments::link type="a" route="#create-comment-form">{{__('Create Comment')}}</x-comments::link>
     </div>
 
     <div wire:loading.flex class="flex items-center gap-x-2 sm:gap-x-4">
@@ -120,21 +120,21 @@
 
                                 @if ($comment->isEdited())
                                     <span class="inline-block h-2 w-[1px] bg-black"></span>
-                                    <span class="text-xs">Edited</span>
+                                    <span class="text-xs">{{__('Edited')}}</span>
                                 @endif
                             </div>
 
                             <div class="flex items-center justify-center space-x-2 sm:space-x-4">
                                 @if ($model->canEditComment($comment))
                                     <div @click="showUpdateForm = !showUpdateForm" class="flex items-center">
-                                        <x-comments::action class="text-xs sm:text-sm">Edit</x-comments::action>
+                                        <x-comments::action class="text-xs sm:text-sm">{{__('Edit')}}</x-comments::action>
                                     </div>
                                 @endif
 
                                 @if ($model->canDeleteComment($comment))
                                     <div
                                         wire:click="delete({{ $comment }})"
-                                        wire:confirm="Are you sure you want to delete this comment?"
+                                        wire:confirm="{{__('Are you sure you want to delete this comment?')}}"
                                         class="flex items-center"
                                     >
                                         <x-comments::action
@@ -142,7 +142,7 @@
                                             wire:target="delete({{$comment}})"
                                             class="align-text-bottom text-xs sm:text-sm"
                                         >
-                                            Delete
+                                            {{__('Delete')}}
                                         </x-comments::action>
                                         <x-comments::spin
                                             wire:loading
@@ -222,7 +222,7 @@
                                     <x-comments::icons.chevron-down x-show="!showReplyList" />
                                     <x-comments::icons.chevron-up x-show="showReplyList" />
                                     <span x-text="replyCount"></span>
-                                    <span>replies</span>
+                                    <span>{{__('replies')}}</span>
                                 </x-comments::link>
                             </div>
 

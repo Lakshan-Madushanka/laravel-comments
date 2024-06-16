@@ -154,7 +154,7 @@
                         }
                      "
                 >
-                    <x-comments::link class="align-text-bottom text-sm" type="popup">reply</x-comments::link>
+                    <x-comments::link class="align-text-bottom text-sm" type="popup">{{__('reply')}}</x-comments::link>
                 </div>
             @endif
         </div>
@@ -217,8 +217,7 @@
                         <div
                             @if ($reactions[$key]["count"] > 0)
                                 wire:click="loadReactedUsers('{{ $key }}')"
-                                @click
-                                ="type = '{{ $key }}'"
+                                @click="type = '{{ $key }}'"
                                 class="cursor-pointer p-4 relative"
                             @endif
                             wire:loading.class="cursor-not-allowed"
@@ -264,7 +263,7 @@
                                     type="button"
                                     size="sm"
                                 >
-                                    Load
+                                    {{__('Load')}}
                                 </x-comments::button>
                             </div>
                         @endif

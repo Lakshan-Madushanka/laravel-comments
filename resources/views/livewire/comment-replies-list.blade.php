@@ -55,14 +55,14 @@
 
                                 @if ($reply->isEdited())
                                     <span class="inline-block h-2 w-[1px] bg-black"></span>
-                                    <span class="text-xs">Edited</span>
+                                    <span class="text-xs">{{__('Edited')}}</span>
                                 @endif
                             </div>
 
                             <div class="flex items-center justify-center space-x-4">
                                 @if ($this->canUpdateReply($reply))
                                     <div @click="showUpdateForm = !showUpdateForm">
-                                        <x-comments::action class="text-sm">Edit</x-comments::action>
+                                        <x-comments::action class="text-sm">{{__('Edit')}}</x-comments::action>
                                     </div>
                                 @endif
 
@@ -77,7 +77,7 @@
                                             wire:target="delete({{$reply}})"
                                             class="text-sm"
                                         >
-                                            Delete
+                                            {{__('Delete')}}
                                         </x-comments::action>
                                         <x-comments::spin
                                             wire:loading
