@@ -160,7 +160,7 @@
         </div>
 
         <div
-            class="scrollbar flex max-w-32 items-center gap-x-1 overflow-x-scroll rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2 md:max-w-64"
+            class="flex max-w-32 items-center gap-x-1 overflow-x-scroll rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2 md:max-w-72"
         >
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction
