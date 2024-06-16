@@ -30,10 +30,10 @@
         class="space-x-4"
     >
         <x-comments::button wire:click="save" size="sm" dirtyTarget="text" loadingTarget="save">
-            {{__('Save')}}
+            {{ __('Save') }}
         </x-comments::button>
         <x-comments::button wire:click="discard" size="sm" severity="info" type="button" loadingTarget="discard">
-            {{__('Discard')}}
+            {{ __('Discard') }}
         </x-comments::button>
     </div>
 
