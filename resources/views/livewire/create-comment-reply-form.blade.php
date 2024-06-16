@@ -87,42 +87,42 @@
     </form>
 
     @script
-    <script>
-        let editorConfig = @js(config('comments.editor_config'));
-        const quill = new Quill(`#${$wire.editorId}`, editorConfig);
+        <script>
+            let editorConfig = @js(config('comments.editor_config'));
+            const quill = new Quill(`#${$wire.editorId}`, editorConfig);
 
-        const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
-        const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
+            const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
+            const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
 
-        const toolbars = Array.from(document.querySelector(".ql-toolbar"));
+            const toolbars = Array.from(document.querySelector('.ql-toolbar'));
 
-        toolbarParentElm.append(toolbars.slice(-1));
+            toolbarParentElm.append(toolbars.slice(-1));
 
-        if (!$wire.LoginRequired || $wire.limitExceeded) {
-            quill.disable();
-        }
-
-        quill.on("text-change", (delta, oldDelta, source) => {
-            let html = editorElm.innerHTML;
-            if (html === "<p><br></p>") {
-                $wire.text = "";
-                return;
+            if (!$wire.LoginRequired || $wire.limitExceeded) {
+                quill.disable();
             }
-            $wire.text = html;
-        });
 
-        $wire.on("reply-created", function() {
-            quill.setText($wire.text);
-        });
+            quill.on('text-change', (delta, oldDelta, source) => {
+                let html = editorElm.innerHTML;
+                if (html === '<p><br></p>') {
+                    $wire.text = '';
+                    return;
+                }
+                $wire.text = html;
+            });
 
-        $wire.on("reply-discarded", function() {
-            quill.setText("");
-        });
+            $wire.on('reply-created', function () {
+                quill.setText($wire.text);
+            });
 
-        quill.on("text-change", () => handleEditorTextChange(editorElm, $wire));
-        Livewire.on("user-selected." + $wire.editorId, () =>
-            window.onMentionedUserSelected(event, quill, editorElm)
-        );
-    </script>
+            $wire.on('reply-discarded', function () {
+                quill.setText('');
+            });
+
+            quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
+            Livewire.on('user-selected.' + $wire.editorId, () =>
+                window.onMentionedUserSelected(event, quill, editorElm)
+            );
+        </script>
     @endscript
 </div>
