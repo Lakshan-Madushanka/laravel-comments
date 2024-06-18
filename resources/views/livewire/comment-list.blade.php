@@ -256,6 +256,12 @@
         <script>
             highlightSyntax();
 
+            $wire.on('filter-applied', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
+
             $wire.on('comment-updated', () => {
                 setTimeout(() => {
                     highlightSyntax();

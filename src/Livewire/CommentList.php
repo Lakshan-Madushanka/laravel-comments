@@ -79,9 +79,11 @@ class CommentList extends Component
     public function setSortBy(string $sortBy): void
     {
         $this->sortBy = $sortBy;
+
+        $this->dispatchFilterAppliedEvent();
     }
 
-    public function setFilter(string $filter)
+    public function setFilter(string $filter): void
     {
         if ($this->filter) {
             $this->filter = '';
@@ -89,6 +91,8 @@ class CommentList extends Component
         }
 
         $this->filter = $filter;
+
+        $this->dispatchFilterAppliedEvent();
     }
 
     #[On('comment-created')]
@@ -113,6 +117,11 @@ class CommentList extends Component
     private function setPaginationRequired(): void
     {
        $this->paginationRequired = $this->limit < $this->total;
+    }
+
+    public function dispatchFilterAppliedEvent(): void
+    {
+        $this->dispatch('filter-applied');
     }
 
     public function render(): View|Factory|Application
