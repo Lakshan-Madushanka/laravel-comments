@@ -71,7 +71,11 @@
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
-            <div x-ref="comment{{ $comment->getKey() }}" wire:key="comment-{{$loop->index}}" class="flex gap-x-2 sm:gap-x-4">
+            <div
+                x-ref="comment{{ $comment->getKey() }}"
+                wire:key="comment-{{ $loop->index }}"
+                class="flex gap-x-2 sm:gap-x-4"
+            >
                 <div class="basis-14">
                     <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
                         <img
@@ -176,13 +180,21 @@
 
                     <!--Reaction manager -->
                     <div x-show="!showUpdateForm" class="mt-2">
-                        <livewire:comments-reactions-manager :key="'reaction-manager-' . $loop->index" :$comment :relatedModel="$model" />
+                        <livewire:comments-reactions-manager
+                            :key="'reaction-manager-' . $loop->index"
+                            :$comment
+                            :relatedModel="$model"
+                        />
                     </div>
 
                     <!-- Update Form -->
                     @if ($model->canEditComment($comment))
                         <div x-show="showUpdateForm" x-transition class="basis-full">
-                            <livewire:comments-update-form :key="'update-form-'. $loop->index" :comment="$comment" :model="$model" />
+                            <livewire:comments-update-form
+                                :key="'update-form-'. $loop->index"
+                                :comment="$comment"
+                                :model="$model"
+                            />
                         </div>
                     @endif
 
