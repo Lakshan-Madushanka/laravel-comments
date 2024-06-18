@@ -16,7 +16,7 @@
         <span x-text="getTotal()"></span>
     </div>
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
-        @if ($comments->count() > 1 && config('comments.show_filters'))
+        @if (($comments->count() > 1 || $sortBy !== 'my_comments') && config('comments.show_filters'))
             <div class="flex gap-x-2 overflow-auto sm:gap-x-3">
                 <div class="w-14"></div>
                 <x-comments::chip
@@ -32,7 +32,9 @@
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'latest'])
+                    @class([
+                        'hover:bg-gray-500 cursor-pointer text-nowrap transition',
+                        '!bg-gray-500' => $sortBy === 'latest'])
                 >
                     {{ __('Newest') }}
                 </x-comments::chip>
@@ -52,7 +54,7 @@
                 </x-comments::chip>
 
                 <x-comments::chip
-                    wire:click="$set('filter', 'my_comments')"
+                    wire:click="setFilter('my_comments')"
                     wire:loading.class="!pointer-events-none"
                     @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $filter === 'my_comments'])
                 >

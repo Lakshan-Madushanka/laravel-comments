@@ -77,6 +77,16 @@ class CommentList extends Component
         $this->sortBy = $sortBy;
     }
 
+    public function setFilter(string $filter)
+    {
+        if ($this->filter) {
+            $this->filter = '';
+            return;
+        }
+
+        $this->filter = $filter;
+    }
+
     #[On('comment-created')]
     public function increaseCommentCount(bool $approvalRequired): void
     {
@@ -99,7 +109,7 @@ class CommentList extends Component
 
     private function setProfileUrl(): void
     {
-        if($user = $this->model->getAuthUser()) {
+        if ($user = $this->model->getAuthUser()) {
             $this->profileUrl = $user->profileUrl();
         }
     }
