@@ -13,7 +13,7 @@
             >
                 @foreach ($users as $user)
                     <button
-                        wire:click="userSelected('{{ $user->name }}')"
+                        wire:click="userSelected(@js($user->name))"
                         class="flex w-full cursor-pointer items-center gap-x-4 p-2 transition hover:bg-gray-300 focus:!border-0 focus:!bg-gray-300 focus:outline-none"
                         type="button"
                     >
