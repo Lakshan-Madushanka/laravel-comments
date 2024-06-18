@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-[x-cloak] { display: none !important; }
+[x-cloak] {
+    display: none !important;
+}
 
 .ql-toolbar {
     @apply rounded rounded-b-none;
