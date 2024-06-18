@@ -73,9 +73,12 @@
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
+            @php
+                $id = Str::random();
+            @endphp
             <div
                 x-ref="comment{{ $comment->getKey() }}"
-                wire:key="{{ $comment->getKey() }}"
+                :key="$id"
                 class="flex gap-x-2 sm:gap-x-4"
             >
                 <div class="basis-14">
@@ -88,12 +91,12 @@
                     </a>
                 </div>
                 <div
-                    x-data="{ showUpdateForm: false }"
+                    x-data="{showUpdateForm: false}"
                     @comment-update-discarded.window="(e) => {
-                             if(e.detail.commentId === @js($comment->getKey())) {
-                                   showUpdateForm = false;
-                             }
-                        }"
+                                 if(e.detail.commentId === @js($comment->getKey())) {
+                                       showUpdateForm = false;
+                                 }
+                            }"
                     class="basis-full"
                 >
                     <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
@@ -101,13 +104,13 @@
                             class="mb-2 flex flex-col items-start border-b border-gray-100 bg-gray-100 p-1 sm:flex-row sm:items-center sm:justify-between"
                         >
                             <div class="space-x-1">
-                                <span class="font-bold sm:hidden">
-                                    {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
-                                </span>
+                                    <span class="font-bold sm:hidden">
+                                        {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
+                                    </span>
 
                                 <span class="hidden font-bold sm:inline">
-                                    {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
-                                </span>
+                                        {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
+                                    </span>
 
                                 <span class="inline-block h-2 w-[1px] bg-black"></span>
 
@@ -160,57 +163,59 @@
                         <div
                             x-ref="text"
                             @comment-updated.window="(e) => {
-                                    let key = @js($comment->getKey());
-                                    if(e.detail.commentId === key) {
-                                        if(@js($model->approvalRequired())) {
-                                            let elm = 'comment'+ key;
-                                             setTimeout(() => {
-                                               $refs[elm].remove();
-                                               total -= 1;
-                                             }, 2000);
-                                            return;
+                                        let key = @js($comment->getKey());
+                                        if(e.detail.commentId === key) {
+                                            if(@js($model->approvalRequired())) {
+                                                let elm = 'comment'+ key;
+                                                 setTimeout(() => {
+                                                   $refs[elm].remove();
+                                                   total -= 1;
+                                                 }, 2000);
+                                                return;
+                                            }
+                                            $refs.text.innerHTML = e.detail.text;
+                                            showUpdateForm = false;
                                         }
-                                        $refs.text.innerHTML = e.detail.text;
-                                        showUpdateForm = false;
-                                    }
-                                }"
+                                    }"
                             class="p-1"
                         >
                             {!! $comment->text !!}
                         </div>
                     </div>
 
-                    <div wire:ignore x-show="!showUpdateForm" class="mt-2">
+                    <!--Reaction manager -->
+                    <div x-show="!showUpdateForm" class="mt-2">
                         <livewire:comments-reactions-manager
-                            :key="$comment->getKey()"
+                            :key="$id"
                             :$comment
                             :relatedModel="$model"
                         />
                     </div>
 
-                    <div x-show="showUpdateForm" x-transition class="basis-full">
-                        @if ($model->canEditComment($comment))
+                    <!-- Update Form -->
+                    @if ($model->canEditComment($comment))
+                        <div x-show="showUpdateForm" x-transition class="basis-full">
                             <livewire:comments-update-form
+                                :key="$id"
                                 :comment="$comment"
                                 :model="$model"
-                                :key="$comment->getKey()"
                             />
-                        @endif
-                    </div>
+                        </div>
+                    @endif
 
                     @if (config('comments.reply.enabled'))
                         <div
                             x-data="{ showReplyList: @js($showReplyList), replyCount: @js($comment->replies_count) }"
                             @reply-created.window="
-                                if($event.detail.commentId === {{ $comment->getKey() }}) {
-                                    replyCount += 1;
-                                }
-                              "
+                                    if($event.detail.commentId === {{ $comment->getKey() }}) {
+                                        replyCount += 1;
+                                    }
+                                  "
                             @reply-deleted.window="
-                                if($event.detail.commentId === {{ $comment->getKey() }}) {
-                                    replyCount -= 1;
-                                }
-                                "
+                                    if($event.detail.commentId === {{ $comment->getKey() }}) {
+                                        replyCount -= 1;
+                                    }
+                                    "
                             class="mt-2"
                         >
                             <div
@@ -230,12 +235,13 @@
                                 </x-comments::link>
                             </div>
 
+                            <!-- Reply List -->
                             <div x-show="showReplyList" x-transtion class="ml-[-2rem] mt-6 sm:ml-8">
                                 <livewire:comments-reply-list
+                                    :key="$id"
                                     :$comment
                                     :relatedModel="$model"
                                     :total="$comment->replies_count"
-                                    wire:key="replies-{{ $comment->getKey() }}"
                                 />
                             </div>
                         </div>
@@ -260,26 +266,27 @@
     @endif
 
     @script
-        <script>
-            highlightSyntax();
+    <script>
+        highlightSyntax();
 
-            $wire.on('comment-updated', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            });
+        $wire.on("comment-updated", () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        });
 
-            Livewire.on('comment-created', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            });
+        Livewire.on("comment-created", () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        });
 
-            $wire.on('more-comments-loaded', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            });
-        </script>
+        $wire.on("more-comments-loaded", () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        });
+    </script>
     @endscript
+
 </div>
