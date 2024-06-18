@@ -34,6 +34,8 @@ class CommentReplyList extends Component
 
     public int $perPage;
 
+    public bool $paginationRequired;
+
     #[Locked]
     public bool $guestMode;
 
@@ -66,6 +68,8 @@ class CommentReplyList extends Component
         $this->setApprovalRequired();
 
         $this->setProfileUrl();
+
+        $this->setPaginationRequired();
     }
 
     public function paginate(): void
@@ -118,6 +122,11 @@ class CommentReplyList extends Component
     public function setShowStatus()
     {
         $this->show = !$this->show;
+    }
+
+    private function setPaginationRequired(): void
+    {
+        $this->paginationRequired = $this->limit < $this->total;
     }
 
     public function render(): View|Factory|Application

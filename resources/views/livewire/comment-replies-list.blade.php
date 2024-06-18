@@ -135,7 +135,7 @@
         @endforeach
     @endif
 
-    @if ($replies->isNotEmpty() && config('comments.reply.pagination.enabled') && $limit < $total)
+    @if ($replies->isNotEmpty() && config('comments.reply.pagination.enabled') && $paginationRequired)
         <div class="flex items-center justify-center">
             @if ($limit < $total)
                 <x-comments::button wire:click="paginate" size="sm" type="button" loadingTarget="paginate">

@@ -33,6 +33,8 @@ class CommentList extends Component
     #[Locked]
     public bool $authMode;
 
+    public bool $paginationRequired;
+
     public string $sortBy = 'top';
 
     public string $filter = '';
@@ -55,6 +57,8 @@ class CommentList extends Component
         $this->authMode = !$this->model->guestModeEnabled();
 
         $this->setProfileUrl();
+
+        $this->setPaginationRequired();
     }
 
     public function paginate(): void
@@ -99,18 +103,23 @@ class CommentList extends Component
         $this->showReplyList = true;
     }
 
+    private function setProfileUrl(): void
+    {
+        if ($user = $this->model->getAuthUser()) {
+            $this->profileUrl = $user->profileUrl();
+        }
+    }
+
+    private function setPaginationRequired(): void
+    {
+       $this->paginationRequired = $this->limit < $this->total;
+    }
+
     public function render(): View|Factory|Application
     {
         return view(
             'comments::livewire.comment-list',
             ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter)]
         );
-    }
-
-    private function setProfileUrl(): void
-    {
-        if ($user = $this->model->getAuthUser()) {
-            $this->profileUrl = $user->profileUrl();
-        }
     }
 }

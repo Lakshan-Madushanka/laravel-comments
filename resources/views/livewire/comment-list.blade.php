@@ -253,7 +253,7 @@
         <div class="text-lg">{{ __('Be the first one to make a comment !') }}</div>
     @endif
 
-    @if ($comments->isNotEmpty() && $model->paginationEnabled() && $limit < $total)
+    @if ($comments->isNotEmpty() && $model->paginationEnabled() && $paginationRequired)
         <div class="flex items-center justify-center">
             @if ($limit < $total)
                 <x-comments::button wire:click="paginate" type="button" loadingTarget="paginate">
