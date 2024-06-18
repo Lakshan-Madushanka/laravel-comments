@@ -32,9 +32,7 @@
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'hover:bg-gray-500 cursor-pointer text-nowrap transition',
-                        '!bg-gray-500' => $sortBy === 'latest'])
+                    @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'latest'])
                 >
                     {{ __('Newest') }}
                 </x-comments::chip>
@@ -76,11 +74,8 @@
             @php
                 $id = Str::random();
             @endphp
-            <div
-                x-ref="comment{{ $comment->getKey() }}"
-                :key="$id"
-                class="flex gap-x-2 sm:gap-x-4"
-            >
+
+            <div x-ref="comment{{ $comment->getKey() }}" :key="$id" class="flex gap-x-2 sm:gap-x-4">
                 <div class="basis-14">
                     <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
                         <img
@@ -91,7 +86,7 @@
                     </a>
                 </div>
                 <div
-                    x-data="{showUpdateForm: false}"
+                    x-data="{ showUpdateForm: false }"
                     @comment-update-discarded.window="(e) => {
                                  if(e.detail.commentId === @js($comment->getKey())) {
                                        showUpdateForm = false;
@@ -104,13 +99,13 @@
                             class="mb-2 flex flex-col items-start border-b border-gray-100 bg-gray-100 p-1 sm:flex-row sm:items-center sm:justify-between"
                         >
                             <div class="space-x-1">
-                                    <span class="font-bold sm:hidden">
-                                        {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
-                                    </span>
+                                <span class="font-bold sm:hidden">
+                                    {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
+                                </span>
 
                                 <span class="hidden font-bold sm:inline">
-                                        {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
-                                    </span>
+                                    {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
+                                </span>
 
                                 <span class="inline-block h-2 w-[1px] bg-black"></span>
 
@@ -185,21 +180,13 @@
 
                     <!--Reaction manager -->
                     <div x-show="!showUpdateForm" class="mt-2">
-                        <livewire:comments-reactions-manager
-                            :key="$id"
-                            :$comment
-                            :relatedModel="$model"
-                        />
+                        <livewire:comments-reactions-manager :key="$id" :$comment :relatedModel="$model" />
                     </div>
 
                     <!-- Update Form -->
                     @if ($model->canEditComment($comment))
                         <div x-show="showUpdateForm" x-transition class="basis-full">
-                            <livewire:comments-update-form
-                                :key="$id"
-                                :comment="$comment"
-                                :model="$model"
-                            />
+                            <livewire:comments-update-form :key="$id" :comment="$comment" :model="$model" />
                         </div>
                     @endif
 
@@ -266,27 +253,26 @@
     @endif
 
     @script
-    <script>
-        highlightSyntax();
+        <script>
+            highlightSyntax();
 
-        $wire.on("comment-updated", () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        });
+            $wire.on('comment-updated', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
 
-        Livewire.on("comment-created", () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        });
+            Livewire.on('comment-created', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
 
-        $wire.on("more-comments-loaded", () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        });
-    </script>
+            $wire.on('more-comments-loaded', () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            });
+        </script>
     @endscript
-
 </div>
