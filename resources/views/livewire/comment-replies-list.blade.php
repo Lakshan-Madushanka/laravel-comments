@@ -6,7 +6,7 @@
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
             <div
-                x-ref="reply{{ $reply->getKey() }}"
+                x-ref="reply-{{ $reply->getKey() }}"
                 wire:key="{{ $reply->getKey() }}"
                 class="flex gap-x-2 sm:gap-x-4"
             >
@@ -20,7 +20,6 @@
                     </a>
                 </div>
                 <div
-                    wire:ignore
                     x-data="{ showUpdateForm: false }"
                     @reply-update-discarded.window="(e) => {
                              if(e.detail.replyId === @js($reply->getKey())) {
@@ -69,7 +68,7 @@
                                 @if ($this->canDeleteReply($reply))
                                     <div
                                         wire:click="delete({{ $reply }})"
-                                        wire:confirm="Are you sure you want to delete this reply?"
+                                        wire:confirm="{{__('Are you sure you want to delete this reply?')}}"
                                         class="flex items-center"
                                     >
                                         <x-comments::action
@@ -111,9 +110,9 @@
                         </div>
                     </div>
 
-                    <div wire:ignore x-show="!showUpdateForm" class="mt-2">
+                    <div x-show="!showUpdateForm" class="mt-2">
                         <livewire:comments-reactions-manager
-                            :key="$reply->getKey()"
+                            :key="'reply-reaction-manager' . $reply->getKey()"
                             :comment="$reply"
                             :$guestMode
                             :$relatedModel
@@ -124,7 +123,7 @@
                     <div x-show="showUpdateForm" x-transition class="basis-full">
                         @if ($this->canUpdateReply($reply))
                             <livewire:comments-reply-update-form
-                                :key="$reply->getKey()"
+                                :key="'reply-update-form' . $reply->getKey()"
                                 :$reply
                                 :guestModeEnabled="$guestMode"
                             />
