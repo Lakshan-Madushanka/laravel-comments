@@ -81,7 +81,7 @@ return [
     // Comments pagination
     'pagination' => [
         'enabled' => true,
-        'per_page' => 35,
+        'per_page' => 15,
     ],
 
     'permissions' => [

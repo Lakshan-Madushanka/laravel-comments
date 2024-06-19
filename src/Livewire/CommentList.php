@@ -56,8 +56,6 @@ class CommentList extends Component
 
         $this->authMode = !$this->model->guestModeEnabled();
 
-        $this->setProfileUrl();
-
         $this->setPaginationRequired();
     }
 
@@ -66,14 +64,6 @@ class CommentList extends Component
         $this->limit += $this->perPage;
 
         $this->dispatch('more-comments-loaded');
-    }
-
-    public function delete(Comment $comment): void
-    {
-        if ($this->model->canDeleteComment($comment) && DeleteCommentAction::execute($comment)) {
-            $this->dispatch('comment-deleted', commentId: $comment->getKey());
-            $this->total -= 1;
-        }
     }
 
     public function setSortBy(string $sortBy): void
@@ -105,13 +95,6 @@ class CommentList extends Component
         $this->total += 1;
 
         $this->showReplyList = true;
-    }
-
-    private function setProfileUrl(): void
-    {
-        if ($user = $this->model->getAuthUser()) {
-            $this->profileUrl = $user->profileUrl();
-        }
     }
 
     private function setPaginationRequired(): void

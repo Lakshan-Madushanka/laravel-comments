@@ -27,9 +27,8 @@
                     showMsg = true;
                 }
             }"
-        class="space-x-4"
     >
-        <x-comments::button wire:click="save" size="sm" dirtyTarget="text" loadingTarget="save">
+        <x-comments::button wire:click="save" class='mr-4' size="sm" dirtyTarget="text" loadingTarget="save">
             {{ __('Save') }}
         </x-comments::button>
         <x-comments::button wire:click="discard" size="sm" severity="info" type="button" loadingTarget="discard">

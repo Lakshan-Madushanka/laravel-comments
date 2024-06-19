@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use LakM\Comments\Console\InstallCommand;
+use LakM\Comments\Livewire\CommentItem;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\CommentReplyList;
 use LakM\Comments\Livewire\CreateCommentForm;
@@ -55,6 +56,7 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-reply-list', CommentReplyList::class);
         Livewire::component('comments-reply-update-form', UpdateCommentReplyForm::class);
         Livewire::component('comments-user-list', UserList::class);
+        Livewire::component('comments-item', CommentItem::class);
     }
 
     protected function setBladeDirectives(): void
@@ -95,7 +97,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/lakm/laravel-comments')
         ], 'comments-assets');
-		
+
 		$this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/comments'),
         ], 'comments-views');
