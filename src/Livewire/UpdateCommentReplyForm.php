@@ -65,14 +65,14 @@ class UpdateCommentReplyForm extends Component
         $this->dispatch('reply-update-discarded', replyId: $this->reply->getKey());
     }
 
-    public function setApprovalRequired()
+    public function setApprovalRequired(): void
     {
         $this->approvalRequired = config('comments.reply.approval_required');
     }
 
-    public function canUpdateReply(Reply $reply)
+    public function canUpdateReply(Reply $reply): bool
     {
-        return Gate::allows('update-reply', $reply);
+        return Gate::allows('update-reply', [$reply,  $this->guestModeEnabled]);
     }
 
     public function render()
