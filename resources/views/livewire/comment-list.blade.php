@@ -1,7 +1,3 @@
-@php
-    use Illuminate\Support\Str;
-@endphp
-
 <div
     x-data="{
         total: $wire.entangle('total'),
@@ -9,16 +5,7 @@
             return '(' + this.total + ')'
         },
     }"
-    @comment-updated.window="(e) => {
-                        if(@js($model->approvalRequired())) {
-                            let elm = 'comment'+ key;
-                             setTimeout(() => {
-                               $refs[elm].remove();
-                               total -= 1;
-                             }, 2000);
-                            return;
-                        }
-                }"
+    @unauthorized-comment-updated.window="$wire.$refresh"
     class="space-y-6"
 >
     <div class="text-lg font-bold">
@@ -88,7 +75,6 @@
                     :$guestMode
                     :$model
                     :$showReplyList
-                    :$loop
                 />
 
         @endforeach

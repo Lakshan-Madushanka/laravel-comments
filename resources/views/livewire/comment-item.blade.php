@@ -86,13 +86,12 @@
                         if(@js($model->approvalRequired())) {
                             let elm = 'comment'+ key;
                              setTimeout(() => {
-                               $refs[elm].remove();
-                               total -= 1;
+                                    showUpdateForm = false;
+                                     $wire.$parent.total -= 1;
+                                     $dispatch('unauthorized-comment-updated')
                              }, 2000);
-                            return;
                         }
                         $refs.text.innerHTML = e.detail.text;
-                        showUpdateForm = false;
                     }
                 }"
                 class="p-1"
@@ -133,6 +132,13 @@
                         replyCount -= 1;
                     }
                 "
+                @unauthorized-reply-updated.window="(e) => {
+                                let key = @js($comment->getKey());
+                                if(e.detail.commentId === key) {
+                                        replyCount -= 1;
+
+                                }
+                            }"
                 class="mt-2"
             >
                 <div

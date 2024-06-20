@@ -1,6 +1,5 @@
 <div
     x-data="{ total: $wire.entangle('total') }"
-    @reply-deleted.window="$wire.$refresh"
     class="space-y-6"
 >
     @if ($replies->isNotEmpty())
@@ -28,28 +27,28 @@
     @endif
 
     @script
-        <script>
+    <script>
+        setTimeout(() => {
+            highlightSyntax();
+        }, 1500);
+
+        $wire.on("reply-updated", () => {
             setTimeout(() => {
                 highlightSyntax();
             }, 1500);
+        });
 
-            $wire.on('reply-updated', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            });
+        Livewire.on("reply-created", () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        });
 
-            Livewire.on('reply-created', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            });
-
-            $wire.on('more-comments-loaded', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            });
-        </script>
+        $wire.on("more-comments-loaded", () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        });
+    </script>
     @endscript
 </div>

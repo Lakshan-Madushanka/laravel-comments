@@ -1,5 +1,5 @@
 <div
-    x-ref="reply-{{ $reply->getKey() }}"
+    x-ref="reply{{ $reply->getKey() }}"
     class="flex gap-x-2 sm:gap-x-4"
 >
     <div class="basis-14">
@@ -25,13 +25,13 @@
                 class="mb-2 flex flex-col items-start justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1 sm:flex-row sm:items-center sm:justify-between"
             >
                 <div class="space-x-1">
-                                <span class="font-bold sm:hidden">
-                                    {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 10) }}
-                                </span>
+                    <span class="font-bold sm:hidden">
+                        {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 10) }}
+                    </span>
 
                     <span class="hidden font-bold sm:inline">
-                                    {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 25) }}
-                                </span>
+                        {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 25) }}
+                    </span>
 
                     <span class="inline-block h-2 w-[1px] bg-black"></span>
 
@@ -89,11 +89,11 @@
                                          setTimeout(() => {
                                            $refs[elm].remove();
                                            total -= 1;
+                                           showUpdateForm = false;
+                                           $dispatch('unauthorized-reply-updated', {'commentId': @js($comment->getKey())})
                                          }, 2000);
-                                        return;
                                     }
                                     $refs.text.innerHTML = e.detail.text;
-                                    showUpdateForm = false;
                                 }
                             }"
                 class="p-1"
