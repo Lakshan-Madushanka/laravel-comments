@@ -113,7 +113,7 @@ return [
         'approval_required' => false,
         'pagination' => [
             'enabled' => true,
-            'per_page' => 15,
+            'per_page' => 10,
         ],
     ],
     /**
