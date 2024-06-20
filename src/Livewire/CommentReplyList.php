@@ -11,6 +11,7 @@ use LakM\Comments\Actions\DeleteCommentReplyAction;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\Repository;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -40,12 +41,7 @@ class CommentReplyList extends Component
     public bool $guestMode;
 
     #[Locked]
-    public bool $authMode;
-
-    #[Locked]
     public bool $approvalRequired;
-
-    public string|false $profileUrl = false;
 
     public function mount(Comment $comment, Model $relatedModel, int $total): void
     {
@@ -63,13 +59,9 @@ class CommentReplyList extends Component
 
         $this->guestMode = $this->relatedModel->guestModeEnabled();
 
-        $this->authMode = !$this->relatedModel->guestModeEnabled();
+        $this->setPaginationRequired();
 
         $this->setApprovalRequired();
-
-        $this->setProfileUrl();
-
-        $this->setPaginationRequired();
     }
 
     public function paginate(): void
@@ -79,54 +71,40 @@ class CommentReplyList extends Component
         $this->dispatch('more-comments-loaded');
     }
 
-    public function delete(Reply $reply): void
+    #[On('show-replies.{comment.id}')]
+    public function setShowStatus(): void
     {
-        if ($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
-            $this->dispatch('reply-deleted', replyId: $reply->getKey(), commentId: $this->comment->getKey());
-
-            $this->total -= 1;
-        }
+        $this->show = !$this->show;
     }
 
     #[On('reply-created')]
     public function onReplyCreated($commentId): void
     {
+        if ($this->approvalRequired) {
+            return;
+        }
+
         if ($commentId === $this->comment->getKey()) {
             $this->total += 1;
         }
     }
 
-    public function canUpdateReply(Reply $reply): bool
+    #[On('reply-created')]
+    public function onReplyDeleted($commentId): void
     {
-        return Gate::allows('update-reply', [$reply, $this->guestMode]);
-    }
-
-    public function canDeleteReply(Reply $reply): bool
-    {
-        return Gate::allows('delete-reply', [$reply, $this->guestMode]);
-    }
-
-    public function setApprovalRequired(): void
-    {
-        $this->approvalRequired = config('comments.reply.approval_required');
-    }
-
-    private function setProfileUrl(): void
-    {
-        if($user = $this->relatedModel->getAuthUser()) {
-            $this->profileUrl = $user->profileUrl();
+        if ($commentId === $this->comment->getKey()) {
+            $this->total -= 1;
         }
-    }
-
-    #[On('show-replies.{comment.id}')]
-    public function setShowStatus()
-    {
-        $this->show = !$this->show;
     }
 
     private function setPaginationRequired(): void
     {
         $this->paginationRequired = $this->limit < $this->total;
+    }
+
+    public function setApprovalRequired(): void
+    {
+        $this->approvalRequired = config('comments.reply.approval_required');
     }
 
     public function render(): View|Factory|Application

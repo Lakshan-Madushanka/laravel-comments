@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use LakM\Comments\Console\InstallCommand;
 use LakM\Comments\Livewire\CommentItem;
 use LakM\Comments\Livewire\CommentList;
+use LakM\Comments\Livewire\CommentReplyItem;
 use LakM\Comments\Livewire\CommentReplyList;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CreateCommentReplyForm;
@@ -57,6 +58,8 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-reply-update-form', UpdateCommentReplyForm::class);
         Livewire::component('comments-user-list', UserList::class);
         Livewire::component('comments-item', CommentItem::class);
+        Livewire::component('comments-reply-item', CommentReplyItem::class);
+
     }
 
     protected function setBladeDirectives(): void
