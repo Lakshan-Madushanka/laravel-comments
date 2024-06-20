@@ -68,15 +68,7 @@
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
-
-                <livewire:comments-item
-                    :key="'comment'. $comment->id"
-                    :$comment
-                    :$guestMode
-                    :$model
-                    :$showReplyList
-                />
-
+            <livewire:comments-item :key="'comment'. $comment->id" :$comment :$guestMode :$model :$showReplyList />
         @endforeach
     @else
         <div class="text-lg">{{ __('Be the first one to make a comment !') }}</div>

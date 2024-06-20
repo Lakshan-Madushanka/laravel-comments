@@ -19,7 +19,8 @@
     >
         <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
             <div
-                class="mb-2 flex flex-col items-start border-b border-gray-100 bg-gray-100 p-1 sm:flex-row sm:items-center sm:justify-between">
+                class="mb-2 flex flex-col items-start border-b border-gray-100 bg-gray-100 p-1 sm:flex-row sm:items-center sm:justify-between"
+            >
                 <div class="space-x-1">
                     <span class="font-bold sm:hidden">
                         {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
@@ -37,8 +38,7 @@
                         <span
                             x-text="moment(@js($comment->created_at)).format('YYYY/M/D H:mm')"
                             class="text-xs"
-                        >
-                        </span>
+                        ></span>
                     @endif
 
                     @if ($comment->isEdited())
@@ -69,11 +69,7 @@
                             >
                                 {{ __('Delete') }}
                             </x-comments::action>
-                            <x-comments::spin
-                                wire:loading
-                                wire:target="delete({{$comment}})"
-                                class="!text-blue-500"
-                            />
+                            <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500" />
                         </div>
                     @endif
                 </div>
@@ -112,10 +108,7 @@
         <!-- Update Form -->
         @if ($model->canEditComment($comment))
             <div x-show="showUpdateForm" x-transition class="basis-full">
-                <livewire:comments-update-form
-                    :key="'update-form-'. $comment->id"
-                    :$comment
-                    :$model />
+                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
             </div>
         @endif
 

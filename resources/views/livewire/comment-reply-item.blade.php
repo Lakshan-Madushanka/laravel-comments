@@ -1,7 +1,4 @@
-<div
-    x-ref="reply{{ $reply->getKey() }}"
-    class="flex gap-x-2 sm:gap-x-4"
->
+<div x-ref="reply{{ $reply->getKey() }}" class="flex gap-x-2 sm:gap-x-4">
     <div class="basis-14">
         <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
@@ -60,21 +57,13 @@
                     @if ($this->canDeleteReply($reply))
                         <div
                             wire:click="delete({{ $reply }})"
-                            wire:confirm="{{__('Are you sure you want to delete this reply?')}}"
+                            wire:confirm="{{ __('Are you sure you want to delete this reply?') }}"
                             class="flex items-center"
                         >
-                            <x-comments::action
-                                wire:loading.remove
-                                wire:target="delete({{$reply}})"
-                                class="text-sm"
-                            >
+                            <x-comments::action wire:loading.remove wire:target="delete({{$reply}})" class="text-sm">
                                 {{ __('Delete') }}
                             </x-comments::action>
-                            <x-comments::spin
-                                wire:loading
-                                wire:target="delete({{$reply}})"
-                                class="!text-blue-500"
-                            />
+                            <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500" />
                         </div>
                     @endif
                 </div>
@@ -123,4 +112,3 @@
         </div>
     </div>
 </div>
-
