@@ -1,7 +1,8 @@
 <div align="center">
   <img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/811e40d6-3988-4cb9-861d-cc9e98005d65" width="1000" height="300" alt="Commenter logo">
 
-# Commenter
+
+#  <img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/73ed97a6-9bdd-4b4e-8a87-fd5027d67149" width="359" height="50">
 
 ***Everything you need for your commenting system***
 

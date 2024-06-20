@@ -32,7 +32,7 @@ class CommentList extends Component
 
     public string $sortBy = 'top';
 
-    public string $filter = 'my_comments';
+    public string $filter = '';
 
     public bool $showReplyList = false;
 
@@ -56,7 +56,6 @@ class CommentList extends Component
 
         $this->dispatch('more-comments-loaded');
     }
-
 
     public function setTotalCommentsCount(): int
     {
@@ -93,6 +92,12 @@ class CommentList extends Component
         $this->total += 1;
 
         $this->showReplyList = true;
+    }
+
+    #[On('comment-deleted')]
+    public function onReplyDeleted($commentId): void
+    {
+            $this->total -= 1;
     }
 
     private function setPaginationRequired(): void

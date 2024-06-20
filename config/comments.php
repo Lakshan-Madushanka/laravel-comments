@@ -146,12 +146,4 @@ return [
      * 'diff' (hour ago), 'standard' (2024/5/2 17:48)
      */
     'date_format' => 'diff',
-
-    'admin_panel' => [
-        'enabled' => true,
-        'routes' => [
-            'middlewares' => [],
-            'prefix' => 'admin',
-        ],
-    ],
 ];

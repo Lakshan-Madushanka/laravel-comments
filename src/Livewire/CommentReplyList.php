@@ -6,12 +6,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Actions\DeleteCommentReplyAction;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Reply;
 use LakM\Comments\Repository;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -89,7 +85,7 @@ class CommentReplyList extends Component
         }
     }
 
-    #[On('reply-created')]
+    #[On('reply-deleted')]
     public function onReplyDeleted($commentId): void
     {
         if ($commentId === $this->comment->getKey()) {
