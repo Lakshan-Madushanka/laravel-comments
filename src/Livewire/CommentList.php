@@ -6,8 +6,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Actions\DeleteCommentAction;
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -30,31 +28,24 @@ class CommentList extends Component
     #[Locked]
     public bool $guestMode;
 
-    #[Locked]
-    public bool $authMode;
-
     public bool $paginationRequired;
 
     public string $sortBy = 'top';
 
-    public string $filter = '';
+    public string $filter = 'my_comments';
 
     public bool $showReplyList = false;
-
-    public string|false $profileUrl = false;
 
     public function mount(Model $model): void
     {
         $this->model = $model;
 
-        $this->total = Repository::getTotalCommentsCountForRelated($this->model);
+        $this->setTotalCommentsCount();
 
         $this->perPage = config('comments.pagination.per_page');
         $this->limit = config('comments.pagination.per_page');
 
         $this->guestMode = $this->model->guestModeEnabled();
-
-        $this->authMode = !$this->model->guestModeEnabled();
 
         $this->setPaginationRequired();
     }
@@ -64,6 +55,12 @@ class CommentList extends Component
         $this->limit += $this->perPage;
 
         $this->dispatch('more-comments-loaded');
+    }
+
+
+    public function setTotalCommentsCount(): int
+    {
+        return $this->total = Repository::getTotalCommentsCountForRelated($this->model, $this->filter);
     }
 
     public function setSortBy(string $sortBy): void
@@ -77,11 +74,12 @@ class CommentList extends Component
     {
         if ($this->filter) {
             $this->filter = '';
-            return;
+        } else {
+            $this->filter = $filter;
         }
 
-        $this->filter = $filter;
-
+        $this->setTotalCommentsCount();
+        $this->setPaginationRequired();
         $this->dispatchFilterAppliedEvent();
     }
 
@@ -99,7 +97,7 @@ class CommentList extends Component
 
     private function setPaginationRequired(): void
     {
-       $this->paginationRequired = $this->limit < $this->total;
+        $this->paginationRequired = $this->limit < $this->total;
     }
 
     public function dispatchFilterAppliedEvent(): void

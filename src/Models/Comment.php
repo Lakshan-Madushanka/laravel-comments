@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use LakM\Comments\Model as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
@@ -36,18 +37,33 @@ class Comment extends Model
 
     public function scopecheckApproval(Builder $query, Model $relatedModel): Builder
     {
-        return $query->when($relatedModel->approvalRequired(), fn (Builder $query) => $query->approved());
+        return $query->when($relatedModel->approvalRequired(), fn(Builder $query) => $query->approved());
     }
 
     public function scopeWithCommenter(Builder $query, Model $relatedModel): Builder
     {
-        return $query->when(!$relatedModel->guestModeEnabled(), fn (Builder $query) => $query->with('commenter'))
-        ;
+        return $query->when(!$relatedModel->guestModeEnabled(), fn(Builder $query) => $query->with('commenter'));
     }
 
     public function scopeWithOwnerReactions(Builder $query, Model $relatedModel): Builder
     {
-        return $query->with(['ownerReactions' => fn( $query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+        return $query->with(['ownerReactions' => fn($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+    }
+
+    public function scopeCurrentUser(Builder $query, Model $relatedModel, string $filter): Builder
+    {
+        $alias = M::userModel()->getMorphClass();
+
+        return $query->when(
+            $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
+            fn(Builder $query) => $query->where('ip_address', request()->ip())
+        )
+            ->when(
+                $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
+                fn(Builder $query) => $query
+                    ->where('commenter_type', $alias)
+                    ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
+            );
     }
 
     public function isEdited(): bool
@@ -67,7 +83,7 @@ class Comment extends Model
 
     public function reactions(): HasMany
     {
-        return $this->hasMany(\LakM\Comments\Model::reactionClass());
+        return $this->hasMany(M::reactionClass());
     }
 
     public function ownerReactions(): HasMany
@@ -82,6 +98,6 @@ class Comment extends Model
 
     public function replyReactions(): HasManyThrough
     {
-        return $this->hasManyThrough(\LakM\Comments\Model::reactionClass(), Reply::class, 'reply_id', 'comment_id');
+        return $this->hasManyThrough(M::reactionClass(), Reply::class, 'reply_id', 'comment_id');
     }
 }

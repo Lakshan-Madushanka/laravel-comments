@@ -42,20 +42,9 @@ class Repository
 
     public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy, string $filter = ''): LengthAwarePaginator|Collection
     {
-        $alias = M::userModel()->getMorphClass();
-
         return $relatedModel
             ->comments()
-            ->when(
-                $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
-                fn (Builder $query) => $query->where('ip_address', request()->ip())
-            )
-            ->when(
-                $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
-                fn (Builder $query) => $query
-                    ->where('commenter_type', $alias)
-                    ->where('commenter_type', $relatedModel->getAuthUser()->getAuthIdentifier())
-            )
+            ->currentUser($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
             ->withCommenter($relatedModel)
             ->withCount(self::addCount())
@@ -81,11 +70,11 @@ class Repository
                 return $query->withCount([
                     'reactions',
                     'replyReactions',
-                    'replyReactions as reply_reactons_dislikes_count' => function (Builder $query) {
+                    'replyReactions as reply_reactions_dislikes_count' => function (Builder $query) {
                         $query->where('type', 'dislike');
                     },
                 ])
-                    ->orderByDesc(DB::raw('reactions_count - (dislikes_count * 2) + (replies_count * 2) + reply_reactions_count - (reply_reactons_dislikes_count * 2)'));
+                    ->orderByDesc(DB::raw('reactions_count - (dislikes_count * 2) + (replies_count * 2) + reply_reactions_count - (reply_reactions_dislikes_count * 2)'));
             })
             ->when(
                 $relatedModel->paginationEnabled(),
@@ -94,10 +83,11 @@ class Repository
             );
     }
 
-    public static function getTotalCommentsCountForRelated(Model $relatedModel): int
+    public static function getTotalCommentsCountForRelated(Model $relatedModel, string $filter = ''): int
     {
         return $relatedModel
             ->comments()
+            ->currentUser($relatedModel, $filter)
             ->checkApproval($relatedModel)
             ->count();
     }
