@@ -18,8 +18,7 @@
         class="basis-full"
     >
         <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
-            <div
-                class="mb-2 flex border-b border-gray-100 bg-gray-100 p-1 items-center justify-between">
+            <div class="mb-2 flex items-center justify-between border-b border-gray-100 bg-gray-100 p-1">
                 <div class="space-x-1">
                     <span class="font-bold sm:hidden">
                         {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
@@ -37,8 +36,7 @@
                         <span
                             x-text="moment(@js($comment->created_at)).format('YYYY/M/D H:mm')"
                             class="text-xs"
-                        >
-                        </span>
+                        ></span>
                     @endif
 
                     @if ($comment->isEdited())
@@ -47,58 +45,54 @@
                     @endif
                 </div>
 
-                @if($canManipulate)
+                @if ($canManipulate)
                     <div class="flex items-center justify-center space-x-2">
-
                         <div title="My Comment">
-                            <x-comments::user-check height="14" width="14"/>
+                            <x-comments::user-check height="14" width="14" />
                         </div>
 
-                        <x-comments::spin
-                            wire:loading
-                            wire:target="delete({{$comment}})"
-                            class="!text-blue-500"
-                        />
+                        <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500" />
 
-                        <div x-data="{showEditMenu: false}"
-                             wire:loading.remove
-                             wire:target="delete({{$comment}})"
-                             class="cursor-pointer relative"
+                        <div
+                            x-data="{ showEditMenu: false }"
+                            wire:loading.remove
+                            wire:target="delete({{ $comment }})"
+                            class="relative cursor-pointer"
                         >
                             <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                <x-comments::verticle-ellipsis
-                                    :height="20"
-                                    :width="20"
-                                />
+                                <x-comments::verticle-ellipsis :height="20" :width="20" />
                             </div>
                             <ul
                                 x-show="showEditMenu"
-                                @click.outside='showEditMenu=false'
+                                @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute right-[0.8rem] bottom-[1rem] z-10 p-1 bg-white min-w-32 space-y-1 border border-[gray-100] shadow-lg rounded"
+                                class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white p-1 shadow-lg"
                             >
                                 @if ($model->canEditComment($comment))
-                                    <li @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
-                                        class="flex p-2 space-x-2 items-center hover:!bg-gray-200 rounded">
-                                        <x-comments::pencil height="13" width="13" strokeColor="blue"/>
+                                    <li
+                                        @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
+                                        class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200"
+                                    >
+                                        <x-comments::pencil height="13" width="13" strokeColor="blue" />
 
-                                        <x-comments::action class="text-xs sm:text-sm hover:!no-underline">
+                                        <x-comments::action class="text-xs hover:!no-underline sm:text-sm">
                                             {{ __('Edit') }}
                                         </x-comments::action>
                                     </li>
                                 @endif
+
                                 @if ($model->canDeleteComment($comment))
                                     <li
                                         wire:click="delete({{ $comment }})"
                                         wire:confirm="{{ __('Are you sure you want to delete this comment?') }}"
                                         @click="showEditMenu=false"
-                                        class="flex items-center space-x-2 p-2 space-x-2 items-center hover:!bg-gray-200 rounded"
+                                        class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200"
                                     >
-                                        <x-comments::trash height="13" width="13" strokeColor="red"/>
+                                        <x-comments::trash height="13" width="13" strokeColor="red" />
                                         <x-comments::action
                                             wire:loading.remove
                                             wire:target="delete({{$comment}})"
-                                            class="align-text-bottom text-xs sm:text-sm !text-red hover:!no-underline"
+                                            class="!text-red align-text-bottom text-xs hover:!no-underline sm:text-sm"
                                         >
                                             {{ __('Delete') }}
                                         </x-comments::action>
@@ -145,11 +139,7 @@
         <!-- Update Form -->
         @if ($model->canEditComment($comment))
             <div x-show="showUpdateForm" x-transition class="basis-full">
-                <livewire:comments-update-form
-                    :key="'update-form-'. $comment->id"
-                    :$comment
-                    :$model
-                />
+                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
             </div>
         @endif
 
@@ -185,8 +175,8 @@
                         type="popup"
                         class="inline-flex items-center border-b-0 px-2 py-1 transition hover:rounded hover:border-b-0 hover:bg-gray-200 [&>*]:pr-1"
                     >
-                        <x-comments::icons.chevron-down x-show="!showReplyList"/>
-                        <x-comments::icons.chevron-up x-show="showReplyList"/>
+                        <x-comments::icons.chevron-down x-show="!showReplyList" />
+                        <x-comments::icons.chevron-up x-show="showReplyList" />
                         <span x-text="replyCount"></span>
                         <span>{{ __('replies') }}</span>
                     </x-comments::link>
