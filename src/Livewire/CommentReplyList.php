@@ -39,6 +39,10 @@ class CommentReplyList extends Component
     #[Locked]
     public bool $approvalRequired;
 
+    public string $sortBy = '';
+
+    public string $filter = '';
+
     public function mount(Comment $comment, Model $relatedModel, int $total): void
     {
         if (!$this->show) {
@@ -64,13 +68,40 @@ class CommentReplyList extends Component
     {
         $this->limit += $this->perPage;
 
-        $this->dispatch('more-comments-loaded');
+        $this->dispatch('more-replies-loaded');
+    }
+
+    public function setSortBy(string $sortBy): void
+    {
+        $this->sortBy = $sortBy;
+
+        $this->dispatchFilterAppliedEvent();
+    }
+
+    public function setFilter(string $filter): void
+    {
+        if ($this->filter) {
+            $this->filter = '';
+        } else {
+            $this->filter = $filter;
+        }
+
+        $this->setTotalRepliesCount();
+        $this->setPaginationRequired();
+        $this->dispatchFilterAppliedEvent();
+    }
+
+    public function setTotalRepliesCount(): int
+    {
+        return $this->total = Repository::getCommentReplyCount($this->comment, $this->relatedModel, $this->approvalRequired,  $this->filter);
     }
 
     #[On('show-replies.{comment.id}')]
     public function setShowStatus(): void
     {
         $this->show = !$this->show;
+
+        $this->dispatch('show-reply');
     }
 
     #[On('reply-created')]
@@ -103,11 +134,16 @@ class CommentReplyList extends Component
         $this->approvalRequired = config('comments.reply.approval_required');
     }
 
+    public function dispatchFilterAppliedEvent(): void
+    {
+        $this->dispatch('filter-applied');
+    }
+
     public function render(): View|Factory|Application
     {
         return view(
             'comments::livewire.comment-replies-list',
-            ['replies' => Repository::commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit)]
+            ['replies' => Repository::commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit, $this->sortBy, $this->filter)]
         );
     }
 }

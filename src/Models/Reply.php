@@ -56,6 +56,22 @@ class Reply extends Model
         return $query->with(['ownerReactions' => fn( $query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
     }
 
+    public function scopeCurrentUser(Builder $query, Model $relatedModel, string $filter): Builder
+    {
+        $alias = M::userModel()->getMorphClass();
+
+        return $query->when(
+            $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
+            fn(Builder $query) => $query->where('ip_address', request()->ip())
+        )
+            ->when(
+                $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
+                fn(Builder $query) => $query
+                    ->where('commenter_type', $alias)
+                    ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
+            );
+    }
+
     public function ownerReactions(): HasMany
     {
         return $this->reactions();

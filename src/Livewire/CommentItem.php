@@ -28,6 +28,9 @@ class CommentItem extends Component
     #[Locked]
     public bool $showReplyList;
 
+    #[Locked]
+    public bool $canManipulate;
+
     public function mount(
         Comment $comment,
         bool $guestMode,
@@ -41,6 +44,7 @@ class CommentItem extends Component
         $this->authMode = !$guestMode;
 
         $this->setProfileUrl();
+        $this->setCanManipulate();
     }
 
     public function delete(Comment $comment): void
@@ -55,6 +59,11 @@ class CommentItem extends Component
         if ($user = $this->model->getAuthUser()) {
             $this->profileUrl = $user->profileUrl();
         }
+    }
+
+    public function setCanManipulate(): bool
+    {
+        return $this->canManipulate = $this->model->canEditComment($this->comment) || $this->model->canDeleteComment($this->comment);
     }
 
     public function render(): View|Factory|Application

@@ -62,7 +62,7 @@
                             :$comment
                             :$authMode
                             class="bottom-[-3.4rem] left-[-2rem]"
-                            wrapperClass="left-0 bottom-[-3rem]"
+                            wrapperClass="left-1 bottom-[-2.2rem]"
                         />
                     </div>
                 @elseif ($key === "dislike")
@@ -125,7 +125,7 @@
                             :$comment
                             :$authMode
                             class="bottom-[-3.4rem] left-[-2rem]"
-                            wrapperClass="left-0 bottom-[-3rem]"
+                            wrapperClass="left-1 bottom-[-2.2rem]"
                         />
                     </div>
                 @else

@@ -129,7 +129,7 @@ return [
                 ['code-block'],
             ],
         ],
-        'placeholder' => 'write your comment',
+        'placeholder' => 'Your message here',
         'theme' => 'snow',
     ],
 

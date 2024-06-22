@@ -65,6 +65,7 @@ class UpdateCommentForm extends Component
 
     public function discard(): void
     {
+        $this->text = $this->comment->text;
         $this->dispatch('comment-update-discarded', commentId: $this->comment->getKey());
     }
 

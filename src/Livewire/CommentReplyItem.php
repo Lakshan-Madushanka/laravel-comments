@@ -34,6 +34,9 @@ class CommentReplyItem extends Component
 
     public bool $show = false;
 
+    #[Locked]
+    public bool $canManipulate;
+
     public function mount(
         Comment $comment,
         Reply $reply,
@@ -52,6 +55,7 @@ class CommentReplyItem extends Component
         $this->relatedModel = $relatedModel;
 
         $this->setProfileUrl();
+        $this->setCanManipulate();
     }
 
     public function canUpdateReply(Reply $reply): bool
@@ -76,6 +80,11 @@ class CommentReplyItem extends Component
         if($user = $this->relatedModel->getAuthUser()) {
             $this->profileUrl = $user->profileUrl();
         }
+    }
+
+    public function setCanManipulate(): bool
+    {
+        return $this->canManipulate = $this->canUpdateReply($this->reply) || $this->canDeleteReply($this->reply);
     }
 
     #[On('show-replies.{comment.id}')]

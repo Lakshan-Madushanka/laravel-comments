@@ -12,9 +12,9 @@
         {{ __('Comments') }}
         <span x-text="getTotal()"></span>
     </div>
-    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-y-2 overflow-auto sm:flex-row sm:items-center sm:justify-between">
         @if (($comments->count() > 1 || $sortBy !== 'my_comments') && config('comments.show_filters'))
-            <div class="flex gap-x-2 overflow-auto sm:gap-x-3">
+            <div class="flex gap-x-2 sm:gap-x-3">
                 <div class="w-14"></div>
                 <x-comments::chip
                     wire:click="setSortBy('top')"
@@ -96,30 +96,28 @@
 
     @script
         <script>
-            highlightSyntax();
-
-            $wire.on('filter-applied', () => {
+            const highlight = () => {
                 setTimeout(() => {
                     highlightSyntax();
                 }, 1500);
+            }
+
+            highlight();
+
+            $wire.on('filter-applied', () => {
+                highlight()
             });
 
             $wire.on('comment-updated', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
+               highlight()
             });
 
             Livewire.on('comment-created', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
+                highlight()
             });
 
             $wire.on('more-comments-loaded', () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
+                highlight()
             });
         </script>
     @endscript

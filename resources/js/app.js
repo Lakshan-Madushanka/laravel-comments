@@ -5,6 +5,11 @@ import moment from 'moment';
 window.moment = moment;
 
 import hljs from 'highlight.js';
+
+const hljsInstance = hljs.configure({
+    'ignoreUnescapedHTML': true,
+});
+
 window.hljs = hljs;
 
 import '../css/app.css';

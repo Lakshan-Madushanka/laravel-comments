@@ -7,7 +7,7 @@ export default defineConfig({
             hotFile: 'public/laravel-comments.hot', // Most important lines
             buildDirectory: '/build', // Most important lines
             input: ['resources/js/app.js'],
-            refresh: true,
+            refresh: false,
         }),
     ],
 });

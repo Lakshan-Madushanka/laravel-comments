@@ -166,20 +166,31 @@ class Repository
             ->count();
     }
 
-    public static function getCommentReplyCount(Comment $comment): int
-    {
-        return $comment->replies()->count();
-    }
-
-    public static function commentReplies(Comment $comment, Model $relatedModel, bool $approvalRequired, int $limit): LengthAwarePaginator|Collection
+    public static function getCommentReplyCount(Comment $comment, Model $relatedModel, bool $approvalRequired, string $filter = ''): int
     {
         return $comment
             ->replies()
+            ->currentUser($relatedModel, $filter)
+            ->when($approvalRequired, fn (Builder $query) => $query->approved())
+            ->count();
+    }
+
+    public static function commentReplies(Comment $comment, Model $relatedModel, bool $approvalRequired, int $limit, string $sortBy = '', string $filter = ''): LengthAwarePaginator|Collection
+    {
+        return $comment
+            ->replies()
+            ->currentUser($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
             ->withCount(self::addCount())
             ->when(!$relatedModel->guestModeEnabled(), fn (Builder $query) => $query->with('commenter'))
-            ->latest()
             ->when($approvalRequired, fn (Builder $query) => $query->approved())
+            ->when($sortBy === 'latest', function (Builder $query) {
+                return $query->latest();
+            })
+            ->when($sortBy === 'oldest', function (Builder $query) {
+                return $query->oldest();
+            })
+            ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),
                 fn (Builder $query) => $query->paginate($limit),
