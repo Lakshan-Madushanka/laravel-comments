@@ -24,7 +24,17 @@ trait HasProfilePhoto
             return $url;
         }
 
-        $hash = hash("sha256", strtolower(trim($this->guest_email)));
+        if ($authMode) {
+            if (isset($this->userRelationshipName)) {
+                $email = $this->{$this->userRelationshipName}->email;
+            } else {
+                $email = $this->email;
+            }
+        } else {
+            $email = $this->guest_email;
+        }
+
+        $hash = hash("sha256", strtolower(trim($email)));
         $d = config('comments.profile_photo.default.gravatar.default');
 
         return "https://gravatar.com/avatar/{$hash}?d={$d}";
