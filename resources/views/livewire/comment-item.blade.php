@@ -148,7 +148,8 @@
                 <livewire:comments-update-form
                     :key="'update-form-'. $comment->id"
                     :$comment
-                    :$model/>
+                    :$model
+                />
             </div>
         @endif
 
