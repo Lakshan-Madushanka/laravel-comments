@@ -92,24 +92,24 @@
                 setTimeout(() => {
                     highlightSyntax();
                 }, 1500);
-            }
+            };
 
             highlight();
 
             $wire.on('filter-applied', () => {
-                highlight()
+                highlight();
             });
 
             $wire.on('comment-updated', () => {
-               highlight()
+                highlight();
             });
 
             Livewire.on('comment-created', () => {
-                highlight()
+                highlight();
             });
 
             $wire.on('more-comments-loaded', () => {
-                highlight()
+                highlight();
             });
         </script>
     @endscript

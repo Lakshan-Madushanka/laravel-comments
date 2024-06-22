@@ -1,7 +1,4 @@
-<div
-    x-ref="reply{{ $reply->getKey() }}"
-    class="flex gap-x-2 sm:gap-x-4"
->
+<div x-ref="reply{{ $reply->getKey() }}" class="flex gap-x-2 sm:gap-x-4">
     <div class="basis-14">
         <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
@@ -50,60 +47,53 @@
                     @endif
                 </div>
 
-                @if($canManipulate)
+                @if ($canManipulate)
                     <div class="flex items-center justify-center space-x-2">
                         <div title="My Reply">
                             <x-comments::user-check height="14" width="14" />
                         </div>
 
-                        <x-comments::spin
-                            wire:loading
-                            wire:target="delete({{$reply}})"
-                            class="!text-blue-500"
-                        />
+                        <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500" />
 
                         <div
-                            x-data="{showEditMenu: false}"
+                            x-data="{ showEditMenu: false }"
                             wire:loading.remove
-                            wire:target="delete({{$reply}})"
-                            class="cursor-pointer relative"
+                            wire:target="delete({{ $reply }})"
+                            class="relative cursor-pointer"
                         >
-
                             <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                <x-comments::verticle-ellipsis
-                                    :height="20"
-                                    :width="20"
-                                />
+                                <x-comments::verticle-ellipsis :height="20" :width="20" />
                             </div>
                             <ul
                                 x-show="showEditMenu"
-                                @click.outside='showEditMenu=false'
+                                @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute right-[0.8rem] bottom-[1rem] z-10 p-1 bg-white min-w-32 space-y-1 border border-[gray-100] shadow-lg rounded"
+                                class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white p-1 shadow-lg"
                             >
                                 @if ($this->canUpdateReply($reply))
                                     <li
                                         @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
-                                        class="flex p-2 space-x-2 items-center hover:!bg-gray-200 rounded"
+                                        class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200"
                                     >
                                         <x-comments::pencil height="13" width="13" strokeColor="blue" />
-                                        <x-comments::action
-                                            class="text-sm sm:text-sm hover:!no-underline">{{ __('Edit') }}</x-comments::action>
+                                        <x-comments::action class="text-sm hover:!no-underline sm:text-sm">
+                                            {{ __('Edit') }}
+                                        </x-comments::action>
                                     </li>
                                 @endif
 
                                 @if ($this->canDeleteReply($reply))
                                     <li
                                         wire:click="delete({{ $reply }})"
-                                        wire:confirm="{{__('Are you sure you want to delete this reply?')}}"
+                                        wire:confirm="{{ __('Are you sure you want to delete this reply?') }}"
                                         @click="showEditMenu=false"
-                                        class="flex items-center space-x-2 p-2 space-x-2 items-center hover:!bg-gray-200 rounded"
+                                        class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200"
                                     >
                                         <x-comments::trash height="13" width="13" strokeColor="red" />
                                         <x-comments::action
                                             wire:loading.remove
                                             wire:target="delete({{$reply}})"
-                                            class="align-text-bottom text-xs sm:text-sm !text-red hover:!no-underline"
+                                            class="!text-red align-text-bottom text-xs hover:!no-underline sm:text-sm"
                                         >
                                             {{ __('Delete') }}
                                         </x-comments::action>
@@ -114,7 +104,6 @@
                     </div>
                 @endif
             </div>
-
 
             <div
                 x-ref="text"
@@ -162,4 +151,3 @@
         </div>
     </div>
 </div>
-

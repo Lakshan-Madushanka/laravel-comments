@@ -7,7 +7,7 @@ window.moment = moment;
 import hljs from 'highlight.js';
 
 const hljsInstance = hljs.configure({
-    'ignoreUnescapedHTML': true,
+    ignoreUnescapedHTML: true,
 });
 
 window.hljs = hljs;
