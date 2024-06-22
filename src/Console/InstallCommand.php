@@ -39,7 +39,7 @@ class InstallCommand extends Command
 
     private function publishMigrations(): void
     {
-        $this->callSilent('vendor:publish', ['--tag' => 'comments-migrations', '--force' => true]);
+        $this->callSilent('vendor:publish', ['--tag' => 'comments-migrations']);
     }
 
     private function runMigrations(): bool
