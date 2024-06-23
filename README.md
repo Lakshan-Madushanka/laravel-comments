@@ -15,6 +15,8 @@ A Laravel package that brings powerful commenting functionality to your apps ðŸ˜
 **[Documentation](https://lakm.gitbook.io/commenter)**
 
 **[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)**
+
+**[Demo](#demo)**
 </div>
 
 ## Overview
@@ -50,6 +52,11 @@ Due to these issues, most companies tend to opt for commercial packages or plugi
 ### Project
 https://github.com/Lakshan-Madushanka/laravel-comments-demo
 
+### Mini video
+https://youtu.be/6CxgmvESsdc
+
+> [!Note]
+> This mini demo video provides a basic overview of Commenter. The full scope and features of Commenter are much more extensive. A comprehensive video will be published with the stable release. 
 
 ## Changelog
 Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/CHANGELOG.md) for more information what has changed recently.
