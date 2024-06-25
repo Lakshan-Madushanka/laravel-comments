@@ -114,7 +114,7 @@ class CreateCommentReplyForm extends Component
 
         $this->clear();
 
-        $this->dispatch('reply-created', commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
+        $this->dispatch('reply-created-' . $this->comment->id, commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
 
         if ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email) {
             $this->dispatch('guest-credentials-changed');

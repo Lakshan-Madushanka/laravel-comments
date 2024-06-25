@@ -111,7 +111,7 @@
                 $wire.text = html;
             });
 
-            $wire.on('reply-created', function () {
+            $wire.on(`reply-created-@js($comment->getKey())`, function () {
                 quill.setText($wire.text);
             });
 

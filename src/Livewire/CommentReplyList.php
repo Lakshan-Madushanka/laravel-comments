@@ -104,7 +104,7 @@ class CommentReplyList extends Component
         $this->dispatch('show-reply');
     }
 
-    #[On('reply-created')]
+    #[On('reply-created-{comment.id}')]
     public function onReplyCreated($commentId): void
     {
         if ($this->approvalRequired) {

@@ -148,7 +148,7 @@
                             showReplyForm = false;
                         }
                      "
-                    @reply-created.window="
+                    @reply-created-{{$comment->getKey()}}.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
                             showReplyForm = false;
                         }
@@ -186,7 +186,7 @@
         <div
             x-cloak
             x-data="message(@js($comment->getKey()))"
-            @reply-created.window="show($event.detail.commentId); approvalRequired=$event.detail.approvalRequired"
+            @reply-created-{{$comment->getKey()}}.window="approvalRequired=$event.detail.approvalRequired"
         >
             <div x-show="showMsg" x-transition class="mt-2 align-top text-xs text-green-500 sm:text-sm">
                 <span x-show="approvalRequired">

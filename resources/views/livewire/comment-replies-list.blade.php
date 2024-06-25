@@ -71,7 +71,7 @@
                 highlight();
             });
 
-            Livewire.on('reply-created', () => {
+            Livewire.on(`reply-created-@js($comment->getKey())`, () => {
                 highlight();
             });
 
