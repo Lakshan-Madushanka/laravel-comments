@@ -4,17 +4,19 @@
         <div id="{{ $toolbarId }}" class="w-full"></div>
 
         <div
-            x-data="{show: false}"
+            x-data="{ show: false }"
             @click.outside="if(show){$wire.dispatch('user-not-mentioned-' + '{{ $editorId }}')}"
-            @user-mentioned-{{$editorId}}.window="show=true"
-            @user-not-mentioned-{{$editorId}}.window="show=false"
-            @user-selected-{{$editorId}}.window="show=false"
+            @user-mentioned-
+            {{ $editorId }}.window="show=true"
+            @user-not-mentioned-
+            {{ $editorId }}.window="show=false"
+            @user-selected-
+            {{ $editorId }}.window="show=false"
             class="absolute bottom-[12rem] left-0 z-10 w-full"
         >
             <livewire:comments-user-list :$guestModeEnabled :$editorId />
         </div>
     </div>
-
 
     @script
         <script>
@@ -62,7 +64,6 @@
 
                 debounce(() => showListFunc(editorElement.textContent, $wire))();
             };
-
 
             const onMentionedUserSelected = (e, quill, editorElm) => {
                 const span = document.createElement('strong');

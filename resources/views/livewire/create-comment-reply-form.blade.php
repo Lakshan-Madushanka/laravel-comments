@@ -30,7 +30,7 @@
         @endif
 
         <div>
-            <livewire:comments-editor wire:model="text" :$editorId  :guestModeEnabled="$guestMode"/>
+            <livewire:comments-editor wire:model="text" :$editorId :guestModeEnabled="$guestMode" />
         </div>
 
         <div class="min-h-6">

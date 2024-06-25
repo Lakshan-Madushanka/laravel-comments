@@ -35,7 +35,8 @@
         @foreach ($replies as $reply)
             <livewire:comments-reply-item
                 :key="'reply-item' . $reply->id"
-                :$comment :$relatedModel
+                :$comment
+                :$relatedModel
                 :$reply
                 :$guestMode
             />
@@ -55,34 +56,34 @@
     @endif
 
     @script
-    <script>
-        const highlight = () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        };
+        <script>
+            const highlight = () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            };
 
-        highlight();
-
-        $wire.on("show-reply", () => {
             highlight();
-        });
 
-        $wire.on("filter-applied", () => {
-            highlight();
-        });
+            $wire.on('show-reply', () => {
+                highlight();
+            });
 
-        $wire.on("reply-updated", () => {
-            highlight();
-        });
+            $wire.on('filter-applied', () => {
+                highlight();
+            });
 
-        Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
-            highlight();
-        });
+            $wire.on('reply-updated', () => {
+                highlight();
+            });
 
-        $wire.on("more-replies-loaded", () => {
-            highlight();
-        });
-    </script>
+            Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
+                highlight();
+            });
+
+            $wire.on('more-replies-loaded', () => {
+                highlight();
+            });
+        </script>
     @endscript
 </div>

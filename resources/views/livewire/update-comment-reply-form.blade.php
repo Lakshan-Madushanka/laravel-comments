@@ -1,6 +1,6 @@
 <div x-data="{ showMsg: false }">
     <div>
-        <livewire:comments-editor wire:model="text" :$editorId :$guestModeEnabled/>
+        <livewire:comments-editor wire:model="text" :$editorId :$guestModeEnabled />
     </div>
     <div class="min-h-6">
         @if ($errors->has('text'))
