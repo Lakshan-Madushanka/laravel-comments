@@ -99,6 +99,26 @@ class CommentReplyList extends Component
         $this->total = $this->replies->total();
     }
 
+    #[On('show-replies.{comment.id}')]
+    public function setShowStatus(): void
+    {
+        $this->show = !$this->show;
+
+        $this->dispatch('show-reply');
+    }
+
+    #[On('reply-created-{comment.id}')]
+    public function onReplyCreated($commentId): void
+    {
+        if ($this->approvalRequired) {
+            return;
+        }
+
+        if ($commentId === $this->comment->getKey()) {
+            $this->total += 1;
+        }
+    }
+
     #[On('reply-deleted-{comment.id}')]
     public function onReplyDeleted($commentId): void
     {

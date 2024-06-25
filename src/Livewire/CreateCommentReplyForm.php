@@ -60,6 +60,8 @@ class CreateCommentReplyForm extends Component
     #[Locked]
     public bool $guestMode;
 
+    public int $replyCount;
+
     /**
      * @param  Comment  $comment
      * @param  Model  $relatedModel
@@ -68,6 +70,10 @@ class CreateCommentReplyForm extends Component
      */
     public function mount(Comment $comment, Model $relatedModel, bool $guestMode): void
     {
+        if (!$this->show) {
+            $this->skipRender();
+        }
+
         $this->comment = $comment;
         $this->relatedModel = $relatedModel;
 
@@ -78,10 +84,6 @@ class CreateCommentReplyForm extends Component
         $this->setLoginRequired();
 
         $this->setApprovalRequired();
-
-        $this->setLimitExceeded();
-
-        $this->setGuest();
 
         $this->honeyPostData = new HoneypotData();
 
@@ -112,13 +114,16 @@ class CreateCommentReplyForm extends Component
 
         $this->clear();
 
-        $this->dispatch('reply-created-' . $this->comment->id, commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
+        $this->dispatch('reply-created-'.$this->comment->id, commentId: $this->comment->getKey(),
+            approvalRequired: $this->approvalRequired);
 
-        $this->dispatch('reset-editor-' . $this->editorId, value: $this->text);
+        $this->dispatch('reset-editor-'.$this->editorId, value: $this->text);
 
         if ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email) {
             $this->dispatch('guest-credentials-changed');
         }
+
+        $this->incrementReplyCount();
 
         $this->setLimitExceeded();
 
@@ -141,7 +146,7 @@ class CreateCommentReplyForm extends Component
     public function discard(): void
     {
         $this->dispatch('reply-discarded', commentId: $this->comment->getKey());
-        $this->dispatch('reset-editor-' . $this->editorId, value: '');
+        $this->dispatch('reset-editor-'.$this->editorId, value: '');
     }
 
     public function setLoginRequired(): void
@@ -149,8 +154,17 @@ class CreateCommentReplyForm extends Component
         $this->loginRequired = !$this->authenticated && !$this->guestMode;
 
         if ($this->loginRequired) {
-            $this->dispatch('disable-editor-' . $this->editorId);
+            $this->dispatch('disable-editor-'.$this->editorId);
         }
+    }
+
+    public function incrementReplyCount(): void
+    {
+        if ($this->approvalRequired) {
+            return;
+        }
+
+        $this->replyCount += 1;
     }
 
     public function setLimitExceeded(): void
@@ -162,14 +176,10 @@ class CreateCommentReplyForm extends Component
             return;
         }
 
-        $this->limitExceeded = Repository::userReplyCountForComment(
-            $this->comment,
-            $this->guestMode,
-            $this->relatedModel->getAuthUser()
-        ) >= $limit;
+        $this->limitExceeded = $this->replyCount >= $limit;
 
         if ($this->limitExceeded) {
-            $this->dispatch('disable-editor-' . $this->editorId);
+            $this->dispatch('disable-editor-'.$this->editorId);
         }
     }
 
@@ -195,6 +205,15 @@ class CreateCommentReplyForm extends Component
         $this->guest = new UserData(null, null);
     }
 
+    public function setReplyCount(): void
+    {
+        $this->replyCount = Repository::userReplyCountForComment(
+            $this->comment,
+            $this->guestMode,
+            $this->relatedModel->getAuthUser()
+        );
+    }
+
     public function clear(): void
     {
         $this->resetValidation();
@@ -207,10 +226,17 @@ class CreateCommentReplyForm extends Component
         $this->redirect(config('comments.login_route'));
     }
 
-    #[On('show-create-reply-form.{comment.id}')]
-    public function setShowStatus(): void
+    #[On('show-create-reply-form-{comment.id}')]
+    public function showForm(): void
     {
-        $this->show = !$this->show;
+
+        if (!$this->show) {
+            $this->show = true;
+        }
+
+        if (!isset($this->replyCount)) {
+            $this->setReplyCount();
+        }
 
         if ($this->show && !isset($this->limitExceeded)) {
             $this->setLimitExceeded();

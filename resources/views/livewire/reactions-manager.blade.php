@@ -140,8 +140,8 @@
                         $wire.redirectToLogin('window.location.ref')
                         return;
                     }
-                    $dispatch('show-create-reply-form.' + @js($comment->getKey()));
-                    showReplyForm = !showReplyForm
+                     $dispatch('show-create-reply-form-' + @js($comment->getKey()));
+                     showReplyForm = !showReplyForm
                     "
                     @reply-discarded.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
