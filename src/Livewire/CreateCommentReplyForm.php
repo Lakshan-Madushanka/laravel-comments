@@ -53,7 +53,6 @@ class CreateCommentReplyForm extends Component
     public string $text = "";
 
     public string $editorId;
-    public string $toolbarId;
 
     #[Locked]
     public bool $authenticated;
@@ -86,8 +85,7 @@ class CreateCommentReplyForm extends Component
 
         $this->honeyPostData = new HoneypotData();
 
-        $this->editorId = 'editor' . Str::random();
-        $this->toolbarId = 'toolbar' . Str::random();
+        $this->editorId = Str::uuid();
     }
 
     public function rules(): array
@@ -116,6 +114,8 @@ class CreateCommentReplyForm extends Component
 
         $this->dispatch('reply-created-' . $this->comment->id, commentId: $this->comment->getKey(), approvalRequired:$this->approvalRequired);
 
+        $this->dispatch('reset-editor-' . $this->editorId, value: $this->text);
+
         if ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email) {
             $this->dispatch('guest-credentials-changed');
         }
@@ -141,11 +141,16 @@ class CreateCommentReplyForm extends Component
     public function discard(): void
     {
         $this->dispatch('reply-discarded', commentId: $this->comment->getKey());
+        $this->dispatch('reset-editor-' . $this->editorId, value: '');
     }
 
     public function setLoginRequired(): void
     {
         $this->loginRequired = !$this->authenticated && !$this->guestMode;
+
+        if ($this->loginRequired) {
+            $this->dispatch('disable-editor-' . $this->editorId);
+        }
     }
 
     public function setLimitExceeded(): void
@@ -162,6 +167,10 @@ class CreateCommentReplyForm extends Component
             $this->guestMode,
             $this->relatedModel->getAuthUser()
         ) >= $limit;
+
+        if ($this->limitExceeded) {
+            $this->dispatch('disable-editor-' . $this->editorId);
+        }
     }
 
     public function setApprovalRequired(): void

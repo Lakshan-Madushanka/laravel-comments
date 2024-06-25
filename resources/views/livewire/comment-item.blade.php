@@ -108,7 +108,6 @@
                 x-ref="text"
                 @comment-updated.window="(e) => {
                     let key = @js($comment->getKey());
-                    console.log(key, e.detail.commentId)
                     if(e.detail.commentId === key) {
                         $refs.text.innerHTML = e.detail.text;
                         let elm = 'comment' + key;

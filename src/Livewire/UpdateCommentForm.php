@@ -14,7 +14,6 @@ use Livewire\Component;
 class UpdateCommentForm extends Component
 {
     public string $editorId;
-    public string $toolbarId;
 
     public string $text;
 
@@ -29,8 +28,7 @@ class UpdateCommentForm extends Component
 
     public function mount(Comment $comment, Model $model): void
     {
-        $this->editorId = 'editor' . Str::random();
-        $this->toolbarId = 'toolbar' . Str::random();
+        $this->editorId =  Str::uuid();
 
         $this->comment = $comment;
         $this->text = $this->comment->text;
@@ -67,6 +65,7 @@ class UpdateCommentForm extends Component
     {
         $this->text = $this->comment->text;
         $this->dispatch('comment-update-discarded', commentId: $this->comment->getKey());
+        $this->dispatch('reset-editor-' . $this->editorId, value: $this->comment->text);
     }
 
     public function render()

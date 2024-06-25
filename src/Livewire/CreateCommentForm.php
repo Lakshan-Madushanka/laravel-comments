@@ -46,7 +46,6 @@ class CreateCommentForm extends Component
     public string $text = "";
 
     public string $editorId;
-    public string $toolbarId;
 
     #[Locked]
     public bool $authenticated;
@@ -76,8 +75,7 @@ class CreateCommentForm extends Component
 
         $this->honeyPostData = new HoneypotData();
 
-        $this->editorId = 'editor' . Str::random();
-        $this->toolbarId = 'toolbar' . Str::random();
+        $this->editorId =  Str::uuid();
     }
 
     public function rules(): array
@@ -100,6 +98,8 @@ class CreateCommentForm extends Component
             $this->clear();
 
             $this->dispatch('comment-created', id: $this->editorId, approvalRequired: $this->approvalRequired);
+
+            $this->dispatch('reset-editor-' . $this->editorId, value: $this->text);
 
             $this->setLimitExceededStatus();
         }

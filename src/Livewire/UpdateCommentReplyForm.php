@@ -14,7 +14,6 @@ use Livewire\Component;
 class UpdateCommentReplyForm extends Component
 {
     public string $editorId;
-    public string $toolbarId;
 
     public string $text;
 
@@ -28,8 +27,7 @@ class UpdateCommentReplyForm extends Component
 
     public function mount(Reply $reply, bool $guestModeEnabled): void
     {
-        $this->editorId = 'editor' . Str::random();
-        $this->toolbarId = 'toolbar' . Str::random();
+        $this->editorId = Str::uuid();
 
         $this->reply = $reply;
         $this->text = $this->reply->text;
@@ -63,6 +61,8 @@ class UpdateCommentReplyForm extends Component
     public function discard(): void
     {
         $this->dispatch('reply-update-discarded', replyId: $this->reply->getKey());
+        $this->dispatch('reset-editor-' . $this->editorId, value: $this->reply->text);
+
     }
 
     public function setApprovalRequired(): void

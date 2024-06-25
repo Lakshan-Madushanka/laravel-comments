@@ -61,7 +61,7 @@ class UserList extends Component
         $this->limit += $this->perPage;
     }
 
-    #[On('user-mentioned.{editorId}')]
+    #[On('user-mentioned-{editorId}')]
     public function display(string $content, $id): void
     {
         $this->show = true;
@@ -73,7 +73,7 @@ class UserList extends Component
         $this->search = $content;
     }
 
-    #[On('user-not-mentioned.{editorId}')]
+    #[On('user-not-mentioned-{editorId}')]
     public function close(): void
     {
         if (!$this->show) {
@@ -88,7 +88,7 @@ class UserList extends Component
     public function userSelected(string $name): void
     {
         $this->close();
-        $this->dispatch('user-selected.' . $this->editorId, name: $name, editorId: $this->editorId);
+        $this->dispatch('user-selected-' . $this->editorId, name: $name, editorId: $this->editorId);
     }
 
     public function render(): View|Factory|Application

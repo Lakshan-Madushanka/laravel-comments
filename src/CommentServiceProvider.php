@@ -14,6 +14,7 @@ use LakM\Comments\Livewire\CommentReplyItem;
 use LakM\Comments\Livewire\CommentReplyList;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CreateCommentReplyForm;
+use LakM\Comments\Livewire\Editor;
 use LakM\Comments\Livewire\ReactionsManager;
 use LakM\Comments\Livewire\UpdateCommentForm;
 use LakM\Comments\Livewire\UpdateCommentReplyForm;
@@ -48,6 +49,8 @@ class CommentServiceProvider extends ServiceProvider
     protected function setComponents(): void
     {
         Blade::componentNamespace('LakM\\Comments\\Views\\Components', 'comments');
+
+        Livewire::component('comments-editor', Editor::class);
 
         Livewire::component('comments-create-form', CreateCommentForm::class);
         Livewire::component('comments-update-form', UpdateCommentForm::class);

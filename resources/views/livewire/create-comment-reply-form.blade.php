@@ -29,17 +29,10 @@
             </div>
         @endif
 
-        <div wire:ignore class="relative">
-            <div id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none"></div>
-            <div id="{{ $toolbarId }}" class="w-full"></div>
-
-            <div
-                @click.outside="$wire.dispatch('user-not-mentioned.' + '{{ $editorId }}')"
-                class="absolute bottom-[12rem] left-0 z-10 w-full"
-            >
-                <livewire:comments-user-list :guestModeEnabled="$guestMode" :$editorId />
-            </div>
+        <div>
+            <livewire:comments-editor wire:model="text" :$editorId  :guestModeEnabled="$guestMode"/>
         </div>
+
         <div class="min-h-6">
             <div>
                 @if ($errors->has('text'))
@@ -85,44 +78,4 @@
             </div>
         @endif
     </form>
-
-    @script
-        <script>
-            let editorConfig = @js(config('comments.editor_config'));
-            const quill = new Quill(`#${$wire.editorId}`, editorConfig);
-
-            const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
-            const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
-
-            const toolbars = Array.from(document.querySelector('.ql-toolbar'));
-
-            toolbarParentElm.append(toolbars.slice(-1));
-
-            if (!$wire.LoginRequired || $wire.limitExceeded) {
-                quill.disable();
-            }
-
-            quill.on('text-change', (delta, oldDelta, source) => {
-                let html = editorElm.innerHTML;
-                if (html === '<p><br></p>') {
-                    $wire.text = '';
-                    return;
-                }
-                $wire.text = html;
-            });
-
-            $wire.on(`reply-created-${@js($comment->getKey())}`, function () {
-                quill.setText($wire.text);
-            });
-
-            $wire.on('reply-discarded', function () {
-                quill.setText('');
-            });
-
-            quill.on('text-change', () => handleEditorTextChange(editorElm, $wire));
-            Livewire.on('user-selected.' + $wire.editorId, () =>
-                window.onMentionedUserSelected(event, quill, editorElm)
-            );
-        </script>
-    @endscript
 </div>
