@@ -98,7 +98,7 @@ class CommentList extends Component
     }
 
     #[On('comment-deleted')]
-    public function onReplyDeleted($commentId): void
+    public function onCommentDeleted($commentId): void
     {
         $this->total -= 1;
     }
