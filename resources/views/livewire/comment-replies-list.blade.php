@@ -33,7 +33,12 @@
 
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
-            <livewire:comments-reply-item :key="'reply' . $reply->id" :$comment :$relatedModel :$reply :$guestMode />
+            <livewire:comments-reply-item
+                :key="'reply-item' . $reply->id"
+                :$comment :$relatedModel
+                :$reply
+                :$guestMode
+            />
         @endforeach
     @endif
 
@@ -50,34 +55,34 @@
     @endif
 
     @script
-        <script>
-            const highlight = () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            };
+    <script>
+        const highlight = () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        };
 
+        highlight();
+
+        $wire.on("show-reply", () => {
             highlight();
+        });
 
-            $wire.on('show-reply', () => {
-                highlight();
-            });
+        $wire.on("filter-applied", () => {
+            highlight();
+        });
 
-            $wire.on('filter-applied', () => {
-                highlight();
-            });
+        $wire.on("reply-updated", () => {
+            highlight();
+        });
 
-            $wire.on('reply-updated', () => {
-                highlight();
-            });
+        Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
+            highlight();
+        });
 
-            Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
-                highlight();
-            });
-
-            $wire.on('more-replies-loaded', () => {
-                highlight();
-            });
-        </script>
+        $wire.on("more-replies-loaded", () => {
+            highlight();
+        });
+    </script>
     @endscript
 </div>
