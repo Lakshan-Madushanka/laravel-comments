@@ -151,7 +151,7 @@ class CommentReplyList extends Component
     public function render(): View|Factory|Application
     {
         return view(
-            'comments::livewire.comment-replies-list',
+            'comments::livewire.comment-reply-list',
             ['replies' => $this->replies]
         );
     }
