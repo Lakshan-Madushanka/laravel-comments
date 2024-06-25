@@ -71,7 +71,7 @@ class CommentReplyItem extends Component
     public function delete(Reply $reply): void
     {
         if ($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
-            $this->dispatch('reply-deleted', replyId: $reply->getKey(), commentId: $this->comment->getKey());
+            $this->dispatch('reply-deleted-' . $this->comment->getKey(), replyId: $reply->getKey(), commentId: $this->comment->getKey());
         }
     }
 
@@ -87,11 +87,6 @@ class CommentReplyItem extends Component
         return $this->canManipulate = $this->canUpdateReply($this->reply) || $this->canDeleteReply($this->reply);
     }
 
-    #[On('show-replies.{comment.id}')]
-    public function setShowStatus(): void
-    {
-        $this->show = !$this->show;
-    }
 
     public function render(): View|Factory|Application
     {

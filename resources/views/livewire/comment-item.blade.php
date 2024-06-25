@@ -150,7 +150,7 @@
                         replyCount += 1;
                 }
               "
-                @reply-deleted.window="
+                @reply-deleted-{{$comment->getKey()}}.window="
                     if($event.detail.commentId === {{ $comment->getKey() }}) {
                         replyCount -= 1;
                     }
