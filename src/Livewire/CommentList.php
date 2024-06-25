@@ -6,7 +6,10 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use LakM\Comments\Repository;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -57,9 +60,9 @@ class CommentList extends Component
         $this->dispatch('more-comments-loaded');
     }
 
-    public function setTotalCommentsCount(): int
+    public function setTotalCommentsCount(): void
     {
-        return $this->total = Repository::getTotalCommentsCountForRelated($this->model, $this->filter);
+        $this->total = $this->comments->total();
     }
 
     public function setSortBy(string $sortBy): void
@@ -97,7 +100,7 @@ class CommentList extends Component
     #[On('comment-deleted')]
     public function onReplyDeleted($commentId): void
     {
-            $this->total -= 1;
+        $this->total -= 1;
     }
 
     private function setPaginationRequired(): void
@@ -110,11 +113,17 @@ class CommentList extends Component
         $this->dispatch('filter-applied');
     }
 
+    #[Computed]
+    public function comments(): Collection|LengthAwarePaginator
+    {
+        return Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
+    }
+
     public function render(): View|Factory|Application
     {
         return view(
             'comments::livewire.comment-list',
-            ['comments' => Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter)]
+            ['comments' => $this->comments]
         );
     }
 }

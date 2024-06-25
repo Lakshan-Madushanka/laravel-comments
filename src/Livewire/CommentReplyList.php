@@ -6,12 +6,15 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Ramsey\Collection\Collection;
 
 class CommentReplyList extends Component
 {
@@ -91,9 +94,9 @@ class CommentReplyList extends Component
         $this->dispatchFilterAppliedEvent();
     }
 
-    public function setTotalRepliesCount(): int
+    public function setTotalRepliesCount(): void
     {
-        return $this->total = Repository::getCommentReplyCount($this->comment, $this->relatedModel, $this->approvalRequired,  $this->filter);
+        $this->total = $this->replies->total();
     }
 
     #[On('show-replies.{comment.id}')]
@@ -139,11 +142,17 @@ class CommentReplyList extends Component
         $this->dispatch('filter-applied');
     }
 
+    #[Computed]
+    public function replies(): Collection|LengthAwarePaginator
+    {
+        return Repository::commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit, $this->sortBy, $this->filter);
+    }
+
     public function render(): View|Factory|Application
     {
         return view(
             'comments::livewire.comment-replies-list',
-            ['replies' => Repository::commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit, $this->sortBy, $this->filter)]
+            ['replies' => $this->replies]
         );
     }
 }
