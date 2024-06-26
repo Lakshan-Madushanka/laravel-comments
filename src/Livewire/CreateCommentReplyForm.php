@@ -114,8 +114,11 @@ class CreateCommentReplyForm extends Component
 
         $this->clear();
 
-        $this->dispatch('reply-created-'.$this->comment->id, commentId: $this->comment->getKey(),
-            approvalRequired: $this->approvalRequired);
+        $this->dispatch('reply-created-' . $this->comment->id,
+            editorId: $this->editorId,
+            commentId: $this->comment->getKey(),
+            approvalRequired: $this->approvalRequired
+        );
 
         $this->dispatch('reset-editor-'.$this->editorId, value: $this->text);
 

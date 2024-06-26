@@ -70,6 +70,8 @@
         @foreach ($comments as $comment)
             <livewire:comments-item :key="'comment'. $comment->id" :$comment :$guestMode :$model :$showReplyList />
         @endforeach
+    @elseif ($filter === 'my_comments')
+        <div class="text-lg">{{ __('You haven\'t made/approved any comments yet !') }}</div>
     @else
         <div class="text-lg">{{ __('Be the first one to make a comment !') }}</div>
     @endif

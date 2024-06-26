@@ -53,6 +53,8 @@ class CreateCommentForm extends Component
     #[Locked]
     public bool $guestModeEnabled;
 
+    public bool $disableEditor = false;
+
     /**
      * @param  string  $modelClass
      * @param  mixed  $modelId
@@ -60,6 +62,8 @@ class CreateCommentForm extends Component
      */
     public function mount(Model $model): void
     {
+        $this->editorId =  Str::uuid();
+
         $this->model = $model;
 
         $this->authenticated = $this->model->authCheck();
@@ -74,8 +78,6 @@ class CreateCommentForm extends Component
         $this->setApprovalRequired();
 
         $this->honeyPostData = new HoneypotData();
-
-        $this->editorId =  Str::uuid();
     }
 
     public function rules(): array
@@ -126,6 +128,11 @@ class CreateCommentForm extends Component
     public function setLimitExceededStatus(): void
     {
         $this->limitExceeded = $this->model->limitExceeded($this->model->getAuthUser());
+
+        if ($this->limitExceeded) {
+            $this->disableEditor = true;
+            $this->dispatch('disable-editor-'. $this->editorId);
+        }
     }
 
     #[On('guest-credentials-changed')]

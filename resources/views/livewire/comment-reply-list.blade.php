@@ -21,7 +21,7 @@
                     wire:loading.class="!pointer-events-none"
                     @class(['hover:bg-gray-500 cursor-pointer !px-[4px] !py-[1px] text-nowrap transition', '!bg-gray-500' => $filter === 'my_comments'])
                 >
-                    {{ __('My Comments') }}
+                    {{ __('My Replies') }}
                 </x-comments::chip>
             </div>
         @endif
@@ -40,6 +40,10 @@
                 :$guestMode
             />
         @endforeach
+    @endif
+
+    @if ($replies->isEmpty() && $filter==='my_comments')
+        <div>{{ __('You haven\'t made/approved any replies yet !') }}</div>
     @endif
 
     @if ($replies->isNotEmpty() && config('comments.reply.pagination.enabled') && $paginationRequired)

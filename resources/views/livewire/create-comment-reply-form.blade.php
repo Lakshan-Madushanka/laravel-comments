@@ -1,11 +1,11 @@
 <div>
     <form wire:submit.prevent="create" class="w-full" method="POST">
-        <x-honeypot wire:model="honeyPostData" />
+        <x-honeypot wire:model="honeyPostData"/>
 
         @if ($guestMode)
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
-                    <x-comments::input wire:model="guest_name" placeholder="{{__('Comment as')}}" />
+                    <x-comments::input wire:model="guest_name" placeholder="{{__('Comment as')}}"/>
                     <div class="min-h-6">
                         @if ($errors->has('guest_name'))
                             <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -16,7 +16,7 @@
                 </div>
                 @if (config('comments.reply.email_enabled'))
                     <div class="flex w-full flex-col">
-                        <x-comments::input wire:model="guest_email" type="email" placeholder="{{__('Email')}}" />
+                        <x-comments::input wire:model="guest_email" type="email" placeholder="{{__('Email')}}"/>
                         <div class="min-h-6">
                             @if ($errors->has('guest_email'))
                                 <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -30,7 +30,7 @@
         @endif
 
         <div>
-            <livewire:comments-editor wire:model="text" :$editorId  :guestModeEnabled="$guestMode"/>
+            <livewire:comments-editor wire:model="text" :$editorId :guestModeEnabled="$guestMode"/>
         </div>
 
         <div class="min-h-6">
@@ -38,6 +38,16 @@
                 @if ($errors->has('text'))
                     <span class="align-top text-xs text-red-500 sm:text-sm">{{ __($errors->first('text')) }}</span>
                 @endif
+            </div>
+            <div x-cloak x-data="successMsg" @reply-created-{{$comment->getKey()}}.window="set(true, $event); console.log('lakshan')">
+
+                <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
+                    @if ($approvalRequired)
+                        {{ __('Comment created and will be displayed once approved.') }}
+                    @else
+                        {{ __('Comment created.') }}
+                    @endif
+                </span>
             </div>
         </div>
         @if (! $limitExceeded)
@@ -78,4 +88,24 @@
             </div>
         @endif
     </form>
+
+    @script
+        <script>
+            Alpine.data('successMsg', () => ({
+                show: false,
+                timeout: 2000,
+
+                set(show, event) {
+                    if (event.detail.editorId !== $wire.editorId) {
+                        console.log('laks')
+                        return;
+                    }
+                    this.show = show;
+                    setTimeout(() => {
+                        this.show = false;
+                    }, this.timeout);
+                },
+            }));
+        </script>
+    @endscript
 </div>

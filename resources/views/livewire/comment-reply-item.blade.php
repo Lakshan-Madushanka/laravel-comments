@@ -109,13 +109,11 @@
                 x-ref="text"
                 @reply-updated.window="(e) => {
                             let key = @js($reply->getKey());
-
                             if(e.detail.replyId === key) {
                                     let elm = 'reply'+ key;
                                      setTimeout(() => {
                                          if(e.detail.approvalRequired) {
-                                           $refs[elm].remove();
-                                           total -= 1;
+                                           $refs[elm].classList.add('hidden')
                                            $dispatch('unauthorized-reply-updated', {'commentId': @js($comment->getKey()) })
                                          }
                                          showUpdateForm = false;

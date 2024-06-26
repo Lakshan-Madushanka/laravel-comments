@@ -8,6 +8,12 @@
                 {{ __($errors->first('text')) }}
             </span>
         @endif
+
+        <div x-show="showMsg" x-transition>
+            <span x-transition class="align-top text-xs text-green-500 sm:text-sm">
+                {{ __('Reply updated and will be displayed once approved !') }}
+            </span>
+        </div>
     </div>
 
     <div
@@ -26,11 +32,5 @@
         <x-comments::button wire:click="discard" size="sm" severity="info" type="button" loadingTarget="discard">
             {{ __('Discard') }}
         </x-comments::button>
-    </div>
-
-    <div x-show="showMsg" x-transition>
-        <span x-transition class="align-top text-xs text-green-500 sm:text-sm">
-            {{ __('Reply updated and will be displayed once approved !') }}
-        </span>
     </div>
 </div>

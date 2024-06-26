@@ -30,6 +30,10 @@
 
             toolbarParentElm.append(toolbars.slice(-1));
 
+            if(@js($disableEditor)) {
+                quill.disable();
+            }
+
             const showUserList = () => {
                 let userMentioned = false;
 

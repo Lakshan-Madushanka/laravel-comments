@@ -22,10 +22,12 @@ class Editor extends Component
 
     public bool $guestModeEnabled;
 
+    public bool $disableEditor;
+
     /**
      * @throws \Throwable
      */
-    public function mount(string $editorId, bool $guestModeEnabled): void
+    public function mount(string $editorId, bool $guestModeEnabled, bool $disableEditor = false): void
     {
         throw_unless(Str::isUuid($editorId), new InvalidEditorID());
 
@@ -35,6 +37,8 @@ class Editor extends Component
         $this->id = $editorId;
 
         $this->guestModeEnabled = $guestModeEnabled;
+
+        $this->disableEditor = $disableEditor;
     }
 
     public function render(): View|Factory|Application

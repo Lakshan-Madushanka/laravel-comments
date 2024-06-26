@@ -141,7 +141,7 @@
                         return;
                     }
                      $dispatch('show-create-reply-form-' + @js($comment->getKey()));
-                     showReplyForm = !showReplyForm
+                     showReplyForm = !showReplyForm;
                     "
                     @reply-discarded.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
@@ -150,7 +150,7 @@
                      "
                     @reply-created-{{$comment->getKey()}}.window="
                         if ($event.detail.commentId === @js($comment->getKey())) {
-                            showReplyForm = false;
+                            setTimeout(() => {showReplyForm = !showReplyForm}, 2000)
                         }
                      "
                 >
