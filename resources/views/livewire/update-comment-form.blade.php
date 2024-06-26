@@ -1,7 +1,7 @@
 <div x-data="{ showMsg: false }">
-   <div wire:ignore>
-       <livewire:comments-editor wire:model="text" :$editorId :guestModeEnabled="$model->guestModeEnabled()"/>
-   </div>
+    <div wire:ignore>
+        <livewire:comments-editor wire:model="text" :$editorId :guestModeEnabled="$model->guestModeEnabled()" />
+    </div>
     <div class="min-h-6">
         @if ($errors->has('text'))
             <span class="align-top text-xs text-red-500 sm:text-sm">
