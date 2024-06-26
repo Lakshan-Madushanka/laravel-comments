@@ -32,7 +32,7 @@
 
             toolbarParentElm.append(toolbars.slice(-1));
 
-            if(@js($disableEditor)) {
+            if (@js($disableEditor)) {
                 quill.disable();
             }
 
