@@ -1,6 +1,5 @@
 <div x-data="{ showMsg: false }">
-
-    @if($showEditor)
+    @if ($showEditor)
         <div>
             <livewire:comments-editor wire:model="text" :$editorId :$guestModeEnabled />
         </div>
@@ -8,14 +7,14 @@
         <div class="min-h-6">
             @if ($errors->has('text'))
                 <span class="align-top text-xs text-red-500 sm:text-sm">
-                {{ __($errors->first('text')) }}
-            </span>
+                    {{ __($errors->first('text')) }}
+                </span>
             @endif
 
             <div x-show="showMsg" x-transition>
-            <span x-transition class="align-top text-xs text-green-500 sm:text-sm">
-                {{ __('Reply updated and will be displayed once approved !') }}
-            </span>
+                <span x-transition class="align-top text-xs text-green-500 sm:text-sm">
+                    {{ __('Reply updated and will be displayed once approved !') }}
+                </span>
             </div>
         </div>
 
