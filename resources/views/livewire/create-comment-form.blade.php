@@ -39,7 +39,7 @@
         @endif
 
         <div>
-            <livewire:comments-editor wire:model="text" :$editorId :$guestModeEnabled :$disableEditor/>
+            <livewire:comments-editor wire:model="text" :$editorId :$guestModeEnabled :$disableEditor />
         </div>
 
         <div class="min-h-6">

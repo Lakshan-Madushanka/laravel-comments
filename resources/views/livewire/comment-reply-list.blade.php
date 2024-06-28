@@ -43,7 +43,7 @@
         @endforeach
     @endif
 
-    @if ($replies->isEmpty() && $filter==='my_comments')
+    @if ($replies->isEmpty() && $filter === 'my_comments')
         <div>{{ __('You haven\'t made/approved any replies yet !') }}</div>
     @endif
 
