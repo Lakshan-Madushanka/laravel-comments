@@ -72,7 +72,11 @@
                             >
                                 @if ($this->canUpdateReply($reply))
                                     <li
-                                        @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
+                                        @click="
+                                         showUpdateForm = !showUpdateForm;
+                                         showEditMenu=false
+                                         $dispatch('show-reply-update-form-@js($reply->getKey())', {show: showUpdateForm})
+                                         "
                                         class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200"
                                     >
                                         <x-comments::pencil height="13" width="13" strokeColor="blue" />
