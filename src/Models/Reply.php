@@ -3,15 +3,14 @@
 namespace LakM\Comments\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Builders\ReplyBuilder;
+use LakM\Comments\Model as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
-use LakM\Comments\Model as M;
 
 /**
  * @property string $commenter_type

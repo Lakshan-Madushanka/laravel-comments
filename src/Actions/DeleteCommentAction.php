@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Actions;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentDeleted;
 use LakM\Comments\Models\Comment;

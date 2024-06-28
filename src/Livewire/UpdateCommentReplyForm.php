@@ -62,7 +62,6 @@ class UpdateCommentReplyForm extends Component
     {
         $this->dispatch('reply-update-discarded', replyId: $this->reply->getKey());
         $this->dispatch('reset-editor-' . $this->editorId, value: $this->reply->text);
-
     }
 
     public function setApprovalRequired(): void

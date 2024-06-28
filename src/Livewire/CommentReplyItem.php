@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Livewire;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -19,7 +18,6 @@ use Livewire\Component;
 
 class CommentReplyItem extends Component
 {
-
     /** @var Model&CommentableContract */
     #[Locked]
     public Model $relatedModel;
@@ -90,7 +88,7 @@ class CommentReplyItem extends Component
         /** @var (User&CommenterContract)|null $user */
         $user = $this->relatedModel->getAuthUser();
 
-        if($user) {
+        if ($user) {
             $this->profileUrl = $user->profileUrl();
         }
     }

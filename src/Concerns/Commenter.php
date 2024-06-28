@@ -2,11 +2,9 @@
 
 namespace LakM\Comments\Concerns;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Facades\App;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Models\Reply;
 

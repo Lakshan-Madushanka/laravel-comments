@@ -2,10 +2,8 @@
 
 namespace LakM\Comments\Actions;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentReplyDeleted;
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 
 class DeleteCommentReplyAction

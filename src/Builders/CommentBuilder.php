@@ -28,7 +28,7 @@ class CommentBuilder extends Builder
      */
     public function checkApproval(Model $relatedModel): self
     {
-        return $this->when($relatedModel->approvalRequired(), fn(CommentBuilder $query) => $query->approved());
+        return $this->when($relatedModel->approvalRequired(), fn (CommentBuilder $query) => $query->approved());
     }
 
     /**
@@ -37,7 +37,7 @@ class CommentBuilder extends Builder
      */
     public function withCommenter(Model $relatedModel): self
     {
-        return $this->when(!$relatedModel->guestModeEnabled(), fn(CommentBuilder $query) => $query->with('commenter'));
+        return $this->when(!$relatedModel->guestModeEnabled(), fn (CommentBuilder $query) => $query->with('commenter'));
     }
 
     /**
@@ -47,7 +47,7 @@ class CommentBuilder extends Builder
      */
     public function withOwnerReactions(Model $relatedModel): self
     {
-        return $this->with(['ownerReactions' => fn($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+        return $this->with(['ownerReactions' => fn ($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
     }
 
     /**
@@ -61,11 +61,11 @@ class CommentBuilder extends Builder
 
         return $this->when(
             $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
-            fn(Builder $query) => $query->where('ip_address', request()->ip())
+            fn (Builder $query) => $query->where('ip_address', request()->ip())
         )
             ->when(
                 $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
-                fn(Builder $query) => $query
+                fn (Builder $query) => $query
                     ->where('commenter_type', $alias)
                     ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
             );

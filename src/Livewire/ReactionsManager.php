@@ -8,13 +8,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\Reactions\ReactionManager;
 use LakM\Comments\Repository;
@@ -98,8 +94,12 @@ class ReactionsManager extends Component
             return;
         }
 
-        if (!$reactionManager->handle($type, $this->comment, $this->authMode,
-            $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
+        if (!$reactionManager->handle(
+            $type,
+            $this->comment,
+            $this->authMode,
+            $this->relatedModel->getAuthUser()?->getAuthIdentifier()
+        )) {
             return;
         }
 
@@ -143,7 +143,7 @@ class ReactionsManager extends Component
 
     private function reactionCountName(string $key): string
     {
-        return Str::plural($key).'_'.'count';
+        return Str::plural($key) . '_' . 'count';
     }
 
     private function setReactionCount(string $key, ?int $count): void

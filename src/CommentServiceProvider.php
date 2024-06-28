@@ -62,7 +62,6 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-user-list', UserList::class);
         Livewire::component('comments-item', CommentItem::class);
         Livewire::component('comments-reply-item', CommentReplyItem::class);
-
     }
 
     protected function setBladeDirectives(): void
@@ -104,14 +103,14 @@ class CommentServiceProvider extends ServiceProvider
             __DIR__ . '/../public' => public_path('vendor/lakm/laravel-comments')
         ], 'comments-assets');
 
-		$this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/comments'),
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/comments'),
         ], 'comments-views');
     }
 
     protected function registerCommands(): void
     {
-        if($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
             ]);

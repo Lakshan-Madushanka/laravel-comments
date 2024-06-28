@@ -13,7 +13,6 @@ final class Model
     public static function commentClass(): string
     {
         return  config('comments.model');
-
     }
 
     public static function commentModel(): Comment
@@ -30,13 +29,11 @@ final class Model
     public static function reactionClass(): string
     {
         return  config('comments.reaction_model');
-
     }
 
     public static function reactionModel(): Reaction
     {
         return  app(self::reactionClass());
-
     }
 
     public static function reactionQuery(): Builder

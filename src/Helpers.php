@@ -3,7 +3,6 @@
 namespace LakM\Comments;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Arr;
 use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Concerns\Commenter;
 use LakM\Comments\Contracts\CommentableContract;

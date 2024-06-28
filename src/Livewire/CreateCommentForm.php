@@ -135,7 +135,7 @@ class CreateCommentForm extends Component
 
         if ($this->limitExceeded) {
             $this->disableEditor = true;
-            $this->dispatch('disable-editor-'. $this->editorId);
+            $this->dispatch('disable-editor-' . $this->editorId);
         }
     }
 

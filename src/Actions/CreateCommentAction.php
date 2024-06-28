@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Actions;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +11,6 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
-use LakM\Comments\Helpers;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 
@@ -107,8 +105,8 @@ class CreateCommentAction
         $user = Auth::guard(config('comments.guard'))
             ->user();
 
-            $user->comments()
-            ->save($comment);
+        $user->comments()
+        ->save($comment);
 
         $comment->refresh();
 

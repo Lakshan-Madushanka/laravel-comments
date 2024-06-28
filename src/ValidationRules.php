@@ -6,9 +6,7 @@ use http\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
-use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Exceptions\InvalidModelException;
 
 class ValidationRules
 {
