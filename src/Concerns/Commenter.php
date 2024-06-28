@@ -36,21 +36,8 @@ trait Commenter
         return $this->{$url};
     }
 
-    public function photoUrl()
+    public function photoUrl(): string
     {
         return $this->ownerPhotoUrl(true);
-    }
-
-    public function isAdminPanelAccessible()
-    {
-        if (!App::isProduction()) {
-            return true;
-        }
-
-        if (method_exists($this, 'canAccessAdminPanel')) {
-            return $this->canAccessAdminPanel();
-        }
-
-        throw new AuthorizationException();
     }
 }

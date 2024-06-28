@@ -16,14 +16,16 @@ class CreateCommentReplyAction
 {
     /**
      * Create using a custom function
-     * @var callable $using
+     * @var callable|null $using
      */
     public static $using;
 
     /**
      * Model is the commentable model type defined in config
-     * @param  Model  $model
+     * @param  Comment  $comment
      * @param  array  $replyData
+     * @param  bool  $guestMode
+     * @param  UserData|null  $guest
      * @return mixed
      */
     public static function execute(Comment $comment, array $replyData, bool $guestMode, ?UserData $guest = null): mixed

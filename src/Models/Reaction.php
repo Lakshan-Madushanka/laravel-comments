@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
+use LakM\Comments\Builders\ReactionBuilder;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
@@ -23,28 +24,13 @@ class Reaction extends Model
         'ip_address',
     ];
 
-    public function scopeCheckMode(Builder $query, bool $authMode): Builder
+    /**
+     * @param $query
+     * @return ReactionBuilder<Reaction>
+     */
+    public function newEloquentBuilder($query): ReactionBuilder
     {
-        return $query->when(
-            $authMode,
-            function (Builder $query) {
-                return $query->authMode();
-            },
-            function (Builder $query) {
-                return $query->guestMode();
-            }
-        );
-    }
-
-    public function scopeGuestMode(Builder $query): Builder
-    {
-        return $query->where('user_id', null)
-            ->where('ip_address', request()->ip());
-    }
-
-    public function scopeAuthMode(Builder $query): Builder
-    {
-        return $query->where('user_id', Auth::id());
+        return new ReactionBuilder($query);
     }
 
     public function user(): BelongsTo

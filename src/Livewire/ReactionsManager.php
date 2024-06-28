@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use LakM\Comments\Concerns\Commentable;
+use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
@@ -28,6 +31,7 @@ class ReactionsManager extends Component
     #[Locked]
     public Reply|Comment $comment;
 
+    /** @var Model&CommentableContract */
     #[Locked]
     public Model $relatedModel;
 
@@ -56,6 +60,12 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $enableReply;
 
+    /**
+     * @param  Reply|Comment  $comment
+     * @param  Model&CommentableContract  $relatedModel
+     * @param  bool  $enableReply
+     * @return void
+     */
     public function mount(Reply|Comment $comment, Model $relatedModel, bool $enableReply = true): void
     {
         $this->lReactions = $this->getLeftSideReactions();
@@ -78,6 +88,8 @@ class ReactionsManager extends Component
         $this->setLoginRequired();
 
         $this->setReactions($comment);
+
+        $this->setReactedStatus($comment->ownerReactions);
     }
 
     public function handle(ReactionManager $reactionManager, string $type): void
@@ -86,7 +98,8 @@ class ReactionsManager extends Component
             return;
         }
 
-        if (!$reactionManager->handle($type, $this->comment, $this->authMode, $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
+        if (!$reactionManager->handle($type, $this->comment, $this->authMode,
+            $this->relatedModel->getAuthUser()?->getAuthIdentifier())) {
             return;
         }
 
@@ -126,13 +139,11 @@ class ReactionsManager extends Component
             $this->setReactionCount($reaction, $comment->{$countName});
             $this->total += $comment->{$countName};
         }
-
-        $this->setReactedStatus($reaction, $comment->ownerReactions);
     }
 
     private function reactionCountName(string $key): string
     {
-        return Str::plural($key) . '_' . 'count';
+        return Str::plural($key).'_'.'count';
     }
 
     private function setReactionCount(string $key, ?int $count): void
@@ -140,7 +151,7 @@ class ReactionsManager extends Component
         $this->reactions[$key]['count'] = $count ?? 0;
     }
 
-    private function setReactedStatus(string $key, Collection $ownerReactions): void
+    private function setReactedStatus(Collection $ownerReactions): void
     {
         $ownerReactionsTypes = $ownerReactions->pluck('type')->toArray();
 
@@ -172,7 +183,7 @@ class ReactionsManager extends Component
     public function refineDislikeStatus(): void
     {
         if ($this->reactions['like']['reacted']) {
-            $this->reactions['like']['count']  -=  1;
+            $this->reactions['like']['count'] -= 1;
             $this->reactions['like']['reacted'] = false;
         }
 
@@ -192,12 +203,12 @@ class ReactionsManager extends Component
     {
         if ($this->reactions[$type]['reacted']) {
             $this->reactions[$type]['reacted'] = false;
-            $this->reactions[$type]['count'] -= 1 ;
+            $this->reactions[$type]['count'] -= 1;
             return;
         }
 
         $this->reactions[$type]['reacted'] = true;
-        $this->reactions[$type]['count'] += 1 ;
+        $this->reactions[$type]['count'] += 1;
     }
 
     public function fillColor(string $reaction): string
@@ -223,7 +234,7 @@ class ReactionsManager extends Component
     public function lastReactedUser(string $type): void
     {
         $user = Repository::lastReactedUser($this->comment, $type, $this->authMode);
-        $this->lastReactedUserName =  $user?->name;
+        $this->lastReactedUserName = $user?->name;
     }
 
     public function getReactedUsers(string $type)

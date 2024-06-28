@@ -10,8 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentReplyAction;
+use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
-use LakM\Comments\Exceptions\ReplyLimitExceeded;
+use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 use LakM\Comments\ValidationRules;
@@ -30,8 +31,9 @@ class CreateCommentReplyForm extends Component
     #[Locked]
     public Comment $comment;
 
+    /** @var Model&CommentableContract  */
     #[Locked]
-    public ?Model $relatedModel;
+    public Model $relatedModel;
 
     #[Locked]
     public bool $loginRequired;
@@ -64,7 +66,7 @@ class CreateCommentReplyForm extends Component
 
     /**
      * @param  Comment  $comment
-     * @param  Model  $relatedModel
+     * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $guestMode
      * @return void
      */
@@ -97,6 +99,7 @@ class CreateCommentReplyForm extends Component
 
     /**
      * @throws \Exception
+     * @throws \Throwable
      */
     public function create(CreateCommentReplyAction $replyAction): void
     {
@@ -108,7 +111,7 @@ class CreateCommentReplyForm extends Component
             Gate::authorize('create-reply');
         }
 
-        throw_if($this->limitExceeded, new ReplyLimitExceeded($this->replyLimit()));
+        throw_if($this->limitExceeded, ReplyLimitExceededException::make($this->replyLimit()));
 
         CreateCommentReplyAction::execute($this->comment, $this->getFormData(), $this->guestMode, $this->guest);
 

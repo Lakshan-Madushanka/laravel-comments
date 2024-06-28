@@ -6,9 +6,15 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use LakM\Comments\Builders\CommentBuilder;
+use LakM\Comments\Builders\ReactionBuilder;
+use LakM\Comments\Builders\ReplyBuilder;
+use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
@@ -23,13 +29,18 @@ class Repository
     {
         $alias = $relatedModel->getMorphClass();
 
-        return  M::commentQuery()->where('commentable_type', $alias)
+        return M::commentQuery()->where('commentable_type', $alias)
             ->where('commentable_id', $relatedModel->getKey())
             ->where('ip_address', request()->ip())
             ->count();
     }
 
-    public static function userCommentCount(Model $user, Model $relatedModel): int
+    /**
+     * @param  Authenticatable&CommenterContract  $user
+     * @param  Model&CommentableContract  $relatedModel
+     * @return int
+     */
+    public static function userCommentCount(Authenticatable $user, Model $relatedModel): int
     {
         $alias = $relatedModel->getMorphClass();
 
@@ -40,26 +51,40 @@ class Repository
             ->count();
     }
 
-    public static function allRelatedComments(Model $relatedModel, int $limit, string $sortBy, string $filter = ''): LengthAwarePaginator|Collection
-    {
-        return $relatedModel
-            ->comments()
+    /**
+     * @param  Model&CommentableContract  $relatedModel
+     * @param  int  $limit
+     * @param  string  $sortBy
+     * @param  string  $filter
+     * @return LengthAwarePaginator|Collection
+     */
+    public static function allRelatedComments(
+        Model $relatedModel,
+        int $limit,
+        string $sortBy,
+        string $filter = ''
+    ): LengthAwarePaginator|Collection {
+        /** @var CommentBuilder<Comment> $commentQuery */
+        $commentQuery = $relatedModel->comments();
+
+        return $commentQuery
             ->currentUser($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
             ->withCommenter($relatedModel)
             ->withCount(self::addCount())
             ->withCount([
-                'replies' => function (Builder $query) {
+                'replies' => function (ReplyBuilder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn (Builder $query) => $query->approved()
+                        fn(ReplyBuilder $query) => $query->approved()
                     );
                 },
             ])
             ->checkApproval($relatedModel)
-            ->when($sortBy === 'latest', function (Builder $query) {
-                return $query->latest();
-            })
+            ->when(
+                $sortBy === 'latest',
+                fn(Builder $query) => $query->latest()
+            )
             ->when($sortBy === 'oldest', function (Builder $query) {
                 return $query->oldest();
             })
@@ -78,11 +103,16 @@ class Repository
             })
             ->when(
                 $relatedModel->paginationEnabled(),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
+    /**
+     * @param  Model&CommentableContract  $relatedModel
+     * @param  string  $filter
+     * @return int
+     */
     public static function getTotalCommentsCountForRelated(Model $relatedModel, string $filter = ''): int
     {
         return $relatedModel
@@ -113,14 +143,20 @@ class Repository
      * @param  bool  $authMode
      * @return \Illuminate\Support\Collection<int, UserData>
      */
-    public static function reactedUsers(Reply|Comment $comment, string $reactionType, int $limit, bool $authMode): \Illuminate\Support\Collection
-    {
-        $reactions = $comment
-            ->reactions()
+    public static function reactedUsers(
+        Reply|Comment $comment,
+        string $reactionType,
+        int $limit,
+        bool $authMode
+    ): \Illuminate\Support\Collection {
+        /** @var ReactionBuilder<Reaction> $reactionQuery */
+        $reactionQuery = $comment->reactions();
+
+        $reactions = $reactionQuery
             ->whereType($reactionType)
             ->when(
                 $authMode,
-                function (Builder $query) {
+                function (ReactionBuilder $query) {
                     $query->with('user');
                 }
             )
@@ -128,14 +164,16 @@ class Repository
             ->get();
 
         return $reactions->map(function (Reaction $reaction) use ($authMode) {
-            return new UserData(name: $reaction->user?->name, photo: $reaction->ownerPhotoUrl($authMode));
+            return new UserData(name: $reaction->user?->name ?? '', photo: $reaction->ownerPhotoUrl($authMode));
         });
     }
 
     public static function lastReactedUser(Reply|Comment $comment, string $reactionType, bool $authMode): ?UserData
     {
-        $reaction = $comment
-            ->reactions()
+        /** @var ReactionBuilder<Reaction> $reactionQuery */
+        $reactionQuery = $comment->reactions();
+
+        $reaction = $reactionQuery
             ->whereType($reactionType)
             ->when(
                 $authMode,
@@ -147,7 +185,7 @@ class Repository
             ->first();
 
         if ($reaction) {
-            return new UserData(name: $reaction->user?->name, photo: $reaction->ownerPhotoUrl($authMode));
+            return new UserData(name: $reaction->user?->name ?? '', photo: $reaction->ownerPhotoUrl($authMode));
         }
 
         return $reaction;
@@ -155,46 +193,82 @@ class Repository
 
     public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int
     {
-        return $comment
-            ->replies()
-            ->when(!$guestMode, function (Builder $query) use ($user) {
-                $query->where('commenter_type', $user->getMorphClass())
-                    ->where('commenter_id', $user->getAuthIdentifier());
-            }, function (Builder $query) {
-                $query->where('ip_address', request()->ip());
-            })
-            ->count();
+        /** @var ReplyBuilder<Reply> $replyQuery */
+        $replyQuery = $comment->replies();
+
+        return $replyQuery
+                ->when(
+                    !$guestMode,
+                    function (ReplyBuilder $query) use ($user) {
+                        $query->where('commenter_type', $user->getMorphClass())
+                            ->where('commenter_id', $user->getAuthIdentifier());
+                    },
+                    function (ReplyBuilder $query) {
+                        $query->where('ip_address', request()->ip());
+                    })
+                ->count();
     }
 
-    public static function getCommentReplyCount(Comment $comment, Model $relatedModel, bool $approvalRequired, string $filter = ''): int
-    {
-        return $comment
-            ->replies()
+    /**
+     * @param  Comment  $comment
+     * @param  Model&CommentableContract  $relatedModel
+     * @param  bool  $approvalRequired
+     * @param  string  $filter
+     * @return int
+     */
+    public static function getCommentReplyCount(
+        Comment $comment,
+        Model $relatedModel,
+        bool $approvalRequired,
+        string $filter = ''
+    ): int {
+        /** @var ReplyBuilder<Reply> $replyQuery */
+        $replyQuery = $comment->replies();
+
+        return $replyQuery
             ->currentUser($relatedModel, $filter)
-            ->when($approvalRequired, fn (Builder $query) => $query->approved())
+            ->when($approvalRequired, fn(ReplyBuilder $query) => $query->approved())
             ->count();
     }
 
-    public static function commentReplies(Comment $comment, Model $relatedModel, bool $approvalRequired, int $limit, string $sortBy = '', string $filter = ''): LengthAwarePaginator|Collection
-    {
-        return $comment
-            ->replies()
+    /**
+     * @param  Comment  $comment
+     * @param  Model&CommentableContract  $relatedModel
+     * @param  bool  $approvalRequired
+     * @param  int  $limit
+     * @param  string  $sortBy
+     * @param  string  $filter
+     * @return LengthAwarePaginator|Collection
+     */
+    public static function commentReplies(
+        Comment $comment,
+        Model $relatedModel,
+        bool $approvalRequired,
+        int $limit,
+        string $sortBy = '',
+        string $filter = ''
+    ): LengthAwarePaginator|Collection {
+        /** @var ReplyBuilder<Reply> $replyQuery */
+        $replyQuery = $comment->replies();
+
+
+        return $replyQuery
             ->currentUser($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
-            ->withCount(self::addCount())
-            ->when(!$relatedModel->guestModeEnabled(), fn (Builder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn (Builder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn(ReplyBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn(ReplyBuilder $query) => $query->approved())
             ->when($sortBy === 'latest', function (Builder $query) {
                 return $query->latest();
             })
             ->when($sortBy === 'oldest', function (Builder $query) {
                 return $query->oldest();
             })
+            ->withCount(self::addCount())
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
@@ -205,8 +279,9 @@ class Repository
                 ->where('guest_name', 'like', "{$name}%")
                 ->limit($limit)
                 ->get()
-                ->map(function (Comment $comment) use ($guestMode) {
-                    return new UserData(name: $comment->guest_name, photo: $comment->ownerPhotoUrl(!$guestMode));
+                // @phpstan-ignore-next-line
+                ->transform(function (Comment $comment) {
+                    return new UserData(name: $comment->guest_name, photo: $comment->ownerPhotoUrl(false));
                 });
         }
 
@@ -214,8 +289,15 @@ class Repository
             ->where('name', 'like', "{$name}%")
             ->limit($limit)
             ->get()
-            ->map(function ($user) {
-                return new UserData(name: $user->name, photo: $user->photoUrl());
+            ->transform(
+                /**
+                 * @param  User&CommenterContract  $user
+                 * @return UserData
+                 * @phpstan-ignore-next-line
+                 */
+                function ($user) {
+                    // @phpstan-ignore-next-line
+                    return new UserData(name: $user->name, photo: $user->photoUrl());
             });
     }
 

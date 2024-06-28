@@ -4,7 +4,7 @@ namespace LakM\Comments\Data;
 
 use Livewire\Wireable;
 
-class UserData implements Wireable
+final class UserData implements Wireable
 {
     public function __construct(
         public ?string $name,
@@ -13,7 +13,7 @@ class UserData implements Wireable
     ) {
     }
 
-    public function toLivewire()
+    public function toLivewire(): array
     {
         return [
             'name' => $this->name,
@@ -22,12 +22,12 @@ class UserData implements Wireable
         ];
     }
 
-    public static function fromLivewire($value)
+    public static function fromLivewire($value): static
     {
         $name = $value['name'];
         $email = $value['email'];
         $photo = $value['photo'];
 
-        return new static($name, $email, $photo);
+        return new UserData($name, $email, $photo);
     }
 }

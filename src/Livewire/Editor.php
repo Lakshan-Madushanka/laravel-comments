@@ -6,7 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
-use LakM\Comments\Exceptions\InvalidEditorID;
+use LakM\Comments\Exceptions\InvalidEditorIDException;
 use Livewire\Attributes\Modelable;
 use Livewire\Component;
 
@@ -29,7 +29,7 @@ class Editor extends Component
      */
     public function mount(string $editorId, bool $guestModeEnabled, bool $disableEditor = false): void
     {
-        throw_unless(Str::isUuid($editorId), new InvalidEditorID());
+        throw_unless(Str::isUuid($editorId), InvalidEditorIDException::make());
 
         $this->editorId = 'editor-' . $editorId;
         $this->toolbarId = 'toolbar-' . $editorId;

@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentReplyAction;
 use LakM\Comments\Events\CommentReplyCreated;
-use LakM\Comments\Exceptions\CommentLimitExceeded;
-use LakM\Comments\Exceptions\ReplyLimitExceeded;
+use LakM\Comments\Exceptions\CommentLimitExceededException;
+use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CreateCommentReplyForm;
 use LakM\Comments\Models\Comment;
@@ -35,10 +35,11 @@ it('show guest name input field when guest mode is enabled', function () {
     onGuestMode();
 
     $video = \video();
-    $comment = createCommentsForGuest($video);
+    $comment = createCommentsForGuest($video, data: ['ip_address' => fake()->ipv4()]);
 
     livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
-        ->assertSee('Comment as')
+        ->set('show', true)
+        ->assertSee(__('Reply as'))
         ->assertOk();
 });
 
@@ -96,14 +97,15 @@ it('shows email field when guest mode enabled', function ($emailEnabled, $guestM
         CreateCommentReplyForm::class,
         ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => $guestMode]
     )
+        ->set('show', true)
         ->assertOk();
 
     if (!$guestMode || !$emailEnabled) {
-        $component->assertDontSee('Email');
+        $component->assertDontSee(__('Email'));
     }
 
     if ($guestMode && $emailEnabled) {
-        $component->assertSee('Email');
+        $component->assertSee(__('Email'));
     }
 })->with([
     ['emailEnabled' => true, 'guestMode' => true],
@@ -122,12 +124,13 @@ it('can create comment for guest mode', function () {
         CreateCommentReplyForm::class,
         ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true]
     )
-       ->set('guest_name', 'test user')
-       ->set('guest_email', 'testuser@gmail.com')
-       ->set('text', 'test comment')
-       ->call('create')
-       ->assertHasNoErrors()
-       ->assertOk();
+        ->call('showForm')
+        ->set('guest_name', 'test user')
+        ->set('guest_email', 'testuser@gmail.com')
+        ->set('text', 'test comment')
+        ->call('create')
+        ->assertHasNoErrors()
+        ->assertOk();
 
     expect(Comment::all())
         ->toBeInstanceOf(Collection::class)
@@ -153,6 +156,7 @@ it('can create comment for auth mode', function () {
         CreateCommentReplyForm::class,
         ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
     )
+        ->call('showForm')
         ->set('text', 'reply')
         ->call('create')
         ->assertHasNoErrors()
@@ -185,6 +189,7 @@ it('dispatch a event after reply is created', function () {
         CreateCommentReplyForm::class,
         ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
     )
+        ->call('showForm')
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -216,12 +221,12 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn () => $c
-            ->call('create')
-            ->assertHasNoErrors()
-            ->assertOk()
+            fn() => $c
+                ->call('create')
+                ->assertHasNoErrors()
+                ->assertOk()
         )
-            ->toThrow(CommentLimitExceeded::class)
+            ->toThrow(CommentLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
     } else {
         $c->call('create')
@@ -255,18 +260,20 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
 
     $video = \video();
 
-    $c = livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false])
+    $c = livewire(CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false])
+        ->call('showForm')
         ->set('text', 'test comment');
 
     if ($shouldLimit) {
         expect(
-            fn () => $c
-            ->call('create')
-            ->assertSeeText(__('Allowed reply limit'))
-            ->assertHasNoErrors()
-            ->assertOk()
+            fn() => $c
+                ->call('create')
+                ->assertSeeText(__('Allowed reply limit'))
+                ->assertHasNoErrors()
+                ->assertOk()
         )
-            ->toThrow(ReplyLimitExceeded::class)
+            ->toThrow(ReplyLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
     } else {
         $c->call('create')

@@ -10,6 +10,6 @@ trait HasOwner
             return $this->{$this->userRelationshipName}->name;
         }
 
-        return $this->guest_name;
+        return $this->guest_name ?? '';
     }
 }

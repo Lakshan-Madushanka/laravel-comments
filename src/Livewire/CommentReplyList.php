@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Computed;
@@ -16,6 +17,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Ramsey\Collection\Collection;
 
+/**
+ * @property \Illuminate\Support\Collection|LengthAwarePaginator $replies
+ */
 class CommentReplyList extends Component
 {
     use WithPagination;
@@ -25,6 +29,7 @@ class CommentReplyList extends Component
     #[Locked]
     public Comment $comment;
 
+    /** @var Model&CommentableContract */
     #[Locked]
     public Model $relatedModel;
 
@@ -46,6 +51,12 @@ class CommentReplyList extends Component
 
     public string $filter = '';
 
+    /**
+     * @param  Comment  $comment
+     * @param  Model&CommentableContract  $relatedModel
+     * @param  int  $total
+     * @return void
+     */
     public function mount(Comment $comment, Model $relatedModel, int $total): void
     {
         if (!$this->show) {

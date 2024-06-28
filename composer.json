@@ -24,6 +24,7 @@
         "spatie/laravel-honeypot": "^4.5"
     },
     "require-dev": {
+        "larastan/larastan": "^2.9",
         "orchestra/testbench": "8.*",
         "pestphp/pest": "^2.34",
         "pestphp/pest-plugin-laravel": "^2.3",
@@ -38,6 +39,9 @@
         "psr-4": {
             "LakM\\Comments\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "analyze": "./vendor/bin/phpstan analyse"
     },
     "extra": {
         "laravel": {

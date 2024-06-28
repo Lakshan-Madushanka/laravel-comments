@@ -6,6 +6,8 @@ use GrahamCampbell\Security\Facades\Security;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\UpdateCommentAction;
+use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Helpers;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -20,14 +22,23 @@ class UpdateCommentForm extends Component
     #[Locked]
     public Comment $comment;
 
+    /** @var Model&CommentableContract */
     #[Locked]
     public Model $model;
 
     #[Locked]
     public bool $approvalRequired;
 
+    /**
+     * @param  Comment  $comment
+     * @param  Model&CommentableContract  $model
+     * @return void
+     * @throws \Throwable
+     */
     public function mount(Comment $comment, Model $model): void
     {
+        Helpers::checkCommentableModelValidity($model);
+
         $this->editorId =  Str::uuid();
 
         $this->comment = $comment;

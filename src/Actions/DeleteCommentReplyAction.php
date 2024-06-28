@@ -12,7 +12,7 @@ class DeleteCommentReplyAction
 {
     /**
      * Create using a custom function
-     * @var callable $using
+     * @var callable|null $using
      */
     public static $using;
 
@@ -31,8 +31,8 @@ class DeleteCommentReplyAction
         return false;
     }
 
-    protected static function deleteUsingCustom(Comment $reply, Model $relatedModel)
+    protected static function deleteUsingCustom(Reply $reply)
     {
-        return call_user_func_array(self::$using, [$reply, $relatedModel]);
+        return call_user_func(self::$using, $reply);
     }
 }

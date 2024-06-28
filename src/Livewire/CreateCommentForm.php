@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\CreateCommentAction;
+use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
+use LakM\Comments\Helpers;
 use LakM\Comments\Repository;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -23,6 +25,7 @@ class CreateCommentForm extends Component
 {
     use UsesSpamProtection;
 
+    /** @var Model&CommentableContract */
     #[Locked]
     public Model $model;
 
@@ -56,12 +59,13 @@ class CreateCommentForm extends Component
     public bool $disableEditor = false;
 
     /**
-     * @param  string  $modelClass
-     * @param  mixed  $modelId
+     * @param  Model&CommentableContract  $model
      * @return void
      */
     public function mount(Model $model): void
     {
+        Helpers::checkCommentableModelValidity($model);
+
         $this->editorId =  Str::uuid();
 
         $this->model = $model;
@@ -146,7 +150,7 @@ class CreateCommentForm extends Component
         }
     }
 
-    public function setApprovalRequired()
+    public function setApprovalRequired(): void
     {
         $this->approvalRequired = $this->model->approvalRequired();
     }

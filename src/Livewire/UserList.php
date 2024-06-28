@@ -42,7 +42,7 @@ class UserList extends Component
         $this->limit = $this->perPage;
     }
 
-    public function paginate()
+    public function paginate(): void
     {
         $this->limit += $this->perPage;
     }

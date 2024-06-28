@@ -2,16 +2,29 @@
 
 namespace LakM\Comments\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use LakM\Comments\Builders\ReplyBuilder;
 use LakM\Comments\Models\Concerns\HasOwner;
-use LakM\Comments\Models\Concerns\HasOwnerReactions;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Model as M;
 
+/**
+ * @property string $commenter_type
+ * @property mixed $commenter_id
+ * @property string $text
+ * @property string $guest_name
+ * @property string $guest_email
+ * @property string $ip_address
+ * @property bool $approved
+ * @property mixed $reply_ip
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ */
 class Reply extends Model
 {
     use HasOwner;
@@ -32,6 +45,11 @@ class Reply extends Model
         'reply_id'
     ];
 
+    public function newEloquentBuilder($query): ReplyBuilder
+    {
+        return new ReplyBuilder($query);
+    }
+
     protected $casts = [
         'approved' => 'bool'
     ];
@@ -46,37 +64,12 @@ class Reply extends Model
         return $this->created_at->diffInSeconds($this->updated_at) > 0;
     }
 
-    public function scopeApproved(Builder $query): Builder
-    {
-        return $query->whereApproved(true);
-    }
-
-    public function scopeWithOwnerReactions(Builder $query, Model $relatedModel): Builder
-    {
-        return $query->with(['ownerReactions' => fn( $query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
-    }
-
-    public function scopeCurrentUser(Builder $query, Model $relatedModel, string $filter): Builder
-    {
-        $alias = M::userModel()->getMorphClass();
-
-        return $query->when(
-            $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
-            fn(Builder $query) => $query->where('ip_address', request()->ip())
-        )
-            ->when(
-                $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
-                fn(Builder $query) => $query
-                    ->where('commenter_type', $alias)
-                    ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
-            );
-    }
-
     public function ownerReactions(): HasMany
     {
         return $this->reactions();
     }
 
+    /** @return HasMany<Reaction> **/
     public function reactions(): HasMany
     {
         return $this->hasMany(M::reactionClass(), 'comment_id');

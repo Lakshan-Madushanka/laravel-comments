@@ -2,12 +2,17 @@
 
 namespace LakM\Comments\Actions;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
+use LakM\Comments\Helpers;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 
@@ -15,14 +20,14 @@ class CreateCommentAction
 {
     /**
      * Create using a custom function
-     * @var callable $using
+     * @var callable|null $using
      */
     public static $using;
 
     /**
-     * Model is the commentable model type defined in config
-     * @param  Model  $model
+     * @param  Model&CommentableContract  $model
      * @param  array  $commentData
+     * @param  UserData|null  $guest
      * @return mixed
      */
     public static function execute(Model $model, array $commentData, ?UserData $guest): mixed
@@ -43,13 +48,26 @@ class CreateCommentAction
         return self::createForAuthUser($model, $commentData);
     }
 
-    protected static function createUsingCustom(Model $model, array $commentData, ?UserData $guest)
+    /**
+     * @param  Model&CommentableContract  $model
+     * @param  array  $commentData
+     * @param  UserData|null  $guest
+     * @return mixed
+     */
+    protected static function createUsingCustom(Model $model, array $commentData, ?UserData $guest): mixed
     {
         return call_user_func(self::$using, $model, $commentData, $guest);
     }
 
-    protected static function createForGuest(Model $model, array $commentData, ?UserData $guest)
+    /**
+     * @param  Model&CommentableContract  $model
+     * @param  array  $commentData
+     * @param  UserData|null  $guest
+     * @return Comment
+     */
+    protected static function createForGuest(Model $model, array $commentData, ?UserData $guest): Comment
     {
+        /** @var Comment $comment */
         $comment =  DB::transaction(function () use ($model, $commentData, $guest) {
             $comment =   $model->comments()->create($commentData);
 
@@ -75,12 +93,21 @@ class CreateCommentAction
         return $comment;
     }
 
-    protected static function createForAuthUser(Model $model, array $commentData)
+    /**
+     * @param  Model&CommentableContract  $model
+     * @param  array  $commentData
+     * @return Comment
+     */
+    protected static function createForAuthUser(Model $model, array $commentData): Comment
     {
+        /** @var Comment $comment */
         $comment = $model->comments()->create($commentData);
-        Auth::guard(config('comments.guard'))
-            ->user()
-            ->comments()
+
+        /** @var User&CommenterContract $user**/
+        $user = Auth::guard(config('comments.guard'))
+            ->user();
+
+            $user->comments()
             ->save($comment);
 
         $comment->refresh();
@@ -91,7 +118,7 @@ class CreateCommentAction
     }
 
     /**
-     * @param $comment
+     * @param  Comment  $comment
      * @return void
      */
     protected static function dispatchEvent(Comment $comment): void

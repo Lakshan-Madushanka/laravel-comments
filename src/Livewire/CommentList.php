@@ -8,6 +8,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Contracts\CommenterContract;
+use LakM\Comments\Helpers;
 use LakM\Comments\Repository;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -15,10 +18,14 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/**
+ * @property Collection|LengthAwarePaginator $comments
+ */
 class CommentList extends Component
 {
     use WithPagination;
 
+    /** @var Model&CommentableContract */
     #[Locked]
     public Model $model;
 
@@ -39,14 +46,23 @@ class CommentList extends Component
 
     public bool $showReplyList = false;
 
+
+    /**
+     * @param  Model&CommentableContract  $model
+     * @return void
+     * @throws \Throwable
+     */
     public function mount(Model $model): void
     {
+        Helpers::checkCommentableModelValidity($model);
+
         $this->model = $model;
 
-        $this->setTotalCommentsCount();
 
         $this->perPage = config('comments.pagination.per_page');
         $this->limit = config('comments.pagination.per_page');
+
+        $this->setTotalCommentsCount();
 
         $this->guestMode = $this->model->guestModeEnabled();
 

@@ -2,27 +2,44 @@
 
 namespace LakM\Comments;
 
+use http\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
+use LakM\Comments\Concerns\Commentable;
+use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Exceptions\InvalidModelException;
 
 class ValidationRules
 {
-    /** @var callable $createCommentUsing */
+    /** @var callable|null $createCommentUsing */
     protected static $createCommentUsing;
 
-    /** @var callable $updateCommentUsing */
+    /** @var callable|null $updateCommentUsing */
     protected static $updateCommentUsing;
 
+    /**
+     * @param  Model  $model
+     * @param  string  $type
+     * @return array|array[]
+     */
     public static function get(Model $model, string $type): array
     {
-        return match ($type) {
-            'create' => self::createCommentRules($model),
-            'update' => self::updateCommentRules($model),
-        };
+        if ($type === 'create' && is_a($model, CommentableContract::class)) {
+            return self::createCommentRules($model);
+        }
+        if ($type === 'update') {
+            return self::updateCommentRules($model);
+        }
+
+        throw new InvalidArgumentException('Invalid operation');
     }
 
-    private static function createCommentRules(Model $model)
+    /**
+     * @param  Model&CommentableContract  $model
+     * @return array
+     */
+    private static function createCommentRules(Model $model): array
     {
         if (!isset(self::$createCommentUsing)) {
             return self::getCreateCommentRules($model);
@@ -40,6 +57,10 @@ class ValidationRules
         return call_user_func(self::$updateCommentUsing, $model);
     }
 
+    /**
+     * @param  Model&CommentableContract  $model
+     * @return array
+     */
     private static function getCreateCommentRules(Model $model): array
     {
         $commentModel = config('comments.model');

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use LakM\Comments\Events\CommentCreated;
-use LakM\Comments\Exceptions\CommentLimitExceeded;
+use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
@@ -281,7 +281,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
             ->assertHasNoErrors()
             ->assertOk()
         )
-            ->toThrow(CommentLimitExceeded::class)
+            ->toThrow(CommentLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
     } else {
         $c->call('create')
@@ -323,7 +323,7 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
             ->assertHasNoErrors()
             ->assertOk()
         )
-            ->toThrow(CommentLimitExceeded::class)
+            ->toThrow(CommentLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
     } else {
         $c->call('create')

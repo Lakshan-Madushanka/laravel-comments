@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Exceptions\CommentLimitExceeded;
+use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 
@@ -17,6 +17,7 @@ use LakM\Comments\Repository;
  */
 trait Commentable
 {
+    /** @return MorphMany<Comment> */
     public function comments(): MorphMany
     {
         return $this->morphMany(\LakM\Comments\Model::commentClass(), 'commentable');
@@ -27,7 +28,7 @@ trait Commentable
         return Auth::guard($this->getAuthGuard())->check();
     }
 
-    public function getAuthGuard()
+    public function getAuthGuard(): string
     {
         if (config('comments.auth_guard') === 'default') {
             return Auth::getDefaultDriver();
@@ -47,7 +48,7 @@ trait Commentable
 
         throw_if(
             $this->limitExceeded($user),
-            CommentLimitExceeded::make($this, $this->getCommentLimit())
+            CommentLimitExceededException::make($this, $this->getCommentLimit())
         );
 
         if ($this->guestModeEnabled()) {
@@ -75,7 +76,7 @@ trait Commentable
         return false;
     }
 
-    public function limitExceeded(Model $user = null): bool
+    public function limitExceeded(Authenticatable $user = null): bool
     {
         $limit = $this->getCommentLimit();
 
@@ -100,7 +101,7 @@ trait Commentable
         return Repository::guestCommentCount($this) >= $limit;
     }
 
-    public function checkLimitForAuthUser(Model $user, int $limit): bool
+    public function checkLimitForAuthUser(Authenticatable $user, int $limit): bool
     {
         return Repository::userCommentCount($user, $this) >= $limit;
     }

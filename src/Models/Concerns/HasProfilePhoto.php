@@ -28,10 +28,10 @@ trait HasProfilePhoto
             if (isset($this->userRelationshipName)) {
                 $email = $this->{$this->userRelationshipName}->email;
             } else {
-                $email = $this->email;
+                $email = $this->email ?? '';
             }
         } else {
-            $email = $this->guest_email;
+            $email = $this->guest_email ?? '';
         }
 
         $hash = hash("sha256", strtolower(trim($email)));
