@@ -4,8 +4,8 @@ namespace LakM\Comments\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class InstallCommand extends Command
 {
@@ -47,7 +47,7 @@ class InstallCommand extends Command
         if ($confirmed = $this->confirm(
             'Do you wish to run migrations (if not you have to manually do that) ?',
             false
-            )) {
+        )) {
             $this->callSilent('migrate');
         }
 
@@ -56,22 +56,22 @@ class InstallCommand extends Command
 
     private function showStatus(bool $migrated): void
     {
-       $this->info("✅  Config published");
-       $this->info("✅  Assets published");
-       $this->info("✅  Migrations published");
+        $this->info("✅  Config published");
+        $this->info("✅  Assets published");
+        $this->info("✅  Migrations published");
 
-       if ($migrated) {
-           $this->info("✅  Ran Migrations");
-           $this->newLine();
-           $this->warn("All set! Simply add assets to your layout files to finish the installation");
-           return;
-       }
+        if ($migrated) {
+            $this->info("✅  Ran Migrations");
+            $this->newLine();
+            $this->warn("All set! Simply add assets to your layout files to finish the installation");
+            return;
+        }
 
-       $this->error("❌  Ran Migrations");
+        $this->error("❌  Ran Migrations");
 
-       $this->newLine();
+        $this->newLine();
 
-       $this->warn("Run 'php artisan migrate' command and add assets to your layout files to finish the installation");
+        $this->warn("Run 'php artisan migrate' command and add assets to your layout files to finish the installation");
     }
 
     private function askSupport(): void

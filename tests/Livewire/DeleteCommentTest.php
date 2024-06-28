@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentDeleted;
 use LakM\Comments\Livewire\CommentItem;
-use LakM\Comments\Livewire\CommentList;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;

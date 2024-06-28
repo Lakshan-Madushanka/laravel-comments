@@ -16,10 +16,10 @@ use LakM\Comments\Builders\ReplyBuilder;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
+use LakM\Comments\Model as M;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
-use LakM\Comments\Model as M;
 
 class Repository
 {
@@ -76,14 +76,14 @@ class Repository
                 'replies' => function (ReplyBuilder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn(ReplyBuilder $query) => $query->approved()
+                        fn (ReplyBuilder $query) => $query->approved()
                     );
                 },
             ])
             ->checkApproval($relatedModel)
             ->when(
                 $sortBy === 'latest',
-                fn(Builder $query) => $query->latest()
+                fn (Builder $query) => $query->latest()
             )
             ->when($sortBy === 'oldest', function (Builder $query) {
                 return $query->oldest();
@@ -103,8 +103,8 @@ class Repository
             })
             ->when(
                 $relatedModel->paginationEnabled(),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -205,7 +205,8 @@ class Repository
                     },
                     function (ReplyBuilder $query) {
                         $query->where('ip_address', request()->ip());
-                    })
+                    }
+                )
                 ->count();
     }
 
@@ -227,7 +228,7 @@ class Repository
 
         return $replyQuery
             ->currentUser($relatedModel, $filter)
-            ->when($approvalRequired, fn(ReplyBuilder $query) => $query->approved())
+            ->when($approvalRequired, fn (ReplyBuilder $query) => $query->approved())
             ->count();
     }
 
@@ -255,8 +256,8 @@ class Repository
         return $replyQuery
             ->currentUser($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn(ReplyBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn(ReplyBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn (ReplyBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn (ReplyBuilder $query) => $query->approved())
             ->when($sortBy === 'latest', function (Builder $query) {
                 return $query->latest();
             })
@@ -267,8 +268,8 @@ class Repository
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -298,7 +299,8 @@ class Repository
                 function ($user) {
                     // @phpstan-ignore-next-line
                     return new UserData(name: $user->name, photo: $user->photoUrl());
-            });
+                }
+            );
     }
 
     public static function usersCount(): int

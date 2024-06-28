@@ -221,7 +221,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn() => $c
+            fn () => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()
@@ -260,14 +260,16 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
 
     $video = \video();
 
-    $c = livewire(CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false])
+    $c = livewire(
+        CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
+    )
         ->call('showForm')
         ->set('text', 'test comment');
 
     if ($shouldLimit) {
         expect(
-            fn() => $c
+            fn () => $c
                 ->call('create')
                 ->assertSeeText(__('Allowed reply limit'))
                 ->assertHasNoErrors()

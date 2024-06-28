@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Livewire;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;

@@ -117,13 +117,14 @@ class CreateCommentReplyForm extends Component
 
         $this->clear();
 
-        $this->dispatch('reply-created-' . $this->comment->id,
+        $this->dispatch(
+            'reply-created-' . $this->comment->id,
             editorId: $this->editorId,
             commentId: $this->comment->getKey(),
             approvalRequired: $this->approvalRequired
         );
 
-        $this->dispatch('reset-editor-'.$this->editorId, value: $this->text);
+        $this->dispatch('reset-editor-' . $this->editorId, value: $this->text);
 
         if ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email) {
             $this->dispatch('guest-credentials-changed');
@@ -152,7 +153,7 @@ class CreateCommentReplyForm extends Component
     public function discard(): void
     {
         $this->dispatch('reply-discarded', commentId: $this->comment->getKey());
-        $this->dispatch('reset-editor-'.$this->editorId, value: '');
+        $this->dispatch('reset-editor-' . $this->editorId, value: '');
     }
 
     public function setLoginRequired(): void
@@ -160,7 +161,7 @@ class CreateCommentReplyForm extends Component
         $this->loginRequired = !$this->authenticated && !$this->guestMode;
 
         if ($this->loginRequired) {
-            $this->dispatch('disable-editor-'.$this->editorId);
+            $this->dispatch('disable-editor-' . $this->editorId);
         }
     }
 
@@ -185,7 +186,7 @@ class CreateCommentReplyForm extends Component
         $this->limitExceeded = $this->replyCount >= $limit;
 
         if ($this->limitExceeded) {
-            $this->dispatch('disable-editor-'.$this->editorId);
+            $this->dispatch('disable-editor-' . $this->editorId);
         }
     }
 
@@ -235,7 +236,6 @@ class CreateCommentReplyForm extends Component
     #[On('show-create-reply-form-{comment.id}')]
     public function showForm(): void
     {
-
         if (!$this->show) {
             $this->show = true;
         }
