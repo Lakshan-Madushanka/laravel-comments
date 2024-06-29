@@ -124,7 +124,7 @@ Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/bl
 
 |Feature                                                   | Status            |
 |----------------------------------------------------------|-------------------|                                                           
-|Commment/Reply Report                                     | TBI               |             
+|Comment/Reply Report                                     | TBI               |             
 |Guest mode email verification                             | TBI               | 
 
 ## Security
