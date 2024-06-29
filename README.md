@@ -8,6 +8,7 @@
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
+**[Roadmap](#roadmap)** |
 **[Security](#security)** |
 **[License](#license)**
     
@@ -118,6 +119,13 @@ Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/bl
 ```bash
 ./vendor/bin/pest
 ```
+
+## Roadmap
+
+|Feature                                                   | Status            |
+|----------------------------------------------------------|-------------------|                                                           
+|Commment/Reply Report                                     | TBI               |             
+|Guest mode email verification                             | TBI               | 
 
 ## Security
 Please see [here](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/SECURITY.md) for our security policy.
