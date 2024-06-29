@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
+use LakM\Comments\Helpers;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Repository;
 
@@ -111,7 +112,7 @@ trait Commentable
         $limit = config('comments.limit');
 
         if (property_exists($this, 'commentLimit')) {
-            $limit =  $this->commentLimit;
+            $limit = $this->commentLimit;
         }
 
         return $limit;
@@ -126,9 +127,20 @@ trait Commentable
         return config('comments.approval_required');
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function getAuthUser(): ?Authenticatable
     {
-        return Auth::guard($this->getAuthGuard())->user();
+        if (!$this->authCheck()) {
+            return null;
+        }
+
+        $user = Auth::guard($this->getAuthGuard())->user();
+
+        Helpers::checkCommenterModelValidity($user);
+
+        return $user;
     }
 
     public function canEditComment(Comment $comment): bool
@@ -137,7 +149,7 @@ trait Commentable
             return $this->commentCanEdit($comment);
         }
 
-        return Gate::allows('update-comment', [$comment,  $this->guestModeEnabled()]);
+        return Gate::allows('update-comment', [$comment, $this->guestModeEnabled()]);
     }
 
     public function canDeleteComment(Comment $comment): bool

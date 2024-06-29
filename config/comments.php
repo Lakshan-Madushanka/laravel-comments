@@ -16,8 +16,21 @@ return [
     /**
      * Comment owner model
      * Must extend Illuminate\Contracts\Auth\Authenticatable
+     * Must implement LakM\Comments\Contracts\CommentableContract
      */
     'user_model' => User::class,
+
+    /**
+     * Database column or model accessor name to
+     * get the name of the user.
+     */
+    'user_name_column' => 'name',
+
+    /**
+     * Database column or model accessor email to
+     * get the email of the user.
+     */
+    'user_email_column' => 'email',
 
     /**
      * Reaction model

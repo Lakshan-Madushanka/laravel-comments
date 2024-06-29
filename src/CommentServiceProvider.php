@@ -32,13 +32,13 @@ class CommentServiceProvider extends ServiceProvider
         $this->setBladeDirectives();
         $this->setGates();
         $this->registerCommands();
+
+        $this->configPublishing();
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/comments.php', 'comments');
-
-        $this->configPublishing();
     }
 
     protected function setViews(): void

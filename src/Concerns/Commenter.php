@@ -38,4 +38,14 @@ trait Commenter
     {
         return $this->ownerPhotoUrl(true);
     }
+
+    public function name(): string
+    {
+         return $this->{config('comments.user_name_column')};
+    }
+
+    public function email(): string
+    {
+       return $this->{config('comments.user_email_column')};
+    }
 }

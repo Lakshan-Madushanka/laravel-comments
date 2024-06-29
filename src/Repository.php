@@ -164,7 +164,7 @@ class Repository
             ->get();
 
         return $reactions->map(function (Reaction $reaction) use ($authMode) {
-            return new UserData(name: $reaction->user?->name ?? '', photo: $reaction->ownerPhotoUrl($authMode));
+            return new UserData(name: $reaction->user?->name() ?? '', photo: $reaction->ownerPhotoUrl($authMode));
         });
     }
 
@@ -296,9 +296,9 @@ class Repository
                  * @return UserData
                  * @phpstan-ignore-next-line
                  */
-                function ($user) {
+                function (User $user) {
                     // @phpstan-ignore-next-line
-                    return new UserData(name: $user->name, photo: $user->photoUrl());
+                    return new UserData(name: $user->name(), photo: $user->photoUrl());
                 }
             );
     }

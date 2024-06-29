@@ -14,4 +14,8 @@ interface CommenterContract
     public function profileUrl(): false|string;
 
     public function photoUrl(): string;
+
+    public function name(): string;
+
+    public function email(): string;
 }
