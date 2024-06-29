@@ -59,7 +59,9 @@ And much more.
 
 ## Why Commenter
 
-The commenting feature is a common requirement for most websites. Allowing users to comment enables interaction and enhances the user experience. While Laravel offers a wealth of packages to meet various project needs, there are limited options when it comes to commenting features. Here are some drawbacks of existing commenting packages:
+The commenting feature is a common requirement for most websites. Allowing users to comment enables interaction and enhances the user experience. While Laravel offers a wealth of packages to meet various project needs, there are limited options when it comes to commenting features. 
+
+### Here are some drawbacks of existing commenting packages:
 
 - Outdated: Uses outdated technologies and is not actively maintained.
 - Lack of Features: Missing many essential features.
