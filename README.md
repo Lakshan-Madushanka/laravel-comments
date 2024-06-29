@@ -4,7 +4,7 @@
 **[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)** |
 **[Overview](#overview)** |
 **[Why Commenter](#why-commenter)** |
-** [Key Features](#key-features)** |
+**[Key Features](#key-features)** |
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
