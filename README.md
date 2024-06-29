@@ -4,6 +4,7 @@
 **[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)** |
 **[Overview](#overview)** |
 **[Why Commenter](#why-commenter)** |
+** [Key Features](#key-features)** |
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
@@ -51,6 +52,25 @@ The commenting feature is a common requirement for most websites. Allowing users
 Due to these issues, most companies tend to opt for commercial packages or plugins. However, spending extra money on commercial packages reduces the company's overall profit. This package is developed to address all these shortcomings.
 
 > As a full stack developer, I have personally encountered these issues. That's why I developed this package—not only for my own projects but also to benefit other developers.
+
+## Key Features
+
+- ❤️ Simple, modern, and user-friendly interfaces.
+- 📱 Mobile responsiveness.
+- 📝 WYSIWYG editor.
+- 📔 Syntax highlighting.
+- 🔒 Robust security features.
+- 🔑 Effective spam prevention.
+- 🤩 Reaction options.
+- 📞 Support for threaded replies.
+- 👤 User mention functionality.
+- 👥 Display list of users who reacted (auth mode only).
+- 🔢 Pagination.
+- 👮‍♂️Support for both authentication mode and guest mode (mutually exclusive).
+- 🔍 Advanced filtering and sorting options.
+- 🥰 Responsive design using a combination of Livewire and Alpine.js.
+- 🚀 Optimized performance.
+And much more.
 
 ## Quick Start
 
