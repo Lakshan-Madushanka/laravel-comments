@@ -1,6 +1,16 @@
 <div align="center">
-  <img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/811e40d6-3988-4cb9-861d-cc9e98005d65" alt="Commenter logo">
-
+    
+**[Documentation](https://lakm.gitbook.io/commenter)** |
+**[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)** |
+**[Overview](#overview)** |
+**[Why Commenter](#why-commenter)** |
+**[Demo](#demo)** |
+**[Changelog](#changelog)** |
+**[Testing](#testing)** |
+**[Security](#security)** |
+**[License](#license)**
+    
+<img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/811e40d6-3988-4cb9-861d-cc9e98005d65" alt="Commenter logo">
 
 #  <img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/73ed97a6-9bdd-4b4e-8a87-fd5027d67149" width="359" height="50">
 
@@ -12,11 +22,6 @@ A Laravel package that brings powerful commenting functionality to your apps ðŸ˜
 [![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
-**[Documentation](https://lakm.gitbook.io/commenter)**
-
-**[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)**
-
-**[Demo](#demo)**
 </div>
 
 ## Overview
@@ -47,6 +52,34 @@ Due to these issues, most companies tend to opt for commercial packages or plugi
 
 > As a full stack developer, I have personally encountered these issues. That's why I developed this packageâ€”not only for my own projects but also to benefit other developers.
 
+## Quick Start
+
+### Installation
+```bash
+composer require lakm/laravel-comments -W
+php artisan commenter:install
+```
+### Usage
+Implement CommentableContract and import Commentable trait in commentable model.
+```php
+import LakM\Comments\Concerns\Commentable;
+import LakM\Comments\Contracts\CommentableContract;
+
+class Post extends Model implements CommentableContract{
+    use Commentable;
+}
+```
+Implement CommenterContract and import Commenter trait in commenter model.
+
+```php
+import LakM\Comments\Concerns\Commenter;
+import LakM\Comments\Contracts\CommenterContract;
+
+class Post extends Model implements CommenterContract{
+    use Commenter;
+}
+```
+
 ## Demo
 
 ### Project
@@ -60,6 +93,11 @@ https://youtu.be/6CxgmvESsdc
 
 ## Changelog
 Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/CHANGELOG.md) for more information what has changed recently.
+
+## Testing
+```bash
+./vendor/bin/pest
+```
 
 ## Security
 Please see [here](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/SECURITY.md) for our security policy.
