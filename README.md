@@ -3,10 +3,12 @@
 **[Documentation](https://lakm.gitbook.io/commenter)** |
 **[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)** |
 **[Overview](#overview)** |
+**[Key Features](#key-features)** |
 **[Why Commenter](#why-commenter)** |
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
+**[Roadmap](#roadmap)** |
 **[Security](#security)** |
 **[License](#license)**
     
@@ -18,8 +20,9 @@
 
 A Laravel package that brings powerful commenting functionality to your apps 😍
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Lakshan-Madushanka/laravel-comments/run-tests.yml)](https://github.com/Lakshan-Madushanka/laravel-comments/actions?query=workflow%3ATests+branch%3Amain)
+[![Laravel](https://img.shields.io/badge/laravel-%5E10.0%20%7C%20%5E11.0-red)](https://laravel.com)
 [![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Lakshan-Madushanka/laravel-comments/run-tests.yml)](https://github.com/Lakshan-Madushanka/laravel-comments/actions?query=workflow%3ATests+branch%3Amain)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
 </div>
@@ -36,15 +39,36 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 ```
 <p align="center"><img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/9bff3f61-4afb-418b-88d1-f232da8eebdc" alt="screenshot"></p>
 
+## Key Features
+
+- ❤️ Simple, modern, and user-friendly interfaces.
+- 📱 Mobile responsiveness.
+- 📝 WYSIWYG editor.
+- 📔 Syntax highlighting.
+- 🔒 Robust security features.
+- 🔑 Effective spam prevention.
+- 🤩 Reaction options.
+- 📞 Support for threaded replies.
+- 👤 User mention functionality.
+- 👥 Display list of users who reacted (auth mode only).
+- 🔢 Pagination.
+- 👮‍♂️Support for both authentication mode and guest mode (mutually exclusive).
+- 🔍 Advanced filtering and sorting options.
+- 🥰 Responsive design using a combination of Livewire and Alpine.js.
+- 🚀 Optimized performance.
+And much more.
+
 ## Why Commenter
 
-The commenting feature is a common requirement for most websites. Allowing users to comment enables interaction and enhances the user experience. While Laravel offers a wealth of packages to meet various project needs, there are limited options when it comes to commenting features. Here are some drawbacks of existing commenting packages:
+The commenting feature is a common requirement for most websites. Allowing users to comment enables interaction and enhances the user experience. While Laravel offers a wealth of packages to meet various project needs, there are limited options when it comes to commenting features. 
+
+### Here are some drawbacks of existing commenting packages:
 
 - Outdated: Uses outdated technologies and is not actively maintained.
 - Lack of Features: Missing many essential features.
 - No Admin Panel: Requires additional time to implement an admin panel independently.
-- User Interface: Interfaces are not user-friendly.
-- Mobile Responsiveness: Not optimized for mobile devices.
+- Bad Design: Interfaces are not user-friendly.
+- Not Mobile Responsive: Not optimized for mobile devices.
 - Performance Issues: May cause performance slowdowns.
 - Lack of Configurability: Limited options for customization and configuration.
 
@@ -98,6 +122,13 @@ Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/bl
 ```bash
 ./vendor/bin/pest
 ```
+
+## Roadmap
+
+|Feature                                                   | Status            |
+|----------------------------------------------------------|-------------------|                                                           
+|Comment/Reply Report                                     | TBI               |             
+|Guest mode email verification                             | TBI               | 
 
 ## Security
 Please see [here](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/SECURITY.md) for our security policy.
