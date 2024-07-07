@@ -83,6 +83,7 @@ Due to these issues, most companies tend to opt for commercial packages or plugi
 ```bash
 composer require lakm/laravel-comments -W
 php artisan commenter:install
+php artisan migrate --seed
 ```
 ### Usage
 Implement CommentableContract and import Commentable trait in commentable model.
