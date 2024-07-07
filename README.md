@@ -105,6 +105,38 @@ class Post extends Model implements CommenterContract{
     use Commenter;
 }
 ```
+Include styles in your layout.
+
+```html
+<html>
+    <head>
+        @commnetsStyles
+    </head>
+</html>
+```
+Include scripts in your layout.
+
+```html
+<html>
+    <body>
+        @commentsScripts
+    </body>
+</html>
+```
+
+Include the comments component with the related model.
+
+```html
+    <x-comments::index :model="$post" />
+```
+
+> [!Warning]
+> You can omit the index part but make sure to include the double colon. Otherwise Laravel will search for the component in project instead of package.
+
+```html
+    <x-comments:: :model="$post" />
+```
+
 
 ## Demo
 
