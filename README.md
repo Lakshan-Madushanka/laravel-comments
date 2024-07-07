@@ -5,6 +5,7 @@
 **[Overview](#overview)** |
 **[Key Features](#key-features)** |
 **[Why Commenter](#why-commenter)** |
+**[Quick Start](#quick-start)** |
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
