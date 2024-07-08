@@ -127,6 +127,10 @@ class CreateCommentForm extends Component
     public function setLoginRequired(): void
     {
         $this->loginRequired = !$this->authenticated && !$this->guestModeEnabled;
+
+        if ($this->loginRequired) {
+            $this->disableEditor = true;
+        }
     }
 
     public function setLimitExceededStatus(): void
