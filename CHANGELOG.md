@@ -1,6 +1,6 @@
 # Documentation of the changes
 
-## 1.0.0 - 2024-7-10
+## 1.0.0 - 2024-07-10
 First Stable Release
 
 ## 3.0.0-beta - 2024-06-26
