@@ -146,6 +146,9 @@ https://github.com/Lakshan-Madushanka/laravel-comments-demo
 ### Mini video
 https://youtu.be/6CxgmvESsdc
 
+### Full Video
+https://youtu.be/dvFIOhSpmv8
+
 > [!Note]
 > This mini demo video provides a basic overview of Commenter. The full scope and features of Commenter are much more extensive. A comprehensive video will be published with the stable release. 
 
