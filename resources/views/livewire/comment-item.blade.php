@@ -2,7 +2,7 @@
     <div class="basis-14">
         <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
-                class="h-12 w-12 rounded-full border border-gray-200"
+                class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
                 src="{{ $comment->ownerPhotoUrl($authMode) }}"
                 alt="{{ $comment->ownerName($authMode) }}"
             />

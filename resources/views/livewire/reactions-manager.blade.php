@@ -160,7 +160,7 @@
         </div>
 
         <div
-            class="flex max-w-32 items-center gap-x-1 overflow-x-auto rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2 md:max-w-72"
+            class="flex max-w-40 items-center gap-x-1 overflow-x-auto rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2 md:max-w-72"
         >
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction
@@ -177,7 +177,7 @@
     </div>
 
     @if ($enableReply)
-        <div x-show="showReplyForm" x-transition class="my-4 ml-8">
+        <div x-show="showReplyForm" x-transition class="my-4 sm:ml-8">
             <livewire:comments-reply-form :$comment :$guestMode :$relatedModel />
         </div>
     @endif

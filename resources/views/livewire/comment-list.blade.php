@@ -12,9 +12,9 @@
         {{ __('Comments') }}
         <span x-text="getTotal()"></span>
     </div>
-    <div class="flex flex-col gap-y-2 overflow-auto sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if (($comments->count() > 1 || $sortBy !== 'my_comments') && config('comments.show_filters'))
-            <div class="flex gap-x-2 sm:gap-x-3">
+            <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
                 <div class="w-14"></div>
                 <x-comments::chip
                     wire:click="setSortBy('top')"
