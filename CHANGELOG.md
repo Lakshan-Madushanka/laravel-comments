@@ -1,5 +1,9 @@
 # Documentation of the changes
 
+## 1.0.1 - 2024-07-11
+- Improve mobile responsiveness and design.
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.0.0...1.0.1)
+
 ## 1.0.0 - 2024-07-10
 First Stable Release
 
