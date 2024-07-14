@@ -22,8 +22,9 @@
 A Laravel package that brings powerful commenting functionality to your apps 😍
 
 [![Laravel](https://img.shields.io/badge/laravel-%5E10.0%20%7C%20%5E11.0-red)](https://laravel.com)
-[![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Lakshan-Madushanka/laravel-comments/run-tests.yml)](https://github.com/Lakshan-Madushanka/laravel-comments/actions?query=workflow%3ATests+branch%3Amain)
+[![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
+[![Downloads](https://img.shields.io/packagist/dt/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
 </div>
