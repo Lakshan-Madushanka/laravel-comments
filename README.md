@@ -89,8 +89,8 @@ php artisan migrate --seed
 ### Usage
 Implement CommentableContract and import Commentable trait in commentable model.
 ```php
-import LakM\Comments\Concerns\Commentable;
-import LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Concerns\Commentable;
+use LakM\Comments\Contracts\CommentableContract;
 
 class Post extends Model implements CommentableContract{
     use Commentable;
@@ -99,8 +99,8 @@ class Post extends Model implements CommentableContract{
 Implement CommenterContract and import Commenter trait in commenter model.
 
 ```php
-import LakM\Comments\Concerns\Commenter;
-import LakM\Comments\Contracts\CommenterContract;
+use LakM\Comments\Concerns\Commenter;
+use LakM\Comments\Contracts\CommenterContract;
 
 class Post extends Model implements CommenterContract{
     use Commenter;
