@@ -8,7 +8,7 @@ use LakM\Comments\Policies\ReplyPolicy;
 
 return [
     /**
-     * Commentable Model
+     * Comment Model
      * Must extend base model LakM\Comments\Models\Comment
      */
     'model' => Comment::class,
