@@ -22,8 +22,9 @@
 A Laravel package that brings powerful commenting functionality to your apps 😍
 
 [![Laravel](https://img.shields.io/badge/laravel-%5E10.0%20%7C%20%5E11.0-red)](https://laravel.com)
-[![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Lakshan-Madushanka/laravel-comments/run-tests.yml)](https://github.com/Lakshan-Madushanka/laravel-comments/actions?query=workflow%3ATests+branch%3Amain)
+[![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
+[![Downloads](https://img.shields.io/packagist/dt/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
 </div>
@@ -88,8 +89,8 @@ php artisan migrate --seed
 ### Usage
 Implement CommentableContract and import Commentable trait in commentable model.
 ```php
-import LakM\Comments\Concerns\Commentable;
-import LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Concerns\Commentable;
+use LakM\Comments\Contracts\CommentableContract;
 
 class Post extends Model implements CommentableContract{
     use Commentable;
@@ -98,8 +99,8 @@ class Post extends Model implements CommentableContract{
 Implement CommenterContract and import Commenter trait in commenter model.
 
 ```php
-import LakM\Comments\Concerns\Commenter;
-import LakM\Comments\Contracts\CommenterContract;
+use LakM\Comments\Concerns\Commenter;
+use LakM\Comments\Contracts\CommenterContract;
 
 class Post extends Model implements CommenterContract{
     use Commenter;
@@ -110,7 +111,7 @@ Include styles in your layout.
 ```html
 <html>
     <head>
-        @commnetsStyles
+        @commentsStyles
     </head>
 </html>
 ```
