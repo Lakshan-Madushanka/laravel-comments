@@ -12,8 +12,8 @@ use Illuminate\Support\Str;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
-use LakM\Comments\Reactions\ReactionManager;
 use LakM\Comments\Queries;
+use LakM\Comments\Reactions\ReactionManager;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 

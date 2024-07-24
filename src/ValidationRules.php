@@ -17,7 +17,7 @@ class ValidationRules
     protected static $updateCommentUsing;
 
     /**
-     * @param  ModelResolver  $model
+     * @param  Model  $model
      * @param  string  $type
      * @return array|array[]
      */
@@ -34,7 +34,7 @@ class ValidationRules
     }
 
     /**
-     * @param  ModelResolver&CommentableContract  $model
+     * @param  Model&CommentableContract  $model
      * @return array
      */
     private static function createCommentRules(Model $model): array
@@ -56,7 +56,7 @@ class ValidationRules
     }
 
     /**
-     * @param  ModelResolver&CommentableContract  $model
+     * @param  Model&CommentableContract  $model
      * @return array
      */
     private static function getCreateCommentRules(Model $model): array

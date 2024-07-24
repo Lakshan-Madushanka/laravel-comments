@@ -37,7 +37,7 @@ class Queries
 
     /**
      * @param  Authenticatable&CommenterContract  $user
-     * @param  ModelResolver&CommentableContract  $relatedModel
+     * @param  Model&CommentableContract  $relatedModel
      * @return int
      */
     public static function userCommentCount(Authenticatable $user, Model $relatedModel): int
@@ -52,7 +52,7 @@ class Queries
     }
 
     /**
-     * @param  ModelResolver&CommentableContract  $relatedModel
+     * @param  Model&CommentableContract  $relatedModel
      * @param  int  $limit
      * @param  string  $sortBy
      * @param  string  $filter
@@ -109,7 +109,7 @@ class Queries
     }
 
     /**
-     * @param  ModelResolver&CommentableContract  $relatedModel
+     * @param  Model&CommentableContract  $relatedModel
      * @param  string  $filter
      * @return int
      */
@@ -212,7 +212,7 @@ class Queries
 
     /**
      * @param  Comment  $comment
-     * @param  ModelResolver&CommentableContract  $relatedModel
+     * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $approvalRequired
      * @param  string  $filter
      * @return int
@@ -234,7 +234,7 @@ class Queries
 
     /**
      * @param  Comment  $comment
-     * @param  ModelResolver&CommentableContract  $relatedModel
+     * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $approvalRequired
      * @param  int  $limit
      * @param  string  $sortBy

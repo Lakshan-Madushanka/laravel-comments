@@ -57,7 +57,6 @@ class CommentList extends Component
 
         $this->model = $model;
 
-
         $this->perPage = config('comments.pagination.per_page');
         $this->limit = config('comments.pagination.per_page');
 
