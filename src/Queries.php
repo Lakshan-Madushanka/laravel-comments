@@ -16,12 +16,12 @@ use LakM\Comments\Builders\ReplyBuilder;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
-use LakM\Comments\Model as M;
+use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 
-class Repository
+class Queries
 {
     public static ?UserData $guest = null;
 
@@ -37,7 +37,7 @@ class Repository
 
     /**
      * @param  Authenticatable&CommenterContract  $user
-     * @param  Model&CommentableContract  $relatedModel
+     * @param  ModelResolver&CommentableContract  $relatedModel
      * @return int
      */
     public static function userCommentCount(Authenticatable $user, Model $relatedModel): int
@@ -52,7 +52,7 @@ class Repository
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
+     * @param  ModelResolver&CommentableContract  $relatedModel
      * @param  int  $limit
      * @param  string  $sortBy
      * @param  string  $filter
@@ -109,7 +109,7 @@ class Repository
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
+     * @param  ModelResolver&CommentableContract  $relatedModel
      * @param  string  $filter
      * @return int
      */
@@ -212,7 +212,7 @@ class Repository
 
     /**
      * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
+     * @param  ModelResolver&CommentableContract  $relatedModel
      * @param  bool  $approvalRequired
      * @param  string  $filter
      * @return int
@@ -234,7 +234,7 @@ class Repository
 
     /**
      * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
+     * @param  ModelResolver&CommentableContract  $relatedModel
      * @param  bool  $approvalRequired
      * @param  int  $limit
      * @param  string  $sortBy

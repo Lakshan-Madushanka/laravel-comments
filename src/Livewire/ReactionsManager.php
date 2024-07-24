@@ -13,7 +13,7 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\Reactions\ReactionManager;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
@@ -225,7 +225,7 @@ class ReactionsManager extends Component
             $limit += $this->reactedUsers[$type]['limit'];
         }
 
-        $user = Repository::reactedUsers($this->comment, $type, $limit, $this->authMode);
+        $user = Queries::reactedUsers($this->comment, $type, $limit, $this->authMode);
 
         $this->reactedUsers[$type]['users'] = $user;
         $this->reactedUsers[$type]['limit'] = $limit;
@@ -233,7 +233,7 @@ class ReactionsManager extends Component
 
     public function lastReactedUser(string $type): void
     {
-        $user = Repository::lastReactedUser($this->comment, $type, $this->authMode);
+        $user = Queries::lastReactedUser($this->comment, $type, $this->authMode);
         $this->lastReactedUserName = $user?->name;
     }
 

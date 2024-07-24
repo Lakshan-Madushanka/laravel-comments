@@ -10,7 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Helpers;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -131,7 +131,7 @@ class CommentList extends Component
     #[Computed]
     public function comments(): Collection|LengthAwarePaginator
     {
-        return Repository::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
+        return Queries::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
     }
 
     public function render(): View|Factory|Application

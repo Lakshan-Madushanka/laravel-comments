@@ -14,7 +14,7 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -203,7 +203,7 @@ class CreateCommentReplyForm extends Component
     private function setGuest(): void
     {
         if ($this->guestMode) {
-            $this->guest = Repository::guest();
+            $this->guest = Queries::guest();
 
             $this->guest_name = $this->guest->name;
             $this->guest_email = $this->guest->email;
@@ -214,7 +214,7 @@ class CreateCommentReplyForm extends Component
 
     public function setReplyCount(): void
     {
-        $this->replyCount = Repository::userReplyCountForComment(
+        $this->replyCount = Queries::userReplyCountForComment(
             $this->comment,
             $this->guestMode,
             $this->relatedModel->getAuthUser()

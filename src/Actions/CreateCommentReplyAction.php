@@ -10,7 +10,7 @@ use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentReplyCreated;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 
 class CreateCommentReplyAction
 {
@@ -66,7 +66,7 @@ class CreateCommentReplyAction
                 $comment->where('ip_address', $replyData['ip_address'])
                     ->update($user);
 
-                Repository::$guest = new UserData($replyData['guest_name'], $replyData['guest_email']);
+                Queries::$guest = new UserData($replyData['guest_name'], $replyData['guest_email']);
             }
 
             return $reply;

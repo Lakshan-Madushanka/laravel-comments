@@ -5,7 +5,7 @@ namespace LakM\Comments\Builders;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Model as M;
+use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
 
 /**

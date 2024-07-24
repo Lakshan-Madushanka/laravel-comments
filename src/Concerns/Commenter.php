@@ -17,7 +17,7 @@ trait Commenter
 
     public function comments(): MorphMany
     {
-        return $this->morphMany(\LakM\Comments\Model::commentClass(), 'commenter');
+        return $this->morphMany(\LakM\Comments\ModelResolver::commentClass(), 'commenter');
     }
 
     public function replies(): HasMany

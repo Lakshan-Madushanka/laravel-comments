@@ -5,7 +5,7 @@ namespace LakM\Comments\Livewire;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -67,7 +67,7 @@ class UserList extends Component
         $this->show = true;
 
         if (!isset($this->total)) {
-            $this->total = Repository::usersCount();
+            $this->total = Queries::usersCount();
         }
 
         $this->search = $content;
@@ -93,6 +93,6 @@ class UserList extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.user-list', ['users' => Repository::usersStartWithName($this->search, $this->guestMode, $this->limit)]);
+        return view('comments::livewire.user-list', ['users' => Queries::usersStartWithName($this->search, $this->guestMode, $this->limit)]);
     }
 }

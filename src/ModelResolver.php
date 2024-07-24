@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 
-final class Model
+final class ModelResolver
 {
     /** @return class-string */
     public static function commentClass(): string

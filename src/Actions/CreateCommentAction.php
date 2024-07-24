@@ -12,7 +12,7 @@ use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 
 class CreateCommentAction
 {
@@ -80,7 +80,7 @@ class CreateCommentAction
                     ->where('ip_address', $commentData['ip_address'])
                     ->update($user);
 
-                Repository::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
+                Queries::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
             }
 
             return $comment;

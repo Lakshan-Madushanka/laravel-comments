@@ -13,7 +13,7 @@ use LakM\Comments\Actions\CreateCommentAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Helpers;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -147,7 +147,7 @@ class CreateCommentForm extends Component
     public function setGuest(): void
     {
         if ($this->guestModeEnabled) {
-            $this->guest = Repository::guest();
+            $this->guest = Queries::guest();
 
             $this->guest_name = $this->guest->name;
             $this->guest_email = $this->guest->email;

@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use LakM\Comments\CommentServiceProvider;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Repository;
+use LakM\Comments\Queries;
 use LakM\Comments\Tests\Fixtures\User;
 use Livewire\LivewireServiceProvider;
 use Spatie\Honeypot\HoneypotServiceProvider;
@@ -23,7 +23,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         config(['honeypot.enabled' => false]);
         config(['comments.user_model' => User::class]);
 
-        Repository::$guest = null;
+        Queries::$guest = null;
     }
 
     protected function tearDown(): void
