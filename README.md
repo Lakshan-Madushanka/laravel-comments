@@ -84,10 +84,11 @@ Due to these issues, most companies tend to opt for commercial packages or plugi
 ```bash
 composer require lakm/laravel-comments -W
 php artisan commenter:install
-php artisan migrate --seed
 ```
+
 ### Usage
 Implement `CommentableContract` and import `Commentable` trait in commentable model.
+
 ```php
 use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Contracts\CommentableContract;
@@ -96,7 +97,9 @@ class Post extends Model implements CommentableContract
 {
     use Commentable;
 }
+
 ```
+
 Implement `CommenterContract` and import `Commenter` trait in commenter model.
 
 ```php
@@ -108,6 +111,7 @@ class User extends Model implements CommenterContract
     use Commenter;
 }
 ```
+
 Include styles in your layout.
 
 ```html
@@ -117,6 +121,7 @@ Include styles in your layout.
     </head>
 </html>
 ```
+
 Include scripts in your layout.
 
 ```html
