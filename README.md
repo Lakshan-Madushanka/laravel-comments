@@ -76,7 +76,7 @@ The commenting feature is a common requirement for most websites. Allowing users
 
 Due to these issues, most companies tend to opt for commercial packages or plugins. However, spending extra money on commercial packages reduces the company's overall profit. This package is developed to address all these shortcomings.
 
-> As a full stack developer, I have personally encountered these issues. That's why I developed this package—not only for my own projects but also to benefit other developers.
+> As a full-stack developer, I have personally encountered these issues. That's why I developed this package—not only for my own projects but also to benefit other developers.
 
 ## Quick Start
 
@@ -87,22 +87,24 @@ php artisan commenter:install
 php artisan migrate --seed
 ```
 ### Usage
-Implement CommentableContract and import Commentable trait in commentable model.
+Implement `CommentableContract` and import `Commentable` trait in commentable model.
 ```php
 use LakM\Comments\Concerns\Commentable;
 use LakM\Comments\Contracts\CommentableContract;
 
-class Post extends Model implements CommentableContract{
+class Post extends Model implements CommentableContract
+{
     use Commentable;
 }
 ```
-Implement CommenterContract and import Commenter trait in commenter model.
+Implement `CommenterContract` and import `Commenter` trait in commenter model.
 
 ```php
 use LakM\Comments\Concerns\Commenter;
 use LakM\Comments\Contracts\CommenterContract;
 
-class Post extends Model implements CommenterContract{
+class User extends Model implements CommenterContract
+{
     use Commenter;
 }
 ```
