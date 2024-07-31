@@ -139,12 +139,14 @@ return [
             'toolbar' => [
                 [['header' => [1, 2, false]]],
                 ['bold', 'italic', 'underline'],
-                ['code-block'],
+                ['link', 'code-block'],
             ],
         ],
         'placeholder' => 'Your message here',
         'theme' => 'snow',
     ],
+
+    'should_confirm_link_visit' => true,
 
     'reactions' => [
         'like' => ['position' => 'left', 'fill' => 'gray'],

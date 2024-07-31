@@ -1,6 +1,6 @@
 <div>
     <div wire:ignore>
-        <div id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none"></div>
+        <div @click.stop id="{{ $editorId }}" class="min-h-32 rounded rounded-t-none pointer-events"></div>
         <div id="{{ $toolbarId }}" class="w-full"></div>
 
         <div
