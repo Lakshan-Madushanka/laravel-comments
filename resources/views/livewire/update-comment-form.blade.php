@@ -1,5 +1,5 @@
 <div x-data="{ showMsg: false }">
-    <div wire:ignore>
+    <div>
         <livewire:comments-editor wire:model="text" :$editorId :guestModeEnabled="$model->guestModeEnabled()" />
     </div>
     <div class="min-h-6">
