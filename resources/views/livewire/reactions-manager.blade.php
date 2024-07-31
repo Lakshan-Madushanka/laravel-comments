@@ -201,13 +201,11 @@
         <div
             x-data="{show: false, type: ''}"
             @@show-user-list.window="
-            console.log('lakshan')
-            if($wire.get('id') == $event.detail.id) {
-                console.log('lakshan')
-                 show=true;
-                 type=$event.detail.type;
-            }
-        "
+                if($wire.get('id') == $event.detail.id) {
+                     show=true;
+                     type=$event.detail.type;
+                }
+            "
         >
             <x-comments::modal loadingTarget="loadReactedUsers">
                 <div class="flex py-4">
