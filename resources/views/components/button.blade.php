@@ -1,7 +1,7 @@
 @props(["loadingTarget" => "", "dirtyTarget" => "", "type" => "submit", "size" => "md", "severity" => "primary"])
 
 @php
-    $class = $size === "sm" ? "!py-1 !px-2 !text-sm " : "py-1 px-2 text-sm lg:text-base lg:py-2 lg:px-3 ";
+    $class = $size === "sm" ? "!py-1 !px-2 !text-sm " : "py-1 px-2 text-sm lg:text-base lg:py-[0.4rem] lg:px-3 ";
 
     $severity = match ($severity) {
         "primary" => "bg-blue-600 hover:bg-blue-700 ",
