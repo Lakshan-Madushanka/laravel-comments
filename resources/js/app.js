@@ -1,4 +1,19 @@
 import Quill from 'quill';
+const Link = Quill.import('formats/link');
+
+class CustomLink extends Link {
+    static tagName = 'span';
+
+    static create(value) {
+        let node = super.create(value);
+        node.classList.add('link');
+        node.style.cursor = 'pointer'
+        return node;
+    }
+}
+
+Quill.register(CustomLink, true);
+
 window.Quill = Quill;
 
 import moment from 'moment';
@@ -6,7 +21,7 @@ window.moment = moment;
 
 import hljs from 'highlight.js';
 
-const hljsInstance = hljs.configure({
+hljs.configure({
     ignoreUnescapedHTML: true,
 });
 
