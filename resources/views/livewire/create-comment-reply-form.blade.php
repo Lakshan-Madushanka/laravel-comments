@@ -42,8 +42,7 @@
             <div
                 x-cloak
                 x-data="successMsg"
-                @reply-created-
-                {{ $comment->getKey() }}.window="set(true, $event); console.log('lakshan')"
+                @reply-created-{{ $comment->getKey() }}.window="set(true, $event)"
             >
                 <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
                     @if ($approvalRequired)
@@ -101,7 +100,6 @@
 
                 set(show, event) {
                     if (event.detail.editorId !== $wire.editorId) {
-                        console.log('laks');
                         return;
                     }
                     this.show = show;
