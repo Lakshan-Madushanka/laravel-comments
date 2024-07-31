@@ -1,5 +1,11 @@
 # Documentation of the changes
 
+## 1.1.0 - 2024-07-31
+* Add a feature to enable display of a confirmation dialog before visiting a link.
+* Fix the issue with the reply-created event not working.
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.0.2...1.1.0
+
 ## 1.0.2 - 2024-07-31
 - UI/UX improvement
 - Following renaming
