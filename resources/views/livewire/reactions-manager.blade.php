@@ -198,78 +198,81 @@
     </div>
 
     @if ($authMode)
-        <x-comments::modal
+        <div
             x-data="{show: false, type: ''}"
-            @show-user-list.window="
+            @@show-user-list.window="
+            console.log('lakshan')
             if($wire.get('id') == $event.detail.id) {
+                console.log('lakshan')
                  show=true;
                  type=$event.detail.type;
             }
         "
-            loadingTarget="loadReactedUsers"
         >
-            <div class="flex py-4">
-                <div class="space-y-2 border-r-2 border-gray-200">
-                    <div class="mb-4 border-b-2 border-gray-200 p-4">
-                        <span class="bg-gray-300 px-4 py-2 font-bold">{{ $total }}</span>
-                    </div>
-                    @foreach (config("comments.reactions") as $key => $reaction)
-                        <div
-                            @if ($reactions[$key]["count"] > 0)
-                                wire:click="loadReactedUsers('{{ $key }}')"
+            <x-comments::modal loadingTarget="loadReactedUsers">
+                <div class="flex py-4">
+                    <div class="space-y-2 border-r-2 border-gray-200">
+                        <div class="mb-4 border-b-2 border-gray-200 p-4">
+                            <span class="bg-gray-300 px-4 py-2 font-bold">{{ $total }}</span>
+                        </div>
+                        @foreach (config("comments.reactions") as $key => $reaction)
+                            <div
+                                @if ($reactions[$key]["count"] > 0)
+                                    wire:click="loadReactedUsers('{{ $key }}')"
                                 @click="type = '{{ $key }}'"
                                 class="cursor-pointer p-4 relative"
-                            @endif
-                            wire:loading.class="cursor-not-allowed"
-                            target="loadReactedUsers"
-                            class="relative p-4"
-                            :class="type === '{{ $key }}' ? 'bg-gray-100' : ''"
-                        >
-                            @if ($reactions[$key]["reacted"])
-                                <x-dynamic-component
-                                    component="comments::icons.{{$key}}"
-                                    :fill="$this->fillColor($key)"
-                                />
-                            @else
-                                <x-dynamic-component component="comments::icons.{{$key}}" />
-                            @endif
+                                @endif
+                                wire:loading.class="cursor-not-allowed"
+                                target="loadReactedUsers"
+                                class="relative p-4"
+                                :class="type === '{{ $key }}' ? 'bg-gray-100' : ''"
+                            >
+                                @if ($reactions[$key]["reacted"])
+                                    <x-dynamic-component
+                                        component="comments::icons.{{$key}}"
+                                        :fill="$this->fillColor($key)"
+                                    />
+                                @else
+                                    <x-dynamic-component component="comments::icons.{{$key}}" />
+                                @endif
 
-                            <span class="absolute left-8 top-1 rounded bg-gray-300 px-1 text-xs">
+                                <span class="absolute left-8 top-1 rounded bg-gray-300 px-1 text-xs">
                                 {{ $reactions[$key]["count"] }}
                             </span>
-                        </div>
-                    @endforeach
-                </div>
-
-                @if ($selectedReactionType)
-                    <div class="mt-4 flex w-full flex-col items-start px-4">
-                        @foreach ($this->getReactedUsers($selectedReactionType) as $user)
-                            <div class="flex w-full items-center space-x-4 border-b border-gray-200 p-2">
-                                <div>
-                                    <img
-                                        class="h-[1.8rem] w-[1.8rem] rounded-full border border-gray-200"
-                                        src="{{ $user->photo }}"
-                                        alt="{{ $user->photo }}"
-                                    />
-                                </div>
-                                <div>{{ $user->name }}</div>
                             </div>
                         @endforeach
-
-                        @if ($this->getReactedUsersLimit($selectedReactionType) < $reactions[$selectedReactionType]["count"])
-                            <div class="!mt-4 flex w-full justify-center">
-                                <x-comments::button
-                                    wire:click="loadReactedUsers('{{$selectedReactionType}}')"
-                                    type="button"
-                                    size="sm"
-                                >
-                                    {{__('Load')}}
-                                </x-comments::button>
-                            </div>
-                        @endif
                     </div>
-                @endif
-            </div>
-        </x-comments::modal>
+
+                    @if ($selectedReactionType)
+                        <div class="mt-4 flex w-full flex-col items-start px-4">
+                            @foreach ($this->getReactedUsers($selectedReactionType) as $user)
+                                <div class="flex w-full items-center space-x-4 border-b border-gray-200 p-2">
+                                    <div>
+                                        <img
+                                            class="h-[1.8rem] w-[1.8rem] rounded-full border border-gray-200"
+                                            src="{{ $user->photo }}"
+                                            alt="{{ $user->photo }}"
+                                        />
+                                    </div>
+                                    <div>{{ $user->name }}</div>
+                                </div>
+                            @endforeach
+
+                            @if ($this->getReactedUsersLimit($selectedReactionType) < $reactions[$selectedReactionType]["count"])
+                                <div class="!mt-4 flex w-full justify-center">
+                                    <x-comments::button
+                                        wire:click="loadReactedUsers('{{$selectedReactionType}}')"
+                                        type="button"
+                                        size="sm"
+                                    >
+                                        {{__('Load')}}
+                                    </x-comments::button>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            </x-comments::modal>
+        </div>
     @endif
 </div>
