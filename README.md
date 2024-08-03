@@ -3,6 +3,7 @@
 **[Documentation](https://lakm.gitbook.io/commenter)** |
 **[Admin Panel](https://github.com/Lakshan-Madushanka/laravel-comments-admin-panel)** |
 **[Overview](#overview)** |
+**[Articles](#articles)** |
 **[Key Features](#key-features)** |
 **[Why Commenter](#why-commenter)** |
 **[Quick Start](#quick-start)** |
@@ -39,6 +40,10 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 ```php
 <x-comments :model="$post" />
 ```
+
+### Articles
+- [Laravel News](https://laravel-news.com/laravel-commentable-package)
+
 <p align="center"><img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/9bff3f61-4afb-418b-88d1-f232da8eebdc" alt="screenshot"></p>
 
 ## Key Features
