@@ -172,8 +172,9 @@ Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/bl
 
 |Feature                                                   | Status            |
 |----------------------------------------------------------|-------------------|                                                           
-|Comment/Reply Report                                     | TBI               |             
+|Comment/Reply Report                                      | TBI               |             
 |Guest mode email verification                             | TBI               | 
+|Dark Mode Support
 
 ## Security
 Please see [here](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/SECURITY.md) for our security policy.
