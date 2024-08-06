@@ -1,7 +1,4 @@
 # Documentation of the changes
-
-## 1.1.1 - 2024-07-31
-* Fix UI issue
   
 ## 1.1.0 - 2024-07-31
 * Add a feature to enable display of a confirmation dialog before visiting a link.
