@@ -12,6 +12,7 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Helpers;
 use LakM\Comments\Queries;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -20,6 +21,7 @@ use Livewire\WithPagination;
 /**
  * @property Collection|LengthAwarePaginator $comments
  */
+#[Lazy]
 class CommentList extends Component
 {
     use WithPagination;
@@ -131,6 +133,11 @@ class CommentList extends Component
     public function comments(): Collection|LengthAwarePaginator
     {
         return Queries::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
+    }
+
+    public function placeholder(array $params = []): Factory|View|Application
+    {
+        return view('comments::components.skeleton', $params);
     }
 
     public function render(): View|Factory|Application

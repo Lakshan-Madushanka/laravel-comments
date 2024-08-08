@@ -15,12 +15,14 @@ use LakM\Comments\Data\UserData;
 use LakM\Comments\Helpers;
 use LakM\Comments\Queries;
 use LakM\Comments\ValidationRules;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
+#[Lazy]
 class CreateCommentForm extends Component
 {
     use UsesSpamProtection;

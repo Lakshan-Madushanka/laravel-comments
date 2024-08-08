@@ -6,7 +6,7 @@
     @if(config('comments.should_confirm_link_visit'))
         <x-comments::link-visit-confirm-modal/>
     @endif
-    <livewire:comments-list :model="$model" />
+    <livewire:comments-list :model="$model"/>
     <hr class="text-gray-400" />
-    <livewire:comments-create-form :model="$model" />
+    <livewire:comments-create-form :model="$model"/>
 </div>
