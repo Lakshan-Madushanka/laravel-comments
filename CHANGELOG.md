@@ -1,10 +1,13 @@
 # Documentation of the changes
-  
+
+## 1.2.0 - 2024-08-08
+- Enhance page loading speed by making livewire components load lazily.
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.1.0...1.2.0)
+
 ## 1.1.0 - 2024-07-31
 * Add a feature to enable display of a confirmation dialog before visiting a link.
 * Fix the issue with the reply-created event not working.
-
-**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.0.2...1.1.0
+* [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.0.2...1.1.0)
 
 ## 1.0.2 - 2024-07-31
 - UI/UX improvement
@@ -14,9 +17,8 @@
 - Fix commenter model example by @phpfour in https://github.com/Lakshan-Madushanka/laravel-comments/pull/10 and address some other bugs in README.md.
 
 ### New Contributors
-* @phpfour made their first contribution in https://github.com/Lakshan-Madushanka/laravel-comments/pull/10
-
-**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.0.1...1.0.2
+- @phpfour made their first contribution in https://github.com/Lakshan-Madushanka/laravel-comments/pull/10
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.0.1...1.0.2)
 
 ## 1.0.1 - 2024-07-11
 - Improve mobile responsiveness and design.
