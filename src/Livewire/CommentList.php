@@ -16,7 +16,6 @@ use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\Livewire;
 use Livewire\WithPagination;
 
 /**
