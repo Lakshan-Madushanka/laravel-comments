@@ -28,5 +28,5 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Run Tests
-        run: vendor/bin/pest --coverage-text
+      - name: Run Larastan
+        run: './vendor/bin/phpstan analyse'
