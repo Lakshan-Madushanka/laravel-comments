@@ -44,7 +44,7 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 ### Articles
 - [Laravel News](https://laravel-news.com/laravel-commentable-package)
 
-<p align="center"><img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/9bff3f61-4afb-418b-88d1-f232da8eebdc" alt="screenshot"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/32d964f5-d899-4082-809d-bf400e62501d" alt="screenshot"></p>
 
 ## Key Features
 
