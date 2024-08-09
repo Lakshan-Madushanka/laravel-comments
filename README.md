@@ -7,7 +7,7 @@
 **[Key Features](#key-features)** |
 **[Why Commenter](#why-commenter)** |
 **[Quick Start](#quick-start)** |
-**[Themes](#themes)**
+**[Themes](#themes)** |
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
