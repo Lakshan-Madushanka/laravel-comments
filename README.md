@@ -7,6 +7,7 @@
 **[Key Features](#key-features)** |
 **[Why Commenter](#why-commenter)** |
 **[Quick Start](#quick-start)** |
+**[Themes](#themes)**
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
@@ -150,6 +151,8 @@ Include the comments component with the related model.
     <x-comments:: :model="$post" />
 ```
 
+## Themes
+You can change theme to your prefferred one. Consult documentation [here](https://lakm.gitbook.io/commenter/basics/themes) for more info.
 
 ## Demo
 
