@@ -1,7 +1,12 @@
-@php use Illuminate\Support\Number; @endphp
+@php use Illuminate\Support\Number;use LakM\Comments\Helpers; @endphp
 <div x-data="{ showReplyForm: false }">
     <div class="flex w-full justify-between gap-x-4">
-        <div class="flex items-center gap-x-1 rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2">
+        <div
+            @class([
+                "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
+                "border border-gray-200 bg-gray-100" => Helpers::isGithubTheme()
+            ])
+        >
             @foreach ($lReactions as $key => $value)
                 @if ($key === "like")
                     <div
@@ -24,7 +29,11 @@
                                 $dispatch('comment-liked', {id: @js($comment->getKey())});
                             }
                         "
-                        class="rounded bg-gray-300 px-1 hover:bg-gray-400"
+                        @class([
+                           "cursor-pointer rounded px-1",
+                           "border hover:bg-gray-200" => Helpers::isDefaultTheme(),
+                           "bg-gray-300 hover:bg-gray-400" => Helpers::isGithubTheme()
+                       ])
                     >
                         <div
                             @click="if($wire.loginRequired){return}; isLiked = !isLiked; showUsers=false"
@@ -86,7 +95,11 @@
                                 $dispatch('comment-disliked', {id: @js($comment->getKey())});
                             }
                         "
-                        class="cursor-pointer rounded bg-gray-300 px-1 hover:bg-gray-400"
+                        @class([
+                            "cursor-pointer rounded px-1",
+                            "border hover:bg-gray-200" => Helpers::isDefaultTheme(),
+                            " bg-gray-300 hover:bg-gray-400" => Helpers::isGithubTheme()
+                        ])
                     >
                         <div
                             @click="if($wire.loginRequired){return}; isDisliked = !isDisliked; showUsers=false"
@@ -160,7 +173,10 @@
         </div>
 
         <div
-            class="flex max-w-40 items-center gap-x-1 overflow-x-auto rounded border border-gray-200 bg-gray-100 p-1 sm:gap-x-2 md:max-w-72"
+            @class([
+                  "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
+                  "border border-gray-200 bg-gray-100" => Helpers::isGithubTheme(),
+                ])
         >
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction

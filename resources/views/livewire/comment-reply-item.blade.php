@@ -1,3 +1,4 @@
+@php use LakM\Comments\Helpers; @endphp
 <div x-ref="reply{{ $reply->getKey() }}" class="flex gap-x-2 sm:gap-x-4">
     <div class="basis-14">
         <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
@@ -17,20 +18,28 @@
         }"
         class="basis-full"
     >
-        <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
+        <div
+            x-show="!showUpdateForm"
+            x-transition
+            @class([
+                "rounded border border-gray-200" => Helpers::isGithubTheme(),
+            ])>
             <div
-                class="mb-2 flex items-start justify-between space-x-4 border-b border-gray-200 bg-gray-100 p-1 sm:flex-row sm:items-center sm:justify-between"
+                @class([
+                    "flex items-start justify-between space-x-4 p-1 sm:flex-row sm:items-center sm:justify-between",
+                    "mb-2 border-b border-gray-200 bg-gray-100" => Helpers::isGithubTheme(),
+                ])
             >
-                <div class="space-x-1">
-                    <span class="font-bold sm:hidden">
+                <div>
+                    <span class="font-semibold sm:hidden mr-1">
                         {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 10) }}
                     </span>
 
-                    <span class="hidden font-bold sm:inline">
+                    <span class="hidden font-semibold sm:inline mr-1">
                         {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 25) }}
                     </span>
 
-                    <span class="inline-block h-2 w-[1px] bg-black"></span>
+                    <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
 
                     @if (config('comments.date_format') === 'diff')
                         <span class="text-xs">{{ $reply->created_at->diffForHumans() }}</span>

@@ -14,7 +14,11 @@
         showUsers: false,
     }"
     @mouseleave="showUsers=false"
-    class="flex flex-row items-center justify-center rounded-md bg-gray-300 px-1 py-[2px] hover:bg-gray-400"
+    @class([
+          "flex flex-row items-center justify-center rounded-md px-1 py-[2px]",
+          "border hover:bg-gray-200" => config('comments.theme') === 'default',
+          "bg-gray-300 hover:bg-gray-400" => config('comments.theme') === 'github'
+    ])
 >
     <div
         @if ($authMode)
@@ -41,9 +45,9 @@
         title="{{ $key }}"
     >
         @if ($reactions[$key]["reacted"])
-            <x-dynamic-component component="comments::icons.{{$key}}" :fill="$this->fillColor($key)" />
+            <x-dynamic-component component="comments::icons.{{$key}}" :fill="$this->fillColor($key)"/>
         @else
-            <x-dynamic-component component="comments::icons.{{$key}}" />
+            <x-dynamic-component component="comments::icons.{{$key}}"/>
         @endif
 
         <span class="text-sm">{{ Number::abbreviate($reactions[$key]["count"]) }}</span>

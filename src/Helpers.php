@@ -30,4 +30,14 @@ class Helpers
 
         return true;
     }
+
+    public static function isDefaultTheme(): bool
+    {
+        return config('comments.theme') === 'default';
+    }
+
+    public static function isGithubTheme(): bool
+    {
+        return config('comments.theme') === 'github';
+    }
 }

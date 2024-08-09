@@ -1,3 +1,5 @@
+@php use LakM\Comments\Helpers; @endphp
+
 <div x-ref="comment{{ $comment->getKey() }}" class="flex gap-x-2 sm:gap-x-4">
     <div class="basis-14">
         <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
@@ -17,18 +19,29 @@
         }"
         class="basis-full"
     >
-        <div x-show="!showUpdateForm" x-transition class="rounded border border-gray-200">
-            <div class="mb-2 flex items-center justify-between border-b border-gray-100 bg-gray-100 p-1">
-                <div class="space-x-1">
-                    <span class="font-bold sm:hidden">
+        <div
+            x-show="!showUpdateForm"
+            x-transition
+            @class([
+                "rounded border border-gray-200" => Helpers::isGithubTheme(),
+            ])
+        >
+            <div
+                @class([
+                    "flex items-center justify-between p-1",
+                    "mb-2 border-b border-gray-100 bg-gray-100" => Helpers::isGithubTheme()
+                ])
+            >
+                <div>
+                    <span class="font-semibold sm:hidden mr-1">
                         {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
                     </span>
 
-                    <span class="hidden font-bold sm:inline">
+                    <span class="hidden font-semibold sm:inline mr-1">
                         {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
                     </span>
 
-                    <span class="inline-block h-2 w-[1px] bg-black"></span>
+                    <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
 
                     @if (config('comments.date_format') === 'diff')
                         <span class="text-xs">{{ $comment->created_at->diffForHumans() }}</span>

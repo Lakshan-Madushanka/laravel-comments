@@ -8,6 +8,11 @@ use LakM\Comments\Policies\ReplyPolicy;
 
 return [
     /**
+     * Available themes default,github
+     */
+    'theme' => 'default',
+
+    /**
      * Comment Model
      * Must extend base model LakM\Comments\Models\Comment
      */

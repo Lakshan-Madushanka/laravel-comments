@@ -1,3 +1,4 @@
+@php use LakM\Comments\Helpers; @endphp
 <div
     x-data="{
         total: $wire.entangle('total'),
@@ -20,8 +21,8 @@
                     wire:click="setSortBy('top')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
-                        '!bg-gray-500' => $sortBy === 'top',
+                        'bg-gray-200' => $sortBy === 'top' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === 'top' && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Top') }}
@@ -29,21 +30,30 @@
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'latest'])
+                    @class([
+                         'bg-gray-200' => $sortBy === 'latest' && Helpers::isDefaultTheme(),
+                         'bg-gray-500' => $sortBy === 'latest' && Helpers::isGithubTheme(),
+                     ])
                 >
                     {{ __('Newest') }}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'oldest'])
+                    @class([
+                        'bg-gray-200' => $sortBy === 'oldest' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === 'oldest' && Helpers::isGithubTheme(),
+                    ])
                 >
                     {{ __('Oldest') }}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setSortBy('replies')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $sortBy === 'replies'])
+                    @class([
+                        'bg-gray-200' => $sortBy === 'replies' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === 'replies' && Helpers::isGithubTheme(),
+                    ])
                 >
                     {{ __('Replies') }}
                 </x-comments::chip>
@@ -51,7 +61,10 @@
                 <x-comments::chip
                     wire:click="setFilter('my_comments')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer text-nowrap transition', '!bg-gray-500' => $filter === 'my_comments'])
+                    @class([
+                        'bg-gray-200' => $sortBy === 'my_comments' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === 'my_comments' && Helpers::isGithubTheme(),
+                    ])
                 >
                     {{ __('My Comments') }}
                 </x-comments::chip>

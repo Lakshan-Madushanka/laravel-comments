@@ -5,22 +5,30 @@
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer !px-[4px] !py-[1px] text-nowrap transition', '!bg-gray-500' => $sortBy === 'latest'])
+                    @class([
+                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
+                        '!bg-gray-500' => $sortBy === 'top',
+                    ])
                 >
                     {{ __('Newest') }}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer !px-[4px] !py-[1px] text-nowrap transition', '!bg-gray-500' => $sortBy === 'oldest'])
+                    @class([
+                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
+                        '!bg-gray-500' => $sortBy === 'top',
+                    ])
                 >
                     {{ __('Oldest') }}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setFilter('my_comments')"
                     wire:loading.class="!pointer-events-none"
-                    @class(['hover:bg-gray-500 cursor-pointer !px-[4px] !py-[1px] text-nowrap transition', '!bg-gray-500' => $filter === 'my_comments'])
-                >
+                    @class([
+                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
+                        '!bg-gray-500' => $sortBy === 'top',
+                    ])                >
                     {{ __('My Replies') }}
                 </x-comments::chip>
             </div>
