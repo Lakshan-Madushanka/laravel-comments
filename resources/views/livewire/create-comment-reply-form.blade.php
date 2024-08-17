@@ -46,9 +46,9 @@
             >
                 <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
                     @if ($approvalRequired)
-                        {{ __('Comment created and will be displayed once approved.') }}
+                        {{ __('Reply created and will be displayed once approved.') }}
                     @else
-                        {{ __('Comment created.') }}
+                        {{ __('Reply created.') }}
                     @endif
                 </span>
             </div>
@@ -64,7 +64,7 @@
                         >
                             {{ __('login') }}
                         </x-comments::link>
-                        {{ __('to comment !') }}
+                        {{ __('to reply !') }}
                     </span>
                 </div>
             @else
