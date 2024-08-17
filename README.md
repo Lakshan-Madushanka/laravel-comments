@@ -7,6 +7,7 @@
 **[Key Features](#key-features)** |
 **[Why Commenter](#why-commenter)** |
 **[Quick Start](#quick-start)** |
+**[Themes](#themes)** |
 **[Demo](#demo)** |
 **[Changelog](#changelog)** |
 **[Testing](#testing)** |
@@ -44,7 +45,7 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 ### Articles
 - [Laravel News](https://laravel-news.com/laravel-commentable-package)
 
-<p align="center"><img src="https://github.com/user-attachments/assets/32d964f5-d899-4082-809d-bf400e62501d" alt="screenshot"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/78913825-534a-445b-9b8c-8efccd51c305" alt="screenshot"></p>
 
 ## Key Features
 
@@ -150,6 +151,8 @@ Include the comments component with the related model.
     <x-comments:: :model="$post" />
 ```
 
+## Themes
+You can change theme to your prefferred one. Consult documentation [here](https://lakm.gitbook.io/commenter/basics/themes) for more info.
 
 ## Demo
 

@@ -1,5 +1,12 @@
 # Documentation of the changes
 
+## 1.3.0 - 2024-08-09
+- Feature: Add a new theme and allow users to choose their preferred one.
+- Update Livewire requirement to ^3.5
+- Fix GitHub workflows
+- Fix tests failing due to lazy loading components.
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.2.0...1.3.0)
+
 ## 1.2.0 - 2024-08-08
 - Enhance page loading speed by making livewire components load lazily.
 - [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.1.0...1.2.0)
