@@ -63,6 +63,7 @@ class CreateCommentForm extends Component
     /**
      * @param  Model&CommentableContract  $model
      * @return void
+     * @throws \Throwable
      */
     public function mount(Model $model): void
     {
