@@ -122,8 +122,6 @@ class CreateCommentReplyForm extends Component
 
         CreateCommentReplyAction::execute($this->comment, $this->getFormData(), $this->guestMode, $this->guest);
 
-        $this->clear();
-
         $this->dispatch(
             'reply-created-' . $this->comment->id,
             editorId: $this->editorId,
@@ -131,7 +129,7 @@ class CreateCommentReplyForm extends Component
             approvalRequired: $this->approvalRequired
         );
 
-        $this->dispatch('reset-editor-' . $this->editorId, value: $this->text);
+        $this->dispatch('reset-editor-' . $this->editorId, value: "");
 
         if ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email) {
             $this->dispatch('guest-credentials-changed');
@@ -140,6 +138,8 @@ class CreateCommentReplyForm extends Component
         $this->incrementReplyCount();
 
         $this->setLimitExceeded();
+
+        $this->clear();
 
         $this->setGuest();
     }
