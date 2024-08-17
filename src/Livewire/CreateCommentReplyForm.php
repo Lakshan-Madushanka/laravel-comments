@@ -50,9 +50,9 @@ class CreateCommentReplyForm extends Component
 
     public ?UserData $guest = null;
 
-    public ?string $guest_name = null;
+    public ?string $guest_name = '';
 
-    public ?string $guest_email = null;
+    public ?string $guest_email = '';
 
     public string $text = "";
 
@@ -131,7 +131,8 @@ class CreateCommentReplyForm extends Component
 
         $this->dispatch('reset-editor-' . $this->editorId, value: "");
 
-        if ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email) {
+        if (! $this->guest->name ||
+            ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email)) {
             $this->dispatch('guest-credentials-changed');
         }
 
@@ -233,7 +234,7 @@ class CreateCommentReplyForm extends Component
     public function clear(): void
     {
         $this->resetValidation();
-        $this->reset('guest_name', 'guest_email', 'text');
+        $this->reset( 'text');
     }
 
     public function redirectToLogin(string $redirectUrl): void
