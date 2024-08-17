@@ -62,8 +62,8 @@
                     wire:click="setFilter('my_comments')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === 'my_comments' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === 'my_comments' && Helpers::isGithubTheme(),
+                        'bg-gray-200' => $filter === 'my_comments' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $filter === 'my_comments' && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('My Comments') }}
