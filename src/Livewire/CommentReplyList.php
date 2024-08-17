@@ -7,9 +7,9 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Queries;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -156,7 +156,7 @@ class CommentReplyList extends Component
     #[Computed]
     public function replies(): Collection|LengthAwarePaginator
     {
-        return Queries::commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit, $this->sortBy, $this->filter);
+        return app(AbstractQueries::class)->commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit, $this->sortBy, $this->filter);
     }
 
     public function render(): View|Factory|Application

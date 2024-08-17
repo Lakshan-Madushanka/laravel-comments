@@ -5,9 +5,9 @@ namespace LakM\Comments\Tests;
 use GrahamCampbell\Security\SecurityServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\CommentServiceProvider;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Queries;
 use LakM\Comments\Tests\Fixtures\User;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
@@ -24,7 +24,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         config(['honeypot.enabled' => false]);
         config(['comments.user_model' => User::class]);
 
-        Queries::$guest = null;
+        AbstractQueries::$guest = null;
 
         Livewire::withoutLazyLoading();
     }

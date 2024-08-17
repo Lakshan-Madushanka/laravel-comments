@@ -8,9 +8,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Helpers;
-use LakM\Comments\Queries;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
@@ -132,7 +132,7 @@ class CommentList extends Component
     #[Computed]
     public function comments(): Collection|LengthAwarePaginator
     {
-        return Queries::allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
+        return app(AbstractQueries::class)->allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
     }
 
     public function placeholder(array $params = []): Factory|View|Application

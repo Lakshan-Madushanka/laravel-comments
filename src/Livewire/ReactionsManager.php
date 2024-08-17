@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
-use LakM\Comments\Queries;
 use LakM\Comments\Reactions\ReactionManager;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -225,7 +225,7 @@ class ReactionsManager extends Component
             $limit += $this->reactedUsers[$type]['limit'];
         }
 
-        $user = Queries::reactedUsers($this->comment, $type, $limit, $this->authMode);
+        $user = app(AbstractQueries::class)->reactedUsers($this->comment, $type, $limit, $this->authMode);
 
         $this->reactedUsers[$type]['users'] = $user;
         $this->reactedUsers[$type]['limit'] = $limit;
@@ -233,7 +233,7 @@ class ReactionsManager extends Component
 
     public function lastReactedUser(string $type): void
     {
-        $user = Queries::lastReactedUser($this->comment, $type, $this->authMode);
+        $user = app(AbstractQueries::class)->lastReactedUser($this->comment, $type, $this->authMode);
         $this->lastReactedUserName = $user?->name;
     }
 

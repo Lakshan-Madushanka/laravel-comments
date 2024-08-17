@@ -9,11 +9,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Actions\CreateCommentAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Helpers;
-use LakM\Comments\Queries;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
@@ -149,7 +149,7 @@ class CreateCommentForm extends Component
     public function setGuest(): void
     {
         if ($this->guestModeEnabled) {
-            $this->guest = Queries::guest();
+            $this->guest = app(AbstractQueries::class)->guest();
 
             $this->guest_name = $this->guest->name;
             $this->guest_email = $this->guest->email;

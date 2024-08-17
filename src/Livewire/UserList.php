@@ -5,7 +5,7 @@ namespace LakM\Comments\Livewire;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use LakM\Comments\Queries;
+use LakM\Comments\Abstracts\AbstractQueries;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -14,6 +14,8 @@ use Livewire\WithPagination;
 class UserList extends Component
 {
     use WithPagination;
+
+    private AbstractQueries $queries;
 
     public bool $show = false;
 
@@ -29,6 +31,11 @@ class UserList extends Component
     public bool $guestMode;
 
     public string $editorId;
+
+    public function boot(): void
+    {
+        $this->queries = app(AbstractQueries::class);
+    }
 
     public function mount(bool $guestModeEnabled, string $editorId): void
     {
@@ -67,7 +74,7 @@ class UserList extends Component
         $this->show = true;
 
         if (!isset($this->total)) {
-            $this->total = Queries::usersCount();
+            $this->total = $this->queries->usersCount();
         }
 
         $this->search = $content;
@@ -93,6 +100,6 @@ class UserList extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.user-list', ['users' => Queries::usersStartWithName($this->search, $this->guestMode, $this->limit)]);
+        return view('comments::livewire.user-list', ['users' => $this->queries->usersStartWithName($this->search, $this->guestMode, $this->limit)]);
     }
 }

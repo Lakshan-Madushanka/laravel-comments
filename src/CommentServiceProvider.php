@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Console\InstallCommand;
 use LakM\Comments\Livewire\CommentItem;
 use LakM\Comments\Livewire\CommentList;
@@ -34,6 +35,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->configPublishing();
+        $this->configBindings();
     }
 
     public function register(): void
@@ -106,6 +108,11 @@ class CommentServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/comments'),
         ], 'comments-views');
+    }
+
+    public function configBindings(): void
+    {
+        $this->app->bind(AbstractQueries::class, Queries::class);
     }
 
     protected function registerCommands(): void

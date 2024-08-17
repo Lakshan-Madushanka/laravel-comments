@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Builders\CommentBuilder;
 use LakM\Comments\Builders\ReactionBuilder;
 use LakM\Comments\Builders\ReplyBuilder;
@@ -21,10 +22,8 @@ use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 
-class Queries
+class Queries extends AbstractQueries
 {
-    public static ?UserData $guest = null;
-
     public static function guestCommentCount(Model $relatedModel): int
     {
         $alias = $relatedModel->getMorphClass();
@@ -251,7 +250,6 @@ class Queries
     ): LengthAwarePaginator|Collection {
         /** @var ReplyBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
-
 
         return $replyQuery
             ->currentUser($relatedModel, $filter)

@@ -9,12 +9,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Actions\CreateCommentReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Queries;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -35,6 +35,8 @@ class CreateCommentReplyForm extends Component
     #[Locked]
     public Model $relatedModel;
 
+    private AbstractQueries $queries;
+
     #[Locked]
     public bool $loginRequired;
 
@@ -48,9 +50,9 @@ class CreateCommentReplyForm extends Component
 
     public ?UserData $guest = null;
 
-    public string $guest_name = '';
+    public ?string $guest_name = null;
 
-    public string $guest_email = '';
+    public ?string $guest_email = null;
 
     public string $text = "";
 
@@ -63,6 +65,11 @@ class CreateCommentReplyForm extends Component
     public bool $guestMode;
 
     public int $replyCount;
+
+    public function boot(): void
+    {
+        $this->queries = app(AbstractQueries::class);
+    }
 
     /**
      * @param  Comment  $comment
@@ -203,10 +210,12 @@ class CreateCommentReplyForm extends Component
     private function setGuest(): void
     {
         if ($this->guestMode) {
-            $this->guest = Queries::guest();
+            $this->guest = $this->queries->guest();
 
             $this->guest_name = $this->guest->name;
             $this->guest_email = $this->guest->email;
+
+            return;
         }
 
         $this->guest = new UserData(null, null);
@@ -214,7 +223,7 @@ class CreateCommentReplyForm extends Component
 
     public function setReplyCount(): void
     {
-        $this->replyCount = Queries::userReplyCountForComment(
+        $this->replyCount = $this->queries->userReplyCountForComment(
             $this->comment,
             $this->guestMode,
             $this->relatedModel->getAuthUser()

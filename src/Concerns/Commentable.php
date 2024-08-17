@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Helpers;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Queries;
 
 /**
  * @mixin Model
@@ -21,7 +22,7 @@ trait Commentable
     /** @return MorphMany<Comment> */
     public function comments(): MorphMany
     {
-        return $this->morphMany(\LakM\Comments\ModelResolver::commentClass(), 'commentable');
+        return $this->morphMany(ModelResolver::commentClass(), 'commentable');
     }
 
     public function authCheck(): bool
@@ -99,12 +100,12 @@ trait Commentable
 
     public function checkLimitForGuest(int $limit): bool
     {
-        return Queries::guestCommentCount($this) >= $limit;
+        return app(AbstractQueries::class)->guestCommentCount($this) >= $limit;
     }
 
     public function checkLimitForAuthUser(Authenticatable $user, int $limit): bool
     {
-        return Queries::userCommentCount($user, $this) >= $limit;
+        return app(AbstractQueries::class)->userCommentCount($user, $this) >= $limit;
     }
 
     public function getCommentLimit(): ?int

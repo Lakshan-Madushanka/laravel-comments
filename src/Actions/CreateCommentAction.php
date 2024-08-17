@@ -7,12 +7,12 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Queries;
 
 class CreateCommentAction
 {
@@ -80,7 +80,7 @@ class CreateCommentAction
                     ->where('ip_address', $commentData['ip_address'])
                     ->update($user);
 
-                Queries::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
+                AbstractQueries::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
             }
 
             return $comment;
