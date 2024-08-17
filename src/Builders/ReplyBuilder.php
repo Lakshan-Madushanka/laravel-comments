@@ -41,11 +41,11 @@ class ReplyBuilder extends Builder
         $alias = M::userModel()->getMorphClass();
 
         return $this->when(
-            $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
+            $filter === 'my_replies' && $relatedModel->guestModeEnabled(),
             fn (Builder $query) => $query->where('ip_address', request()->ip())
         )
             ->when(
-                $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
+                $filter === 'my_replies' && !$relatedModel->guestModeEnabled(),
                 fn (Builder $query) => $query
                     ->where('commenter_type', $alias)
                     ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())

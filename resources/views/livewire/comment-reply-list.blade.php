@@ -1,3 +1,4 @@
+@php use LakM\Comments\Helpers; @endphp
 <div x-data="{ total: $wire.entangle('total') }" class="space-y-6">
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if (($replies->count() > 1 || $sortBy !== 'my_comments') && config('comments.show_filters'))
@@ -6,8 +7,8 @@
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
-                        '!bg-gray-500' => $sortBy === 'top',
+                        'bg-gray-200' => $sortBy === 'latest' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === 'latest' && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Newest') }}
@@ -16,18 +17,18 @@
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
-                        '!bg-gray-500' => $sortBy === 'top',
+                       'bg-gray-200' => $sortBy === 'oldest' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === 'oldest' && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Oldest') }}
                 </x-comments::chip>
                 <x-comments::chip
-                    wire:click="setFilter('my_comments')"
+                    wire:click="setFilter('my_replies')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'hover:bg-gray-500 cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
-                        '!bg-gray-500' => $sortBy === 'top',
+                        'bg-gray-200' => $filter === 'my_replies' && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $filter === 'my_replies' && Helpers::isGithubTheme(),
                     ])                >
                     {{ __('My Replies') }}
                 </x-comments::chip>
@@ -51,7 +52,7 @@
         @endforeach
     @endif
 
-    @if ($replies->isEmpty() && $filter === 'my_comments')
+    @if ($replies->isEmpty() && $filter === 'my_replies')
         <div>{{ __('You haven\'t made/approved any replies yet !') }}</div>
     @endif
 
