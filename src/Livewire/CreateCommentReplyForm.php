@@ -131,7 +131,7 @@ class CreateCommentReplyForm extends Component
 
         $this->dispatch('reset-editor-' . $this->editorId, value: "");
 
-        if (! $this->guest->name ||
+        if (!$this->guest->name ||
             ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email)) {
             $this->dispatch('guest-credentials-changed');
         }
@@ -234,7 +234,7 @@ class CreateCommentReplyForm extends Component
     public function clear(): void
     {
         $this->resetValidation();
-        $this->reset( 'text');
+        $this->reset('text');
     }
 
     public function redirectToLogin(string $redirectUrl): void
