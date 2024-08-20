@@ -137,7 +137,7 @@ return [
             'enabled' => true,
             'per_page' => 10,
         ],
-        // Default comments sort order, available values: Sort::LATEST->value, Sort::OLDEST
+        // Default comments sort order, available values: Sort::LATEST, Sort::OLDEST
         'default_sort' => Sort::LATEST,
     ],
     /**

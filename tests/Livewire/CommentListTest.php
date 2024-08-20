@@ -4,10 +4,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Models\Comment;
 
-use LakM\Comments\Tests\Fixtures\Video;
-
-use Livewire\Livewire;
-
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
