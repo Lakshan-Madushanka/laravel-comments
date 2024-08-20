@@ -1,5 +1,10 @@
 # Documentation of the changes
 
+## 1.4.0 - 2024-08-20
+- Ability to define default sort order of comment list [#8d7989a](https://github.com/Lakshan-Madushanka/laravel-comments/commit/8d7989a18ddf01fb2c2b2b5cbce1f6e22232b7ad)
+- Ability to define default sort order of reply list [#f00be43](https://github.com/Lakshan-Madushanka/laravel-comments/commit/f00be4314ffcdd3eb3f7ab59368de56eab54b06f)
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.3.1...1.4.0)
+
 ## 1.3.1 - 2024-08-17
 - `Queries` bind to the `AbstractQueries` [6caeaa6](https://github.com/Lakshan-Madushanka/laravel-comments/commit/6caeaa62fc189b337cfe40c0b70d77de532bf579)
 - Fix reply filters not highlighting correctly [00cd27d](https://github.com/Lakshan-Madushanka/laravel-comments/commit/00cd27dbf0152b7d5856999b240e06e7b7d3f1cb)
