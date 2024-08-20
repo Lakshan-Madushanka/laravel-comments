@@ -1,4 +1,4 @@
-@php use LakM\Comments\Helpers; @endphp
+@php use LakM\Comments\Enums\Sort;use LakM\Comments\Helpers; @endphp
 <div x-data="{ total: $wire.entangle('total') }" class="space-y-6">
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if (($replies->count() > 1 || $sortBy !== 'my_comments') && config('comments.show_filters'))
@@ -7,8 +7,8 @@
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === 'latest' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === 'latest' && Helpers::isGithubTheme(),
+                        'bg-gray-200' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Newest') }}
@@ -17,8 +17,8 @@
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                       'bg-gray-200' => $sortBy === 'oldest' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === 'oldest' && Helpers::isGithubTheme(),
+                       'bg-gray-200' => $sortBy === Sort::OLDEST && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === Sort::OLDEST && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Oldest') }}
@@ -29,7 +29,7 @@
                     @class([
                         'bg-gray-200' => $filter === 'my_replies' && Helpers::isDefaultTheme(),
                         'bg-gray-500' => $filter === 'my_replies' && Helpers::isGithubTheme(),
-                    ])                >
+                    ]) >
                     {{ __('My Replies') }}
                 </x-comments::chip>
             </div>
@@ -69,34 +69,34 @@
     @endif
 
     @script
-        <script>
-            const highlight = () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            };
+    <script>
+        const highlight = () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        };
 
+        highlight();
+
+        $wire.on('show-reply', () => {
             highlight();
+        });
 
-            $wire.on('show-reply', () => {
-                highlight();
-            });
+        $wire.on('filter-applied', () => {
+            highlight();
+        });
 
-            $wire.on('filter-applied', () => {
-                highlight();
-            });
+        $wire.on('reply-updated', () => {
+            highlight();
+        });
 
-            $wire.on('reply-updated', () => {
-                highlight();
-            });
+        Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
+            highlight();
+        });
 
-            Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
-                highlight();
-            });
-
-            $wire.on('more-replies-loaded', () => {
-                highlight();
-            });
-        </script>
+        $wire.on('more-replies-loaded', () => {
+            highlight();
+        });
+    </script>
     @endscript
 </div>

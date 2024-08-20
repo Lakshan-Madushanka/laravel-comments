@@ -36,8 +36,9 @@ interface CommentableContract
 
     public function getAuthUser(): ?Authenticatable;
 
-    public function getCommentsSortOrder(): string;
     public function getCommentsSortOrder(): Sort;
+
+    public function getRepliesSortOrder(): Sort;
 
     public function canEditComment(Comment $comment): bool;
 

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Str;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
+use LakM\Comments\Models\Reply;
 use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
@@ -78,6 +79,30 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
     }
 
     return $comments;
+}
+
+function createCommentRepliesForGuestMode(Comment $comment, int $count = 1, array $data = []): Reply|Collection
+{
+    $email = fake()->email();
+    $name = fake()->name();
+
+    for ($i = 0; $i < $count; $i++) {
+        $comment->replies()->create([
+            'text' => Str::random(),
+            'guest_name' => $name,
+            'guest_email' => $email,
+            'reply_id' => $comment->getKey(),
+            ...$data,
+        ]);
+    }
+
+    $replies =  $comment->replies()->get();
+
+    if ($replies->count() === 1) {
+        return  $replies[0];
+    }
+
+    return $replies;
 }
 
 function createReaction(int $commentId, string $type, ?int $userId = null, int $count = 1, array $data = []): Reaction|Collection

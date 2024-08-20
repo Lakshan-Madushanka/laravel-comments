@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Models\Comment;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -47,7 +48,7 @@ class CommentReplyList extends Component
     #[Locked]
     public bool $approvalRequired;
 
-    public string $sortBy = '';
+    public Sort $sortBy;
 
     public string $filter = '';
 
@@ -71,6 +72,8 @@ class CommentReplyList extends Component
         $this->perPage = config('comments.reply.pagination.per_page');
         $this->limit = config('comments.reply.pagination.per_page');
 
+        $this->sortBy = $relatedModel->getRepliesSortOrder();
+
         $this->guestMode = $this->relatedModel->guestModeEnabled();
 
         $this->setPaginationRequired();
@@ -85,7 +88,7 @@ class CommentReplyList extends Component
         $this->dispatch('more-replies-loaded');
     }
 
-    public function setSortBy(string $sortBy): void
+    public function setSortBy(Sort $sortBy): void
     {
         $this->sortBy = $sortBy;
 
@@ -156,7 +159,15 @@ class CommentReplyList extends Component
     #[Computed]
     public function replies(): Collection|LengthAwarePaginator
     {
-        return app(AbstractQueries::class)->commentReplies($this->comment, $this->relatedModel, $this->approvalRequired, $this->limit, $this->sortBy, $this->filter);
+        return app(AbstractQueries::class)
+            ->commentReplies(
+                $this->comment,
+                $this->relatedModel,
+                $this->approvalRequired,
+                $this->limit,
+                $this->sortBy,
+                $this->filter
+            );
     }
 
     public function render(): View|Factory|Application

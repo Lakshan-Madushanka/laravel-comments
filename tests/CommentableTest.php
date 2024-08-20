@@ -115,3 +115,20 @@ it('can get comments sort order defined in model', function () {
 
     expect($video->getCommentsSortOrder())->toBe(Sort::OLDEST);
 });
+
+it('can get default replies sort order', function () {
+    config(['comments.replies.default_sort' => Sort::LATEST]);
+
+    $video = video();
+
+    expect($video->getRepliesSortOrder())->toBe(Sort::LATEST);
+});
+
+it('can get replies sort order defined in model', function () {
+    config(['comments.default_sort' => Sort::LATEST]);
+
+    $video = video();
+    $video->commmentsSortOrder = Sort::OLDEST;
+
+    expect($video->getCommentsSortOrder())->toBe(Sort::OLDEST);
+});

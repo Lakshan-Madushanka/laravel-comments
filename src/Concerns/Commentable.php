@@ -160,6 +160,21 @@ trait Commentable
         return $order;
     }
 
+    public function getRepliesSortOrder(): Sort
+    {
+        $order = Sort::LATEST;
+
+        if (!empty($defaultOrder = config('comments.replies.default_sort'))) {
+            $order = $defaultOrder;
+        }
+
+        if (!empty($this->repliesSortOrder)) {
+            $order = $this->repliesSortOrder;
+        }
+
+        return $order;
+    }
+
     public function canEditComment(Comment $comment): bool
     {
         if (method_exists($this, 'commentCanEdit')) {

@@ -137,8 +137,8 @@ return [
             'enabled' => true,
             'per_page' => 10,
         ],
-        // Default comments sort order, See Sort::class for available values
-        'default_sort' => Sort::TOP->value,
+        // Default comments sort order, available values: Sort::LATEST->value, Sort::OLDEST
+        'default_sort' => Sort::LATEST,
     ],
     /**
      * Quill editor configs

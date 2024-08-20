@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 
@@ -94,7 +95,7 @@ abstract class AbstractQueries
         Model $relatedModel,
         bool $approvalRequired,
         int $limit,
-        string $sortBy = '',
+        Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection;
 

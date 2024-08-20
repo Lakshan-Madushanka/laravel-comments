@@ -82,16 +82,16 @@ class Queries extends AbstractQueries
             ])
             ->checkApproval($relatedModel)
             ->when(
-                $sortBy === Sort::LATEST->value,
+                $sortBy === Sort::LATEST,
                 fn (Builder $query) => $query->latest()
             )
-            ->when($sortBy === Sort::OLDEST->value, function (Builder $query) {
+            ->when($sortBy === Sort::OLDEST, function (Builder $query) {
                 return $query->oldest();
             })
-            ->when($sortBy === Sort::REPLIES->value, function (Builder $query) {
+            ->when($sortBy === Sort::REPLIES, function (Builder $query) {
                 return $query->orderByDesc('replies_count');
             })
-            ->when($sortBy === Sort::TOP->value, function (Builder $query) {
+            ->when($sortBy === Sort::TOP, function (Builder $query) {
                 return $query->withCount([
                     'reactions',
                     'replyReactions',
@@ -246,7 +246,7 @@ class Queries extends AbstractQueries
         Model $relatedModel,
         bool $approvalRequired,
         int $limit,
-        string $sortBy = '',
+        Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection {
         /** @var ReplyBuilder<Reply> $replyQuery */
@@ -257,10 +257,10 @@ class Queries extends AbstractQueries
             ->withOwnerReactions($relatedModel)
             ->when(!$relatedModel->guestModeEnabled(), fn (ReplyBuilder $query) => $query->with('commenter'))
             ->when($approvalRequired, fn (ReplyBuilder $query) => $query->approved())
-            ->when($sortBy === 'latest', function (Builder $query) {
+            ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
-            ->when($sortBy === 'oldest', function (Builder $query) {
+            ->when($sortBy === Sort::OLDEST, function (Builder $query) {
                 return $query->oldest();
             })
             ->withCount(self::addCount())

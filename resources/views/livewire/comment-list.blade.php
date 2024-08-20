@@ -41,8 +41,8 @@
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
+                        'bg-gray-200' => $sortBy === Sort::OLDEST && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === Sort::OLDEST && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Oldest') }}
