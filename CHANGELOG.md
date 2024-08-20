@@ -1,5 +1,12 @@
 # Documentation of the changes
 
+## 1.3.1 - 2024-08-17
+- `Queries` bind to the `AbstractQueries` [6caeaa6](https://github.com/Lakshan-Madushanka/laravel-comments/commit/6caeaa62fc189b337cfe40c0b70d77de532bf579)
+- Fix reply filters not highlighting correctly [00cd27d](https://github.com/Lakshan-Madushanka/laravel-comments/commit/00cd27dbf0152b7d5856999b240e06e7b7d3f1cb)
+- Fix editor not clearing after reply is created [f063502](https://github.com/Lakshan-Madushanka/laravel-comments/commit/f063502243efe3394f4c0b0104900c1ba306fcf1)
+- Fix comment filters not highlighting correctly [0d0f5b2](https://github.com/Lakshan-Madushanka/laravel-comments/commit/0d0f5b201e1f8c7d8318c24927f6374d47e02e1f)
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.3.0...1.3.1)
+
 ## 1.3.0 - 2024-08-09
 - Feature: Add a new theme and allow users to choose their preferred one.
 - Update Livewire requirement to ^3.5
