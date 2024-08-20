@@ -54,7 +54,7 @@ class Queries extends AbstractQueries
     /**
      * @param  Model&CommentableContract  $relatedModel
      * @param  int  $limit
-     * @param  string  $sortBy
+     * @param  Sort  $sortBy
      * @param  string  $filter
      * @return LengthAwarePaginator|Collection
      */
@@ -237,7 +237,7 @@ class Queries extends AbstractQueries
      * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $approvalRequired
      * @param  int  $limit
-     * @param  string  $sortBy
+     * @param  Sort  $sortBy
      * @param  string  $filter
      * @return LengthAwarePaginator|Collection
      */
@@ -306,7 +306,6 @@ class Queries extends AbstractQueries
     {
         return config('comments.user_model')::query()->count();
     }
-
 
     public static function guest(): UserData
     {

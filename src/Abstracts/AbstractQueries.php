@@ -29,7 +29,7 @@ abstract class AbstractQueries
     /**
      * @param  Model&CommentableContract  $relatedModel
      * @param  int  $limit
-     * @param  string  $sortBy
+     * @param  Sort  $sortBy
      * @param  string  $filter
      * @return LengthAwarePaginator|Collection
      */
@@ -86,7 +86,7 @@ abstract class AbstractQueries
      * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $approvalRequired
      * @param  int  $limit
-     * @param  string  $sortBy
+     * @param  Sort  $sortBy
      * @param  string  $filter
      * @return LengthAwarePaginator|Collection
      */
