@@ -1,4 +1,4 @@
-@php use LakM\Comments\Helpers; @endphp
+@php use LakM\Comments\Enums\Sort;use LakM\Comments\Helpers; @endphp
 <div
     x-data="{
         total: $wire.entangle('total'),
@@ -21,8 +21,8 @@
                     wire:click="setSortBy('top')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === 'top' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === 'top' && Helpers::isGithubTheme(),
+                        'bg-gray-200' => $sortBy === Sort::TOP && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === Sort::TOP && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Top') }}
@@ -31,8 +31,8 @@
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                         'bg-gray-200' => $sortBy === 'latest' && Helpers::isDefaultTheme(),
-                         'bg-gray-500' => $sortBy === 'latest' && Helpers::isGithubTheme(),
+                         'bg-gray-200' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
+                         'bg-gray-500' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
                      ])
                 >
                     {{ __('Newest') }}
@@ -41,8 +41,8 @@
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === 'oldest' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === 'oldest' && Helpers::isGithubTheme(),
+                        'bg-gray-200' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Oldest') }}
@@ -51,8 +51,8 @@
                     wire:click="setSortBy('replies')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === 'replies' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === 'replies' && Helpers::isGithubTheme(),
+                        'bg-gray-200' => $sortBy === Sort::REPLIES && Helpers::isDefaultTheme(),
+                        'bg-gray-500' => $sortBy === Sort::REPLIES && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Replies') }}
@@ -102,30 +102,30 @@
     @endif
 
     @script
-        <script>
-            const highlight = () => {
-                setTimeout(() => {
-                    highlightSyntax();
-                }, 1500);
-            };
+    <script>
+        const highlight = () => {
+            setTimeout(() => {
+                highlightSyntax();
+            }, 1500);
+        };
 
+        highlight();
+
+        $wire.on('filter-applied', () => {
             highlight();
+        });
 
-            $wire.on('filter-applied', () => {
-                highlight();
-            });
+        $wire.on('comment-updated', () => {
+            highlight();
+        });
 
-            $wire.on('comment-updated', () => {
-                highlight();
-            });
+        Livewire.on('comment-created', () => {
+            highlight();
+        });
 
-            Livewire.on('comment-created', () => {
-                highlight();
-            });
-
-            $wire.on('more-comments-loaded', () => {
-                highlight();
-            });
-        </script>
+        $wire.on('more-comments-loaded', () => {
+            highlight();
+        });
+    </script>
     @endscript
 </div>

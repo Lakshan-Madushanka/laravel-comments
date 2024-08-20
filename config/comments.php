@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Policies\CommentPolicy;
@@ -96,6 +97,9 @@ return [
     // When set to false filters won't be displayed in comments list
     'show_filters' => true,
 
+    // Default comments sort order, See Sort::class for available values
+    'default_sort' => Sort::TOP,
+
     // Comments pagination
     'pagination' => [
         'enabled' => true,
@@ -133,6 +137,8 @@ return [
             'enabled' => true,
             'per_page' => 10,
         ],
+        // Default comments sort order, See Sort::class for available values
+        'default_sort' => Sort::TOP->value,
     ],
     /**
      * Quill editor configs

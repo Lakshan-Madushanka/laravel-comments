@@ -35,7 +35,7 @@ abstract class AbstractQueries
     abstract public static function allRelatedComments(
         Model $relatedModel,
         int $limit,
-        string $sortBy,
+        Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection;
 

@@ -4,6 +4,7 @@ namespace LakM\Comments\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Models\Comment;
 
 interface CommentableContract
@@ -34,6 +35,9 @@ interface CommentableContract
     public function approvalRequired(): bool;
 
     public function getAuthUser(): ?Authenticatable;
+
+    public function getCommentsSortOrder(): string;
+    public function getCommentsSortOrder(): Sort;
 
     public function canEditComment(Comment $comment): bool;
 

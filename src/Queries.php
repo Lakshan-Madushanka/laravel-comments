@@ -17,6 +17,7 @@ use LakM\Comments\Builders\ReplyBuilder;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reaction;
@@ -60,7 +61,7 @@ class Queries extends AbstractQueries
     public static function allRelatedComments(
         Model $relatedModel,
         int $limit,
-        string $sortBy,
+        Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection {
         /** @var CommentBuilder<Comment> $commentQuery */
@@ -81,16 +82,16 @@ class Queries extends AbstractQueries
             ])
             ->checkApproval($relatedModel)
             ->when(
-                $sortBy === 'latest',
+                $sortBy === Sort::LATEST->value,
                 fn (Builder $query) => $query->latest()
             )
-            ->when($sortBy === 'oldest', function (Builder $query) {
+            ->when($sortBy === Sort::OLDEST->value, function (Builder $query) {
                 return $query->oldest();
             })
-            ->when($sortBy === 'replies', function (Builder $query) {
+            ->when($sortBy === Sort::REPLIES->value, function (Builder $query) {
                 return $query->orderByDesc('replies_count');
             })
-            ->when($sortBy === 'top', function (Builder $query) {
+            ->when($sortBy === Sort::TOP->value, function (Builder $query) {
                 return $query->withCount([
                     'reactions',
                     'replyReactions',

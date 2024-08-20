@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use LakM\Comments\Abstracts\AbstractQueries;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Helpers;
 use LakM\Comments\ModelResolver;
@@ -142,6 +143,21 @@ trait Commentable
         Helpers::checkCommenterModelValidity($user);
 
         return $user;
+    }
+
+    public function getCommentsSortOrder(): Sort
+    {
+        $order = Sort::TOP;
+
+        if (!empty($defaultOrder = config('comments.default_sort'))) {
+            $order = $defaultOrder;
+        }
+
+        if (!empty($this->commmentsSortOrder)) {
+            $order = $this->commmentsSortOrder;
+        }
+
+        return $order;
     }
 
     public function canEditComment(Comment $comment): bool

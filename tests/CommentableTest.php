@@ -4,6 +4,7 @@
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Concerns\Commentable;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Tests\Fixtures\Post;
 
 it('can create a comment', function () {
@@ -95,4 +96,22 @@ it('can authorize to edit comment for guest mode', function () {
 
     expect($video->canEditComment($comment2))->toBeFalse()
         ->and($video->canEditComment($comment1))->toBeTrue();
+});
+
+
+it('can get default comments sort order', function () {
+    config(['comments.default_sort' => Sort::LATEST]);
+
+    $video = video();
+
+    expect($video->getCommentsSortOrder())->toBe(Sort::LATEST);
+});
+
+it('can get comments sort order defined in model', function () {
+    config(['comments.default_sort' => Sort::LATEST]);
+
+    $video = video();
+    $video->commmentsSortOrder = Sort::OLDEST;
+
+    expect($video->getCommentsSortOrder())->toBe(Sort::OLDEST);
 });

@@ -10,6 +10,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Enums\Sort;
 use LakM\Comments\Helpers;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
@@ -41,7 +42,7 @@ class CommentList extends Component
 
     public bool $paginationRequired;
 
-    public string $sortBy = 'top';
+    public Sort $sortBy;
 
     public string $filter = '';
 
@@ -62,6 +63,8 @@ class CommentList extends Component
         $this->perPage = config('comments.pagination.per_page');
         $this->limit = config('comments.pagination.per_page');
 
+        $this->sortBy = $model->getCommentsSortOrder();
+
         $this->setTotalCommentsCount();
 
         $this->guestMode = $this->model->guestModeEnabled();
@@ -81,7 +84,7 @@ class CommentList extends Component
         $this->total = $this->comments->total();
     }
 
-    public function setSortBy(string $sortBy): void
+    public function setSortBy(Sort $sortBy): void
     {
         $this->sortBy = $sortBy;
 

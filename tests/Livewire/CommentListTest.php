@@ -4,6 +4,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Models\Comment;
 
+use LakM\Comments\Tests\Fixtures\Video;
+
+use Livewire\Livewire;
+
+use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
 it('can render comment list', function () {
@@ -83,3 +88,20 @@ it('only shows approved comments when enabled in config', function ($approval) {
     true,
     false,
 ]);
+
+it('can sort comments', function () {
+    config(['comments.guest_mode.enabled' => true]);
+    config(['comments.approval_required' => false]);
+
+    $video = \video();
+
+    createCommentsForGuest(relatedModel: $video, data: ['text' => 'a']);
+
+    travel(5)->minutes();
+
+    createCommentsForGuest(relatedModel: $video, data: ['text' => 'b']);
+
+    livewire(CommentList::class, ['model' => $video])
+        ->set('sortBy', 'latest')
+        ->assertSeeTextInOrder(['b', 'a']);
+});
