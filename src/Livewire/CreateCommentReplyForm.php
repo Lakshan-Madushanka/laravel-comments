@@ -90,13 +90,14 @@ class CreateCommentReplyForm extends Component
 
         $this->authenticated = $this->relatedModel->authCheck();
 
+        $this->editorId = Str::uuid();
+
         $this->setLoginRequired();
 
         $this->setApprovalRequired();
 
         $this->honeyPostData = new HoneypotData();
 
-        $this->editorId = Str::uuid();
     }
 
     public function rules(): array
