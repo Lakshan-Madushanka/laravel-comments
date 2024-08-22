@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="create" id="create-comment-form" class="w-full" method="POST">
+    <form wire:submit.prevent="create" class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 
         @if ($model->guestModeEnabled())
