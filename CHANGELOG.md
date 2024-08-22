@@ -1,5 +1,9 @@
 # Documentation of the changes
 
+## 1.4.1 - 2024-08-22
+- Fix: `editorId` accessed before initialization issue in ReplyForm [fea8b23](https://github.com/Lakshan-Madushanka/laravel-comments/commit/fea8b23d8a7afbd6de9178d1604b97d2bb4e08ca)
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.0...1.4.1)
+
 ## 1.4.0 - 2024-08-20
 - Ability to define default sort order of comment list [#8d7989a](https://github.com/Lakshan-Madushanka/laravel-comments/commit/8d7989a18ddf01fb2c2b2b5cbce1f6e22232b7ad)
 - Ability to define default sort order of reply list [#f00be43](https://github.com/Lakshan-Madushanka/laravel-comments/commit/f00be4314ffcdd3eb3f7ab59368de56eab54b06f)
