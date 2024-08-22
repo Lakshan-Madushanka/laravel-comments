@@ -1,5 +1,10 @@
 # Documentation of the changes
 
+## 1.4.2 - 2024-08-22
+- Fix: Initial navigation to comment form [09aa24f](https://github.com/Lakshan-Madushanka/laravel-comments/commit/09aa24f587bb2d1e8f9e5c4c4a79d219fe3d25ad)
+- Suggest admin panel in `composer.json` [d9bcc73](https://github.com/Lakshan-Madushanka/laravel-comments/commit/d9bcc73b0753d0e97f36eb21e5d38c9313423941)
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.1...1.4.2)
+
 ## 1.4.1 - 2024-08-22
 - Fix: `editorId` accessed before initialization issue in ReplyForm [fea8b23](https://github.com/Lakshan-Madushanka/laravel-comments/commit/fea8b23d8a7afbd6de9178d1604b97d2bb4e08ca)
 - [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.0...1.4.1)
