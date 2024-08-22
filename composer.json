@@ -57,5 +57,8 @@
             "pestphp/pest-plugin": true
         }
     },
+    "suggest": {
+        "Lakshan-Madushanka/laravel-comments-admin-panel": "Default admin panel of the package. Provides all the functionalities to manage comments"
+    },
     "minimum-stability": "stable"
 }
