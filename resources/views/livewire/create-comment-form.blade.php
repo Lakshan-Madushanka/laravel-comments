@@ -1,7 +1,6 @@
 <div>
     <form wire:submit.prevent="create" class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
-
         @if ($model->guestModeEnabled())
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
