@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Builders\CommentBuilder;
+use LakM\Comments\Concerns\Commenter;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
@@ -20,6 +22,8 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
  * @property bool $approved
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @method CommentBuilder query()
  */
 class Comment extends Model
 {
@@ -30,9 +34,8 @@ class Comment extends Model
 
     protected $fillable = [
         'text',
-        'guest_name',
-        'guest_email',
-        'ip_address',
+        'commenter_type',
+        'commenter_id',
         'approved',
     ];
 

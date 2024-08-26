@@ -13,6 +13,7 @@ use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 
 class CreateCommentAction
 {
@@ -67,20 +68,26 @@ class CreateCommentAction
     {
         /** @var Comment $comment */
         $comment =  DB::transaction(function () use ($model, $commentData, $guest) {
-            $comment =   $model->comments()->create($commentData);
+            $guest = Guest::query()
+                ->updateOrCreate(
+                  ['ip_address' => request()->ip()],
+                  [
+                      'name' => $commentData['name'],
+                      'email' => $commentData['email'],
+                      'ip_address' => request()->ip(),
+                  ]
+                );
 
-            if ($guest->name !== $commentData['guest_name'] || $guest->email !== $commentData['guest_email']) {
-                $user = ['guest_name' => $commentData['guest_name']];
+            $comment =  $model
+                ->comments()
+                ->create([
+                    ...$commentData,
+                    'commenter_type' => $guest->getMorphClass(),
+                    'commenter_id' => $guest->getKey(),
+                ]);
 
-                if ($email = $commentData['guest_email']) {
-                    $user['guest_email'] = $email;
-                }
-
-                $model->comments()
-                    ->where('ip_address', $commentData['ip_address'])
-                    ->update($user);
-
-                AbstractQueries::$guest = new UserData($commentData['guest_name'], $commentData['guest_email']);
+            if ($guest->name !== $commentData['name'] || $guest->email !== $commentData['email']) {
+                AbstractQueries::$guest = new UserData($commentData['name'], $commentData['email']);
             }
 
             return $comment;

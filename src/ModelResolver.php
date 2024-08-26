@@ -4,7 +4,9 @@ namespace LakM\Comments;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use LakM\Comments\Builders\CommentBuilder;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 
 final class ModelResolver
@@ -20,9 +22,28 @@ final class ModelResolver
         return  app(self::commentClass());
     }
 
+    /**
+     * @return CommentBuilder<Comment>
+     */
     public static function commentQuery(): Builder
     {
         return self::commentModel()->newQuery();
+    }
+
+    /** @return class-string */
+    public static function guestClass(): string
+    {
+        return  config('comments.guest_model');
+    }
+
+    public static function guestModel(): Guest
+    {
+        return  app(self::guestClass());
+    }
+
+    public static function guestQuery(): Builder
+    {
+        return self::guestModel()->newQuery();
     }
 
     /** @return class-string */
@@ -41,9 +62,15 @@ final class ModelResolver
         return self::reactionModel()->newQuery();
     }
 
+    /** @return class-string */
+    public static function userClass(): string
+    {
+        return  config('comments.user_model');
+    }
+
     public static function userModel(): Authenticatable
     {
-        return  app(config('comments.user_model'));
+        return  app(self::userClass());
     }
 
     public static function userQuery(): Builder

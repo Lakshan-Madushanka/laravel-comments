@@ -2,16 +2,20 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Livewire\CreateCommentForm;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 
 use function Pest\Livewire\livewire;
+use function RectorPrefix202408\React\Promise\all;
+use function Symfony\Component\Translation\t;
 
 it('render comment form', function () {
     livewire(CreateCommentForm::class, ['model' => \post()])
@@ -38,9 +42,9 @@ it('can validate guest name', function () {
     $video = \video();
 
     livewire(CreateCommentForm::class, ['model' => $video])
-        ->set('guest_name', '')
+        ->set('name', '')
         ->call('create')
-        ->assertHasErrors(['guest_name' => 'required'])
+        ->assertHasErrors(['name' => 'required'])
         ->assertOk();
 });
 
@@ -50,9 +54,9 @@ it('can validate guest email', function () {
     $video = \video();
 
     livewire(CreateCommentForm::class, ['model' => $video])
-        ->set('guest_email', 'email')
+        ->set('email', 'email')
         ->call('create')
-        ->assertHasErrors(['guest_email' => 'email'])
+        ->assertHasErrors(['email' => 'email'])
         ->assertOk();
 });
 
@@ -68,7 +72,7 @@ it('can validate text field', function () {
         ->assertOk();
 });
 
-test('guest_name must be unique for different ip address', function () {
+test('guest name must be unique for different ip address', function () {
     onGuestMode();
 
     $video = \video();
@@ -77,30 +81,30 @@ test('guest_name must be unique for different ip address', function () {
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test')
-        ->set('guest_name', $comment->guest_name)
-        ->set('guest_email', fake()->email())
+        ->set('name', $comment->commenter->name)
+        ->set('email', fake()->email())
         ->call('create')
-        ->assertHasErrors(['guest_name' => 'unique'])
+        ->assertHasErrors(['name' => 'unique'])
         ->assertOk();
 });
 
-test('guest_name must not be unique for the same ip address', function () {
+test('guest name must not be unique for the same ip address', function () {
     onGuestMode();
 
     $video = \video();
 
-    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+    $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test')
-        ->set('guest_name', $comment->guest_name)
-        ->set('guest_email', fake()->email())
+        ->set('name', $comment->commenter->name)
+        ->set('email', fake()->email())
         ->call('create')
         ->assertHasNoErrors()
         ->assertOk();
 });
 
-test('guest_email must be unique for different ip address', function () {
+test('email must be unique for different ip address', function () {
     onGuestMode();
 
     $video = \video();
@@ -109,14 +113,14 @@ test('guest_email must be unique for different ip address', function () {
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test')
-        ->set('guest_name', fake()->name())
-        ->set('guest_email', $comment->guest_email)
+        ->set('name', fake()->name())
+        ->set('email', $comment->commenter->email)
         ->call('create')
-        ->assertHasErrors(['guest_email' => 'unique'])
+        ->assertHasErrors(['email' => 'unique'])
         ->assertOk();
 });
 
-test('guest_email must not be unique for the same ip address', function () {
+test('email must not be unique for the same ip address', function () {
     onGuestMode();
 
     $video = \video();
@@ -125,8 +129,8 @@ test('guest_email must not be unique for the same ip address', function () {
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test')
-        ->set('guest_name', fake()->name)
-        ->set('guest_email', fake()->email())
+        ->set('name', fake()->name)
+        ->set('email', fake()->email())
         ->call('create')
         ->assertHasNoErrors()
         ->assertOk();
@@ -169,16 +173,16 @@ it('load user data in guest mode', function () {
 
     $video = \video();
 
-    $comment1 = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
-    createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
+    $comment1 = createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
+    createCommentsForGuest($video);
 
     $component = livewire(CreateCommentForm::class, ['model' => $video])
         ->assertOk();
 
-    expect($component->get('guest_name'))
-        ->toBe($comment1->guest_name)
-        ->and($component->get('guest_email'))
-        ->toBe($comment1->guest_email);
+    expect($component->get('name'))
+        ->toBe($comment1->commenter->name)
+        ->and($component->get('email'))
+        ->toBe($comment1->commenter->email);
 });
 
 it('can create comment for guest mode', function () {
@@ -187,8 +191,8 @@ it('can create comment for guest mode', function () {
     $video = \video();
 
     livewire(CreateCommentForm::class, ['model' => $video])
-        ->set('guest_name', 'test user')
-        ->set('guest_email', 'testuser@gmail.com')
+        ->set('name', 'test user')
+        ->set('email', 'testuser@gmail.com')
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -200,10 +204,10 @@ it('can create comment for guest mode', function () {
         ->first()->toBeInstanceOf(Comment::class)
         ->first()->commentable_id->toBe($video->getKey())
         ->first()->commentable_type->toBe(Video::class)
-        ->first()->guest_name->toBe('test user')
-        ->first()->guest_email->toBe('testuser@gmail.com')
+        ->first()->commenter->name->toBe('test user')
+        ->first()->commenter->email->toBe('testuser@gmail.com')
         ->first()->text->toBe('test comment')
-        ->first()->ip_address->toBe(request()->ip());
+        ->first()->commenter->ip_address->toBe(request()->ip());
 });
 
 it('can create comment for auth mode', function () {
@@ -225,15 +229,13 @@ it('can create comment for auth mode', function () {
         ->first()->commentable_id->toBe($video->getKey())
         ->first()->commentable_type->toBe(Video::class)
         ->first()->text->toBe('test comment')
-        ->first()->ip_address->toBe(request()->ip())
         ->and($user->comments)
         ->toBeInstanceOf(Collection::class)
         ->toHaveCount(1)
         ->first()->toBeInstanceOf(Comment::class)
         ->first()->commenter_id->toBe($user->getKey())
         ->first()->commenter_type->toBe(User::class)
-        ->first()->text->toBe('test comment')
-        ->first()->ip_address->toBe(request()->ip());
+        ->first()->text->toBe('test comment');
 });
 
 it('dispatch a event after comment is created', function () {
@@ -263,23 +265,20 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
     }
 
     $video = \video();
-    $video->comments()->create([
-        'text' => Str::random(),
-        'ip_address' => request()->ip(),
-    ]);
+    createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
 
     $c = livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test comment')
-        ->set('guest_name', 'guest')
-        ->set('guest_email', 'gues@mail.com');
+        ->set('name', 'guest')
+        ->set('email', 'gues@mail.com');
 
 
     if ($shouldLimit) {
         expect(
             fn () => $c
-            ->call('create')
-            ->assertHasNoErrors()
-            ->assertOk()
+                ->call('create')
+                ->assertHasNoErrors()
+                ->assertOk()
         )
             ->toThrow(CommentLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
@@ -319,9 +318,9 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     if ($shouldLimit) {
         expect(
             fn () => $c
-            ->call('create')
-            ->assertHasNoErrors()
-            ->assertOk()
+                ->call('create')
+                ->assertHasNoErrors()
+                ->assertOk()
         )
             ->toThrow(CommentLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
@@ -342,21 +341,26 @@ it('can change the guest name for all the same ip address', function () {
 
     $video = \video();
 
-    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+    $comment = createCommentsForGuest($video, forCurrentUser: true);
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test')
-        ->set('guest_name', 'lakm')
-        ->set('guest_email', fake()->email())
+        ->set('name', 'lakm')
+        ->set('email', fake()->email())
         ->call('create')
         ->assertHasNoErrors()
         ->assertOk();
 
-    $comments = Comment::all()->unique('guest_name')->pluck('guest_name');
+    $guests = Comment::query()
+        ->with('commenter')
+        ->get()
+        ->pluck('commenter')
+        ->unique('name')
+        ->pluck('name');
 
-    expect($comments)
+    expect($guests)
         ->toHaveCount(1)
-        ->and($comments[0])
+        ->and($guests[0])
         ->toBe('lakm');
 });
 
@@ -365,20 +369,25 @@ it('can change the guest email for all the same ip address', function () {
 
     $video = \video();
 
-    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+    $comment = createCommentsForGuest($video, forCurrentUser: true);
 
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test')
-        ->set('guest_name', 'lakm')
-        ->set('guest_email', 'lakm@gmail.com')
+        ->set('name', 'lakm')
+        ->set('email', 'lakm@gmail.com')
         ->call('create')
         ->assertHasNoErrors()
         ->assertOk();
 
-    $comments = Comment::all()->unique('guest_email')->pluck('guest_email');
+    $guests = Comment::query()
+        ->with('commenter')
+        ->get()
+        ->pluck('commenter')
+        ->unique('email')
+        ->pluck('email');
 
-    expect($comments)
+    expect($guests)
         ->toHaveCount(1)
-        ->and($comments[0])
+        ->and($guests[0])
         ->toBe('lakm@gmail.com');
 });

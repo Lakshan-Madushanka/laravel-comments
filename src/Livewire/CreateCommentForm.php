@@ -44,9 +44,8 @@ class CreateCommentForm extends Component
 
     public ?UserData $guest = null;
 
-    public string $guest_name = '';
-
-    public string $guest_email = '';
+    public string $name = '';
+    public string $email = '';
 
     public string $text = "";
 
@@ -116,7 +115,7 @@ class CreateCommentForm extends Component
 
     private function getFormData(): array
     {
-        $data = $this->only('guest_name', 'guest_email', 'text');
+        $data = $this->only('name', 'email', 'text');
         return $this->clearFormData($data);
     }
 
@@ -152,8 +151,8 @@ class CreateCommentForm extends Component
         if ($this->guestModeEnabled) {
             $this->guest = app(AbstractQueries::class)->guest();
 
-            $this->guest_name = $this->guest->name;
-            $this->guest_email = $this->guest->email;
+            $this->name = $this->guest->name;
+            $this->email = $this->guest->email;
         }
     }
 
