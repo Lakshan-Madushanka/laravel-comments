@@ -4,9 +4,11 @@ namespace LakM\Comments\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 
 /**
  * @template TModelClass of Comment
@@ -69,5 +71,20 @@ class CommentBuilder extends Builder
                     ->where('commenter_type', $alias)
                     ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
             );
+    }
+
+    public function guest()
+    {
+        return $this
+            ->whereHasMorph('commenter', Guest::class);
+    }
+
+    public function currentGuest()
+    {
+        return $this->whereHasMorph(
+            'commenter',
+            Guest::class,
+            fn (Builder $query) => $query->where('ip_address', request()->ip())
+        );
     }
 }

@@ -62,18 +62,18 @@ class ValidationRules
     private static function getCreateCommentRules(Model $model): array
     {
         $commentModel = config('comments.model');
-        $commentTableName = (new $commentModel())->getTable();
+        $guestTable = ModelResolver::guestModel()->getTable();
 
         return [
-            'guest_email' => [
+            'email' => [
                 new RequiredIf($model->guestModeEnabled() && config('comments.guest_mode.email_enabled')),
                 'nullable',
                 'email',
-                Rule::unique($commentTableName, 'guest_email')->ignore(request()->ip(), 'ip_address')
+                Rule::unique($guestTable, 'email')->ignore(request()->ip(), 'ip_address')
             ],
-            'guest_name' => [
+            'name' => [
                 new RequiredIf($model->guestModeEnabled()),
-                Rule::unique($commentTableName, 'guest_name')->ignore(request()->ip(), 'ip_address')
+                Rule::unique($guestTable, 'name')->ignore(request()->ip(), 'ip_address')
             ],
             'text' => ['required'],
         ];

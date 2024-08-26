@@ -5,6 +5,7 @@ namespace LakM\Comments\Concerns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Models\Reply;
 
@@ -17,7 +18,7 @@ trait Commenter
 
     public function comments(): MorphMany
     {
-        return $this->morphMany(\LakM\Comments\ModelResolver::commentClass(), 'commenter');
+        return $this->morphMany(ModelResolver::commentClass(), 'commenter');
     }
 
     public function replies(): HasMany

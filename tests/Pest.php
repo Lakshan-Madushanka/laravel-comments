@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Str;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\Tests\Fixtures\Post;
@@ -30,6 +31,16 @@ function user(): User
     return User::create(['name' => fake()->name(), 'email' => fake()->email()]);
 }
 
+function guest(bool $forCurrentUser = false): Guest
+{
+    return Guest::query()
+        ->create([
+            'name' => fake()->name(),
+            'email' => fake()->email(),
+            'ip_address' => $forCurrentUser ? request()->ip() : fake()->ipv4(),
+        ]);
+}
+
 function post(): Post
 {
     return Post::create(['name' => 'post']);
@@ -45,7 +56,7 @@ function onGuestMode($status = true): void
     config(['comments.guest_mode.enabled' => $status]);
 }
 
-function createCommentsForAuthUser(User $user, Model $relatedModel, int $count = 1, array $data =  []): Model|Collection
+function createCommentsForAuthUser(User $user, Model $relatedModel, int $count = 1, array $data = []): Model|Collection
 {
     for ($i = 0; $i < $count; $i++) {
         $comment = $relatedModel->comments()->create([
@@ -58,24 +69,22 @@ function createCommentsForAuthUser(User $user, Model $relatedModel, int $count =
     return $count === 1 ? $user->comments[0] : $user->comments;
 }
 
-function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data =  []): Comment|Collection
+function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data = [], bool $forCurrentUser = false): Comment|Collection
 {
-    $email = fake()->email();
-    $name = fake()->name();
-
     for ($i = 0; $i < $count; $i++) {
-        $relatedModel->comments()->create([
+        $comment = $relatedModel->comments()->create([
             'text' => Str::random(),
-            'guest_name' => $name,
-            'guest_email' => $email,
-            ...$data,
+            ...$data
         ]);
+
+        $guest = guest($forCurrentUser);
+        $guest->comments()->save($comment);
     }
 
-    $comments =  Comment::where('guest_email', $email)->get();
+    $comments = Comment::all();
 
     if ($comments->count() === 1) {
-        return  $comments[0];
+        return $comments[0];
     }
 
     return $comments;
@@ -96,10 +105,10 @@ function createCommentRepliesForGuestMode(Comment $comment, int $count = 1, arra
         ]);
     }
 
-    $replies =  $comment->replies()->get();
+    $replies = $comment->replies()->get();
 
     if ($replies->count() === 1) {
-        return  $replies[0];
+        return $replies[0];
     }
 
     return $replies;

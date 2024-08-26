@@ -27,11 +27,8 @@ class Queries extends AbstractQueries
 {
     public static function guestCommentCount(Model $relatedModel): int
     {
-        $alias = $relatedModel->getMorphClass();
-
-        return M::commentQuery()->where('commentable_type', $alias)
-            ->where('commentable_id', $relatedModel->getKey())
-            ->where('ip_address', request()->ip())
+        return M::commentQuery()
+            ->currentGuest()
             ->count();
     }
 
@@ -313,11 +310,11 @@ class Queries extends AbstractQueries
             return self::$guest;
         }
 
-        $comment = M::commentQuery()
-            ->whereNotNull('guest_name')
+        $guest = M::guestQuery()
+            ->whereNotNull('name')
             ->where('ip_address', request()->ip())
             ->first();
 
-        return self::$guest = new UserData(name: $comment->guest_name ?? '', email: $comment->guest_email ?? '');
+        return self::$guest = new UserData(name: $guest->name ?? '', email: $guest->email ?? '');
     }
 }

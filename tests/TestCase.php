@@ -57,14 +57,22 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->timestamps();
         });
 
+        $schema->create('guests', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('name');
+            $table->string('email');
+            $table->string('ip_address')->nullable();
+            $table->timestamps();
+        });
+
         $schema->create('comments', function (Blueprint $table) {
             $table->id();
             $table->nullableMorphs('commentable');
+
             $table->nullableMorphs('commenter');
             $table->unsignedBigInteger('reply_id')->nullable();
             $table->text('text');
-            $table->string('guest_name')->nullable();
-            $table->string('guest_email')->nullable();
             $table->boolean('approved')->default(false);
             $table->string('ip_address')->nullable();
             $table->timestamps();
@@ -87,8 +95,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app): array
     {
         return [
-            CommentServiceProvider::class,
             LivewireServiceProvider::class,
+            CommentServiceProvider::class,
             HoneypotServiceProvider::class,
             SecurityServiceProvider::class,
         ];
