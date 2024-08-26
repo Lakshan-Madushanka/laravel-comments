@@ -19,6 +19,6 @@ trait CanManipulate
             return false;
         }
 
-        return $message->ip_address === request()->ip();
+        return $message->commenter->ip_address === request()->ip();
     }
 }
