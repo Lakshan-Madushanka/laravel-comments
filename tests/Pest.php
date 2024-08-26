@@ -81,11 +81,12 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
         $guest->comments()->save($comment);
     }
 
+    if ($count === 1) {
+        return $comment;
+    }
+
     $comments = Comment::all();
 
-    if ($comments->count() === 1) {
-        return $comments[0];
-    }
 
     return $comments;
 }

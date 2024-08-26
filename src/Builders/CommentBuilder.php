@@ -25,66 +25,78 @@ class CommentBuilder extends Builder
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
+     * @param Model&CommentableContract $relatedModel
      * @return CommentBuilder<Comment>
      */
     public function checkApproval(Model $relatedModel): self
     {
-        return $this->when($relatedModel->approvalRequired(), fn (CommentBuilder $query) => $query->approved());
+        return $this->when($relatedModel->approvalRequired(), fn(CommentBuilder $query) => $query->approved());
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
+     * @param Model&CommentableContract $relatedModel
      * @return CommentBuilder<Comment>
      */
     public function withCommenter(Model $relatedModel): self
     {
-        return $this->when(!$relatedModel->guestModeEnabled(), fn (CommentBuilder $query) => $query->with('commenter'));
+        return $this->when(!$relatedModel->guestModeEnabled(), fn(CommentBuilder $query) => $query->with('commenter'));
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
+     * @param Model&CommentableContract $relatedModel
      * @return CommentBuilder<Comment>
      *
      */
     public function withOwnerReactions(Model $relatedModel): self
     {
-        return $this->with(['ownerReactions' => fn ($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+        return $this->with(['ownerReactions' => fn($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  string  $filter
+     * @param Model&CommentableContract $relatedModel
+     * @param string $filter
      * @return CommentBuilder<Comment>
      */
-    public function currentUser(Model $relatedModel, string $filter): self
+    public function currentUserFilter(Model $relatedModel, string $filter): self
     {
-        $alias = M::userModel()->getMorphClass();
-
         return $this->when(
             $filter === 'my_comments' && $relatedModel->guestModeEnabled(),
-            fn (Builder $query) => $query->where('ip_address', request()->ip())
+            fn(CommentBuilder $query) => $query->currentGuest()
         )
             ->when(
                 $filter === 'my_comments' && !$relatedModel->guestModeEnabled(),
-                fn (Builder $query) => $query
-                    ->where('commenter_type', $alias)
-                    ->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
+                fn(CommentBuilder $query) => $query->currentUser($relatedModel)
             );
     }
 
-    public function guest()
+    public function guest(): self
     {
         return $this
             ->whereHasMorph('commenter', Guest::class);
     }
 
-    public function currentGuest()
+    /**
+     * @return self
+     */
+    public function currentGuest(): self
     {
         return $this->whereHasMorph(
             'commenter',
-            Guest::class,
-            fn (Builder $query) => $query->where('ip_address', request()->ip())
+            M::guestModel()->getMorphClass(),
+            fn(Builder $query) => $query->where('ip_address', request()->ip())
+        );
+    }
+
+    /**
+     * @param Model&CommentableContract $relatedModel
+     * @return CommentBuilder<Comment>
+     */
+    public function currentUser($relatedModel): self
+    {
+        return $this->whereHasMorph(
+            'commenter',
+            M::userModel()->getMorphClass(),
+            fn(Builder $query) => $query->where('commenter_id', $relatedModel->getAuthUser()->getAuthIdentifier())
         );
     }
 }
