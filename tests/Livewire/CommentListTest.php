@@ -7,13 +7,22 @@ use LakM\Comments\Models\Comment;
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
-it('can render comment list', function () {
-    livewire(CommentList::class, ['model' => \post()])
+it('can render comment list in auth mode', function () {
+    onGuestMode(false);
+
+    $user = actAsAuth();
+
+    $video = video();
+
+    createCommentsForAuthUser($user, $video);
+
+    livewire(CommentList::class, ['model' => $video])
+        ->assertSee($user->getAuthIdentifierName())
         ->assertOk();
 });
 
 it('can render paginated comment list for auth user', function ($count) {
-    config(['comments.guest_mode.enabled' => false]);
+    onGuestMode(false);
     config(['comments.approval_required' => false]);
     config(['comments.pagination.per_page' => $count]);
 
@@ -43,7 +52,8 @@ it('can render paginated comment list for guest', function ($count) {
 
     $video = \video();
 
-    createCommentsForGuest($video, 5);
+    $comments = createCommentsForGuest($video, 5);
+    $comments->load('commenter');
 
     livewire(CommentList::class, ['model' => $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {

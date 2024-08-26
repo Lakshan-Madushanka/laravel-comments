@@ -65,9 +65,9 @@ class Queries extends AbstractQueries
         $commentQuery = $relatedModel->comments();
 
         return $commentQuery
-            ->currentUser($relatedModel, $filter)
+            ->currentUserFilter($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
-            ->withCommenter($relatedModel)
+            ->with('commenter')
             ->withCount(self::addCount())
             ->withCount([
                 'replies' => function (ReplyBuilder $query) {

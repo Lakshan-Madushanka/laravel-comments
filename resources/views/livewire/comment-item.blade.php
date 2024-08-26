@@ -6,7 +6,7 @@
             <img
                 class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
                 src="{{ $comment->ownerPhotoUrl($authMode) }}"
-                alt="{{ $comment->ownerName($authMode) }}"
+                alt="{{ $comment->ownerName() }}"
             />
         </a>
     </div>
@@ -34,11 +34,11 @@
             >
                 <div>
                     <span class="font-semibold sm:hidden mr-1">
-                        {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 10) }}
+                        {{ Str::limit($comment->ownerName(), 10) }}
                     </span>
 
                     <span class="hidden font-semibold sm:inline mr-1">
-                        {{ Str::limit($guestMode ? $comment->guest_name : $comment->commenter->name, 25) }}
+                        {{ Str::limit($comment->ownerName(), 25) }}
                     </span>
 
                     <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
