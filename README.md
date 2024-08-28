@@ -44,6 +44,8 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 
 ### Articles
 - [Laravel News](https://laravel-news.com/laravel-commentable-package)
+- [Enable commenting in seconds with Laravel
+](https://medium.com/@epmadushanka/enable-commenting-in-seconds-with-laravel-6cb7cc7eb6f2)
 
 <p align="center"><img src="https://github.com/user-attachments/assets/78913825-534a-445b-9b8c-8efccd51c305" alt="screenshot"></p>
 
