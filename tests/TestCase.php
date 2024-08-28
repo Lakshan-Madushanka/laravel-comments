@@ -85,7 +85,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $schema->create('reactions', function (Blueprint $table) {
             $table->id();
             $table->morphs('owner');
-
             $table->foreignIdFor(Comment::class);
 
             $table->string('type');

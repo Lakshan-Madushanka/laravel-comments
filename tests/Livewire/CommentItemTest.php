@@ -20,7 +20,7 @@ it('can render a comment item in guest mode', function () {
     $comment->replies_count = 0;
 
     livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
-        ->assertSeeText($comment->ownerName())
+        ->assertSeeText($comment->ownerName(false))
         ->assertOk();
 });
 
@@ -33,7 +33,7 @@ it('can render a comment item in auth mode', function () {
     $comment->replies_count = 0;
 
     livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
-        ->assertSeeText($comment->ownerName())
+        ->assertSeeText($comment->ownerName(true))
         ->assertOk();
 });
 

@@ -164,20 +164,40 @@ function createCommentRepliesForAuthMode(Comment $comment, User $user, int $coun
     return $replies;
 }
 
-function createReaction(int $commentId, string $type, ?int $userId = null, int $count = 1, array $data = []): Reaction|Collection
+function createReactionForGuestMode(Comment $comment, string $type, int $count = 1, bool $forCurrentUser = false): Reaction|Collection
 {
     for ($i = 0; $i < $count; $i++) {
-        Reaction::query()->create([
-            'comment_id' => $commentId,
-            'type' => $type,
-            'user_id' => $userId,
-            'ip_address' => request()->ip(),
-            ...$data
-        ]);
+        $guest = guest($forCurrentUser);
+
+        $reaction = $guest
+            ->reactions()
+            ->create([
+                'type' => $type,
+                'comment_id' => $comment->getKey(),
+            ]);
     }
 
     if ($count === 1) {
-        return Reaction::query()->first();
+        return $reaction;
+    }
+
+    return Reaction::all();
+}
+
+function createReactionForAuthMode(Comment $comment, User $user, string $type, int $count = 1): Reaction|Collection
+{
+    for ($i = 0; $i < $count; $i++) {
+        $reaction = $comment
+            ->reactions()
+            ->create([
+                'type' => $type,
+                'owner_id' => $user->getKey(),
+                'owner_type' => $user->getMorphClass(),
+            ]);
+    }
+
+    if ($count === 1) {
+        return $reaction;
     }
 
     return Reaction::all();

@@ -44,7 +44,7 @@ class Queries extends AbstractQueries
 
         return $user
             ->comments()
-            ->currentUser()
+            ->currentUser($user)
             ->count();
     }
 
@@ -151,17 +151,12 @@ class Queries extends AbstractQueries
 
         $reactions = $reactionQuery
             ->whereType($reactionType)
-            ->when(
-                $authMode,
-                function (ReactionBuilder $query) {
-                    $query->with('user');
-                }
-            )
+            ->with('owner')
             ->limit($limit)
             ->get();
 
         return $reactions->map(function (Reaction $reaction) use ($authMode) {
-            return new UserData(name: $reaction->user?->name() ?? '', photo: $reaction->ownerPhotoUrl($authMode));
+            return new UserData(name: $reaction->ownerName($authMode) ?? '', photo: $reaction->ownerPhotoUrl());
         });
     }
 
@@ -172,17 +167,12 @@ class Queries extends AbstractQueries
 
         $reaction = $reactionQuery
             ->whereType($reactionType)
-            ->when(
-                $authMode,
-                function (Builder $query) {
-                    $query->with('user');
-                }
-            )
+            ->with('owner')
             ->latest()
             ->first();
 
         if ($reaction) {
-            return new UserData(name: $reaction->user?->name ?? '', photo: $reaction->ownerPhotoUrl($authMode));
+            return new UserData(name: $reaction->ownerName($authMode) ?? '', photo: $reaction->ownerPhotoUrl($authMode));
         }
 
         return $reaction;

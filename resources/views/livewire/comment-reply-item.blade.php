@@ -5,7 +5,7 @@
             <img
                 class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
                 src="{{ $reply->ownerPhotoUrl($authMode) }}"
-                alt="{{ $reply->ownerName() }}"
+                alt="{{ $reply->ownerName($authMode) }}"
             />
         </a>
     </div>
@@ -32,11 +32,11 @@
             >
                 <div>
                     <span class="font-semibold sm:hidden mr-1">
-                        {{ Str::limit($reply->ownerName(), 10) }}
+                        {{ Str::limit($reply->ownerName($authMode), 10) }}
                     </span>
 
                     <span class="hidden font-semibold sm:inline mr-1">
-                        {{ Str::limit($reply->ownerName(), 25) }}
+                        {{ Str::limit($reply->ownerName($authMode), 25) }}
                     </span>
 
                     <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>

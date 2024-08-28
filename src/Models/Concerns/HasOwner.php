@@ -2,17 +2,15 @@
 
 namespace LakM\Comments\Models\Concerns;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Builders\CommentBuilder;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\ModelResolver as M;
-use LakM\Comments\Models\Comment;
-
 trait HasOwner
 {
-    public function ownerName(): string
+    public function ownerName(bool $isAuthMode): string
     {
-        return $this->{$this->userRelationshipName}->name;
+        if ($isAuthMode) {
+            $col = config('comments.user_name_column');
+        } else {
+            $col = 'name';
+        }
+        return $this->{$this->userRelationshipName}->{$col};
     }
 }

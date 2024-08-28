@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Builders\ReactionBuilder;
 use LakM\Comments\Contracts\CommenterContract;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
@@ -16,13 +17,13 @@ class Reaction extends Model
     use HasOwner;
     use HasProfilePhoto;
 
-    protected $userRelationshipName = 'user';
+    protected $userRelationshipName = 'owner';
 
     protected $fillable = [
         'comment_id',
         'type',
-        'user_id',
-        'ip_address',
+        'owner_id',
+        'owner_type',
     ];
 
     /**
@@ -37,7 +38,7 @@ class Reaction extends Model
     /** @return BelongsTo<User&CommenterContract, Reaction> **/
     public function user(): BelongsTo
     {
-        return $this->belongsTo(config('comments.user_model'));
+        return $this->belongsTo(ModelResolver::userModel());
     }
 
     public function owner(): MorphTo

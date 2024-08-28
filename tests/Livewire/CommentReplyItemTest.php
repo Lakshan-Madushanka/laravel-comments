@@ -26,7 +26,7 @@ it('can render a reply item in guest mode', function () {
             'guestMode' => true
         ]
     )
-        ->assertSeeText($reply->ownerName())
+        ->assertSeeText($reply->ownerName(false))
         ->assertOk();
 });
 
@@ -47,7 +47,7 @@ it('can render a reply item in auth mode', function () {
                 'guestMode' => false
             ]
         )
-        ->assertSeeText($reply->ownerName())
+        ->assertSeeText($reply->ownerName(true))
         ->assertOk();
 });
 

@@ -66,7 +66,7 @@ it('can identify current user comments in auth mode', function () {
     createCommentsForGuest(relatedModel: $video);
 
     $comments = Comment::query()
-        ->currentUser($video)
+        ->currentUser($user)
         ->get();
 
     expect($comments)
@@ -87,7 +87,7 @@ it('can filter current user comments in guest mode', function () {
     $comment = createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
 
     $comments = Comment::query()
-        ->currentUserFilter($video, 'my_comments')
+        ->currentUserFilter($video, 'own')
         ->get();
 
     expect($comments)
@@ -115,7 +115,7 @@ it('can filter current user comments in auth mode', function () {
     createCommentsForGuest(relatedModel: $video);
 
     $comments = Comment::query()
-        ->currentUserFilter($video, 'my_comments')
+        ->currentUserFilter($video, 'own')
         ->get();
 
     expect($comments)

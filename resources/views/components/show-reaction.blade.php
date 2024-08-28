@@ -23,7 +23,7 @@
     <div
         @if ($authMode)
             @mouseover="
-                 if(@js(! $loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
+                 if(@js($authMode && ! $loginRequired) && $wire.reactions['{{ $key }}']['count'] > 0 && !showUsers) {
                      showUsers = true;
                      $wire.lastReactedUser('{{ $key }}')
                  }
@@ -36,7 +36,9 @@
                 }
                 isReacted = !isReacted
                 $wire.handle('{{ $key }}')
-                $wire.lastReactedUser('{{ $key }}')
+                @if($authMode)
+                 $wire.lastReactedUser('{{ $key }}')
+                @endif
                 showUsers=false
                 "
         class="min-w-[2.2rem] flex cursor-pointer justify-between items-center gap-x-1"

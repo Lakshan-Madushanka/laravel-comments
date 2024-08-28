@@ -2,7 +2,10 @@
 
 namespace LakM\Comments\Reactions;
 
+use LakM\Comments\Data\GuestData;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reply;
 
 abstract class ReactionContract
@@ -19,12 +22,19 @@ abstract class ReactionContract
     {
         $data = [
             'type' => $this->type,
-            'ip_address' => request()->ip(),
         ];
 
         if ($this->authMode) {
-            $data['user_id'] = $this->authId;
+            $data['owner_id'] = $this->authId;
+            $data['owner_type'] = ModelResolver::userModel()->getMorphClass();
+        } else {
+            $guestData = new GuestData(ip_address: request()->ip());
+            $guest = Guest::createOrUpdate($guestData);
+
+            $data['owner_id'] = $guest->getKey();
+            $data['owner_type'] = $guest->getMorphClass();
         }
+
         return $this->comment->reactions()->create($data);
     }
 }
