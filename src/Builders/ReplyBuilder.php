@@ -36,10 +36,8 @@ class ReplyBuilder extends Builder
      * @param  string  $filter
      * @return ReplyBuilder<Reply>
      */
-    public function currentUser(Model $relatedModel, string $filter): self
+    public function currentUserFilter(Model $relatedModel, string $filter): self
     {
-        $alias = M::userModel()->getMorphClass();
-
         return $this->when(
             $filter === 'my_replies' && $relatedModel->guestModeEnabled(),
             fn (Builder $query) => $query->where('ip_address', request()->ip())

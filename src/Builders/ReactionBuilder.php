@@ -11,6 +11,8 @@ use LakM\Comments\Models\Reaction;
  * @extends Builder<Reaction>
  * @method ReactionBuilder whereApproved(bool $value)
  * @method ReactionBuilder whereType(string $value)
+ * @method ReactionBuilder query()
+ * @method ReactionBuilder newQuery()()
  */
 class ReactionBuilder extends Builder
 {

@@ -33,9 +33,9 @@ class CommentList extends Component
 
     public int $total;
 
-    public int $limit = 15;
+    public ?int $limit = 15;
 
-    public int $perPage;
+    public ?int $perPage;
 
     #[Locked]
     public bool $guestMode;
@@ -81,7 +81,11 @@ class CommentList extends Component
 
     public function setTotalCommentsCount(): void
     {
-        $this->total = $this->comments->total();
+        $this->total = $this->comments->count();
+
+        if ($this->comments instanceof LengthAwarePaginator) {
+            $this->total = $this->comments->total();
+        }
     }
 
     public function setSortBy(Sort $sortBy): void

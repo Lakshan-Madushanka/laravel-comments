@@ -5,6 +5,7 @@ namespace LakM\Comments\Livewire;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Comments\Abstracts\AbstractQueries;
@@ -16,7 +17,6 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Ramsey\Collection\Collection;
 
 /**
  * @property \Illuminate\Support\Collection|LengthAwarePaginator $replies
@@ -110,7 +110,11 @@ class CommentReplyList extends Component
 
     public function setTotalRepliesCount(): void
     {
-        $this->total = $this->replies->total();
+        $this->total = $this->replies->count();
+
+        if ($this->replies instanceof LengthAwarePaginator) {
+            $this->total = $this->replies->total();
+        }
     }
 
     #[On('show-replies.{comment.id}')]

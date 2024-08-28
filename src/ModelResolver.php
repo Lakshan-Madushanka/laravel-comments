@@ -4,6 +4,7 @@ namespace LakM\Comments;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Builders\CommentBuilder;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Guest;
@@ -68,7 +69,7 @@ final class ModelResolver
         return  config('comments.user_model');
     }
 
-    public static function userModel(): Authenticatable
+    public static function userModel(): User
     {
         return  app(self::userClass());
     }

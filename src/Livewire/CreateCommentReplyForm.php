@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Actions\CreateCommentReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Data\GuestData;
+use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Models\Comment;
@@ -50,9 +52,9 @@ class CreateCommentReplyForm extends Component
 
     public ?UserData $guest = null;
 
-    public ?string $guest_name = '';
+    public ?string $name = '';
 
-    public ?string $guest_email = '';
+    public ?string $email = '';
 
     public string $text = "";
 
@@ -109,7 +111,7 @@ class CreateCommentReplyForm extends Component
      * @throws \Exception
      * @throws \Throwable
      */
-    public function create(CreateCommentReplyAction $replyAction): void
+    public function create(): void
     {
         $this->protectAgainstSpam();
 
@@ -121,7 +123,12 @@ class CreateCommentReplyForm extends Component
 
         throw_if($this->limitExceeded, ReplyLimitExceededException::make($this->replyLimit()));
 
-        CreateCommentReplyAction::execute($this->comment, $this->getFormData(), $this->guestMode, $this->guest);
+        CreateCommentReplyAction::execute(
+            $this->comment,
+            MessageData::fromArray($this->getFormData()),
+            $this->guestMode,
+            GuestData::fromArray($this->only('name', 'email')),
+        );
 
         $this->dispatch(
             'reply-created-' . $this->comment->id,
@@ -133,7 +140,7 @@ class CreateCommentReplyForm extends Component
         $this->dispatch('reset-editor-' . $this->editorId, value: "");
 
         if (!$this->guest->name ||
-            ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email)) {
+            ($this->guest->name !== $this->name || $this->guest->email !== $this->email)) {
             $this->dispatch('guest-credentials-changed');
         }
 
@@ -148,7 +155,7 @@ class CreateCommentReplyForm extends Component
 
     private function getFormData(): array
     {
-        $data = $this->only('guest_name', 'guest_email', 'text');
+        $data = $this->only('name', 'email', 'text');
         return $this->clearFormData($data);
     }
 
@@ -187,6 +194,7 @@ class CreateCommentReplyForm extends Component
     {
         $limit = $this->replyLimit();
 
+
         if (is_null($limit)) {
             $this->limitExceeded = false;
             return;
@@ -214,8 +222,8 @@ class CreateCommentReplyForm extends Component
         if ($this->guestMode) {
             $this->guest = $this->queries->guest();
 
-            $this->guest_name = $this->guest->name;
-            $this->guest_email = $this->guest->email;
+            $this->name = $this->guest->name;
+            $this->email = $this->guest->email;
 
             return;
         }

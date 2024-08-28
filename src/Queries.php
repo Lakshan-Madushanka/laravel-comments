@@ -12,14 +12,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Builders\CommentBuilder;
+use LakM\Comments\Builders\MessageBuilder;
 use LakM\Comments\Builders\ReactionBuilder;
-use LakM\Comments\Builders\ReplyBuilder;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 
@@ -43,8 +44,7 @@ class Queries extends AbstractQueries
 
         return $user
             ->comments()
-            ->where('commentable_type', $alias)
-            ->where('commentable_id', $relatedModel->getKey())
+            ->currentUser()
             ->count();
     }
 
@@ -57,7 +57,7 @@ class Queries extends AbstractQueries
      */
     public static function allRelatedComments(
         Model $relatedModel,
-        int $limit,
+        ?int $limit,
         Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection {
@@ -70,10 +70,10 @@ class Queries extends AbstractQueries
             ->with('commenter')
             ->withCount(self::addCount())
             ->withCount([
-                'replies' => function (ReplyBuilder $query) {
+                'replies' => function (MessageBuilder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn (ReplyBuilder $query) => $query->approved()
+                        fn (MessageBuilder $query) => $query->approved()
                     );
                 },
             ])
@@ -190,18 +190,17 @@ class Queries extends AbstractQueries
 
     public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int
     {
-        /** @var ReplyBuilder<Reply> $replyQuery */
+        /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
 
         return $replyQuery
                 ->when(
                     !$guestMode,
-                    function (ReplyBuilder $query) use ($user) {
-                        $query->where('commenter_type', $user->getMorphClass())
-                            ->where('commenter_id', $user->getAuthIdentifier());
+                    function (MessageBuilder $query) use ($user) {
+                        $query->currentUser($user);
                     },
-                    function (ReplyBuilder $query) {
-                        $query->where('ip_address', request()->ip());
+                    function (MessageBuilder $query) {
+                        $query->currentGuest();
                     }
                 )
                 ->count();
@@ -220,12 +219,12 @@ class Queries extends AbstractQueries
         bool $approvalRequired,
         string $filter = ''
     ): int {
-        /** @var ReplyBuilder<Reply> $replyQuery */
+        /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
 
         return $replyQuery
             ->currentUser($relatedModel, $filter)
-            ->when($approvalRequired, fn (ReplyBuilder $query) => $query->approved())
+            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
             ->count();
     }
 
@@ -242,18 +241,19 @@ class Queries extends AbstractQueries
         Comment $comment,
         Model $relatedModel,
         bool $approvalRequired,
-        int $limit,
+        ?int $limit,
         Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection {
-        /** @var ReplyBuilder<Reply> $replyQuery */
+        /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
 
         return $replyQuery
-            ->currentUser($relatedModel, $filter)
+            ->currentUserFilter($relatedModel, $filter)
+            ->with('commenter')
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn (ReplyBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn (ReplyBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn (MessageBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
             ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
@@ -272,13 +272,13 @@ class Queries extends AbstractQueries
     public static function usersStartWithName(string $name, bool $guestMode, int $limit): \Illuminate\Support\Collection
     {
         if ($guestMode) {
-            return M::commentQuery()
-                ->where('guest_name', 'like', "{$name}%")
+            return M::guestQuery()
+                ->where('name', 'like', "{$name}%")
                 ->limit($limit)
                 ->get()
                 // @phpstan-ignore-next-line
-                ->transform(function (Comment $comment) {
-                    return new UserData(name: $comment->guest_name, photo: $comment->ownerPhotoUrl(false));
+                ->transform(function (Guest $guest) {
+                    return new UserData(name: $guest->name, photo: $guest->ownerPhotoUrl());
                 });
         }
 

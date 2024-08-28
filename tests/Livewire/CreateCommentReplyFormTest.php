@@ -50,9 +50,9 @@ it('can validate guest name', function () {
     $comment = createCommentsForGuest($video);
 
     livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
-        ->set('guest_name', '')
+        ->set('name', '')
         ->call('create')
-        ->assertHasErrors(['guest_name' => 'required'])
+        ->assertHasErrors(['name' => 'required'])
         ->assertOk();
 });
 
@@ -63,9 +63,9 @@ it('can validate guest email', function () {
     $comment = createCommentsForGuest($video);
 
     livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
-        ->set('guest_email', 'email')
+        ->set('email', 'email')
         ->call('create')
-        ->assertHasErrors(['guest_email' => 'email'])
+        ->assertHasErrors(['email' => 'email'])
         ->assertOk();
 });
 
@@ -125,8 +125,8 @@ it('can create comment for guest mode', function () {
         ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true]
     )
         ->call('showForm')
-        ->set('guest_name', 'test user')
-        ->set('guest_email', 'testuser@gmail.com')
+        ->set('name', 'test user')
+        ->set('email', 'testuser@gmail.com')
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -138,11 +138,11 @@ it('can create comment for guest mode', function () {
         ->last()->toBeInstanceOf(Comment::class)
         ->last()->commentable_id->toBeNull()
         ->last()->commentable_type->toBeNull()
-        ->last()->guest_name->toBe('test user')
-        ->last()->guest_email->toBe('testuser@gmail.com')
+        ->last()->commenter->name->toBe('test user')
+        ->last()->commenter->email->toBe('testuser@gmail.com')
         ->last()->text->toBe('test comment')
         ->last()->reply_id->toBe($comment->getKey())
-        ->last()->ip_address->toBe(request()->ip());
+        ->last()->commenter->ip_address->toBe(request()->ip());
 });
 
 it('can create comment for auth mode', function () {
@@ -171,10 +171,8 @@ it('can create comment for auth mode', function () {
         ->last()->commenter_type->toBe($user->getMorphClass())
         ->last()->commenter_id->toBe($user->getAuthIdentifier())
         ->last()->reply_id->toBe($comment->getKey())
-        ->last()->text->toBe('reply')
-        ->last()->ip_address->toBe(request()->ip());
+        ->last()->text->toBe('reply');
 });
-
 
 it('dispatch a event after reply is created', function () {
     Event::fake();
@@ -202,31 +200,34 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
     onGuestMode();
 
     if ($shouldLimit) {
-        config(['comments.limit' => 1]);
+        config(['comments.reply.limit' => 1]);
     } else {
-        config(['comments.limit' => null]);
+        config(['comments.reply.limit' => null]);
     }
 
     $video = \video();
-    $video->comments()->create([
-        'text' => Str::random(),
-        'ip_address' => request()->ip(),
-    ]);
 
-    $c = livewire(CreateCommentForm::class, ['model' => $video])
+    $comment = createCommentsForGuest($video);
+    $reply = createCommentRepliesForGuestMode(comment: $comment, forCurrentUser: true);
+
+    $c = livewire(
+        CreateCommentReplyForm::class,
+        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true]
+    )
+        ->call('showForm')
         ->set('text', 'test comment')
-        ->set('guest_name', 'guest')
-        ->set('guest_email', 'gues@mail.com');
+        ->set('name', 'guest')
+        ->set('email', 'gues@mail.com');
 
 
     if ($shouldLimit) {
         expect(
-            fn () => $c
+            fn() => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()
         )
-            ->toThrow(CommentLimitExceededException::class)
+            ->toThrow(ReplyLimitExceededException::class)
             ->and($c->get('limitExceeded'))->toBeTrue();
     } else {
         $c->call('create')
@@ -243,9 +244,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 it('can limit comments creation for auth mode', function ($shouldLimit) {
     onGuestMode(false);
 
-    if (!Auth::check()) {
-        $user = actAsAuth();
-    }
+    $user = actAsAuth();
 
     if ($shouldLimit) {
         config(['comments.reply.limit' => 1]);
@@ -254,9 +253,8 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     }
 
     $video = \video();
-    $comment = createCommentsForAuthUser(\user(), $video);
-    CreateCommentReplyAction::execute($comment, ['text' => 'reply'], false);
-
+    $comment = createCommentsForAuthUser($user, $video);
+    createCommentRepliesForAuthMode($comment, $user);
 
     $video = \video();
 
@@ -269,7 +267,7 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn () => $c
+            fn() => $c
                 ->call('create')
                 ->assertSeeText(__('Allowed reply limit'))
                 ->assertHasNoErrors()

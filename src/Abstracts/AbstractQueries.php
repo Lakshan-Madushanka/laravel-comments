@@ -28,14 +28,14 @@ abstract class AbstractQueries
 
     /**
      * @param  Model&CommentableContract  $relatedModel
-     * @param  int  $limit
+     * @param  ?int  $limit
      * @param  Sort  $sortBy
      * @param  string  $filter
      * @return LengthAwarePaginator|Collection
      */
     abstract public static function allRelatedComments(
         Model $relatedModel,
-        int $limit,
+        ?int $limit,
         Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection;
@@ -82,12 +82,12 @@ abstract class AbstractQueries
     ): int;
 
     /**
-     * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  bool  $approvalRequired
-     * @param  int  $limit
-     * @param  Sort  $sortBy
-     * @param  string  $filter
+     * @param Comment $comment
+     * @param Model&CommentableContract $relatedModel
+     * @param bool $approvalRequired
+     * @param ?int $limit
+     * @param Sort $sortBy
+     * @param string $filter
      * @return LengthAwarePaginator|Collection
      */
     abstract public static function commentReplies(

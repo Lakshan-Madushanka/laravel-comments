@@ -4,6 +4,7 @@ namespace LakM\Comments\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Builders\ReactionBuilder;
 use LakM\Comments\Contracts\CommenterContract;
@@ -37,5 +38,10 @@ class Reaction extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('comments.user_model'));
+    }
+
+    public function owner(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

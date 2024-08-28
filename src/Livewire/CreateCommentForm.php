@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Actions\CreateCommentAction;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Data\GuestData;
+use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Helpers;
 use LakM\Comments\ValidationRules;
@@ -101,7 +103,11 @@ class CreateCommentForm extends Component
         $this->validate();
 
         if ($this->model->canCreateComment(Auth::guard($this->model->getAuthGuard())->user())) {
-            CreateCommentAction::execute($this->model, $this->getFormData(), $this->guest);
+            CreateCommentAction::execute(
+                $this->model,
+                MessageData::fromArray($this->getFormData()),
+                GuestData::fromArray($this->only('name', 'email')),
+            );
 
             $this->clear();
 
@@ -148,6 +154,7 @@ class CreateCommentForm extends Component
     #[On('guest-credentials-changed')]
     public function setGuest(): void
     {
+        //dd($this->guestModeEnabled);
         if ($this->guestModeEnabled) {
             $this->guest = app(AbstractQueries::class)->guest();
 

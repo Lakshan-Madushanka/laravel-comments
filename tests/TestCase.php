@@ -60,8 +60,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $schema->create('guests', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('email');
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });
@@ -84,10 +84,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $schema->create('reactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->nullable();
+            $table->morphs('owner');
+
             $table->foreignIdFor(Comment::class);
+
             $table->string('type');
-            $table->string('ip_address');
             $table->timestamps();
         });
     }

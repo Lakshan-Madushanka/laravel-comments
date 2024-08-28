@@ -56,6 +56,32 @@ function onGuestMode($status = true): void
     config(['comments.guest_mode.enabled' => $status]);
 }
 
+function approvalRequired($comment = false, $reply = false): void
+{
+    config(['comments.approval_required' => $comment]);
+    config(['comments.reply.approval_required' => $reply]);
+}
+
+function setPaginateForComments(int $count = null): void
+{
+    if (is_null($count)) {
+        config(['comments.pagination.enabled' => false]);
+        return;
+    }
+
+    config(['comments.pagination.per_page' => $count]);
+}
+
+function setPaginateForReplies(int $count = null): void
+{
+    if (is_null($count)) {
+        config(['comments.reply.pagination.enabled' => false]);
+        return;
+    }
+
+    config(['comments.reply.pagination.per_page' => $count]);
+}
+
 function createCommentsForAuthUser(User $user, Model $relatedModel, int $count = 1, array $data = []): Model|Collection
 {
     for ($i = 0; $i < $count; $i++) {
@@ -91,25 +117,48 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
     return $comments;
 }
 
-function createCommentRepliesForGuestMode(Comment $comment, int $count = 1, array $data = []): Reply|Collection
+function createCommentRepliesForGuestMode(Comment $comment, int $count = 1, array $data = [], bool $forCurrentUser = false): Reply|Collection
 {
     $email = fake()->email();
     $name = fake()->name();
 
     for ($i = 0; $i < $count; $i++) {
-        $comment->replies()->create([
+        $reply = $comment->replies()->create([
             'text' => Str::random(),
-            'guest_name' => $name,
-            'guest_email' => $email,
             'reply_id' => $comment->getKey(),
             ...$data,
         ]);
+
+        $guest = guest($forCurrentUser);
+        $guest->comments()->save($reply);
+    }
+
+
+    $replies = $comment->replies()->get();
+
+    if ($count === 1) {
+        return $replies->last();
+    }
+
+    return $replies;
+}
+
+function createCommentRepliesForAuthMode(Comment $comment, User $user, int $count = 1, array $data = []): Reply|Collection
+{
+    for ($i = 0; $i < $count; $i++) {
+        $reply = $comment->replies()->create([
+            'text' => Str::random(),
+            'reply_id' => $comment->getKey(),
+            ...$data,
+        ]);
+
+        $user->comments()->save($reply);
     }
 
     $replies = $comment->replies()->get();
 
-    if ($replies->count() === 1) {
-        return $replies[0];
+    if ($count === 1) {
+        return $replies->last();
     }
 
     return $replies;

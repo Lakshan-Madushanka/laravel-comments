@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
+use LakM\Comments\Models\Concerns\HasReactions;
 use LakM\Comments\Models\Reply;
 
 /**
@@ -15,6 +16,7 @@ use LakM\Comments\Models\Reply;
 trait Commenter
 {
     use HasProfilePhoto;
+    use HasReactions;
 
     public function comments(): MorphMany
     {

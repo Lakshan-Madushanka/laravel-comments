@@ -5,7 +5,7 @@
         <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
                 class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
-                src="{{ $comment->ownerPhotoUrl($authMode) }}"
+                src="{{ $comment->ownerPhotoUrl() }}"
                 alt="{{ $comment->ownerName() }}"
             />
         </a>
