@@ -85,7 +85,7 @@ abstract class AbstractQueries
      * @param Comment $comment
      * @param Model&CommentableContract $relatedModel
      * @param bool $approvalRequired
-     * @param ?int $limit
+     * @param int $limit
      * @param Sort $sortBy
      * @param string $filter
      * @return LengthAwarePaginator|Collection

@@ -13,7 +13,7 @@ use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reply;
 
 /**
- * @template TModelClass of Comment
+ * @template TModelClass of Comment|Reply
  * @extends Builder<Comment|Reply>
  * @method MessageBuilder whereApproved(bool $value)
  * @method MessageBuilder whereType(string $value)
@@ -34,15 +34,6 @@ class MessageBuilder extends Builder
     {
         return $this->when($relatedModel->approvalRequired(), fn(MessageBuilder $query) => $query->approved());
     }
-
-//    /**
-//     * @param Model&CommentableContract $relatedModel
-//     * @return MessageBuilder<Comment>
-//     */
-//    public function withCommenter(Model $relatedModel): self
-//    {
-//        return $this->when(!$relatedModel->guestModeEnabled(), fn(MessageBuilder $query) => $query->with('commenter'));
-//    }
 
     /**
      * @param Model&CommentableContract $relatedModel
@@ -87,8 +78,8 @@ class MessageBuilder extends Builder
     }
 
     /**
-     * @param Model&CommentableContract $relatedModel
-     * @return Builder
+     * @param User $user
+     * @return MessageBuilder
      */
     public function currentUser(User $user): self
     {

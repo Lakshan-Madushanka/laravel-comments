@@ -58,8 +58,8 @@ class CreateCommentAction
 
     /**
      * @param Model&CommentableContract $model
-     * @param array $commentData
-     * @param UserData|null $guestData
+     * @param MessageData $commentData
+     * @param GuestData $guestData
      * @return Comment
      */
     protected static function createForGuest(Model $model, MessageData $commentData, GuestData $guestData): Comment
