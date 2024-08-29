@@ -132,8 +132,8 @@ class CreateCommentReplyForm extends Component
 
         $this->dispatch('reset-editor-' . $this->editorId, value: "");
 
-        if (!$this->guest->name ||
-            ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email)) {
+        if ($this->guestMode && (!$this->guest->name ||
+            ($this->guest->name !== $this->guest_name || $this->guest->email !== $this->guest_email))) {
             $this->dispatch('guest-credentials-changed');
         }
 
