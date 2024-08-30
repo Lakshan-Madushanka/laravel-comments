@@ -22,7 +22,6 @@ use Livewire\Component;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
-#[Lazy]
 class CreateCommentForm extends Component
 {
     use UsesSpamProtection;
