@@ -112,8 +112,6 @@ class CommentList extends Component
         }
 
         $this->total += 1;
-
-        $this->showReplyList = true;
     }
 
     #[On('comment-deleted')]
