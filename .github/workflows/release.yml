@@ -1,0 +1,22 @@
+name: Release a new version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        number: 'Version to release'
+        required: true
+
+jobs:
+  release:
+    name: Release ${{inputs.version}}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        run: gh release create ${{ inputs.version }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
