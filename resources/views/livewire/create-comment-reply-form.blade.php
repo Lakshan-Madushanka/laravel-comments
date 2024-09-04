@@ -5,7 +5,7 @@
         @if ($guestMode)
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
-                    <x-comments::input wire:model="guest_name" placeholder="{{__('Reply as')}}" />
+                    <x-comments::input wire:model="guest_name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
                     <div class="min-h-6">
                         @if ($errors->has('guest_name'))
                             <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -16,7 +16,7 @@
                 </div>
                 @if (config('comments.reply.email_enabled'))
                     <div class="flex w-full flex-col">
-                        <x-comments::input wire:model="guest_email" type="email" placeholder="{{__('Email')}}" />
+                        <x-comments::input wire:model="guest_email" type="email" :shouldDisable="$limitExceeded" placeholder="{{__('Email')}}" />
                         <div class="min-h-6">
                             @if ($errors->has('guest_email'))
                                 <span class="align-top text-xs text-red-500 sm:text-sm">
