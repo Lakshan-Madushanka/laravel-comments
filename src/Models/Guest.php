@@ -5,7 +5,6 @@ namespace LakM\Comments\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Concerns\HasOwner;
@@ -19,7 +18,7 @@ use LakM\Comments\Models\Concerns\HasReactions;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @method static Builder|Model createOrUpdate(GuestData $data)
+ * @method static Model createOrUpdate(GuestData $data)
  */
 class Guest extends Model
 {
@@ -35,7 +34,7 @@ class Guest extends Model
         'ip_address',
     ];
 
-    public  function scopeCreateOrUpdate(Builder $builder, GuestData $data): Builder|Model
+    public  function scopeCreateOrUpdate(Builder $builder, GuestData $data): Model
     {
         $newData = $data->toArray();
 

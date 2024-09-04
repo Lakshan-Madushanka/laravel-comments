@@ -4,7 +4,6 @@ namespace LakM\Comments\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\ModelResolver as M;

@@ -2,10 +2,9 @@
 
 namespace LakM\Comments;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User;
-use LakM\Comments\Builders\CommentBuilder;
+use LakM\Comments\Builders\MessageBuilder;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
@@ -24,7 +23,7 @@ final class ModelResolver
     }
 
     /**
-     * @return CommentBuilder<Comment>
+     * @return MessageBuilder<Comment>
      */
     public static function commentQuery(): Builder
     {

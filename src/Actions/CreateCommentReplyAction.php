@@ -52,7 +52,7 @@ class CreateCommentReplyAction
     protected static function createForGuest(Comment $comment, MessageData $replyData, GuestData $guestData)
     {
         $reply = DB::transaction(function () use ($comment, $replyData, $guestData) {
-            $guest = ModelResolver::guestModel()::createOrUpdate($guestData);
+            $guest = ModelResolver::guestClass()::createOrUpdate($guestData);
 
             $reply = $comment
                 ->replies()

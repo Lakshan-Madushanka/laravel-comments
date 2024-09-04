@@ -3,20 +3,16 @@
 namespace LakM\Comments\Actions;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
 
 class CreateCommentAction
 {
@@ -66,7 +62,7 @@ class CreateCommentAction
     {
         /** @var Comment $comment */
         $comment = DB::transaction(function () use ($model, $commentData, $guestData) {
-            $guest = ModelResolver::guestModel()::createOrUpdate($guestData);
+            $guest = ModelResolver::guestClass()::createOrUpdate($guestData);
 
             $comment = $model
                 ->comments()

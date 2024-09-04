@@ -5,13 +5,9 @@ namespace LakM\Comments\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Query\Builder;
-use LakM\Comments\Builders\CommentBuilder;
 use LakM\Comments\Builders\MessageBuilder;
-use LakM\Comments\Concerns\Commenter;
-use LakM\Comments\ModelResolver;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
@@ -24,8 +20,6 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
  * @property bool $approved
  * @property Carbon $created_at
  * @property Carbon $updated_at
- *
- * @method CommentBuilder query()
  */
 class Message extends Model
 {
@@ -50,7 +44,7 @@ class Message extends Model
 
     /**
      * @param Builder $query
-     * @return MessageBuilder
+     * @return MessageBuilder<Message>
      */
     public function newEloquentBuilder($query): MessageBuilder
     {
