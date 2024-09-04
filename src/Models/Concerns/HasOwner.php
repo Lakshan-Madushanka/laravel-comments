@@ -4,12 +4,13 @@ namespace LakM\Comments\Models\Concerns;
 
 trait HasOwner
 {
-    public function ownerName(bool $authMode): string
+    public function ownerName(bool $isAuthMode): string
     {
-        if ($authMode) {
-            return $this->{$this->userRelationshipName}->name;
+        if ($isAuthMode) {
+            $col = config('comments.user_name_column');
+        } else {
+            $col = 'name';
         }
-
-        return $this->guest_name ?? '';
+        return $this->{$this->userRelationshipName}->{$col};
     }
 }

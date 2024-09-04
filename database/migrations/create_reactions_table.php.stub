@@ -13,12 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(config('comments.user_model'))->nullable()->index();
-            $table->foreignIdFor(config('comments.model'))->index();
-            $table->string('type')->index();
-            $table->string('ip_address')->index();
-            $table->timestamps();
+           $table->id();
+           $table->morphs('owner');
+           $table->foreignIdFor(Comment::class);
+
+           $table->string('type');
+           $table->timestamps();
         });
     }
 

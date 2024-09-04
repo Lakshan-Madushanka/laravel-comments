@@ -5,22 +5,22 @@
         @if ($guestMode)
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
-                    <x-comments::input wire:model="guest_name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
+                    <x-comments::input wire:model="name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
                     <div class="min-h-6">
-                        @if ($errors->has('guest_name'))
+                        @if ($errors->has('name'))
                             <span class="align-top text-xs text-red-500 sm:text-sm">
-                                {{ __($errors->first('guest_name')) }}
+                                {{ __($errors->first('name')) }}
                             </span>
                         @endif
                     </div>
                 </div>
                 @if (config('comments.reply.email_enabled'))
                     <div class="flex w-full flex-col">
-                        <x-comments::input wire:model="guest_email" type="email" :shouldDisable="$limitExceeded" placeholder="{{__('Email')}}" />
+                        <x-comments::input wire:model="email" :shouldDisable="$limitExceeded" type="email" placeholder="{{__('Email')}}" />
                         <div class="min-h-6">
-                            @if ($errors->has('guest_email'))
+                            @if ($errors->has('email'))
                                 <span class="align-top text-xs text-red-500 sm:text-sm">
-                                    {{ __($errors->first('guest_email')) }}
+                                    {{ __($errors->first('email')) }}
                                 </span>
                             @endif
                         </div>
@@ -41,10 +41,10 @@
             </div>
             <div
                 x-cloak
-                x-data="successMsg"
-                @reply-created-{{ $comment->getKey() }}.window="set(true, $event)"
+                x-data="message(@js($editorId))"
+                @reply-created-{{ $comment->getKey() }}.window="show($event.detail.editorId)"
             >
-                <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
+                <span x-show="showMsg" x-transition class="align-top text-xs text-green-500 sm:text-sm">
                     @if ($approvalRequired)
                         {{ __('Reply created and will be displayed once approved.') }}
                     @else
@@ -91,23 +91,4 @@
             </div>
         @endif
     </form>
-
-    @script
-        <script>
-            Alpine.data('successMsg', () => ({
-                show: false,
-                timeout: 2000,
-
-                set(show, event) {
-                    if (event.detail.editorId !== $wire.editorId) {
-                        return;
-                    }
-                    this.show = show;
-                    setTimeout(() => {
-                        this.show = false;
-                    }, this.timeout);
-                },
-            }));
-        </script>
-    @endscript
 </div>

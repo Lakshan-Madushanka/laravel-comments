@@ -198,21 +198,6 @@
         </div>
     @endif
 
-    <div x-data="{ approvalRequired: false }">
-        <div
-            x-cloak
-            x-data="message(@js($comment->getKey()))"
-            @reply-created-{{$comment->getKey()}}.window="approvalRequired=$event.detail.approvalRequired"
-        >
-            <div x-show="showMsg" x-transition class="mt-2 align-top text-xs text-green-500 sm:text-sm">
-                <span x-show="approvalRequired">
-                    {{ __("Reply created and will be displayed once approved") }}
-                </span>
-                <span x-show="!approvalRequired">{{ __("Reply created") }}</span>
-            </div>
-        </div>
-    </div>
-
     @if ($authMode)
         <div
             x-data="{show: false, type: ''}"

@@ -4,11 +4,11 @@ namespace LakM\Comments\Models\Concerns;
 
 trait HasProfilePhoto
 {
-    public function ownerPhotoUrl(bool $authMode): string
+    public function ownerPhotoUrl(): string
     {
         $col = config('comments.profile_photo.url_column');
 
-        if ($authMode && $col) {
+        if ($col) {
             if (isset($this->userRelationshipName)) {
                 if ($url = $this->{$this->userRelationshipName}->{$col}) {
                     return $url;
@@ -24,14 +24,10 @@ trait HasProfilePhoto
             return $url;
         }
 
-        if ($authMode) {
-            if (isset($this->userRelationshipName)) {
-                $email = $this->{$this->userRelationshipName}->email;
-            } else {
-                $email = $this->email ?? '';
-            }
+        if (isset($this->userRelationshipName)) {
+            $email = $this->{$this->userRelationshipName}->email;
         } else {
-            $email = $this->guest_email ?? '';
+            $email = $this->email;
         }
 
         $hash = hash("sha256", strtolower(trim($email)));

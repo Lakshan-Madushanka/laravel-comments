@@ -32,11 +32,11 @@
             >
                 <div>
                     <span class="font-semibold sm:hidden mr-1">
-                        {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 10) }}
+                        {{ Str::limit($reply->ownerName($authMode), 10) }}
                     </span>
 
                     <span class="hidden font-semibold sm:inline mr-1">
-                        {{ Str::limit($guestMode ? $reply->guest_name : $reply->commenter->name, 25) }}
+                        {{ Str::limit($reply->ownerName($authMode), 25) }}
                     </span>
 
                     <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>

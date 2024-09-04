@@ -83,7 +83,7 @@ it('can update a comment for a guest', function () {
     Event::fake();
 
     $video = video();
-    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+    $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
 
     livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')

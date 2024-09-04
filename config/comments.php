@@ -3,6 +3,7 @@
 use App\Models\User;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Policies\CommentPolicy;
 use LakM\Comments\Policies\ReplyPolicy;
@@ -22,9 +23,15 @@ return [
     /**
      * Comment owner model
      * Must extend Illuminate\Contracts\Auth\Authenticatable
-     * Must implement LakM\Comments\Contracts\CommentableContract
+     * Must implement LakM\Comments\Contracts\CommenterContract
      */
     'user_model' => User::class,
+
+    /**
+     * Comment owner model in guest mode
+     * Must extend LakM\Comments\Models\Guest
+     */
+    'guest_model' => Guest::class,
 
     /**
      * Database column or model accessor name to
@@ -140,6 +147,7 @@ return [
         // Default comments sort order, available values: Sort::LATEST, Sort::OLDEST
         'default_sort' => Sort::LATEST,
     ],
+
     /**
      * Quill editor configs
      * @see https://quilljs.com/docs/configuration

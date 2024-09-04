@@ -8,10 +8,37 @@ use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Livewire\livewire;
 
-it('can delete a comment for authenticated user', function () {
-    config(['comments.guest_mode.enabled' => false]);
-
+beforeEach(function () {
     Event::fake();
+});
+
+it('can render a comment item in guest mode', function () {
+    onGuestMode();
+
+    $video = video();
+    $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
+    $comment->replies_count = 0;
+
+    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertSeeText($comment->ownerName(false))
+        ->assertOk();
+});
+
+it('can render a comment item in auth mode', function () {
+    onGuestMode(false);
+
+    $user = actAsAuth();
+    $video = video();
+    $comment = createCommentsForAuthUser($user, $video);
+    $comment->replies_count = 0;
+
+    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
+        ->assertSeeText($comment->ownerName(true))
+        ->assertOk();
+});
+
+it('can delete a comment for authenticated user', function () {
+    onGuestMode(false);
 
     $user = actAsAuth();
     $video = video();
@@ -30,7 +57,7 @@ it('can delete a comment for authenticated user', function () {
 });
 
 it('cannot delete a comment for invalid authenticated user', function () {
-    Event::fake();
+    onGuestMode(false);
 
     actAsAuth();
 
@@ -52,10 +79,10 @@ it('cannot delete a comment for invalid authenticated user', function () {
 
 
 it('can delete a comment for a guest', function () {
-    Event::fake();
+    onGuestMode();
 
     $video = video();
-    $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
+    $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
     $comment->replies_count = 0;
 
     livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
@@ -70,7 +97,7 @@ it('can delete a comment for a guest', function () {
 });
 
 it('cannot delete a comment for a invalid guest', function () {
-    Event::fake();
+    onguestMode();
 
     $video = video();
     $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);

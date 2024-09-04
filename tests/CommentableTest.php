@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Concerns\Commentable;
@@ -88,9 +87,7 @@ it('can authorize to edit comment for auth mode', function () {
 it('can authorize to edit comment for guest mode', function () {
     $video = video();
 
-    $comment1 = createCommentsForGuest($video);
-    $comment1->ip_address = request()->ip();
-    $comment1->save();
+    $comment1 = createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
 
     $comment2 = createCommentsForGuest($video);
 

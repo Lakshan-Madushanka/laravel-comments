@@ -24,58 +24,22 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class Reply extends Model
+class Reply extends Message
 {
     use HasOwner;
     use HasProfilePhoto;
-
-    protected $table = 'comments';
-
-    protected $userRelationshipName = 'commenter';
 
     protected $fillable = [
         'commenter_type',
         'commenter_id',
         'text',
-        'guest_name',
-        'guest_email',
-        'ip_address',
         'approved',
         'reply_id'
     ];
 
-    public function newEloquentBuilder($query): ReplyBuilder
-    {
-        return new ReplyBuilder($query);
-    }
-
-    protected $casts = [
-        'approved' => 'bool'
-    ];
 
     public function comment(): BelongsTo
     {
         return $this->belongsTo(M::commentClass());
-    }
-
-    public function isEdited(): bool
-    {
-        return $this->created_at->diffInSeconds($this->updated_at) > 0;
-    }
-
-    public function ownerReactions(): HasMany
-    {
-        return $this->reactions();
-    }
-
-    /** @return HasMany<Reaction> **/
-    public function reactions(): HasMany
-    {
-        return $this->hasMany(M::reactionClass(), 'comment_id');
-    }
-
-    public function commenter(): MorphTo
-    {
-        return $this->morphTo();
     }
 }

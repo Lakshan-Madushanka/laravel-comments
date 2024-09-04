@@ -12,16 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->nullableMorphs('commentable');
-            $table->nullableMorphs('commenter');
-            $table->unsignedBigInteger('reply_id')->nullable()->index();
+           $table->id();
 
-            $table->text('text');
-            $table->boolean('approved')->default(false)->index();
-            $table->string('ip_address')->nullable()->index();
-
-            $table->timestamps();
+           $table->string('name');
+           $table->string('email');
+           $table->string('ip_address');
+           $table->timestamps();
         });
 
         Schema::table('comments', function (Blueprint $table) {

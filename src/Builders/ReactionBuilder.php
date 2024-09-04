@@ -4,6 +4,8 @@ namespace LakM\Comments\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use LakM\Comments\ModelResolver;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 
 /**
@@ -11,6 +13,8 @@ use LakM\Comments\Models\Reaction;
  * @extends Builder<Reaction>
  * @method ReactionBuilder whereApproved(bool $value)
  * @method ReactionBuilder whereType(string $value)
+ * @method ReactionBuilder query()
+ * @method ReactionBuilder newQuery()()
  */
 class ReactionBuilder extends Builder
 {
@@ -34,13 +38,14 @@ class ReactionBuilder extends Builder
     /** @return ReactionBuilder<Reaction> */
     public function guestMode(): self
     {
-        return $this->where('user_id', null)
-            ->where('ip_address', request()->ip());
+        $guest = Guest::query()->where('ip_address', request()->ip())->first();
+        return $this->whereMorphedTo('owner', $guest);
     }
 
     /** @return ReactionBuilder<Reaction> */
     public function authMode(): self
     {
-        return $this->where('user_id', Auth::id());
+        return $this
+            ->whereMorphedTo('owner', Auth::user());
     }
 }

@@ -37,7 +37,7 @@ class UserList extends Component
         $this->queries = app(AbstractQueries::class);
     }
 
-    public function mount(bool $guestModeEnabled, string $editorId): void
+    public function mount(bool $guestModeEnabled): void
     {
         if (!$this->show) {
             $this->skipRender();
