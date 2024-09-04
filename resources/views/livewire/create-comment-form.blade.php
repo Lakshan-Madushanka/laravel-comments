@@ -42,8 +42,8 @@
         </div>
 
         <div class="min-h-6">
-            <div x-cloak x-data="successMsg" @comment-created.window="set(true, $event)">
-                <span x-show="show" x-transition class="align-top text-xs text-green-500 sm:text-sm">
+            <div x-cloak x-data="message(@js($editorId))" @comment-created.window="show($event.detail.id)">
+                <span x-show="showMsg" x-transition class="align-top text-xs text-green-500 sm:text-sm">
                     @if ($approvalRequired)
                         {{ __('Comment created and will be displayed once approved.') }}
                     @else
@@ -84,23 +84,4 @@
             </div>
         @endif
     </form>
-
-    @script
-        <script>
-            Alpine.data('successMsg', () => ({
-                show: false,
-                timeout: 2000,
-
-                set(show, event) {
-                    if (event.detail.id !== $wire.editorId) {
-                        return;
-                    }
-                    this.show = show;
-                    setTimeout(() => {
-                        this.show = false;
-                    }, this.timeout);
-                },
-            }));
-        </script>
-    @endscript
 </div>
