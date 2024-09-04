@@ -66,6 +66,10 @@ class CreateCommentReplyForm extends Component
     #[Locked]
     public bool $guestMode;
 
+    /**
+     * Current user reply count
+     * @var int
+     */
     public int $replyCount;
 
     public function boot(): void
@@ -183,10 +187,6 @@ class CreateCommentReplyForm extends Component
 
     public function incrementReplyCount(): void
     {
-        if ($this->approvalRequired) {
-            return;
-        }
-
         $this->replyCount += 1;
     }
 
