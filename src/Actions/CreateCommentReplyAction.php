@@ -85,7 +85,7 @@ class CreateCommentReplyAction
             ->create([
             'text' => $replyData->text,
             'commenter_type' => ModelResolver::userModel()->getMorphClass(),
-            'commenter_id' => $comment->getKey(),
+            'commenter_id' => $user->getAuthIdentifier(),
         ]);
 
         self::dispatchEvent($comment, $reply);
