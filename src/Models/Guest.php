@@ -18,6 +18,8 @@ use LakM\Comments\Models\Concerns\HasReactions;
  * @property string $ip_address
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @method static Builder|Model createOrUpdate(GuestData $data)
  */
 class Guest extends Model
 {
@@ -33,12 +35,22 @@ class Guest extends Model
         'ip_address',
     ];
 
-    public static function createOrUpdate(GuestData $data): Builder|Model
+    public  function scopeCreateOrUpdate(Builder $builder, GuestData $data): Builder|Model
     {
+        $newData = $data->toArray();
+
+        if (!$data->name) {
+            unset($newData['name']);
+        }
+
+        if (!$data->email) {
+            unset($newData['email']);
+        }
+
         return self::query()
             ->updateOrCreate(
                 ['ip_address' => request()->ip()],
-                [...$data->toArray()]
+                $newData,
             );
     }
 
