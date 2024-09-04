@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Concerns\Commentable;

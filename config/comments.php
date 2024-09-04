@@ -147,6 +147,7 @@ return [
         // Default comments sort order, available values: Sort::LATEST, Sort::OLDEST
         'default_sort' => Sort::LATEST,
     ],
+
     /**
      * Quill editor configs
      * @see https://quilljs.com/docs/configuration
