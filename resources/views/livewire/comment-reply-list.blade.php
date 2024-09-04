@@ -1,7 +1,7 @@
 @php use LakM\Comments\Enums\Sort;use LakM\Comments\Helpers; @endphp
 <div x-data="{ total: $wire.entangle('total') }" class="space-y-6">
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
-        @if (($replies->count() > 1 || $filter !== 'own') && config('comments.show_filters'))
+        @if ($total > 1 && config('comments.show_filters'))
             <div class="flex gap-x-2 overflow-auto overflow-x-auto sm:gap-x-3">
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
@@ -52,13 +52,13 @@
         @endforeach
     @endif
 
-    @if ($replies->isEmpty() && $filter === 'my_replies')
+    @if ($replies->isEmpty() && $filter === 'own')
         <div>{{ __('You haven\'t made/approved any replies yet !') }}</div>
     @endif
 
     @if ($replies->isNotEmpty() && config('comments.reply.pagination.enabled') && $paginationRequired)
         <div class="flex items-center justify-center">
-            @if ($limit < $total)
+            @if ($limit < $currentTotal)
                 <x-comments::button wire:click="paginate" size="sm" type="button" loadingTarget="paginate">
                     {{ __('Load More') }}
                 </x-comments::button>
@@ -90,7 +90,13 @@
             highlight();
         });
 
-        Livewire.on(`reply-created-${@js($comment->getKey())}`, () => {
+        $wire.on('unauthorized-reply-updated', (event) => {
+            if (event.commentId === @js($comment->getKey()))  {
+                $wire.$set('total', --$wire.total);
+            }
+        })
+
+        Livewire.on("reply-created-@js($comment->getKey())", () => {
             highlight();
         });
 

@@ -36,6 +36,8 @@ class CommentReplyList extends Component
 
     public int $total;
 
+    public int $currentTotal;
+
     public int $limit = 15;
 
     public int $perPage;
@@ -68,6 +70,7 @@ class CommentReplyList extends Component
         $this->relatedModel = $relatedModel;
 
         $this->total = $total;
+        $this->currentTotal = $total;
 
         $this->perPage = config('comments.reply.pagination.per_page');
         $this->limit = config('comments.reply.pagination.per_page');
@@ -110,10 +113,10 @@ class CommentReplyList extends Component
 
     public function setTotalRepliesCount(): void
     {
-        $this->total = $this->replies->count();
+        $this->currentTotal = $this->replies->count();
 
         if ($this->replies instanceof LengthAwarePaginator) {
-            $this->total = $this->replies->total();
+            $this->currentTotal = $this->replies->total();
         }
     }
 
