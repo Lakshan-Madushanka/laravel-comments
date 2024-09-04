@@ -14,7 +14,7 @@
         <span x-text="getTotal()"></span>
     </div>
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
-        @if (($comments->count() > 1 || $filter !== 'own') && config('comments.show_filters'))
+        @if (($total > 1 || $filter === 'own') && config('comments.show_filters'))
             <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
                 <div class="w-14"></div>
                 <x-comments::chip
@@ -83,7 +83,7 @@
         @foreach ($comments as $comment)
             <livewire:comments-item :key="'comment'. $comment->id" :$comment :$guestMode :$model :$showReplyList />
         @endforeach
-    @elseif ($filter === 'my_comments')
+    @elseif ($filter === 'own')
         <div class="text-lg">{{ __('You haven\'t made/approved any comments yet !') }}</div>
     @else
         <div class="text-lg">{{ __('Be the first one to make a comment !') }}</div>
