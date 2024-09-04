@@ -1,7 +1,7 @@
 @php use LakM\Comments\Enums\Sort;use LakM\Comments\Helpers; @endphp
 <div x-data="{ total: $wire.entangle('total') }" class="space-y-6">
-    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
-        @if ($total > 1 && config('comments.show_filters'))
+    @if ($total > 1 && config('comments.show_filters'))
+        <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex gap-x-2 overflow-auto overflow-x-auto sm:gap-x-3">
                 <x-comments::chip
                     wire:click="setSortBy('latest')"
@@ -33,8 +33,8 @@
                     {{ __('My Replies') }}
                 </x-comments::chip>
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
 
     <div wire:loading.flex wire.target="setSortBy" class="flex items-center gap-x-2 sm:gap-x-4">
         <x-comments::spin class="!size-5 !text-blue-500" />
@@ -91,10 +91,10 @@
         });
 
         $wire.on('unauthorized-reply-updated', (event) => {
-            if (event.commentId === @js($comment->getKey()))  {
+            if (event.commentId === @js($comment->getKey())) {
                 $wire.$set('total', --$wire.total);
             }
-        })
+        });
 
         Livewire.on("reply-created-@js($comment->getKey())", () => {
             highlight();
