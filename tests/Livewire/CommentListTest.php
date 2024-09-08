@@ -5,7 +5,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Livewire\CommentList;
-use LakM\Comments\Livewire\CommentReplyList;
 use LakM\Comments\Models\Comment;
 
 use function Pest\Laravel\travel;
@@ -107,7 +106,7 @@ it('only shows approved comments in auth mode when enabled in config', function 
     $video = \video();
 
     createCommentsForAuthUser(user: $user, relatedModel: $video, count: 2);
-    createCommentsForAuthUser(user: $user,  relatedModel: $video, data: ['approved' => true]);
+    createCommentsForAuthUser(user: $user, relatedModel: $video, data: ['approved' => true]);
 
     livewire(CommentList::class, ['model' =>  $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($approval) {

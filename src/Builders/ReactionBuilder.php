@@ -4,7 +4,6 @@ namespace LakM\Comments\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 

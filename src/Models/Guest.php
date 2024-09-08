@@ -34,7 +34,7 @@ class Guest extends Model
         'ip_address',
     ];
 
-    public  function scopeCreateOrUpdate(Builder $builder, GuestData $data): Model
+    public function scopeCreateOrUpdate(Builder $builder, GuestData $data): Model
     {
         $newData = $data->toArray();
 

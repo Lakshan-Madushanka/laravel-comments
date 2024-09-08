@@ -130,5 +130,3 @@ it('can filter current user comments in auth mode', function () {
     expect($comments)
         ->toHaveCount(3);
 });
-
-
