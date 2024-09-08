@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Models\Concerns\HasReactions;
 
