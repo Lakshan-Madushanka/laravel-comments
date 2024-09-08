@@ -62,7 +62,7 @@ class CreateCommentReplyAction
                     'commenter_id' => $guest->getKey(),
                 ]);
 
-            if ($guestData->name !== $replyData->name|| $guestData->email !== $replyData->email) {
+            if ($guestData->name !== $replyData->name || $guestData->email !== $replyData->email) {
                 AbstractQueries::$guest = new UserData($replyData->name, $replyData->email);
             }
 
