@@ -2,20 +2,15 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Livewire\CreateCommentForm;
-use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 
 use function Pest\Livewire\livewire;
-use function RectorPrefix202408\React\Promise\all;
-use function Symfony\Component\Translation\t;
 
 it('render comment form', function () {
     livewire(CreateCommentForm::class, ['model' => \post()])

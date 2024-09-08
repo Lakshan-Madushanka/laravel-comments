@@ -40,7 +40,6 @@ it('can create dislike for auth mode', function () {
         ->first()->type->toBe('dislike')
         ->first()->owner_id->toBe($user->getKey())
         ->first()->owner_type->toBe($user->getMorphClass());
-
 });
 
 it('can create dislike when already has liked for auth mode', function () {

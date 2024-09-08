@@ -1,14 +1,9 @@
 <?php
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
-use LakM\Comments\Actions\CreateCommentReplyAction;
 use LakM\Comments\Events\CommentReplyCreated;
-use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
-use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CreateCommentReplyForm;
 use LakM\Comments\Models\Comment;
 
@@ -222,7 +217,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn() => $c
+            fn () => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()
@@ -267,7 +262,7 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn() => $c
+            fn () => $c
                 ->call('create')
                 ->assertSeeText(__('Allowed reply limit'))
                 ->assertHasNoErrors()

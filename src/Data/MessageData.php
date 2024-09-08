@@ -12,8 +12,7 @@ final class MessageData implements Wireable, Arrayable
         public ?string $name = null,
         public ?string $email = null,
         public ?string $ip_address = null,
-    )
-    {
+    ) {
         if (is_null($this->ip_address)) {
             $this->ip_address = request()->ip();
         }

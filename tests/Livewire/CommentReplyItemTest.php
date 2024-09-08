@@ -40,13 +40,13 @@ it('can render a reply item in auth mode', function () {
 
     livewire(
         CommentReplyItem::class,
-            [
-                'comment' => $comment,
-                'reply' => $reply,
-                'relatedModel' => $video,
-                'guestMode' => false
-            ]
-        )
+        [
+            'comment' => $comment,
+            'reply' => $reply,
+            'relatedModel' => $video,
+            'guestMode' => false
+        ]
+    )
         ->assertSeeText($reply->ownerName(true))
         ->assertOk();
 });

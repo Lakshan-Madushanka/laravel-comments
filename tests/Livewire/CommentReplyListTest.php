@@ -4,12 +4,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use LakM\Comments\Enums\Sort;
-use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\CommentReplyList;
 
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 use Pest\Expectation;
+
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
@@ -116,7 +115,7 @@ it('render only approved reply list in guest mode', function () {
     $text = Str::random();
 
     $comment = createCommentsForAuthUser(user: $user, relatedModel: $video);
-    createCommentRepliesForAuthMode(comment: $comment, user: $user,  count: 5);
+    createCommentRepliesForAuthMode(comment: $comment, user: $user, count: 5);
 
     $reply = createCommentRepliesForGuestMode(comment: $comment, data: ['text' => $text, 'approved' => true]);
 

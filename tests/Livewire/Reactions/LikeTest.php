@@ -2,7 +2,6 @@
 
 use LakM\Comments\Livewire\ReactionsManager;
 
-use LakM\Comments\Tests\Fixtures\Video;
 use function Pest\Livewire\livewire;
 
 it('remove already existing like for auth mode', function () {
