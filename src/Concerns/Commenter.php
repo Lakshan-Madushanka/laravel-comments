@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Comments\ModelResolver;
+use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Models\Concerns\HasReactions;
 use LakM\Comments\Models\Reply;
@@ -18,6 +19,7 @@ trait Commenter
     use HasProfilePhoto;
     use HasReactions;
 
+    /** @return MorphMany<Comment> */
     public function comments(): MorphMany
     {
         return $this->morphMany(ModelResolver::commentClass(), 'commenter');

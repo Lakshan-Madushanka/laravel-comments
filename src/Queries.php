@@ -49,10 +49,10 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  int  $limit
-     * @param  Sort  $sortBy
-     * @param  string  $filter
+     * @param Model&CommentableContract $relatedModel
+     * @param int|null $limit
+     * @param Sort $sortBy
+     * @param string $filter
      * @return LengthAwarePaginator|Collection
      */
     public static function allRelatedComments(
@@ -61,7 +61,7 @@ class Queries extends AbstractQueries
         Sort $sortBy,
         string $filter = ''
     ): LengthAwarePaginator|Collection {
-        /** @var CommentBuilder<Comment> $commentQuery */
+        /** @var MessageBuilder<Comment> $commentQuery */
         $commentQuery = $relatedModel->comments();
 
         return $commentQuery
@@ -105,19 +105,19 @@ class Queries extends AbstractQueries
             );
     }
 
-    /**
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  string  $filter
-     * @return int
-     */
-    public static function getTotalCommentsCountForRelated(Model $relatedModel, string $filter = ''): int
-    {
-        return $relatedModel
-            ->comments()
-            ->currentUser($relatedModel, $filter)
-            ->checkApproval($relatedModel)
-            ->count();
-    }
+//    /**
+//     * @param  Model&CommentableContract  $relatedModel
+//     * @param  string  $filter
+//     * @return int
+//     */
+//    public static function getTotalCommentsCountForRelated(Model $relatedModel, string $filter = ''): int
+//    {
+//        return $relatedModel
+//            ->comments()
+//            ->currentUser($relatedModel)
+//            ->checkApproval($relatedModel)
+//            ->count();
+//    }
 
     public static function addCount(): array
     {
@@ -156,7 +156,7 @@ class Queries extends AbstractQueries
             ->get();
 
         return $reactions->map(function (Reaction $reaction) use ($authMode) {
-            return new UserData(name: $reaction->ownerName($authMode) ?? '', photo: $reaction->ownerPhotoUrl());
+            return new UserData(name: $reaction->ownerName($authMode), photo: $reaction->ownerPhotoUrl());
         });
     }
 
@@ -172,7 +172,7 @@ class Queries extends AbstractQueries
             ->first();
 
         if ($reaction) {
-            return new UserData(name: $reaction->ownerName($authMode) ?? '', photo: $reaction->ownerPhotoUrl($authMode));
+            return new UserData(name: $reaction->ownerName($authMode), photo: $reaction->ownerPhotoUrl());
         }
 
         return $reaction;
@@ -196,27 +196,27 @@ class Queries extends AbstractQueries
                 ->count();
     }
 
-    /**
-     * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  bool  $approvalRequired
-     * @param  string  $filter
-     * @return int
-     */
-    public static function getCommentReplyCount(
-        Comment $comment,
-        Model $relatedModel,
-        bool $approvalRequired,
-        string $filter = ''
-    ): int {
-        /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $comment->replies();
-
-        return $replyQuery
-            ->currentUser($relatedModel, $filter)
-            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
-            ->count();
-    }
+//    /**
+//     * @param  Comment  $comment
+//     * @param  Model&CommentableContract  $relatedModel
+//     * @param  bool  $approvalRequired
+//     * @param  string  $filter
+//     * @return int
+//     */
+//    public static function getCommentReplyCount(
+//        Comment $comment,
+//        Model $relatedModel,
+//        bool $approvalRequired,
+//        string $filter = ''
+//    ): int {
+//        /** @var MessageBuilder<Reply> $replyQuery */
+//        $replyQuery = $comment->replies();
+//
+//        return $replyQuery
+//            ->currentUser($relatedModel, $filter)
+//            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
+//            ->count();
+//    }
 
     /**
      * @param  Comment  $comment

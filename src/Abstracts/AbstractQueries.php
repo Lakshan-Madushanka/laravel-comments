@@ -40,13 +40,6 @@ abstract class AbstractQueries
         string $filter = ''
     ): LengthAwarePaginator|Collection;
 
-    /**
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  string  $filter
-     * @return int
-     */
-    abstract public static function getTotalCommentsCountForRelated(Model $relatedModel, string $filter = ''): int;
-
     abstract public static function addCount(): array;
 
     /**
@@ -66,20 +59,6 @@ abstract class AbstractQueries
     abstract public static function lastReactedUser(Reply|Comment $comment, string $reactionType, bool $authMode): ?UserData;
 
     abstract public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int;
-
-    /**
-     * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  bool  $approvalRequired
-     * @param  string  $filter
-     * @return int
-     */
-    abstract public static function getCommentReplyCount(
-        Comment $comment,
-        Model $relatedModel,
-        bool $approvalRequired,
-        string $filter = ''
-    ): int;
 
     /**
      * @param Comment $comment

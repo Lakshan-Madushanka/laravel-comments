@@ -17,7 +17,7 @@ class Reaction extends Model
     use HasOwner;
     use HasProfilePhoto;
 
-    protected $userRelationshipName = 'owner';
+    protected string $userRelationshipName = 'owner';
 
     protected $fillable = [
         'comment_id',

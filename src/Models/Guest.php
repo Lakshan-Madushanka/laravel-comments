@@ -12,8 +12,8 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
 use LakM\Comments\Models\Concerns\HasReactions;
 
 /**
- * @property string name
- * @property string email
+ * @property string $name
+ * @property string $email
  * @property string $ip_address
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -22,7 +22,6 @@ use LakM\Comments\Models\Concerns\HasReactions;
  */
 class Guest extends Model
 {
-    use HasOwner;
     use HasProfilePhoto;
     use HasReactions;
 

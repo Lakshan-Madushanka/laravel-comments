@@ -152,7 +152,6 @@ class CreateCommentForm extends Component
     #[On('guest-credentials-changed')]
     public function setGuest(): void
     {
-        //dd($this->guestModeEnabled);
         if ($this->guestModeEnabled) {
             $this->guest = app(AbstractQueries::class)->guest();
 
