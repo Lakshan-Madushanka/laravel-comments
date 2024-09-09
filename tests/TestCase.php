@@ -69,12 +69,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $schema->create('comments', function (Blueprint $table) {
             $table->id();
             $table->nullableMorphs('commentable');
-
             $table->nullableMorphs('commenter');
-            $table->unsignedBigInteger('reply_id')->nullable();
+            $table->unsignedBigInteger('reply_id')->nullable()->index();
+
             $table->text('text');
-            $table->boolean('approved')->default(false);
-            $table->string('ip_address')->nullable();
+            $table->boolean('approved')->default(false)->index();
             $table->timestamps();
         });
 
