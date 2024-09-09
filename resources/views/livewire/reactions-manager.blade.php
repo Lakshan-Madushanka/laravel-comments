@@ -4,7 +4,7 @@
         <div
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
-                "border border-gray-200 bg-gray-100" => Helpers::isGithubTheme()
+                "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme()
             ])
         >
             @foreach ($lReactions as $key => $value)
@@ -31,8 +31,8 @@
                         "
                         @class([
                            "cursor-pointer rounded px-1",
-                           "border hover:bg-gray-200" => Helpers::isDefaultTheme(),
-                           "bg-gray-300 hover:bg-gray-400" => Helpers::isGithubTheme()
+                           "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
+                           "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme()
                        ])
                     >
                         <div
@@ -97,8 +97,8 @@
                         "
                         @class([
                             "cursor-pointer rounded px-1",
-                            "border hover:bg-gray-200" => Helpers::isDefaultTheme(),
-                            " bg-gray-300 hover:bg-gray-400" => Helpers::isGithubTheme()
+                            "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
+                            "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme()
                         ])
                     >
                         <div
@@ -175,7 +175,7 @@
         <div
             @class([
                   "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
-                  "border border-gray-200 bg-gray-100" => Helpers::isGithubTheme(),
+                  "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
                 ])
         >
             @foreach ($rReactions as $key => $value)
@@ -210,21 +210,21 @@
         >
             <x-comments::modal loadingTarget="loadReactedUsers">
                 <div class="flex py-4">
-                    <div class="space-y-2 border-r-2 border-gray-200">
-                        <div class="mb-4 border-b-2 border-gray-200 p-4">
-                            <span class="bg-gray-300 px-4 py-2 font-bold">{{ $total }}</span>
+                    <div class="space-y-2 border-r-2 border-gray-200 dark:border-slate-900">
+                        <div class="mb-4 border-b-2 border-gray-200 p-4 dark:border-slate-900">
+                            <span class="bg-gray-300 dark:bg-slate-600 px-4 py-2 font-bold">{{ $total }}</span>
                         </div>
                         @foreach (config("comments.reactions") as $key => $reaction)
                             <div
                                 @if ($reactions[$key]["count"] > 0)
                                     wire:click="loadReactedUsers('{{ $key }}')"
                                 @click="type = '{{ $key }}'"
-                                class="cursor-pointer p-4 relative"
+                                class="cursor-pointer p-4 relative hover:bg-gray-300 hover:dark:bg-slate-700"
                                 @endif
                                 wire:loading.class="cursor-not-allowed"
                                 target="loadReactedUsers"
                                 class="relative p-4"
-                                :class="type === '{{ $key }}' ? 'bg-gray-100' : ''"
+                                :class="type === '{{ $key }}' ? 'bg-gray-300 dark:bg-slate-600' : ''"
                             >
                                 @if ($reactions[$key]["reacted"])
                                     <x-dynamic-component
@@ -235,7 +235,7 @@
                                     <x-dynamic-component component="comments::icons.{{$key}}" />
                                 @endif
 
-                                <span class="absolute left-8 top-1 rounded bg-gray-300 px-1 text-xs">
+                                <span class="absolute left-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900">
                                 {{ $reactions[$key]["count"] }}
                             </span>
                             </div>

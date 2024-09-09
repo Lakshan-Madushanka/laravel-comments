@@ -23,13 +23,13 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded border border-gray-200" => Helpers::isGithubTheme(),
+                "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
             ])
         >
             <div
                 @class([
                     "flex items-center justify-between p-1",
-                    "mb-2 border-b border-gray-100 bg-gray-100" => Helpers::isGithubTheme()
+                    "mb-2 border-b border-gray-100 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme()
                 ])
             >
                 <div>
@@ -79,12 +79,12 @@
                                 x-show="showEditMenu"
                                 @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white p-1 shadow-lg"
+                                class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                             >
                                 @if ($model->canEditComment($comment))
                                     <li
                                         @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
-                                        class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200"
+                                        class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
                                         <x-comments::pencil height="13" width="13" strokeColor="blue" />
 
@@ -99,7 +99,7 @@
                                         wire:click="delete({{ $comment }})"
                                         wire:confirm="{{ __('Are you sure you want to delete this comment?') }}"
                                         @click="showEditMenu=false"
-                                        class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200"
+                                        class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
                                         <x-comments::trash height="13" width="13" strokeColor="red" />
                                         <x-comments::action
@@ -186,7 +186,7 @@
                 >
                     <x-comments::link
                         type="popup"
-                        class="inline-flex items-center border-b-0 px-2 py-1 transition hover:rounded hover:border-b-0 hover:bg-gray-200 [&>*]:pr-1"
+                        class="inline-flex items-center border-b-0 px-2 py-1 transition hover:rounded hover:border-b-0 hover:bg-gray-200 dark:hover:bg-slate-800 [&>*]:pr-1"
                     >
                         <x-comments::icons.chevron-down x-show="!showReplyList" />
                         <x-comments::icons.chevron-up x-show="showReplyList" />

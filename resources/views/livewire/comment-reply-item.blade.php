@@ -22,12 +22,12 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded border border-gray-200" => Helpers::isGithubTheme(),
+                "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
             ])>
             <div
                 @class([
                     "flex items-start justify-between space-x-4 p-1 sm:flex-row sm:items-center sm:justify-between",
-                    "mb-2 border-b border-gray-200 bg-gray-100" => Helpers::isGithubTheme(),
+                    "mb-2 border-b border-gray-200 bg-gray-100 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme(),
                 ])
             >
                 <div>
@@ -77,7 +77,7 @@
                                 x-show="showEditMenu"
                                 @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white p-1 shadow-lg"
+                                class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                             >
                                 @if ($this->canUpdateReply($reply))
                                     <li
@@ -86,7 +86,7 @@
                                          showEditMenu=false
                                          $dispatch('show-reply-update-form-@js($reply->getKey())', {show: showUpdateForm})
                                          "
-                                        class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200"
+                                        class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
                                         <x-comments::pencil height="13" width="13" strokeColor="blue" />
                                         <x-comments::action class="text-sm hover:!no-underline sm:text-sm">
@@ -100,7 +100,7 @@
                                         wire:click="delete({{ $reply }})"
                                         wire:confirm="{{ __('Are you sure you want to delete this reply?') }}"
                                         @click="showEditMenu=false"
-                                        class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200"
+                                        class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
                                         <x-comments::trash height="13" width="13" strokeColor="red" />
                                         <x-comments::action
