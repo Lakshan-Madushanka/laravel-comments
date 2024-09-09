@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\ModelResolver as M;
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
 
 /**
  * @template TModelClass of Message
@@ -33,7 +31,7 @@ class MessageBuilder extends Builder
      */
     public function checkApproval(Model $relatedModel): self
     {
-        return $this->when($relatedModel->approvalRequired(), fn(MessageBuilder $query) => $query->approved());
+        return $this->when($relatedModel->approvalRequired(), fn (MessageBuilder $query) => $query->approved());
     }
 
     /**
@@ -43,7 +41,7 @@ class MessageBuilder extends Builder
      */
     public function withOwnerReactions(Model $relatedModel): self
     {
-        return $this->with(['ownerReactions' => fn($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+        return $this->with(['ownerReactions' => fn ($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
     }
 
     /**
@@ -55,11 +53,11 @@ class MessageBuilder extends Builder
     {
         return $this->when(
             $filter === 'own' && $relatedModel->guestModeEnabled(),
-            fn(MessageBuilder $query) => $query->currentGuest()
+            fn (MessageBuilder $query) => $query->currentGuest()
         )
             ->when(
                 $filter === 'own' && !$relatedModel->guestModeEnabled(),
-                function (MessageBuilder $query) use($relatedModel) {
+                function (MessageBuilder $query) use ($relatedModel) {
                     if ($user = $relatedModel->getAuthUser()) {
                         return $query->currentUser($user);
                     }
@@ -78,7 +76,7 @@ class MessageBuilder extends Builder
         return $this->whereHasMorph(
             'commenter',
             M::guestModel()->getMorphClass(),
-            fn(Builder $query) => $query->where('ip_address', request()->ip())
+            fn (Builder $query) => $query->where('ip_address', request()->ip())
         );
     }
 
@@ -91,7 +89,7 @@ class MessageBuilder extends Builder
         return $this->whereHasMorph(
             'commenter',
             M::userModel()->getMorphClass(),
-            fn(Builder $query) => $query->where('commenter_id', $user->getAuthIdentifier())
+            fn (Builder $query) => $query->where('commenter_id', $user->getAuthIdentifier())
         );
     }
 }
