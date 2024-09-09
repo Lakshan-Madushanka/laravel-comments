@@ -17,7 +17,7 @@
             wire:loading.remove
             wire:target="lastReactedUser"
         >
-            <div class="flex w-full flex-col rounded border border-gray-200 bg-white p-1 text-sm shadow">
+            <div class="flex w-full flex-col rounded border border-gray-200 bg-white p-1 text-sm shadow dark:bg-slate-800 dark:border-slate-700">
                 <span>
                     {{ Str::limit($lastReactedUserName, 10) }}
                     @if ($reactions[$key]['count'] > 1)

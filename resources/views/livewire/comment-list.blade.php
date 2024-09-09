@@ -21,8 +21,8 @@
                     wire:click="setSortBy('top')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === Sort::TOP && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === Sort::TOP && Helpers::isGithubTheme(),
+                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::TOP && Helpers::isDefaultTheme(),
+                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::TOP && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Top') }}
@@ -31,8 +31,8 @@
                     wire:click="setSortBy('latest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                         'bg-gray-200' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
-                         'bg-gray-500' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
+                         'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
+                         'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
                      ])
                 >
                     {{ __('Newest') }}
@@ -41,8 +41,8 @@
                     wire:click="setSortBy('oldest')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === Sort::OLDEST && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === Sort::OLDEST && Helpers::isGithubTheme(),
+                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::OLDEST && Helpers::isDefaultTheme(),
+                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::OLDEST && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Oldest') }}
@@ -51,8 +51,8 @@
                     wire:click="setSortBy('replies')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $sortBy === Sort::REPLIES && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $sortBy === Sort::REPLIES && Helpers::isGithubTheme(),
+                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::REPLIES && Helpers::isDefaultTheme(),
+                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::REPLIES && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('Replies') }}
@@ -62,8 +62,8 @@
                     wire:click="setFilter('own')"
                     wire:loading.class="!pointer-events-none"
                     @class([
-                        'bg-gray-200' => $filter === 'own' && Helpers::isDefaultTheme(),
-                        'bg-gray-500' => $filter === 'own' && Helpers::isGithubTheme(),
+                        'bg-gray-200 dark:bg-slate-500' => $filter === 'own' && Helpers::isDefaultTheme(),
+                        'bg-gray-500 dark:bg-slate-600' => $filter === 'own' && Helpers::isGithubTheme(),
                     ])
                 >
                     {{ __('My Comments') }}
