@@ -32,6 +32,14 @@
 
             toolbarParentElm.append(toolbars.slice(-1));
 
+            const toolbarOptions = editorConfig.modules.toolbar;
+
+            if ( toolbarOptions|| (Array.isArray(toolbarOptions) && toolbarOptions.length > 0)) {
+                const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
+                const toolbars = Array.from(document.querySelector('.ql-toolbar'));
+                toolbarParentElm.append(toolbars.slice(-1));
+            }
+
             if (@js($disableEditor)) {
                 quill.disable();
             }
