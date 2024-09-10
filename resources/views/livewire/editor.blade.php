@@ -22,13 +22,15 @@
         const quill = new Quill(`#${$wire.editorId}`, editorConfig);
 
         const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);
-        const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
-
         editorElm.innerHTML = $wire.text;
 
-        const toolbars = Array.from(document.querySelector('.ql-toolbar'));
+        const toolbarOptions = editorConfig.modules.toolbar;
 
-        toolbarParentElm.append(toolbars.slice(-1));
+        if ( toolbarOptions|| (Array.isArray(toolbarOptions) && toolbarOptions.length > 0)) {
+            const toolbarParentElm = document.querySelector(`#${$wire.toolbarId}`);
+            const toolbars = Array.from(document.querySelector('.ql-toolbar'));
+            toolbarParentElm.append(toolbars.slice(-1));
+        }
 
         if (@js($disableEditor)) {
             quill.disable();
