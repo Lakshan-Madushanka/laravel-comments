@@ -1,5 +1,11 @@
 # Documentation of the changes
 
+
+## 1.4.2 - 2024-09-10
+- [v1] Fix: Quill editor not working after disabling toolbar #26 from #204d0e8
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.4...1.4.5)
+
+
 ## 1.4.2 - 2024-08-22
 - Fix: Initial navigation to comment form [09aa24f](https://github.com/Lakshan-Madushanka/laravel-comments/commit/09aa24f587bb2d1e8f9e5c4c4a79d219fe3d25ad)
 - Suggest admin panel in `composer.json` [d9bcc73](https://github.com/Lakshan-Madushanka/laravel-comments/commit/d9bcc73b0753d0e97f36eb21e5d38c9313423941)
