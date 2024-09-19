@@ -21,6 +21,8 @@ class VerifyGuestAction
             Helpers::getAuthGuard()->login($guest);
             $request->session()->regenerate();
             $noPass->inValidate();
+        } else {
+            abort(403);
         }
     }
 }
