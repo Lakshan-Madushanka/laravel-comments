@@ -37,8 +37,8 @@ it('doesn\'t show name and email when guest mode is secured', function () {
     onGuestMode(secured: true);
 
     livewire(CreateCommentForm::class, ['model' => \video()])
-        ->assertDontSee(__('Comment as'))
-        ->assertDontSee(__('Email'))
+        ->assertDontSeeText(__('Comment as'))
+        ->assertDontSeeText(__('Email'))
         ->assertOk();
 });
 
@@ -258,14 +258,11 @@ it('can create comment for safe guest mode', function () {
 
     $video = \video();
 
-//    dd(Guest::all()->toArray());
     livewire(CreateCommentForm::class, ['model' => $video])
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
         ->assertOk();
-
-   // dd(Comment::with('commenter')->get()->toArray());
 
     expect($video->comments)
         ->toBeInstanceOf(Collection::class)
