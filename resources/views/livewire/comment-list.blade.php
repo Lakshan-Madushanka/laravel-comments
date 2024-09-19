@@ -77,7 +77,7 @@
             </div>
             <div class="w-1 h-6 bg-slate-500"></div>
             @if($guestMode && SecureGuestMode::allowed())
-                <x-comments::link type="a" wire:click="logOut">{{ __('Log out') }}</x-comments::link>
+                <x-comments::link type="button" wire:click="logOut">{{ __('Log out') }}</x-comments::link>
             @endif
         </div>
     </div>
