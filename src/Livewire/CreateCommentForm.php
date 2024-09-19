@@ -18,7 +18,6 @@ use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Helpers;
-use LakM\Comments\Models\Guest;
 use LakM\Comments\SecureGuestModeManager;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -69,10 +68,12 @@ class CreateCommentForm extends Component
      */
 
     public bool $rateLimitExceeded = false;
+
     /**
      * @var true
      */
     public bool $verifyLinkSent;
+
     /**
      * @var true
      */

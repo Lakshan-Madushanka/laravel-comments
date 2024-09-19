@@ -17,6 +17,7 @@ use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\SecureGuestModeManager;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -29,6 +30,8 @@ class CreateCommentReplyForm extends Component
     use UsesSpamProtection;
 
     public bool $show = false;
+
+    public SecureGuestModeManager $secureGuestMode;
 
     #[Locked]
     public Comment $comment;
@@ -89,6 +92,8 @@ class CreateCommentReplyForm extends Component
             $this->skipRender();
         }
 
+        $this->secureGuestMode = app(SecureGuestModeManager::class);
+
         $this->comment = $comment;
         $this->relatedModel = $relatedModel;
 
@@ -130,7 +135,7 @@ class CreateCommentReplyForm extends Component
             $this->comment,
             MessageData::fromArray($this->getFormData()),
             $this->guestMode,
-            GuestData::fromArray($this->only('name', 'email')),
+            $this->getGuestData(),
         );
 
         $this->dispatch(
@@ -154,6 +159,18 @@ class CreateCommentReplyForm extends Component
         $this->clear();
 
         $this->setGuest();
+    }
+
+    private function getGuestData(): GuestData
+    {
+        if ($this->secureGuestMode->enabled()) {
+            return new GuestData(
+                $this->secureGuestMode->user()->name,
+                $this->secureGuestMode->user()->email,
+            );
+        }
+
+        return GuestData::fromArray($this->only('name', 'email'));
     }
 
     private function getFormData(): array

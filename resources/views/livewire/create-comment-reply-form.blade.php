@@ -2,7 +2,7 @@
     <form wire:submit.prevent="create" class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 
-        @if ($guestMode)
+        @if ($guestMode && !$this->secureGuestMode->enabled())
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
                     <x-comments::input wire:model="name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
