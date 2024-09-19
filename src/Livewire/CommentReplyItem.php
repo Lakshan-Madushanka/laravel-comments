@@ -78,6 +78,8 @@ class CommentReplyItem extends Component
 
     public function delete(Reply $reply): void
     {
+        $this->skipRender();
+
         if ($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
             $this->dispatch('reply-deleted-' . $this->comment->getKey(), replyId: $reply->getKey(), commentId: $this->comment->getKey());
         }
