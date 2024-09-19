@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Facades\SecureGuestMode;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Message;
@@ -73,6 +74,10 @@ class MessageBuilder extends Builder
 
     public function currentGuest(): self
     {
+        if (SecureGuestMode::enabled()) {
+            return $this->whereMorphedTo('commenter', SecureGuestMode::user());
+        }
+
         return $this->whereHasMorph(
             'commenter',
             M::guestModel()->getMorphClass(),

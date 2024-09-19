@@ -9,6 +9,7 @@ use LakM\Comments\Concerns\Commenter;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\GuestData;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use LakM\Comments\Facades\SecureGuestMode;
 
 /**
  * @property string $name
@@ -21,9 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class Guest extends Authenticatable implements CommenterContract
 {
-//    use HasProfilePhoto;
-//    use HasReactions;
-use Commenter;
+    use Commenter;
 
     protected $table = 'guests';
 
@@ -35,25 +34,15 @@ use Commenter;
 
     public function scopeCreateOrUpdate(Builder $builder, GuestData $data): Model
     {
-        $newData = $data->toArray();
-
-        if (!$data->name) {
-            unset($newData['name']);
-        }
-
-        if (!$data->email) {
-            unset($newData['email']);
+        if (SecureGuestMode::enabled()) {
+            return SecureGuestMode::user();
         }
 
         return self::query()
             ->updateOrCreate(
                 ['ip_address' => request()->ip()],
-                $newData,
+                $data->toArray(),
             );
     }
 
-//    public function comments()
-//    {
-//        return $this->morphMany(ModelResolver::commentClass(), 'commenter');
-//    }
 }

@@ -19,9 +19,9 @@ uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
 
 function actAsGuest(): Guest
 {
-    $guest = \guest();
+    $guest = \guest(true);
 
-    actingAs($guest);
+    actingAs($guest, 'guest');
 
     return $guest;
 }

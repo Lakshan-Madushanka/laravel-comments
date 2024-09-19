@@ -4,6 +4,7 @@ namespace LakM\Comments\Actions;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use LakM\Comments\Helpers;
 use LakM\Comments\Models\Guest;
 use LakM\NoPass\Facades\NoPass;
 use App\Models\User;
@@ -18,6 +19,7 @@ class VerifyGuestAction
             ->email();
 
         if ($noPass->isValid()) {
+            Helpers::getAuthGuard()->login($guest);
             $request->session()->regenerate();
             $noPass->inValidate();
         }
