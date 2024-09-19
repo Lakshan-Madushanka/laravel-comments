@@ -19,6 +19,7 @@
     "require": {
         "php": "^8.1|^8.2|^8.3",
         "graham-campbell/security": "11.2",
+        "lakm/nopass": "@dev",
         "laravel/framework": "^10.0|^11.0",
         "livewire/livewire": "^3.5",
         "spatie/laravel-honeypot": "^4.5"
@@ -60,5 +61,15 @@
     "suggest": {
         "Lakshan-Madushanka/laravel-comments-admin-panel": "Default admin panel of the package. Provides all the functionalities to manage comments"
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/media/lakshan/Files/Packages/lakm/nopass",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }
