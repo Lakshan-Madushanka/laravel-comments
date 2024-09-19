@@ -84,7 +84,7 @@
             @elseif($verifyLinkSent)
                 <span class="text-green-400">Verify link was sent to your email address</span>
             @elseif(!$this->secureGuestMode->allowed())
-                <div x-data="{showEmailField: false}">
+                <div x-data="{showEmailField: false}" id="verify-email-button">
                     <span x-show="!showEmailField" x-transition>
                         {{ __('Please') }}
                         <x-comments::link

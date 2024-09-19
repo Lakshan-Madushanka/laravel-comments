@@ -54,7 +54,7 @@
             </div>
         </div>
         @if (! $limitExceeded)
-            @if ($loginRequired)
+            @if (!$guestMode && $loginRequired)
                 <div>
                     <span>
                         {{ __('Please') }}
@@ -67,6 +67,8 @@
                         {{ __('to reply !') }}
                     </span>
                 </div>
+            @elseif(!$this->secureGuestMode->allowed())
+                <x-comments::link type="a" route="#verify-email-button">{{ __('Please verify your email to reply') }}</x-comments::link>
             @else
                 <div class="flex gap-x-2">
                     <x-comments::button loadingTarget="create" class="w-full sm:w-auto" size="sm">

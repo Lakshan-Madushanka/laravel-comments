@@ -99,6 +99,8 @@ class CreateCommentReplyForm extends Component
 
         $this->guestMode = $guestMode;
 
+        $this->disableEditor = $this->guestMode && !$this->secureGuestMode->allowed();
+
         $this->authenticated = $this->relatedModel->authCheck();
 
         $this->editorId = Str::uuid();

@@ -97,7 +97,7 @@ class CreateCommentForm extends Component
         $this->authenticated = $this->model->authCheck();
         $this->guestModeEnabled = $this->model->guestModeEnabled();
 
-        $this->disableEditor = !$this->secureGuestMode->allowed();
+        $this->disableEditor = $this->guestModeEnabled && !$this->secureGuestMode->allowed();
 
         $this->showGuestEmailVerifiedMessage();
 
@@ -169,10 +169,9 @@ class CreateCommentForm extends Component
         }, $data);
     }
 
-    public function showGuestEmailVerifiedMessage()
+    public function showGuestEmailVerifiedMessage(): void
     {
         if (session()->has('guest-email-verified')) {
-           // dd('here');
             $this->guestEmailVerified = true;
         }
     }
