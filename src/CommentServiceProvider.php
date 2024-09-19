@@ -28,6 +28,7 @@ class CommentServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->setRoutes();
         $this->setViews();
         $this->setComponents();
         $this->setBladeDirectives();
@@ -41,6 +42,11 @@ class CommentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/comments.php', 'comments');
+    }
+
+    public function setRoutes(): void
+    {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
     protected function setViews(): void
