@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Facades\SecureGuestMode;
 
 class ValidationRules
 {
@@ -66,13 +67,13 @@ class ValidationRules
 
         return [
             'email' => [
-                new RequiredIf($model->guestModeEnabled() && config('comments.guest_mode.email_enabled')),
+                new RequiredIf(($model->guestModeEnabled() && !SecureGuestMode::enabled()) && config('comments.guest_mode.email_enabled')),
                 'nullable',
                 'email',
                 Rule::unique($guestTable, 'email')->ignore(request()->ip(), 'ip_address')
             ],
             'name' => [
-                new RequiredIf($model->guestModeEnabled()),
+                new RequiredIf($model->guestModeEnabled() && !SecureGuestMode::enabled()),
                 Rule::unique($guestTable, 'name')->ignore(request()->ip(), 'ip_address')
             ],
             'text' => ['required'],
