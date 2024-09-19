@@ -1,6 +1,6 @@
 @php use LakM\Comments\GuestModeRateLimiter; @endphp
 
-<div>
+<div @logout.window="$wire.$refresh()">
     <div class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 

@@ -19,7 +19,7 @@ class SecureGuestModeManager implements Wireable
 
     public function allowed(): bool
     {
-        if (! $this->enabled()) {
+        if (!$this->enabled()) {
             return true;
         }
 
@@ -29,6 +29,14 @@ class SecureGuestModeManager implements Wireable
     public function user(): Authenticatable|null
     {
         return Helpers::getAuthGuard()->user();
+    }
+
+    public function logOut(): void
+    {
+        Helpers::getAuthGuard()->logout();
+
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
     }
 
     public function sendLink(string $name, string $email, string $redirectUrl): void
@@ -49,7 +57,7 @@ class SecureGuestModeManager implements Wireable
 
     public function createGuest(string $name, string $email): Guest
     {
-       $guest =  Guest::query()->updateOrCreate(
+        $guest = Guest::query()->updateOrCreate(
             ['email' => $email],
             [
                 'name' => $name,
@@ -68,7 +76,7 @@ class SecureGuestModeManager implements Wireable
 
     public function availableIn(string $email): int
     {
-        return RateLimiter::availableIn('guest-mode-verify-link:'.$email);
+        return RateLimiter::availableIn('guest-mode-verify-link:' . $email);
     }
 
     public function toLivewire()
