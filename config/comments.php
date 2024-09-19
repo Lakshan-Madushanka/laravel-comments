@@ -55,6 +55,7 @@ return [
     'guest_mode' => [
         'enabled' => true,
         'email_enabled' => true,
+        'secured' => false,
     ],
 
     'auth_guard' => 'default',

@@ -17,6 +17,15 @@ use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
 
+function actAsGuest(): Guest
+{
+    $guest = \guest();
+
+    actingAs($guest);
+
+    return $guest;
+}
+
 function actAsAuth(): User
 {
     $user = user();
@@ -51,9 +60,10 @@ function video(): Video
     return Video::create(['name' => 'post']);
 }
 
-function onGuestMode($status = true): void
+function onGuestMode($status = true, bool $secured = false): void
 {
     config(['comments.guest_mode.enabled' => $status]);
+    config(['comments.guest_mode.secured' => $secured]);
 }
 
 function approvalRequired($comment = false, $reply = false): void
