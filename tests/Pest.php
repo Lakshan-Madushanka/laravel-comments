@@ -105,7 +105,7 @@ function createCommentsForAuthUser(User $user, Model $relatedModel, int $count =
     return $count === 1 ? $user->comments[0] : $user->comments;
 }
 
-function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data = [], bool $forCurrentUser = false): Comment|Collection
+function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data = [], bool $forCurrentUser = false, Guest $guest = null): Comment|Collection
 {
     for ($i = 0; $i < $count; $i++) {
         $comment = $relatedModel->comments()->create([
@@ -113,7 +113,10 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
             ...$data
         ]);
 
-        $guest = guest($forCurrentUser);
+        if (is_null($guest)) {
+            $guest = guest($forCurrentUser);
+        }
+
         $guest->comments()->save($comment);
     }
 
