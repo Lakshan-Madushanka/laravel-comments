@@ -34,7 +34,7 @@ it('can render a comment item in auth mode', function () {
     $comment->replies_count = 0;
 
     livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
-        ->assertSeeText($comment->ownerName(true))
+        ->assertSeeText(Str::limit($comment->ownerName(true), 25))
         ->assertOk();
 });
 
