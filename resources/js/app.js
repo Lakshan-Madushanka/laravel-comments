@@ -7,7 +7,7 @@ class CustomLink extends Link {
     static create(value) {
         let node = super.create(value);
         node.classList.add('link');
-        node.style.cursor = 'pointer'
+        node.style.cursor = 'pointer';
         return node;
     }
 }
@@ -44,6 +44,21 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() => {
                 this.showMsg = false;
             }, this.timeout);
+        },
+    }));
+
+    Alpine.data('countdown', (count) => ({
+        count,
+
+        start(id) {
+            const interval = setInterval(() => {
+                this.count--;
+
+                if (this.count === 0) {
+                    clearInterval(interval);
+                    window.dispatchEvent(new  Event('counter-finished'));
+                }
+            }, 1000);
         },
     }));
 });
