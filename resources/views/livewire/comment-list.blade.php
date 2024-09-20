@@ -18,42 +18,30 @@
             <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
                 <div class="w-14"></div>
                 <x-comments::chip
-                    wire:click="setSortBy('top')"
+                    wire:click="setSortBy('{{Sort::TOP->value}}')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::TOP && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::TOP && Helpers::isGithubTheme(),
-                    ])
+                    :active="$sortBy === Sort::TOP"
                 >
                     {{ __('Top') }}
                 </x-comments::chip>
                 <x-comments::chip
-                    wire:click="setSortBy('latest')"
+                    wire:click="setSortBy('{{Sort::LATEST->value}}')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                         'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
-                         'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
-                     ])
+                    :active="$sortBy === Sort::LATEST"
                 >
                     {{ __('Newest') }}
                 </x-comments::chip>
                 <x-comments::chip
-                    wire:click="setSortBy('oldest')"
+                    wire:click="setSortBy('{{Sort::OLDEST->value}}')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::OLDEST && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::OLDEST && Helpers::isGithubTheme(),
-                    ])
+                    :active="$sortBy === Sort::OLDEST"
                 >
                     {{ __('Oldest') }}
                 </x-comments::chip>
                 <x-comments::chip
-                    wire:click="setSortBy('replies')"
+                    wire:click="setSortBy('{{Sort::REPLIES->value}}')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::REPLIES && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::REPLIES && Helpers::isGithubTheme(),
-                    ])
+                    :active="$sortBy === Sort::REPLIES"
                 >
                     {{ __('Replies') }}
                 </x-comments::chip>
@@ -61,10 +49,7 @@
                 <x-comments::chip
                     wire:click="setFilter('own')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'bg-gray-200 dark:bg-slate-500' => $filter === 'own' && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $filter === 'own' && Helpers::isGithubTheme(),
-                    ])
+                    :active="$filter === 'own'"
                 >
                     {{ __('My Comments') }}
                 </x-comments::chip>

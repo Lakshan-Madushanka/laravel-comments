@@ -4,32 +4,24 @@
         <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex gap-x-2 overflow-auto overflow-x-auto sm:gap-x-3">
                 <x-comments::chip
-                    wire:click="setSortBy('latest')"
+                    wire:click="setSortBy('{{Sort::LATEST->value}}')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::LATEST && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::LATEST && Helpers::isGithubTheme(),
-                    ])
+                    :active="$sortBy === Sort::LATEST"
                 >
                     {{ __('Newest') }}
                 </x-comments::chip>
                 <x-comments::chip
-                    wire:click="setSortBy('oldest')"
+                    wire:click="setSortBy('{{Sort::OLDEST->value}}')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                       'bg-gray-200 dark:bg-slate-500' => $sortBy === Sort::OLDEST && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $sortBy === Sort::OLDEST && Helpers::isGithubTheme(),
-                    ])
+                    :active="$sortBy === Sort::OLDEST"
                 >
                     {{ __('Oldest') }}
                 </x-comments::chip>
                 <x-comments::chip
                     wire:click="setFilter('own')"
                     wire:loading.class="!pointer-events-none"
-                    @class([
-                        'bg-gray-200 dark:bg-slate-500' => $filter === 'own' && Helpers::isDefaultTheme(),
-                        'bg-gray-500 dark:bg-slate-600' => $filter === 'own' && Helpers::isGithubTheme(),
-                    ]) >
+                    :active="$filter === 'own'"
+                >
                     {{ __('My Replies') }}
                 </x-comments::chip>
             </div>

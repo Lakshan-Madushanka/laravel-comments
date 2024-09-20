@@ -1,9 +1,36 @@
+
 @php use LakM\Comments\Helpers; @endphp
+
+@props([
+    'active' => false
+])
+
+@php
+$bgColor = "";
+
+if (Helpers::isDefaultTheme()) {
+    $bgColor = "bg-gray-400 dark:bg-slate-700";
+}
+
+if (Helpers::isDefaultTheme() && $active) {
+    $bgColor = "bg-gray-200 dark:bg-slate-500";
+}
+
+if (Helpers::isGithubTheme()) {
+    $bgColor = "bg-gray-400 dark:bg-slate-800";
+}
+
+if (Helpers::isGithubTheme() && $active) {
+    $bgColor = "bg-gray-500 dark:bg-slate-700";
+}
+@endphp
+
 <div {{ $attributes
     ->class([
+        $bgColor,
         'px-2 py-1 rounded cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
-        'border hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-800 dark:border-0' => Helpers::isDefaultTheme(),
-        'bg-gray-400 text-white hover:bg-gray-500 dark:bg-slate-800 dark:hover:bg-slate-900' => Helpers::isGithubTheme()
+        "border hover:bg-gray-300 dark:hover:bg-slate-800 dark:border-0" => Helpers::isDefaultTheme(),
+        "text-white hover:bg-gray-500 dark:hover:bg-slate-900" => Helpers::isGithubTheme(),
     ])
     ->merge() }}
 >
