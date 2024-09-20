@@ -5,10 +5,11 @@ namespace LakM\Comments\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use LakM\Comments\Concerns\Commenter;
+use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\GuestData;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Concerns\HasProfilePhoto;
-use LakM\Comments\Models\Concerns\HasReactions;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use LakM\Comments\Facades\SecureGuestMode;
 
 /**
  * @property string $name
@@ -19,10 +20,9 @@ use LakM\Comments\Models\Concerns\HasReactions;
  *
  * @method static Model createOrUpdate(GuestData $data)
  */
-class Guest extends Model
+class Guest extends Authenticatable implements CommenterContract
 {
-    use HasProfilePhoto;
-    use HasReactions;
+    use Commenter;
 
     protected $table = 'guests';
 
@@ -34,25 +34,15 @@ class Guest extends Model
 
     public function scopeCreateOrUpdate(Builder $builder, GuestData $data): Model
     {
-        $newData = $data->toArray();
-
-        if (!$data->name) {
-            unset($newData['name']);
-        }
-
-        if (!$data->email) {
-            unset($newData['email']);
+        if (SecureGuestMode::enabled()) {
+            return SecureGuestMode::user();
         }
 
         return self::query()
             ->updateOrCreate(
                 ['ip_address' => request()->ip()],
-                $newData,
+                $data->toArray(),
             );
     }
 
-    public function comments()
-    {
-        return $this->morphMany(ModelResolver::commentClass(), 'commenter');
-    }
 }

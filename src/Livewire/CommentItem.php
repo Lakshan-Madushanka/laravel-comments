@@ -66,6 +66,8 @@ class CommentItem extends Component
 
     public function delete(Comment $comment): void
     {
+        $this->skipRender();
+
         if ($this->model->canDeleteComment($comment) && DeleteCommentAction::execute($comment)) {
             $this->dispatch('comment-deleted', commentId: $comment->getKey());
         }

@@ -8,9 +8,10 @@ trait HasProfilePhoto
     {
         $col = config('comments.profile_photo.url_column');
 
+
         if ($col) {
             if (isset($this->userRelationshipName)) {
-                if ($url = $this->{$this->userRelationshipName}->{$col}) {
+                if ($url = $this->getRelation($this->userRelationshipName)->{$col}) {
                     return $url;
                 }
             }
@@ -25,7 +26,7 @@ trait HasProfilePhoto
         }
 
         if (isset($this->userRelationshipName)) {
-            $email = $this->{$this->userRelationshipName}->email;
+            $email = $this->getRelation($this->userRelationshipName)->email;
         } else {
             throw_unless(isset($this->email), new \Exception('Couldn\'t find email'));
             $email = $this->email;

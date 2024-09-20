@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Enums\Sort;
+use LakM\Comments\Facades\SecureGuestMode;
 use LakM\Comments\Helpers;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
@@ -106,6 +107,13 @@ class CommentList extends Component
         $this->setTotalCommentsCount();
         $this->setPaginationRequired();
         $this->dispatchFilterAppliedEvent();
+    }
+
+    public function logOut(): void
+    {
+        SecureGuestMode::logOut();
+
+        $this->dispatch('logout');
     }
 
     #[On('comment-created')]

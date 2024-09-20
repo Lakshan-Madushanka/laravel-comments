@@ -3,10 +3,13 @@
 namespace LakM\Comments;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Exceptions\InvalidModelException;
+use LakM\Comments\Facades\SecureGuestMode;
 
 class Helpers
 {
@@ -38,5 +41,18 @@ class Helpers
     public static function isGithubTheme(): bool
     {
         return config('comments.theme') === 'github';
+    }
+
+    public static function getAuthGuard(): StatefulGuard
+    {
+        if (SecureGuestMode::enabled()) {
+            return Auth::guard('guest');
+        }
+
+        if (config('comments.auth_guard') === 'default') {
+            return Auth::guard(Auth::getDefaultDriver());
+        }
+
+        return config('comments.auth_guard');
     }
 }

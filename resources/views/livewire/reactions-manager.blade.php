@@ -25,6 +25,13 @@
                                 $wire.redirectToLogin('window.location.ref')
                                 return;
                             }
+
+                            if (!$wire.secureGuestModeAllowed) {
+                                window.location.hash = ''
+                                window.location.hash = 'verify-email-button';
+                                return;
+                            }
+
                             if(isLiked === true) {
                                 $dispatch('comment-liked', {id: @js($comment->getKey())});
                             }
@@ -36,7 +43,7 @@
                        ])
                     >
                         <div
-                            @click="if($wire.loginRequired){return}; isLiked = !isLiked; showUsers=false"
+                            @click="if($wire.loginRequired || !$wire.secureGuestModeAllowed){return}; isLiked = !isLiked; showUsers=false"
                             wire:click="handle('{{ $key }}')"
                             @if ($authMode)
                                 @mouseover="
@@ -91,6 +98,13 @@
                                 $wire.redirectToLogin('window.location.ref')
                                 return;
                             }
+
+                             if (!$wire.secureGuestModeAllowed) {
+                                window.location.hash = ''
+                                window.location.hash = 'verify-email-button';
+                                return;
+                            }
+
                             if(isDisliked === true) {
                                 $dispatch('comment-disliked', {id: @js($comment->getKey())});
                             }
@@ -102,7 +116,7 @@
                         ])
                     >
                         <div
-                            @click="if($wire.loginRequired){return}; isDisliked = !isDisliked; showUsers=false"
+                            @click="if($wire.loginRequired || !$wire.secureGuestModeAllowed){return}; isDisliked = !isDisliked; showUsers=false"
                             wire:click="handle('{{ $key }}')"
                             @if ($authMode)
                                 @mouseover="
@@ -142,7 +156,7 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode />
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$secureGuestModeAllowed/>
                 @endif
             @endforeach
 
@@ -153,6 +167,13 @@
                         $wire.redirectToLogin('window.location.ref')
                         return;
                     }
+
+                    if (!$wire.secureGuestModeAllowed) {
+                        window.location.hash = ''
+                        window.location.hash = 'verify-email-button';
+                        return;
+                    }
+
                      $dispatch('show-create-reply-form-' + @js($comment->getKey()));
                      showReplyForm = !showReplyForm;
                     "
@@ -186,7 +207,7 @@
                     :$key
                     :$authMode
                     :$loginRequired
-                    :showReactedUsers="false"
+                    :$secureGuestModeAllowed
                 />
             @endforeach
         </div>

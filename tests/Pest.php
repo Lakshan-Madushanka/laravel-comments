@@ -17,6 +17,15 @@ use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
 
+function actAsGuest(): Guest
+{
+    $guest = \guest(true);
+
+    actingAs($guest, 'guest');
+
+    return $guest;
+}
+
 function actAsAuth(): User
 {
     $user = user();
@@ -51,9 +60,10 @@ function video(): Video
     return Video::create(['name' => 'post']);
 }
 
-function onGuestMode($status = true): void
+function onGuestMode($status = true, bool $secured = false): void
 {
     config(['comments.guest_mode.enabled' => $status]);
+    config(['comments.guest_mode.secured' => $secured]);
 }
 
 function approvalRequired($comment = false, $reply = false): void
@@ -95,7 +105,7 @@ function createCommentsForAuthUser(User $user, Model $relatedModel, int $count =
     return $count === 1 ? $user->comments[0] : $user->comments;
 }
 
-function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data = [], bool $forCurrentUser = false): Comment|Collection
+function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data = [], bool $forCurrentUser = false, Guest $guest = null): Comment|Collection
 {
     for ($i = 0; $i < $count; $i++) {
         $comment = $relatedModel->comments()->create([
@@ -103,7 +113,10 @@ function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data
             ...$data
         ]);
 
-        $guest = guest($forCurrentUser);
+        if (is_null($guest)) {
+            $guest = guest($forCurrentUser);
+        }
+
         $guest->comments()->save($comment);
     }
 

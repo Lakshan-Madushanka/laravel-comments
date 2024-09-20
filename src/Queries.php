@@ -104,20 +104,6 @@ class Queries extends AbstractQueries
             );
     }
 
-//    /**
-//     * @param  Model&CommentableContract  $relatedModel
-//     * @param  string  $filter
-//     * @return int
-//     */
-//    public static function getTotalCommentsCountForRelated(Model $relatedModel, string $filter = ''): int
-//    {
-//        return $relatedModel
-//            ->comments()
-//            ->currentUser($relatedModel)
-//            ->checkApproval($relatedModel)
-//            ->count();
-//    }
-
     public static function addCount(): array
     {
         $count = [];
@@ -194,28 +180,6 @@ class Queries extends AbstractQueries
                 )
                 ->count();
     }
-
-//    /**
-//     * @param  Comment  $comment
-//     * @param  Model&CommentableContract  $relatedModel
-//     * @param  bool  $approvalRequired
-//     * @param  string  $filter
-//     * @return int
-//     */
-//    public static function getCommentReplyCount(
-//        Comment $comment,
-//        Model $relatedModel,
-//        bool $approvalRequired,
-//        string $filter = ''
-//    ): int {
-//        /** @var MessageBuilder<Reply> $replyQuery */
-//        $replyQuery = $comment->replies();
-//
-//        return $replyQuery
-//            ->currentUser($relatedModel, $filter)
-//            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
-//            ->count();
-//    }
 
     /**
      * @param  Comment  $comment

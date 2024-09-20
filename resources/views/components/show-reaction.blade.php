@@ -6,6 +6,7 @@
     "comment",
     "authMode",
     "loginRequired",
+    "secureGuestModeAllowed",
 ])
 
 <div
@@ -34,6 +35,13 @@
                     $wire.redirectToLogin('window.location.ref')
                     return;
                 }
+
+                if(@js(!$secureGuestModeAllowed)) {
+                    window.location.hash = ''
+                    window.location.hash = 'verify-email-button';
+                    return;
+                }
+
                 isReacted = !isReacted
                 $wire.handle('{{ $key }}')
                 @if($authMode)

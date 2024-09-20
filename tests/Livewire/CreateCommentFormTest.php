@@ -3,10 +3,12 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Guest;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 
@@ -28,6 +30,49 @@ it('show guest name input field when guest mode is enabled', function () {
 
     livewire(CreateCommentForm::class, ['model' => \video()])
         ->assertSee('Comment as')
+        ->assertOk();
+});
+
+it('doesn\'t show name and email when guest mode is secured', function () {
+    onGuestMode(secured: true);
+
+    livewire(CreateCommentForm::class, ['model' => \video()])
+        ->assertDontSeeText(__('Comment as'))
+        ->assertDontSeeText(__('Email'))
+        ->assertOk();
+});
+
+it('requires name and email when sending verify link in safe guest mode', function () {
+    onGuestMode(secured: true);
+
+    livewire(CreateCommentForm::class, ['model' => \video()])
+        ->call('sendVerifyLink', 'url')
+        ->assertHasErrors([
+            'name' => 'required',
+            'email' => 'required',
+        ])
+        ->assertOk();
+});
+
+test('name must be unique except existing email when sending verify link in safe guest mode', function () {
+    Notification::fake();
+
+    onGuestMode(secured: true);
+
+    $guest = guest();
+
+    livewire(CreateCommentForm::class, ['model' => \video()])
+        ->set('email', fake()->email)
+        ->set('name', $guest->name)
+        ->call('sendVerifyLink', 'url')
+        ->assertHasErrors(['name' => 'unique'])
+        ->assertOk();
+
+    livewire(CreateCommentForm::class, ['model' => \video()])
+        ->set('email', $guest->email)
+        ->set('name', $guest->name)
+        ->call('sendVerifyLink', 'url')
+        ->assertHasNoErrors()
         ->assertOk();
 });
 
@@ -205,6 +250,32 @@ it('can create comment for guest mode', function () {
         ->first()->commenter->ip_address->toBe(request()->ip());
 });
 
+it('can create comment for safe guest mode', function () {
+    Notification::fake();
+    onGuestMode(secured: true);
+
+    $guest = actAsGuest();
+
+    $video = \video();
+
+    livewire(CreateCommentForm::class, ['model' => $video])
+        ->set('text', 'test comment')
+        ->call('create')
+        ->assertHasNoErrors()
+        ->assertOk();
+
+    expect($video->comments)
+        ->toBeInstanceOf(Collection::class)
+        ->toHaveCount(1)
+        ->first()->toBeInstanceOf(Comment::class)
+        ->first()->commentable_id->toBe($video->getKey())
+        ->first()->commentable_type->toBe(Video::class)
+        ->first()->commenter->name->toBe($guest->name)
+        ->first()->commenter->email->toBe($guest->email)
+        ->first()->text->toBe('test comment')
+        ->first()->commenter->ip_address->toBe(request()->ip());
+});
+
 it('can create comment for auth mode', function () {
     onGuestMode(false);
     $user = actAsAuth();
@@ -270,7 +341,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn () => $c
+            fn() => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()
@@ -312,7 +383,7 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn () => $c
+            fn() => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()

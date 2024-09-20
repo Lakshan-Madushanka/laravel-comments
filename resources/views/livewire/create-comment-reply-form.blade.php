@@ -2,7 +2,7 @@
     <form wire:submit.prevent="create" class="w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 
-        @if ($guestMode)
+        @if ($guestMode && !$this->secureGuestMode->enabled())
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
                     <x-comments::input wire:model="name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
@@ -54,7 +54,7 @@
             </div>
         </div>
         @if (! $limitExceeded)
-            @if ($loginRequired)
+            @if (!$guestMode && $loginRequired)
                 <div>
                     <span>
                         {{ __('Please') }}
@@ -67,6 +67,8 @@
                         {{ __('to reply !') }}
                     </span>
                 </div>
+            @elseif(!$this->secureGuestMode->allowed())
+                <x-comments::link type="a" route="#verify-email-button">{{ __('Please verify your email to reply') }}</x-comments::link>
             @else
                 <div class="flex gap-x-2">
                     <x-comments::button loadingTarget="create" class="w-full sm:w-auto" size="sm">

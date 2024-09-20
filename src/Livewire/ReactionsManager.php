@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
+use LakM\Comments\Facades\SecureGuestMode;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\Reactions\ReactionManager;
@@ -53,6 +54,10 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $loginRequired;
 
+
+    #[Locked]
+    public bool $secureGuestModeAllowed;
+
     #[Locked]
     public bool $enableReply;
 
@@ -83,6 +88,8 @@ class ReactionsManager extends Component
 
         $this->setLoginRequired();
 
+        $this->setSecureGuestModeAllowed();
+
         $this->setReactions($comment);
 
         $this->setReactedStatus($comment->ownerReactions);
@@ -90,7 +97,7 @@ class ReactionsManager extends Component
 
     public function handle(ReactionManager $reactionManager, string $type): void
     {
-        if ($this->loginRequired) {
+        if ($this->loginRequired || !$this->secureGuestModeAllowed) {
             return;
         }
 
@@ -250,6 +257,11 @@ class ReactionsManager extends Component
     public function setLoginRequired(): void
     {
         $this->loginRequired = !$this->authenticated && !$this->guestMode;
+    }
+
+    public function setSecureGuestModeAllowed(): void
+    {
+        $this->secureGuestModeAllowed = SecureGuestMode::allowed();
     }
 
     public function setEnableReply(bool $enabled): void

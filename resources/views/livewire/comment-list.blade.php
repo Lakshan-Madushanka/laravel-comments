@@ -1,4 +1,4 @@
-@php use LakM\Comments\Enums\Sort;use LakM\Comments\Helpers; @endphp
+@php use LakM\Comments\Enums\Sort;use LakM\Comments\Facades\SecureGuestMode;use LakM\Comments\Helpers; @endphp
 <div
     x-data="{
         total: $wire.entangle('total'),
@@ -71,7 +71,15 @@
             </div>
         @endif
 
-        <x-comments::link type="a" route="#create-comment-form">{{ __('Create Comment') }}</x-comments::link>
+        <div class="flex gap-x-2">
+            <div>
+                <x-comments::link type="a" route="#create-comment-form">{{ __('Create Comment') }}</x-comments::link>
+            </div>
+            <div class="w-1 h-6 bg-slate-500"></div>
+            @if($guestMode && SecureGuestMode::allowed())
+                <x-comments::link type="button" wire:click="logOut">{{ __('Log out') }}</x-comments::link>
+            @endif
+        </div>
     </div>
 
     <div wire:loading.flex class="flex items-center gap-x-2 sm:gap-x-4">

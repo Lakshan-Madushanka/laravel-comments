@@ -20,6 +20,7 @@ use LakM\Comments\Livewire\ReactionsManager;
 use LakM\Comments\Livewire\UpdateCommentForm;
 use LakM\Comments\Livewire\UpdateCommentReplyForm;
 use LakM\Comments\Livewire\UserList;
+use LakM\Comments\Models\Guest;
 use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider
@@ -28,10 +29,12 @@ class CommentServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->setRoutes();
         $this->setViews();
         $this->setComponents();
         $this->setBladeDirectives();
         $this->setGates();
+        $this->registerGuards();
         $this->registerCommands();
 
         $this->configPublishing();
@@ -41,6 +44,11 @@ class CommentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/comments.php', 'comments');
+    }
+
+    public function setRoutes(): void
+    {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
     protected function setViews(): void
@@ -114,6 +122,19 @@ class CommentServiceProvider extends ServiceProvider
     public function configBindings(): void
     {
         $this->app->bind(AbstractQueries::class, Queries::class);
+    }
+
+    public function registerGuards()
+    {
+        config()->set('auth.guards.guest', [
+            'driver' => 'session',
+            'provider' => 'guests',
+        ]);
+
+        config()->set('auth.providers.guests', [
+            'driver' => 'eloquent',
+            'model' => Guest::class,
+        ]);
     }
 
     protected function registerCommands(): void
