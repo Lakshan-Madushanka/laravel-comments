@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use LakM\Comments\Events\CommentDeleted;
 use LakM\Comments\Livewire\CommentItem;
 
@@ -20,7 +21,7 @@ it('can render a comment item in guest mode', function () {
     $comment->replies_count = 0;
 
     livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
-        ->assertSeeText($comment->ownerName(false))
+        ->assertSeeText(Str::limit($comment->ownerName(false), 25))
         ->assertOk();
 });
 

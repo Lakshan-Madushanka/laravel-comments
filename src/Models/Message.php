@@ -69,6 +69,6 @@ class Message extends Model
 
     public function ownerReactions(): HasMany
     {
-        return $this->reactions();
+        return $this->hasMany(M::reactionClass(), 'comment_id');
     }
 }
