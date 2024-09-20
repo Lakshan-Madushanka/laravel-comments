@@ -63,21 +63,12 @@ class CreateCommentForm extends Component
     public bool $guestModeEnabled;
 
     public bool $disableEditor = false;
-    /**
-     * @var true
-     */
 
     public bool $rateLimitExceeded = false;
 
-    /**
-     * @var true
-     */
-    public bool $verifyLinkSent;
+    public bool $verifyLinkSent = false;
 
-    /**
-     * @var true
-     */
-    public bool $guestEmailVerified;
+    public bool $guestEmailVerified = false;
 
     /**
      * @param  Model&CommentableContract  $model

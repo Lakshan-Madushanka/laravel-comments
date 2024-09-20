@@ -51,6 +51,9 @@ class CreateCommentReplyForm extends Component
     #[Locked]
     public bool $approvalRequired;
 
+    #[Locked]
+    public bool $disableEditor;
+
     public HoneypotData $honeyPostData;
 
     public ?UserData $guest = null;

@@ -41,7 +41,7 @@ trait Commenter
 
     public function photoUrl(): string
     {
-        return $this->ownerPhotoUrl(true);
+        return $this->ownerPhotoUrl();
     }
 
     public function name(): string

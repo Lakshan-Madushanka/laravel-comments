@@ -2,7 +2,6 @@
 
 namespace LakM\Comments;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\RateLimiter;
 use LakM\Comments\Models\Guest;
@@ -10,7 +9,7 @@ use LakM\Comments\Notifications\Guest\VerifyLinkGenerated;
 use LakM\NoPass\Facades\NoPass;
 use Livewire\Wireable;
 
-class SecureGuestModeManager implements Wireable
+final class SecureGuestModeManager implements Wireable
 {
     public function enabled(): bool
     {
@@ -26,9 +25,15 @@ class SecureGuestModeManager implements Wireable
         return Helpers::getAuthGuard()->check();
     }
 
-    public function user(): Authenticatable|null
+    public function user(): Guest|null
     {
-        return Helpers::getAuthGuard()->user();
+        $user =  Helpers::getAuthGuard()->user();
+
+        if (!$user instanceof Guest) {
+            return null;
+        }
+
+        return $user;
     }
 
     public function logOut(): void
@@ -84,8 +89,8 @@ class SecureGuestModeManager implements Wireable
         return [];
     }
 
-    public static function fromLivewire($value): static
+    public static function fromLivewire($value): self
     {
-        return new static();
+        return new self();
     }
 }
