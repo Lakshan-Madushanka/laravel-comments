@@ -4,6 +4,7 @@ namespace LakM\Comments\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use LakM\Comments\Facades\SecureGuestMode;
 use LakM\Comments\Models\Guest;
 use LakM\Comments\Models\Reaction;
 
@@ -37,7 +38,12 @@ class ReactionBuilder extends Builder
     /** @return ReactionBuilder<Reaction> */
     public function guestMode(): self
     {
-        $guest = Guest::query()->where('ip_address', request()->ip())->first();
+        if (SecureGuestMode::enabled()) {
+            $guest = SecureGuestMode::user();
+        }
+        else {
+            $guest = Guest::query()->where('ip_address', request()->ip())->first();
+        }
         return $this->whereMorphedTo('owner', $guest);
     }
 

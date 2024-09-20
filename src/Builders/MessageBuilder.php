@@ -5,6 +5,7 @@ namespace LakM\Comments\Builders;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Facades\SecureGuestMode;
@@ -42,7 +43,7 @@ class MessageBuilder extends Builder
      */
     public function withOwnerReactions(Model $relatedModel): self
     {
-        return $this->with(['ownerReactions' => fn ($query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
+        return $this->with(['ownerReactions' => fn (HasMany $query) => $query->checkMode(!$relatedModel->guestModeEnabled())]);
     }
 
     /**
