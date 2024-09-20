@@ -101,7 +101,6 @@ class CreateCommentForm extends Component
         $this->setApprovalRequired();
 
         $this->honeyPostData = new HoneypotData();
-
     }
 
     public function rules(): array
@@ -217,11 +216,11 @@ class CreateCommentForm extends Component
     public function sendVerifyLink(string $url): void
     {
         Validator::make(
-          ['name' => $this->name, 'email' => $this->email],
-          [
-              'name' => ['required', Rule::unique('guests')->whereNot('email', $this->email)],
-              'email' => ['required', 'email'],
-          ]
+            ['name' => $this->name, 'email' => $this->email],
+            [
+                'name' => ['required', Rule::unique('guests')->whereNot('email', $this->email)],
+                'email' => ['required', 'email'],
+            ]
         )->validate();
 
         if (!$this->secureGuestMode->limitLinkSending($this->email)) {

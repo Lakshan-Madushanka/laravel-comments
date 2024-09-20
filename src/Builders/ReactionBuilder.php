@@ -40,8 +40,7 @@ class ReactionBuilder extends Builder
     {
         if (SecureGuestMode::enabled()) {
             $guest = SecureGuestMode::user();
-        }
-        else {
+        } else {
             $guest = Guest::query()->where('ip_address', request()->ip())->first();
         }
         return $this->whereMorphedTo('owner', $guest);

@@ -159,7 +159,7 @@ it('cannot update a comment in secured guest', function () {
     Event::fake();
 
     $video = video();
-    $comment = createCommentsForGuest($video, data: ['text' => 'comment'],  guest: $guest);
+    $comment = createCommentsForGuest($video, data: ['text' => 'comment'], guest: $guest);
 
     livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')

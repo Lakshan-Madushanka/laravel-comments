@@ -8,7 +8,6 @@ use LakM\Comments\Events\CommentCreated;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 
@@ -341,7 +340,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn() => $c
+            fn () => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()
@@ -383,7 +382,7 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
 
     if ($shouldLimit) {
         expect(
-            fn() => $c
+            fn () => $c
                 ->call('create')
                 ->assertHasNoErrors()
                 ->assertOk()

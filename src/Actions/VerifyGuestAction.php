@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use LakM\Comments\Helpers;
 use LakM\Comments\Models\Guest;
 use LakM\NoPass\Facades\NoPass;
-use App\Models\User;
 
 class VerifyGuestAction
 {
