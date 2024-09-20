@@ -8,7 +8,8 @@ use Illuminate\Notifications\Notification;
 class VerifyLinkGenerated extends Notification
 {
     public function __construct(private string $link)
-    {}
+    {
+    }
 
     public function via()
     {
@@ -17,7 +18,7 @@ class VerifyLinkGenerated extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->greeting('Hello!')
             ->line('Please verify your email to comment.')
             ->action('Verify', $this->link)

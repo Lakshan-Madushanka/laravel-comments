@@ -5,10 +5,10 @@ namespace LakM\Comments\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use LakM\Comments\Concerns\Commenter;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\GuestData;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use LakM\Comments\Facades\SecureGuestMode;
 
 /**
@@ -44,5 +44,4 @@ class Guest extends Authenticatable implements CommenterContract
                 $data->toArray(),
             );
     }
-
 }

@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Facade;
  */
 class SecureGuestMode extends Facade
 {
-    public static function getFacadeAccessor() {
+    public static function getFacadeAccessor()
+    {
         return \LakM\Comments\SecureGuestModeManager::class;
     }
 }
