@@ -1,13 +1,14 @@
 <?php
 
-namespace LakM\Comments\Controllers;
+namespace LakM\Comments\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use LakM\Comments\Actions\VerifyGuestAction;
 
 class VerifyGuestController
 {
-    public function __invoke(VerifyGuestAction $verifyGuestAction, Request $request)
+    public function __invoke(VerifyGuestAction $verifyGuestAction, Request $request): RedirectResponse
     {
         $verifyGuestAction->execute($request);
 
