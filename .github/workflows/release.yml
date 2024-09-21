@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create Release
-        run: gh release create ${{ inputs.version }} --generate-notes
+        run: gh release create ${{ inputs.version }} --generate-notes --target v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
