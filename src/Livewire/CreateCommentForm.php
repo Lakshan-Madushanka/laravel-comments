@@ -15,7 +15,6 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Helpers;
 use LakM\Comments\ValidationRules;
-use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;

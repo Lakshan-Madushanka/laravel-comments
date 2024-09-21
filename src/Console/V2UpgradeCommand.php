@@ -42,7 +42,7 @@ class V2UpgradeCommand extends Command
 
             $this->info('Dropping redundant columns from comments table...');
             $this->dropColumnsFromCommentsTable();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             $this->error('Error ' . $exception->getMessage());
             exit(1);
@@ -67,7 +67,7 @@ class V2UpgradeCommand extends Command
             copy(__DIR__ . '/stubs/create_guests_table.php.stub', database_path('migrations/' . $fileName));
             Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0],'migrations/')]);
+            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
         // We need to move guest data to guests table
@@ -111,13 +111,13 @@ class V2UpgradeCommand extends Command
             copy(__DIR__ . '/stubs/drop_guest_columns_from_comments_table.php.stub', database_path('migrations/' . $fileName));
             Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0],'migrations/')]);
+            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
     }
 
     public function guestModel(): Model
     {
-        return new class extends Model {
+        return new class () extends Model {
             protected $table = 'guests';
             protected $guarded = [];
         };
@@ -130,7 +130,7 @@ class V2UpgradeCommand extends Command
         $filesystem = app()->make(Filesystem::class);
 
         return Collection::make([app()->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR])
-            ->flatMap(fn($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->flatMap(fn ($path) => $filesystem->glob($path . '*_' . $migrationFileName))
             ->push("{$timestamp}_{$migrationFileName}")
             ->first();
     }
