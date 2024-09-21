@@ -13,6 +13,7 @@ use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
 /**
+ * @property ?string $commenter_type
  * @property string $text
  * @property string $guest_name
  * @property string $guest_email
