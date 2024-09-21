@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Console\InstallCommand;
+use LakM\Comments\Console\V2UpgradeCommand;
 use LakM\Comments\Livewire\CommentItem;
 use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\CommentReplyItem;
@@ -120,6 +121,7 @@ class CommentServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
+                V2UpgradeCommand::class,
             ]);
         }
     }
