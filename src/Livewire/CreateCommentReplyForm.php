@@ -97,7 +97,6 @@ class CreateCommentReplyForm extends Component
         $this->setApprovalRequired();
 
         $this->honeyPostData = new HoneypotData();
-
     }
 
     public function rules(): array
