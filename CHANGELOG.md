@@ -1,5 +1,15 @@
 # Documentation of the changes
 
+## 1.5.0 - 2024-09-21
+
+### What's Changed
+
+* Command for a seamless upgrade to v2 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/32
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/33
+* Fix static analysis by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/34
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.5...1.5.0
+
 ## 1.4.5 - 2024-09-10
 
 What's Changed
@@ -68,11 +78,14 @@ What's Changed
 ## 1.0.2 - 2024-07-31
 
 - UI/UX improvement
+  
 - Following renaming
+  
   * `src/Model.php`  -> `src/ModelResolver.php`
   * `src/Model.php`  ->  `src/ModelResolver.php`
   
 - Fix commenter model example by @phpfour in https://github.com/Lakshan-Madushanka/laravel-comments/pull/10 and address some other bugs in README.md.
+  
 
 ### New Contributors
 
