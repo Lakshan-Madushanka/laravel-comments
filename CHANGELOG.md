@@ -6,7 +6,6 @@
 * Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/33
 * Fix static analysis by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/34
 
-
 **Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.5...1.5.0
 
 ## 1.4.5 - 2024-09-10
@@ -17,10 +16,18 @@ What's Changed
 
 **Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.4...1.4.5
 
-## 1.4.2 - 2024-09-10
+## 1.4.4 - 2024-09-02
 
-- [v1] Fix: Quill editor not working after disabling toolbar #26 from #204d0e8
-- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.4...1.4.5)
+### What's Changed
+
+* Bug Fixing by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/17
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.3...1.4.4
+
+## 1.4.3 - 2024-08-29
+
+- Fix #15 by @Lakshan-Madushanka in #16
+- [Full Changelog](https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.4.2...1.4.3)
 
 ## 1.4.2 - 2024-08-22
 
