@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use LakM\Comments\Events\CommentDeleted;
 use LakM\Comments\Events\CommentReplyDeleted;
 use LakM\Comments\Livewire\CommentReplyItem;
@@ -26,7 +27,7 @@ it('can render a reply item in guest mode', function () {
             'guestMode' => true
         ]
     )
-        ->assertSeeText($reply->ownerName(false))
+        ->assertSeeText(Str::limit($reply->ownerName(false), 25))
         ->assertOk();
 });
 
