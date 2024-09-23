@@ -70,7 +70,9 @@ class V2UpgradeCommand extends Command
         if (!($path = glob(database_path('migrations/' . '*create_guests_table*')))) {
             copy(__DIR__ . '/stubs/create_guests_table.php.stub', database_path('migrations/' . $fileName));
             Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
-        } else if (!Schema::hasTable('guests')){
+        }
+
+        if (!Schema::hasTable('guests')) {
             Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
@@ -78,9 +80,9 @@ class V2UpgradeCommand extends Command
 
         // First we pick distinct guest_email columns
         $emails = Comment::query()
-            ->whereNull('commenter_type')
-            ->groupBy(['guest_email'])
-            ->get();
+        ->whereNull('commenter_type')
+        ->groupBy(['guest_email'])
+         ->get();
 
         $emails->each(function (Comment $comment) {
             // Create a new guest record in guests table
@@ -115,7 +117,6 @@ class V2UpgradeCommand extends Command
         } else {
             Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
-      //  dd($fileName);
 
         $authUserReactions = Reaction::query()
             ->whereNotNull('user_id')
@@ -138,18 +139,18 @@ class V2UpgradeCommand extends Command
             ->get();
 
         $guestReactions->each(function (Reaction $reaction) {
-           $guest = $this->guestModel()::query()
-           ->createOrFirst(
-               ['ip_address' => $reaction->ip_address],
-               ['ip_address' => $reaction->ip_address],
-           );
+            $guest = $this->guestModel()::query()
+                ->createOrFirst(
+                    ['ip_address' => $reaction->ip_address],
+                    ['ip_address' => $reaction->ip_address],
+                );
 
-           Reaction::query()
-               ->where('ip_address', $reaction->ip_address)
-               ->update([
-                  'owner_type' => 'LakM\Comments\Models\Guest',
-                  'owner_id' => $guest->getKey(),
-               ]);
+            Reaction::query()
+                ->where('ip_address', $reaction->ip_address)
+                ->update([
+                    'owner_type' => 'LakM\Comments\Models\Guest',
+                    'owner_id' => $guest->getKey(),
+                ]);
         });
 
         $fileName = $this->getMigrationFileName('drop_user_id_from_reactions_table.php');
@@ -168,7 +169,7 @@ class V2UpgradeCommand extends Command
 
     protected function dropColumnsFromCommentsTable(): void
     {
-        if(!Schema::hasIndex('comments', 'comments_guest_name_index')) {
+        if (!Schema::hasIndex('comments', 'comments_guest_name_index')) {
             return;
         }
 
