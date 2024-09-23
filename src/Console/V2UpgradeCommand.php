@@ -73,16 +73,17 @@ class V2UpgradeCommand extends Command
         }
 
         if (!Schema::hasTable('guests')) {
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
         // We need to move guest data to guests table
 
         // First we pick distinct guest_email columns
+
         $emails = Comment::query()
-        ->whereNull('commenter_type')
-        ->groupBy(['guest_email'])
-         ->get();
+            ->whereNull('commenter_type')
+            ->groupBy(['guest_email'])
+            ->get();
 
         $emails->each(function (Comment $comment) {
             // Create a new guest record in guests table
@@ -113,9 +114,9 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*add_owner_morph_columns_to_reactions_table*')))) {
             copy(__DIR__ . '/stubs/add_owner_morph_columns_to_reactions_table.php.stub', database_path('migrations/' . $fileName));
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
         $authUserReactions = Reaction::query()
@@ -161,9 +162,9 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*drop_user_id_from_reactions_table*')))) {
             copy(__DIR__ . '/stubs/drop_user_id_from_reactions_table.php.stub', database_path('migrations/' . $fileName));
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
     }
 
@@ -177,9 +178,9 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*drop_guest_columns_from_comments_table*')))) {
             copy(__DIR__ . '/stubs/drop_guest_columns_from_comments_table.php.stub', database_path('migrations/' . $fileName));
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
     }
 
