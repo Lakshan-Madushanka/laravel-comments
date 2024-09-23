@@ -8,8 +8,11 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Reaction;
 
 class V2UpgradeCommand extends Command
 {
@@ -39,6 +42,7 @@ class V2UpgradeCommand extends Command
         try {
             $this->info('Migrating data from comments table...');
             $this->migrateCommentsData();
+            $this->migrateReactionsData();
 
             $this->info('Dropping redundant columns from comments table...');
             $this->dropColumnsFromCommentsTable();
@@ -63,10 +67,10 @@ class V2UpgradeCommand extends Command
     {
         $fileName = $this->getMigrationFileName('create_guests_table.php');
 
-        if (!($path = glob(database_path('migrations/' . '*guests*')))) {
+        if (!($path = glob(database_path('migrations/' . '*create_guests_table*')))) {
             copy(__DIR__ . '/stubs/create_guests_table.php.stub', database_path('migrations/' . $fileName));
             Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
-        } else {
+        } else if (!Schema::hasTable('guests')){
             Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
@@ -74,14 +78,12 @@ class V2UpgradeCommand extends Command
 
         // First we pick distinct guest_email columns
         $emails = Comment::query()
+            ->whereNull('commenter_type')
             ->groupBy(['guest_email'])
             ->get();
 
         $emails->each(function (Comment $comment) {
             // Create a new guest record in guests table
-            if (!is_null($comment->commenter_type)) {
-                return;
-            }
 
             $guest = $this->guestModel()::query()
                 ->createOrFirst(
@@ -103,11 +105,76 @@ class V2UpgradeCommand extends Command
         });
     }
 
-    public function dropColumnsFromCommentsTable(): void
+    protected function migrateReactionsData(): void
     {
+        $fileName = $this->getMigrationFileName('add_owner_morph_columns_to_reactions_table.php');
+
+        if (!($path = glob(database_path('migrations/' . '*add_owner_morph_columns_to_reactions_table*')))) {
+            copy(__DIR__ . '/stubs/add_owner_morph_columns_to_reactions_table.php.stub', database_path('migrations/' . $fileName));
+            Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+        } else {
+            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+        }
+      //  dd($fileName);
+
+        $authUserReactions = Reaction::query()
+            ->whereNotNull('user_id')
+            ->groupBy(['user_id'])
+            ->get();
+
+        $authUserReactions->each(function (Reaction $reaction) {
+            Reaction::query()
+                ->where('user_id', $reaction->user_id)
+                ->update([
+                    'owner_type' => (ModelResolver::userModel())->getMorphClass(),
+                    'owner_id' => $reaction->user_id,
+
+                ]);
+        });
+
+        $guestReactions = Reaction::query()
+            ->whereNull('user_id')
+            ->groupBy(['ip_address'])
+            ->get();
+
+        $guestReactions->each(function (Reaction $reaction) {
+           $guest = $this->guestModel()::query()
+           ->createOrFirst(
+               ['ip_address' => $reaction->ip_address],
+               ['ip_address' => $reaction->ip_address],
+           );
+
+           Reaction::query()
+               ->where('ip_address', $reaction->ip_address)
+               ->update([
+                  'owner_type' => 'LakM\Comments\Models\Guest',
+                  'owner_id' => $guest->getKey(),
+               ]);
+        });
+
+        $fileName = $this->getMigrationFileName('drop_user_id_from_reactions_table.php');
+
+        if (!Schema::hasColumn('reactions', 'user_id')) {
+            return;
+        }
+
+        if (!($path = glob(database_path('migrations/' . '*drop_user_id_from_reactions_table*')))) {
+            copy(__DIR__ . '/stubs/drop_user_id_from_reactions_table.php.stub', database_path('migrations/' . $fileName));
+            Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+        } else {
+            Artisan::call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+        }
+    }
+
+    protected function dropColumnsFromCommentsTable(): void
+    {
+        if(!Schema::hasIndex('comments', 'comments_guest_name_index')) {
+            return;
+        }
+
         $fileName = $this->getMigrationFileName('drop_guest_columns_from_comments_table.php');
 
-        if (!($path = glob(database_path('migrations/' . '*drop_guest*')))) {
+        if (!($path = glob(database_path('migrations/' . '*drop_guest_columns_from_comments_table*')))) {
             copy(__DIR__ . '/stubs/drop_guest_columns_from_comments_table.php.stub', database_path('migrations/' . $fileName));
             Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
@@ -115,7 +182,7 @@ class V2UpgradeCommand extends Command
         }
     }
 
-    public function guestModel(): Model
+    protected function guestModel(): Model
     {
         return new class () extends Model {
             protected $table = 'guests';
@@ -130,7 +197,7 @@ class V2UpgradeCommand extends Command
         $filesystem = app()->make(Filesystem::class);
 
         return Collection::make([app()->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR])
-            ->flatMap(fn ($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->flatMap(fn($path) => $filesystem->glob($path . '*_' . $migrationFileName))
             ->push("{$timestamp}_{$migrationFileName}")
             ->first();
     }
