@@ -15,8 +15,7 @@
 **[Security](#security)** |
 **[License](#license)**
     
-<img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/811e40d6-3988-4cb9-861d-cc9e98005d65" alt="Commenter logo">
-
+#  <img src="https://github.com/user-attachments/assets/499c9fde-d566-4675-a0fa-afdb837e2faa" width="640">
 #  <img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/73ed97a6-9bdd-4b4e-8a87-fd5027d67149" width="359" height="50">
 
 ***Everything you need for your commenting system***
@@ -47,12 +46,15 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 - [Enable commenting in seconds with Laravel
 ](https://medium.com/@epmadushanka/enable-commenting-in-seconds-with-laravel-6cb7cc7eb6f2)
 
-<p align="center"><img src="https://github.com/user-attachments/assets/78913825-534a-445b-9b8c-8efccd51c305" alt="screenshot"></p>
+<p align="center">
+<img src="https://github.com/user-attachments/assets/f00a350c-bac6-4f5a-a38f-089216fea3da" alt="screenshot">
+</p>
 
 ## Key Features
 
 - ❤️ Simple, modern, and user-friendly interfaces.
 - 📱 Mobile responsiveness.
+- ⛯ Dark mode support.
 - 📝 WYSIWYG editor.
 - 📔 Syntax highlighting.
 - 🔒 Robust security features.
