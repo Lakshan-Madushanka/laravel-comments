@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });
-
-        Schema::table('comments', function (Blueprint $table) {
-            $table->foreign('reply_id')->references('id')->on('comments')->cascadeOnDelete();
-        });
     }
 
     /**
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('guests');
     }
 };
