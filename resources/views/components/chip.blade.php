@@ -6,23 +6,23 @@
 ])
 
 @php
-$bgColor = "";
+    $bgColor = "";
 
-if (Helpers::isDefaultTheme()) {
-    $bgColor = "bg-gray-400 dark:bg-slate-700";
-}
+    if (Helpers::isDefaultTheme()) {
+        $bgColor = "bg-gray-200 dark:bg-slate-700";
+    }
 
-if (Helpers::isDefaultTheme() && $active) {
-    $bgColor = "bg-gray-200 dark:bg-slate-500";
-}
+    if (Helpers::isDefaultTheme() && $active) {
+        $bgColor = "bg-gray-400/75 dark:bg-slate-500";
+    }
 
-if (Helpers::isGithubTheme()) {
-    $bgColor = "bg-gray-400 dark:bg-slate-800";
-}
+    if (Helpers::isGithubTheme()) {
+        $bgColor = "bg-gray-200 dark:bg-slate-800";
+    }
 
-if (Helpers::isGithubTheme() && $active) {
-    $bgColor = "bg-gray-500 dark:bg-slate-700";
-}
+    if (Helpers::isGithubTheme() && $active) {
+        $bgColor = "bg-gray-400/75 dark:bg-slate-700";
+    }
 @endphp
 
 <div {{ $attributes
@@ -30,7 +30,7 @@ if (Helpers::isGithubTheme() && $active) {
         $bgColor,
         'px-2 py-1 rounded cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
         "border hover:bg-gray-300 dark:hover:bg-slate-800 dark:border-0" => Helpers::isDefaultTheme(),
-        "text-white hover:bg-gray-500 dark:hover:bg-slate-900" => Helpers::isGithubTheme(),
+        "hover:bg-gray-300 dark:hover:bg-slate-900" => Helpers::isGithubTheme(),
     ])
     ->merge() }}
 >
