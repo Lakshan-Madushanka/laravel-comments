@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.1 - 2024-09-24
+
+### What's Changed
+
+* Update UPGRADE.md by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/39
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.0...2.0.1
+
 ## 1.5.2 - 2024-09-24
 
 ### What's Changed
@@ -92,11 +100,14 @@ What's Changed
 ## 1.0.2 - 2024-07-31
 
 - UI/UX improvement
+  
 - Following renaming
+  
   * `src/Model.php`  -> `src/ModelResolver.php`
   * `src/Model.php`  ->  `src/ModelResolver.php`
   
 - Fix commenter model example by @phpfour in https://github.com/Lakshan-Madushanka/laravel-comments/pull/10 and address some other bugs in README.md.
+  
 
 ### New Contributors
 
