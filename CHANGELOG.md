@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 1.5.1 - 2024-09-23
+
+### What's Changed
+
+* Fix CHANGELOG.md by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/35
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.5.0...1.5.1
+
 ## 1.5.0 - 2024-09-21
 
 ### What's Changed
