@@ -10,6 +10,11 @@ use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
 
+/**
+ * @property mixed $user_id
+ * @property string $ip_address
+ * @property string $updated_at
+ */
 class Reaction extends Model
 {
     use HasOwner;

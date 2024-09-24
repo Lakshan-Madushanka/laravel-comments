@@ -151,7 +151,7 @@ class V2UpgradeCommand extends Command
                 ->update([
                     'owner_type' => 'LakM\Comments\Models\Guest',
                     'owner_id' => $guest->getKey(),
-                    'updated_at' => $guest->updated_at,
+                    'updated_at' => $guest->updated_at ?? null,
                 ]);
         });
 
