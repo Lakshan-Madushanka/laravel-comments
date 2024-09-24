@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -69,11 +68,11 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*create_guests_table*')))) {
             copy(__DIR__ . '/stubs/create_guests_table.php.stub', database_path('migrations/' . $fileName));
-            Artisan::call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . $fileName]);
         }
 
         if (!Schema::hasTable('guests')) {
-            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
         // We need to move guest data to guests table
@@ -103,7 +102,8 @@ class V2UpgradeCommand extends Command
                 ->where('guest_email', $comment->guest_email)
                 ->update([
                     'commenter_id' => $guest->getKey(),
-                    'commenter_type' => 'LakM\Comments\Models\Guest'
+                    'commenter_type' => 'LakM\Comments\Models\Guest',
+                    'updated_at' => $comment->updated_at,
                 ]);
         });
     }
@@ -114,9 +114,9 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*add_owner_morph_columns_to_reactions_table*')))) {
             copy(__DIR__ . '/stubs/add_owner_morph_columns_to_reactions_table.php.stub', database_path('migrations/' . $fileName));
-            $this->call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
 
         $authUserReactions = Reaction::query()
@@ -130,7 +130,7 @@ class V2UpgradeCommand extends Command
                 ->update([
                     'owner_type' => (ModelResolver::userModel())->getMorphClass(),
                     'owner_id' => $reaction->user_id,
-
+                    'updated_at' => $reaction->updated_at,
                 ]);
         });
 
@@ -151,6 +151,7 @@ class V2UpgradeCommand extends Command
                 ->update([
                     'owner_type' => 'LakM\Comments\Models\Guest',
                     'owner_id' => $guest->getKey(),
+                    'updated_at' => $guest->updated_at,
                 ]);
         });
 
@@ -162,9 +163,9 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*drop_user_id_from_reactions_table*')))) {
             copy(__DIR__ . '/stubs/drop_user_id_from_reactions_table.php.stub', database_path('migrations/' . $fileName));
-            $this->call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
     }
 
@@ -178,9 +179,9 @@ class V2UpgradeCommand extends Command
 
         if (!($path = glob(database_path('migrations/' . '*drop_guest_columns_from_comments_table*')))) {
             copy(__DIR__ . '/stubs/drop_guest_columns_from_comments_table.php.stub', database_path('migrations/' . $fileName));
-            $this->call("migrate", ['--path' => 'database/migrations/' . $fileName]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . $fileName]);
         } else {
-            $this->call("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
+            $this->callSilently("migrate", ['--path' => 'database/migrations/' . Str::after($path[0], 'migrations/')]);
         }
     }
 
