@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 1.5.2 - 2024-09-24
+
+### What's Changed
+
+* Fix: v2 upgrade command related issues.
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/1.5.1...1.5.2
+
 ## 1.5.1 - 2024-09-23
 
 ### What's Changed
