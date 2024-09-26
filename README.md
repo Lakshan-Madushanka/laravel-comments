@@ -13,7 +13,8 @@
 **[Testing](#testing)** |
 **[Roadmap](#roadmap)** |
 **[Security](#security)** |
-**[License](#license)**
+**[License](#license)** |
+**[Sponsor](#sponsor-this-project)**
     
 #  <img src="https://github.com/user-attachments/assets/499c9fde-d566-4675-a0fa-afdb837e2faa" width="640">
 #  <img src="https://github.com/Lakshan-Madushanka/laravel-comments/assets/47297673/73ed97a6-9bdd-4b4e-8a87-fd5027d67149" width="359" height="50">
@@ -193,3 +194,10 @@ Please see [here](https://github.com/Lakshan-Madushanka/laravel-comments/blob/ma
 
 ## License
 The MIT License (MIT). Please see [License File](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md) for more information.
+
+## Sponsor this project
+You might think we're biased, but this is genuinely one of the best commenting systems available for paid or free (we doubt there’s a paid solution that’s as tailored to your needs as this one). We're dedicated to continuously improving this package and meeting your requirements. Isn’t it reassuring to have a well-tested, feature-rich commenting system available for free for your Laravel projects?
+
+We truly appreciate any sponsorship you offer. Your contribution is a direct investment in your future as well, with every penny supporting the growth of this project and other open-source initiatives.
+
+If you find value in this project, please consider supporting it by visiting the sponsor page: https://github.com/sponsors/Lakshan-Madushanka. Your support means a lot 💗!
