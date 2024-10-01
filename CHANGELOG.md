@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 2.0.2 - 2024-10-01
+
+### What's Changed
+
+* Bump vite from 5.2.7 to 5.4.6 by @dependabot in https://github.com/Lakshan-Madushanka/laravel-comments/pull/29
+* Fix #41, issue of dropping redundant columns in comments table by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/42
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.1...2.0.2
+
 ## 2.0.1 - 2024-09-24
 
 ### What's Changed
