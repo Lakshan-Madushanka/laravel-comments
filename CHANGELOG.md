@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.3 - 2024-10-01
+
+### What's Changed
+
+* Fix guests table migration stub by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/43
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.2...2.0.3
+
 ## 2.0.2 - 2024-10-01
 
 ### What's Changed
