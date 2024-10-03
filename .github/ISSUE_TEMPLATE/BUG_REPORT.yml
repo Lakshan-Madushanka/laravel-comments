@@ -8,6 +8,8 @@ body:
       options: 
         - label: Style 
         - label: Behaviour
+    validations:
+      required: true
   - type: input
     attributes:
       label: Commenter Version
