@@ -1,6 +1,14 @@
 name: Bug Report
 description: "Report a bug. Adding screentshots or short videos are highly encouraged!"
 body:
+  - type: checkboxes
+    attributes:
+      label: Bug type
+      description: Select the type of bugs you want to report.
+      multiple: true
+      options: 
+        - Style 
+        - Behaviour
   - type: input
     attributes:
       label: Commenter Version
