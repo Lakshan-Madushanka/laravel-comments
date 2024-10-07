@@ -1,13 +1,15 @@
 name: Bug Report
 description: "Report a bug. Adding screentshots or short videos are highly encouraged!"
 body:
-  - type: checkboxes
+  - type: dropdown
     attributes:
       label: Bug type
       description: Select the type of bugs you want to report.
+      multiple: true
       options: 
-        - label: Style 
-        - label: Behaviour
+        - Installation
+        - Style 
+        - Behaviour
     validations:
       required: true
   - type: input
