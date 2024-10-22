@@ -60,8 +60,8 @@
             <div>
                 <x-comments::link type="a" route="#create-comment-form">{{ __('Create Comment') }}</x-comments::link>
             </div>
-            <div class="w-1 h-6 bg-slate-500"></div>
-            @if($guestMode && SecureGuestMode::allowed())
+            @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
+                <div class="w-1 h-6 bg-slate-500"></div>
                 <x-comments::link type="button" wire:click="logOut">{{ __('Log out') }}</x-comments::link>
             @endif
         </div>
