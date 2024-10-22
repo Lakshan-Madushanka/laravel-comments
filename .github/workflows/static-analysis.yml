@@ -3,7 +3,7 @@ name: Static Analysis
 on: [push, pull_request]
 
 jobs:
-  format:
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
