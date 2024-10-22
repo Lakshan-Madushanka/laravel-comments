@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.4 - 2024-10-22
+
+### What's Changed
+
+* Fix showing logout when secure guest mode disabled by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/46
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.3...2.0.4
+
 ## 2.0.3 - 2024-10-01
 
 ### What's Changed
