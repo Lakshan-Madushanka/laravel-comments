@@ -3,7 +3,6 @@ const Link = Quill.import('formats/link');
 
 class CustomLink extends Link {
     static tagName = 'span';
-
     static create(value) {
         let node = super.create(value);
         node.classList.add('link');

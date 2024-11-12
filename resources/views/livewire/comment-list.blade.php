@@ -7,7 +7,7 @@
         },
     }"
     @unauthorized-comment-updated.window="$wire.$refresh"
-    class="space-y-6"
+    class="lakm_commenter space-y-6"
 >
     <div class="text-lg font-bold">
         {{ __('Comments') }}
