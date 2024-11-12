@@ -59,3 +59,11 @@ php artisan vendor:publish --tag=comments-assets --force
 
 Enjoy the v2 🤩.
 
+## >= 2.0.5
+
+This version fix the css style conflicting issue by adding a class prefix. So you must republish styles using
+below command.
+
+```bash 
+php artisan vendor:publish --tag=comments-assets --force
+```
