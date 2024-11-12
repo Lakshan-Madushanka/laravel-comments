@@ -1,7 +1,7 @@
 @php use LakM\Comments\GuestModeRateLimiter; @endphp
 
 <div @logout.window="$wire.$refresh()">
-    <div class="w-full" method="POST">
+    <div class="lakm_commenter w-full" method="POST">
         <x-honeypot wire:model="honeyPostData" />
 
         @if($guestEmailVerified)

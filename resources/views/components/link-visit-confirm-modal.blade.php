@@ -26,6 +26,7 @@
                 fullUrl = link;
             }
         }"
+    class="lakm_commenter"
 >
     <x-comments::modal class="!w-[32rem]">
         <div class="px-4 py-2 space-y-6">
