@@ -16,14 +16,14 @@ body:
     attributes:
       label: Commenter Version
       description: Provide the commenter version that you are using.
-      plaeholder: 2.0.5
+      placeholder: 2.0.5
     validations:
       required: true
   - type: input
     attributes:
       label: Database
       description: What is the database system.
-      plaeholder: mysql
+      placeholder: mysql
   - type: textarea
     attributes:
       label: Description
