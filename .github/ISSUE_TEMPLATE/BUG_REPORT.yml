@@ -1,4 +1,6 @@
 name: Bug Report
+labels: ["bug"]
+title: "[Bug]: "
 description: "Report a bug. Adding screentshots or short videos are highly encouraged!"
 body:
   - type: dropdown
