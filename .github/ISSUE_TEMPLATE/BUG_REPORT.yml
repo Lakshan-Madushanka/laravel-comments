@@ -16,19 +16,26 @@ body:
     attributes:
       label: Commenter Version
       description: Provide the commenter version that you are using.
+      plaeholder: 2.0.5
     validations:
       required: true
+  - type: input
+    attributes:
+      label: Database
+      description: What is the database system.
+      plaeholder: mysql
   - type: textarea
     attributes:
       label: Description
       description: Provide a detailed description of the issue you are facing.
+      placeholder: Write down the issue description clearly
     validations:
       required: true
   - type: textarea
     attributes:
       label: Steps To Reproduce
       description: Provide detailed steps to reproduce your issue (Issues submitted at this step are given higher priority).
-      value: |
+      placeholder: |
         1. Go to '...'
         2. Click on '....'
         3. Scroll down to '....'
