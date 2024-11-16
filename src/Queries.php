@@ -88,6 +88,7 @@ class Queries extends AbstractQueries
                 return $query->orderByDesc('replies_count');
             })
             ->when($sortBy === Sort::TOP, function (Builder $query) {
+                // @phpstan-ignore-next-line
                 return $query
                     ->addScore()
                     ->orderByDesc("score");

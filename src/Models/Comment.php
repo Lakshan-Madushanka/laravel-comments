@@ -24,6 +24,7 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
  * @property Carbon $updated_at
  *
  * @method MessageBuilder<Comment> query()
+ * @method Builder addScore()
  */
 class Comment extends Message
 {
@@ -76,7 +77,8 @@ class Comment extends Message
             on laravel_reserved_2.id = {$reactionsTable}.comment_id  where  {$commentsTable}.id = laravel_reserved_2.reply_id and
             type = 'dislike')";
 
-        return $query->addSelect(DB::raw('(select ' .
+        return $query->addSelect(
+            DB::raw('(select ' .
             $reactionsCount . ' + ' .
             $repliesCountQuery . ' + ' .
             $replyReactionsCount . ' - '.
