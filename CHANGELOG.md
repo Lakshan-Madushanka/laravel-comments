@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 2.0.6 - 2024-11-16
+
+### What's Changed
+
+* [Fix]: Comments' sort by top algorithm throws SQLSTATE(42703) error in pgsql by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/52
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/54
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.5...2.0.6
+
 ## 2.0.4 - 2024-10-22
 
 ### What's Changed
