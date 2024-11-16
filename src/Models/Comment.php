@@ -81,7 +81,7 @@ class Comment extends Message
             DB::raw('(select ' .
             $reactionsCount . ' + ' .
             $repliesCountQuery . ' + ' .
-            $replyReactionsCount . ' - '.
+            $replyReactionsCount . ' - ' .
             $dislikesCountQuery . ' - ' .
             $replyReactionsDislikeCount . ') ' .
             'as score')
