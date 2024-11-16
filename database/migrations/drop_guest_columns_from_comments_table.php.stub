@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('comments', function (Blueprint $table) {
-            // First we need to drop indexes f exists
+            // First we need to drop indexes if exists
 
             $indexes = [
                 'comments_guest_name_index',
