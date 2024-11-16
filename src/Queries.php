@@ -33,8 +33,8 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param  Authenticatable&CommenterContract  $user
-     * @param  Model&CommentableContract  $relatedModel
+     * @param Authenticatable&CommenterContract $user
+     * @param Model&CommentableContract $relatedModel
      * @return int
      */
     public static function userCommentCount(Authenticatable $user, Model $relatedModel): int
@@ -59,7 +59,7 @@ class Queries extends AbstractQueries
         ?int $limit,
         Sort $sortBy,
         string $filter = ''
-    ): LengthAwarePaginator|Collection {
+    ): LengthAwarePaginator|Collection{
         /** @var MessageBuilder<Comment> $commentQuery */
         $commentQuery = $relatedModel->comments();
 
@@ -72,7 +72,7 @@ class Queries extends AbstractQueries
                 'replies' => function (MessageBuilder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn (MessageBuilder $query) => $query->approved()
+                        fn(MessageBuilder $query) => $query->approved()
                     );
                 },
             ])
@@ -88,14 +88,10 @@ class Queries extends AbstractQueries
                 return $query->orderByDesc('replies_count');
             })
             ->when($sortBy === Sort::TOP, function (Builder $query) {
-                return $query->withCount([
-                    'reactions',
-                    'replyReactions',
-                    'replyReactions as reply_reactions_dislikes_count' => function (Builder $query) {
-                        $query->where('type', 'dislike');
-                    },
-                ])
-                    ->orderByDesc(DB::raw('reactions_count - (dislikes_count * 2) + (replies_count * 2) + reply_reactions_count - (reply_reactions_dislikes_count * 2)'));
+                // @phpstan-ignore-next-line
+                return $query
+                    ->addScore()
+                    ->orderByDesc("score");
             })
             ->when(
                 $relatedModel->paginationEnabled(),
@@ -119,18 +115,19 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param  Reply|Comment  $comment
-     * @param  string  $reactionType
-     * @param  int  $limit
-     * @param  bool  $authMode
+     * @param Reply|Comment $comment
+     * @param string $reactionType
+     * @param int $limit
+     * @param bool $authMode
      * @return \Illuminate\Support\Collection<int, UserData>
      */
     public static function reactedUsers(
         Reply|Comment $comment,
-        string $reactionType,
-        int $limit,
-        bool $authMode
-    ): \Illuminate\Support\Collection {
+        string        $reactionType,
+        int           $limit,
+        bool          $authMode
+    ): \Illuminate\Support\Collection
+    {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
         $reactionQuery = $comment->reactions();
 
@@ -169,35 +166,36 @@ class Queries extends AbstractQueries
         $replyQuery = $comment->replies();
 
         return $replyQuery
-                ->when(
-                    !$guestMode,
-                    function (MessageBuilder $query) use ($user) {
-                        $query->currentUser($user);
-                    },
-                    function (MessageBuilder $query) {
-                        $query->currentGuest();
-                    }
-                )
-                ->count();
+            ->when(
+                !$guestMode,
+                function (MessageBuilder $query) use ($user) {
+                    $query->currentUser($user);
+                },
+                function (MessageBuilder $query) {
+                    $query->currentGuest();
+                }
+            )
+            ->count();
     }
 
     /**
-     * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  bool  $approvalRequired
-     * @param  int  $limit
-     * @param  Sort  $sortBy
-     * @param  string  $filter
+     * @param Comment $comment
+     * @param Model&CommentableContract $relatedModel
+     * @param bool $approvalRequired
+     * @param int $limit
+     * @param Sort $sortBy
+     * @param string $filter
      * @return LengthAwarePaginator|Collection
      */
     public static function commentReplies(
         Comment $comment,
-        Model $relatedModel,
-        bool $approvalRequired,
-        ?int $limit,
-        Sort $sortBy,
-        string $filter = ''
-    ): LengthAwarePaginator|Collection {
+        Model   $relatedModel,
+        bool    $approvalRequired,
+        ?int    $limit,
+        Sort    $sortBy,
+        string  $filter = ''
+    ): LengthAwarePaginator|Collection
+    {
         /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
 
@@ -205,8 +203,8 @@ class Queries extends AbstractQueries
             ->currentUserFilter($relatedModel, $filter)
             ->with('commenter')
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn (MessageBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn(MessageBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn(MessageBuilder $query) => $query->approved())
             ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
@@ -217,8 +215,8 @@ class Queries extends AbstractQueries
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
@@ -240,11 +238,11 @@ class Queries extends AbstractQueries
             ->limit($limit)
             ->get()
             ->transform(
-                /**
-                 * @param  User&CommenterContract  $user
-                 * @return UserData
-                 * @phpstan-ignore-next-line
-                 */
+            /**
+             * @param User&CommenterContract $user
+             * @return UserData
+             * @phpstan-ignore-next-line
+             */
                 function (User $user) {
                     // @phpstan-ignore-next-line
                     return new UserData(name: $user->name(), photo: $user->photoUrl());
