@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Builders\MessageBuilder;
@@ -59,7 +58,7 @@ class Queries extends AbstractQueries
         ?int $limit,
         Sort $sortBy,
         string $filter = ''
-    ): LengthAwarePaginator|Collection{
+    ): LengthAwarePaginator|Collection {
         /** @var MessageBuilder<Comment> $commentQuery */
         $commentQuery = $relatedModel->comments();
 
@@ -72,7 +71,7 @@ class Queries extends AbstractQueries
                 'replies' => function (MessageBuilder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn(MessageBuilder $query) => $query->approved()
+                        fn (MessageBuilder $query) => $query->approved()
                     );
                 },
             ])
@@ -122,11 +121,10 @@ class Queries extends AbstractQueries
      */
     public static function reactedUsers(
         Reply|Comment $comment,
-        string        $reactionType,
-        int           $limit,
-        bool          $authMode
-    ): \Illuminate\Support\Collection
-    {
+        string $reactionType,
+        int $limit,
+        bool $authMode
+    ): \Illuminate\Support\Collection {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
         $reactionQuery = $comment->reactions();
 
@@ -188,13 +186,12 @@ class Queries extends AbstractQueries
      */
     public static function commentReplies(
         Comment $comment,
-        Model   $relatedModel,
-        bool    $approvalRequired,
-        ?int    $limit,
-        Sort    $sortBy,
-        string  $filter = ''
-    ): LengthAwarePaginator|Collection
-    {
+        Model $relatedModel,
+        bool $approvalRequired,
+        ?int $limit,
+        Sort $sortBy,
+        string $filter = ''
+    ): LengthAwarePaginator|Collection {
         /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
 
@@ -202,8 +199,8 @@ class Queries extends AbstractQueries
             ->currentUserFilter($relatedModel, $filter)
             ->with('commenter')
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn(MessageBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn(MessageBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn (MessageBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
             ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
@@ -214,8 +211,8 @@ class Queries extends AbstractQueries
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -237,11 +234,11 @@ class Queries extends AbstractQueries
             ->limit($limit)
             ->get()
             ->transform(
-            /**
-             * @param User&CommenterContract $user
-             * @return UserData
-             * @phpstan-ignore-next-line
-             */
+                /**
+                 * @param User&CommenterContract $user
+                 * @return UserData
+                 * @phpstan-ignore-next-line
+                 */
                 function (User $user) {
                     // @phpstan-ignore-next-line
                     return new UserData(name: $user->name(), photo: $user->photoUrl());
