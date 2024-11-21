@@ -14,7 +14,7 @@ final class ModelResolver
     /** @return class-string */
     public static function commentClass(): string
     {
-        return  config('comments.model');
+        return  config('comments.model', Comment::class);
     }
 
     public static function commentModel(): Comment

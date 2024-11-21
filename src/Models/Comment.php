@@ -4,7 +4,6 @@ namespace LakM\Comments\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
