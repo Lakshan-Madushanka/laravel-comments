@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.8 - 2024-11-21
+
+### What's Changed
+
+* [Fix]: Cannot resolve comments table when custom model is used by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/57
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.7...2.0.8
+
 ## 2.0.7 - 2024-11-17
 
 ### What's Changed
