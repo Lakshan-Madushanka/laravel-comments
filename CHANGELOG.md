@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.9 - 2024-11-23
+
+### What's Changed
+
+* [Fix]: Error throws when uuid/ulid is used by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/58
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.8...2.0.9
+
 ## 2.0.8 - 2024-11-21
 
 ### What's Changed
