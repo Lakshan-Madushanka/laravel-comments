@@ -21,6 +21,17 @@ body:
       placeholder: 2.0.5
     validations:
       required: true
+  - type: dropdown
+    attributes:
+      label: Mode
+      description: Select the commenter mode you are using.
+      multiple: false
+      options: 
+        - Auth
+        - Guest 
+        - Secured Guest
+    validations:
+      required: true    
   - type: input
     attributes:
       label: Database
