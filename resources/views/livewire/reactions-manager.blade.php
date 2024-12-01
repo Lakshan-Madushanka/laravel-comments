@@ -4,7 +4,7 @@
         <div
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
-                "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme()
+                "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme() || Helpers::isModernTheme()
             ])
         >
             @foreach ($lReactions as $key => $value)

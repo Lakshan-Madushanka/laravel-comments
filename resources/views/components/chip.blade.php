@@ -23,6 +23,14 @@
     if (Helpers::isGithubTheme() && $active) {
         $bgColor = "bg-gray-400/75 dark:bg-slate-700";
     }
+
+    if (Helpers::isModernTheme()) {
+        $bgColor = "bg-gray-100 dark:bg-slate-800";
+    }
+
+    if (Helpers::isModernTheme() && $active) {
+        $bgColor = "bg-gray-200 dark:bg-slate-700";
+    }
 @endphp
 
 <div {{ $attributes

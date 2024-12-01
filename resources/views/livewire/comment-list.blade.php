@@ -16,7 +16,10 @@
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if (($total > 1 || $filter === 'own') && config('comments.show_filters'))
             <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
-                <div class="w-14"></div>
+                <div @class([
+                    "hidden",
+                    "!block w-14" => !Helpers::isModernTheme()
+                ])></div>
                 <x-comments::chip
                     wire:click="setSortBy('{{Sort::TOP->value}}')"
                     wire:loading.class="!pointer-events-none"
