@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <div wire:loading.flex class="flex items-center gap-x-2 sm:gap-x-4">
+    <div wire:loading.flex class="items-center gap-x-2 sm:gap-x-4">
         <div class="basis-14"></div>
         <x-comments::spin class="!size-5 !text-blue-500" />
     </div>

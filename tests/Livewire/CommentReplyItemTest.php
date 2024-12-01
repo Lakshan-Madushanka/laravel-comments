@@ -48,7 +48,7 @@ it('can render a reply item in auth mode', function () {
             'guestMode' => false
         ]
     )
-        ->assertSeeText($reply->ownerName(true))
+        ->assertSeeText(Str::limit($reply->ownerName(true), 25))
         ->assertOk();
 });
 
