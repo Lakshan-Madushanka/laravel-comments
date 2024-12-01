@@ -31,6 +31,8 @@ class Comment extends Message
     use HasOwner;
     use HasProfilePhoto;
 
+    public $table = 'comments';
+
     protected $fillable = [
         'text',
         'commenter_type',

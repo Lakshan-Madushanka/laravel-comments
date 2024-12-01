@@ -159,14 +159,14 @@
             <div
                 x-data="{ showReplyList: @js($showReplyList), replyCount: @js($comment->replies_count) }"
                 @reply-created-{{ $comment->getKey() }}.window="
-                    if($event.detail.commentId === {{ $comment->getKey() }}) {
+                    if($event.detail.commentId === @js($comment->getKey())) {
                         if(!event.detail.approvalRequired) {
                             replyCount += 1;
                         }
                 }
               "
                 @reply-deleted-{{ $comment->getKey() }}.window="
-                    if($event.detail.commentId === {{ $comment->getKey() }}) {
+                    if($event.detail.commentId === @js($comment->getKey())) {
                         replyCount -= 1;
                     }
                 "

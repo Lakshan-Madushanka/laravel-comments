@@ -26,8 +26,6 @@ class Message extends Model
     use HasOwner;
     use HasProfilePhoto;
 
-    protected $table = 'comments';
-
     protected $userRelationshipName = 'commenter';
 
     protected $fillable = [
@@ -37,10 +35,14 @@ class Message extends Model
         'approved',
     ];
 
-
     protected $casts = [
         'approved' => 'bool',
     ];
+
+    public function getTable()
+    {
+        return M::commentModel()->table;
+    }
 
     /**
      * @param Builder $query

@@ -2,7 +2,7 @@
     'model',
 ])
 
-<div x-cloak x-data class="space-y-8 dark:text-white">
+<div x-cloak x-data class="lakm_commenter space-y-8 dark:text-white">
     @if(config('comments.should_confirm_link_visit'))
         <x-comments::link-visit-confirm-modal/>
     @endif

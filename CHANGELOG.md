@@ -1,5 +1,29 @@
 # Documentation of the changes
 
+## 2.0.9 - 2024-11-23
+
+### What's Changed
+
+* [Fix]: Error throws when uuid/ulid is used by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/58
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.8...2.0.9
+
+## 2.0.8 - 2024-11-21
+
+### What's Changed
+
+* [Fix]: Cannot resolve comments table when custom model is used by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/57
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.7...2.0.8
+
+## 2.0.7 - 2024-11-17
+
+### What's Changed
+
+* [Design]: Add missing class prefix by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/56
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.6...2.0.7
+
 ## 2.0.6 - 2024-11-16
 
 ### What's Changed
