@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.10 - 2024-12-01
+
+### What's Changed
+
+* Fix loading state indicator styles overriding issue by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/63
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.9...2.0.10
+
 ## 2.0.9 - 2024-11-23
 
 ### What's Changed
