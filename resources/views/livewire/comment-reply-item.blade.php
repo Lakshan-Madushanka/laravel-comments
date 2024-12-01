@@ -62,7 +62,7 @@
                             <x-comments::user-check height="14" width="14" />
                         </div>
 
-                        <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500" />
+                        <span wire:loading wire:target="delete({{$reply}})"><x-comments::spin class="!text-blue-500" /></span>
 
                         <div
                             x-data="{ showEditMenu: false }"
