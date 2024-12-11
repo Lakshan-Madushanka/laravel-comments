@@ -11,6 +11,13 @@ trait HasOwner
         } else {
             $col = 'name';
         }
-        return $this->{$this->userRelationshipName}->{$col};
+
+        $name = $this->{$this->userRelationshipName}->{$col};
+
+        if (empty($name)) {
+            $name = config('comments.replace_null_name', '?');
+        }
+
+        return $name;
     }
 }

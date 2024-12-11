@@ -33,11 +33,25 @@
                 ])
             >
                 <div>
-                    <span class="font-semibold sm:hidden mr-1">
+                    <span
+                        @if($comment->ownerName($authMode) === config('comments.replace_null_name'))
+                            title="user haven't provided the name"
+                            class="font-semibold sm:hidden mr-1 cursor-help"
+                        @else
+                            class="font-semibold sm:hidden mr-1"
+                        @endif
+                    >
                         {{ Str::limit($comment->ownerName($authMode), 10) }}
                     </span>
 
-                    <span class="hidden font-semibold sm:inline mr-1">
+                    <span
+                        @if($comment->ownerName($authMode) === config('comments.replace_null_name'))
+                            title="user haven't provided the name"
+                            class="hidden font-semibold sm:inline mr-1 cursor-help"
+                        @else
+                            class="hidden font-semibold sm:inline mr-1"
+                        @endif
+                    >
                         {{ Str::limit($comment->ownerName($authMode), 25) }}
                     </span>
 
@@ -64,7 +78,8 @@
                             <x-comments::user-check height="14" width="14" />
                         </div>
 
-                        <span wire:loading wire:target="delete({{$comment}})"><x-comments::spin class="!text-blue-500" /></span>
+                        <span wire:loading wire:target="delete({{$comment}})"><x-comments::spin
+                                class="!text-blue-500" /></span>
 
                         <div
                             x-data="{ showEditMenu: false }"
