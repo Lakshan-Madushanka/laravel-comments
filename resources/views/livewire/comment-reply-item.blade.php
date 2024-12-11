@@ -32,25 +32,25 @@
             >
                 <div>
                     <span
-                        @if($comment->ownerName($authMode) === config('comments.replace_null_name'))
+                        @if($reply->ownerName($authMode) === config('comments.replace_null_name'))
                             title="user haven't provided the name"
                             class="font-semibold sm:hidden mr-1 cursor-help"
                         @else
                             class="font-semibold sm:hidden mr-1"
                     @endif
                     >
-                         {{ Str::limit($comment->ownerName($authMode), 10) }}
+                         {{ Str::limit($reply->ownerName($authMode), 10) }}
                     </span>
 
                     <span
-                        @if($comment->ownerName($authMode) === config('comments.replace_null_name'))
+                        @if($reply->ownerName($authMode) === config('comments.replace_null_name'))
                             title="user haven't provided the name"
                             class="hidden font-semibold sm:inline mr-1 cursor-help"
                         @else
                             class="hidden font-semibold sm:inline mr-1"
                         @endif
                     >
-                        {{ Str::limit($comment->ownerName($authMode), 25) }}
+                        {{ Str::limit($reply->ownerName($authMode), 25) }}
                     </span>
 
                     <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
