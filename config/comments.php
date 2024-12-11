@@ -46,6 +46,11 @@ return [
     'user_email_column' => 'email',
 
     /**
+     * When name is null, it will be replaced with following value
+     */
+    'replace_null_name' => '?',
+
+    /**
      * Reaction model
      * Must extend LakM\Comments\Models\Reaction
      */
