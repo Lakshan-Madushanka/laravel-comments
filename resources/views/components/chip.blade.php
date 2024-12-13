@@ -39,6 +39,7 @@
         'px-2 py-1 rounded cursor-pointer transition ml-[-6px] sm:ml-[2px] text-nowrap',
         "border hover:bg-gray-300 dark:hover:bg-slate-800 dark:border-0" => Helpers::isDefaultTheme(),
         "hover:bg-gray-300 dark:hover:bg-slate-900" => Helpers::isGithubTheme(),
+        "rounded-lg hover:bg-gray-200" => Helpers::isModernTheme(),
     ])
     ->merge() }}
 >

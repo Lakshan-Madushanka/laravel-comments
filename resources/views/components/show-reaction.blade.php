@@ -1,4 +1,4 @@
-@php use Illuminate\Support\Number; @endphp
+@php use Illuminate\Support\Number;use LakM\Comments\Helpers; @endphp
 @props([
     "key",
     "reactions",
@@ -17,8 +17,9 @@
     @mouseleave="showUsers=false"
     @class([
           "flex flex-row items-center justify-center rounded-md px-1 py-[2px]",
-          "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => config('comments.theme') === 'default',
-          "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => config('comments.theme') === 'github'
+          "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
+          "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
+          "bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
     ])
 >
     <div

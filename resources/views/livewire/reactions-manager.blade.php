@@ -4,7 +4,8 @@
         <div
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
-                "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme() || Helpers::isModernTheme()
+                "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
+                "border rounded-lg border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
             ])
         >
             @foreach ($lReactions as $key => $value)
@@ -39,7 +40,8 @@
                         @class([
                            "cursor-pointer rounded px-1",
                            "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-                           "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme()
+                           "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
+                           "bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme()
                        ])
                     >
                         <div
@@ -112,7 +114,8 @@
                         @class([
                             "cursor-pointer rounded px-1",
                             "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-                            "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme()
+                            "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
+                            "bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
                         ])
                     >
                         <div
@@ -197,6 +200,7 @@
             @class([
                   "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
                   "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
+                  "border rounded-lg border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
                 ])
         >
             @foreach ($rReactions as $key => $value)
