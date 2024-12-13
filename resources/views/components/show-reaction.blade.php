@@ -19,7 +19,7 @@
           "flex flex-row items-center justify-center rounded-md px-1 py-[2px]",
           "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
           "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-          "bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
+          "bg-gray-100 !rounded-[1000px] !py-1 !px-2 hover:bg-gray-200 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
     ])
 >
     <div

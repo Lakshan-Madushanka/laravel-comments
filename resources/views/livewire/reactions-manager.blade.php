@@ -5,7 +5,7 @@
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
                 "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                "border rounded-lg border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
+                "border-none bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
             ])
         >
             @foreach ($lReactions as $key => $value)
@@ -41,7 +41,7 @@
                            "cursor-pointer rounded px-1",
                            "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
                            "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-                           "bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme()
+                           "bg-gray-100 !rounded-[1000px] !py-1 !px-2 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme()
                        ])
                     >
                         <div
@@ -115,7 +115,7 @@
                             "cursor-pointer rounded px-1",
                             "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
                             "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-                            "bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
+                            "bg-gray-100 !rounded-[1000px] !py-1 !px-2 rounded-lg hover:bg-gray-200 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
                         ])
                     >
                         <div
@@ -190,8 +190,9 @@
                             setTimeout(() => {showReplyForm = !showReplyForm}, 2000)
                         }
                      "
+                    @class(["bg-gray-100 !rounded-[1000px] !py-1 !px-2 hover:bg-gray-200 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()])
                 >
-                    <x-comments::link class="align-text-bottom text-sm" type="popup">{{__('reply')}}</x-comments::link>
+                    <x-comments::link class="align-text-bottom text-sm" type="popup">{{__('Reply')}}</x-comments::link>
                 </div>
             @endif
         </div>
@@ -200,7 +201,7 @@
             @class([
                   "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
                   "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                  "border rounded-lg border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
+                  "rounded-lg !max-w-[11rem] sm:!max-w-40 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
                 ])
         >
             @foreach ($rReactions as $key => $value)

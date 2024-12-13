@@ -8,10 +8,12 @@
         "border rounded-lg p-4" => Helpers::isModernTheme(),
     ])
 >
-    <div @class([
+    <div
+        @class([
             "basis-14",
             'hidden' => Helpers::isModernTheme()
-        ])>
+        ])
+    >
         <a href="{{ $profileUrl ?? $comment->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
                 class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
@@ -40,7 +42,7 @@
         >
             <div
                 @class([
-                    "w-[4%]",
+                    "hidden md:w-[4%]",
                     '!hidden' => !Helpers::isModernTheme(),
                 ])
             >
@@ -51,7 +53,7 @@
                 </div>
             </div>
 
-            <div @class(["w-[96%]" => Helpers::isModernTheme()])>
+            <div @class(["w-full md:w-[96%]" => Helpers::isModernTheme()])>
                 <div
                     @class([
                         "flex items-center justify-between p-1",
@@ -76,14 +78,15 @@
                                 />
                             </a>
                         </div>
-                        <div>
-                    <span class="font-semibold sm:hidden mr-1">
-                        {{ Str::limit($comment->ownerName($authMode), 10) }}
-                    </span>
 
-                            <span class="hidden font-semibold sm:inline mr-1">
-                        {{ Str::limit($comment->ownerName($authMode), 25) }}
-                    </span>
+                        <div>
+                            <span class="font-semibold sm:hidden mr-1">
+                                {{ Str::limit($comment->ownerName($authMode), 10) }}
+                            </span>
+
+                                    <span class="hidden font-semibold sm:inline mr-1">
+                                {{ Str::limit($comment->ownerName($authMode), 25) }}
+                            </span>
 
                             <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
 
@@ -183,8 +186,12 @@
                     {!! $comment->text !!}
                 </div>
 
+                <div
+                    class="flex bg-gray-200 my-4 justify-center items-center h-[1px] max-w-[10%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+                </div>
+
                 <!--Reaction manager -->
-                <div x-show="!showUpdateForm" class="mt-2">
+                <div x-show="!showUpdateForm">
                     <livewire:comments-reactions-manager
                         :key="'reaction-manager-' . $comment->id"
                         :$comment
@@ -192,6 +199,7 @@
                     />
                 </div>
 
+                {{-- Replies count--}}
                 @if (config('comments.reply.enabled'))
                     <div
                         @reply-created-{{ $comment->getKey() }}.window="
@@ -212,25 +220,25 @@
                                     replyCount -= 1;
                             }
                         }"
-                        class="mt-2"
+                        class="mt-2 text-xs"
                     >
                         <div
                             x-show="replyCount > 0"
                             x-transition
                             @click="$dispatch('show-replies.' + @js($comment->getKey())); showReplyList = !showReplyList"
-                            @class([
-                                "inline-block",
-                                "bg-gray-100 hover:rounded-lg hover:bg-gray-200 rounded-lg" => Helpers::isModernTheme(),
-                            ])
+                            class="inline-block"
                         >
                             <x-comments::link
                                 type="popup"
-                                class="inline-flex text-sm items-center border-b-0 px-2 py-1 transition hover:rounded hover:border-b-0 hover:bg-gray-200 dark:hover:bg-slate-800 [&>*]:pr-1"
+                                @class([
+                                    "inline-flex text-sm items-center border-b-0 px-2 py-1 transition hover:rounded hover:border-b-0 hover:bg-gray-200 dark:hover:bg-slate-800 [&>*]:pr-1",
+                                    "bg-gray-100 !rounded-[1000px] hover:rounded-[1000px] hover:bg-gray-200 hover:bg-gray-200" => Helpers::isModernTheme(),
+                                ])
                             >
                                 <x-comments::icons.chevron-down x-show="!showReplyList"/>
                                 <x-comments::icons.chevron-up x-show="showReplyList"/>
                                 <span x-text="replyCount"></span>
-                                <span>{{ __('replies') }}</span>
+                                <span>{{ __('Replies') }}</span>
                             </x-comments::link>
                         </div>
                     </div>
@@ -239,7 +247,18 @@
         </div>
 
         <!-- Reply List -->
-        <div x-show="showReplyList" x-transtion class="ml-[-2rem] mt-6 sm:ml-8">
+        <div
+            x-show="showReplyList"
+            x-transtion
+            @class([
+                "ml-[-2rem] mt-6 sm:ml-8",
+                "!mt-10 sm:!ml-24" => Helpers::isModernTheme()
+            ])
+        >
+            <div
+                class="flex bg-gray-200 mb-8 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+            </div>
+
             <livewire:comments-reply-list
                 :key="'reply-list-'. $comment->id"
                 :$comment

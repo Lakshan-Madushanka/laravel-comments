@@ -15,7 +15,7 @@
     </div>
     <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if (($total > 1 || $filter === 'own') && config('comments.show_filters'))
-            <div class="flex gap-x-2 sm:gap-x-3 overflow-auto">
+            <div class="flex gap-x-4 overflow-auto px-2">
                 <div @class([
                     "hidden",
                     "!block w-14" => !Helpers::isModernTheme()

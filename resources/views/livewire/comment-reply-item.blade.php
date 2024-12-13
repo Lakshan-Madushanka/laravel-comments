@@ -1,6 +1,17 @@
 @php use LakM\Comments\Helpers; @endphp
-<div x-ref="reply{{ $reply->getKey() }}" class="flex gap-x-2 sm:gap-x-4">
-    <div class="basis-14">
+<div
+    x-ref="reply{{ $reply->getKey() }}"
+    @class([
+       "flex gap-x-2 sm:gap-x-4",
+       "border rounded-lg p-4" => Helpers::isModernTheme(),
+   ])
+>
+    <div
+        @class([
+                "basis-14",
+                'hidden' => Helpers::isModernTheme()
+        ])
+    >
         <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
                 class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
@@ -23,46 +34,69 @@
             x-transition
             @class([
                 "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
-            ])>
+            ])
+        >
             <div
                 @class([
                     "flex items-start justify-between space-x-4 p-1 sm:flex-row sm:items-center sm:justify-between",
                     "mb-2 border-b border-gray-200 bg-gray-100 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme(),
                 ])
             >
-                <div>
-                    <span class="font-semibold sm:hidden mr-1">
-                        {{ Str::limit($reply->ownerName($authMode), 10) }}
-                    </span>
+                <div
+                    @class([
+                        "flex items-center gap-4" => Helpers::isModernTheme()
+                    ])
+                >
 
-                    <span class="hidden font-semibold sm:inline mr-1">
+                    <div
+                        @class([
+                            "hidden" => !Helpers::isModernTheme()
+                        ])
+                    >
+                        <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
+                            <img
+                                class="h-8 w-8 sm:h-10 sm:w-10 rounded-full border border-gray-200"
+                                src="{{ $reply->ownerPhotoUrl() }}"
+                                alt="{{ $reply->ownerName($authMode) }}"
+                            />
+                        </a>
+                    </div>
+
+                    <div>
+                        <span class="font-semibold sm:hidden mr-1">
+                            {{ Str::limit($reply->ownerName($authMode), 10) }}
+                        </span>
+
+                        <span class="hidden font-semibold sm:inline mr-1">
                         {{ Str::limit($reply->ownerName($authMode), 25) }}
-                    </span>
+                        </span>
 
-                    <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
+                        <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
 
-                    @if (config('comments.date_format') === 'diff')
-                        <span class="text-xs">{{ $reply->created_at->diffForHumans() }}</span>
-                    @else
-                        <span
-                            x-text="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')"
-                            class="text-xs"
-                        ></span>
-                    @endif
+                        @if (config('comments.date_format') === 'diff')
+                            <span class="text-xs">{{ $reply->created_at->diffForHumans() }}</span>
+                        @else
+                            <span
+                                x-text="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')"
+                                class="text-xs"
+                            ></span>
+                        @endif
 
-                    @if ($reply->isEdited())
-                        <span class="inline-block h-2 w-[1px] bg-black"></span>
-                        <span class="text-xs">{{ __('Edited') }}</span>
-                    @endif
+                        @if ($reply->isEdited())
+                            <span class="inline-block h-2 w-[1px] bg-black"></span>
+                            <span class="text-xs">{{ __('Edited') }}</span>
+                        @endif
+                    </div>
                 </div>
+
 
                 @if ($canManipulate)
                     <div class="flex items-center justify-center space-x-2">
                         <div title="My Reply">
-                            <x-comments::user-check height="14" width="14" />
+                            <x-comments::user-check height="14" width="14"/>
                         </div>
 
-                        <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500" />
+                        <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500"/>
 
                         <div
                             x-data="{ showEditMenu: false }"
@@ -71,8 +105,9 @@
                             class="relative cursor-pointer"
                         >
                             <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                <x-comments::verticle-ellipsis :height="20" :width="20" />
+                                <x-comments::verticle-ellipsis :height="20" :width="20"/>
                             </div>
+
                             <ul
                                 x-show="showEditMenu"
                                 @click.outside="showEditMenu=false"
@@ -88,7 +123,7 @@
                                          "
                                         class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
-                                        <x-comments::pencil height="13" width="13" strokeColor="blue" />
+                                        <x-comments::pencil height="13" width="13" strokeColor="blue"/>
                                         <x-comments::action class="text-sm hover:!no-underline sm:text-sm">
                                             {{ __('Edit') }}
                                         </x-comments::action>
@@ -102,7 +137,7 @@
                                         @click="showEditMenu=false"
                                         class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
-                                        <x-comments::trash height="13" width="13" strokeColor="red" />
+                                        <x-comments::trash height="13" width="13" strokeColor="red"/>
                                         <x-comments::action
                                             wire:loading.remove
                                             wire:target="delete({{$reply}})"
@@ -139,16 +174,21 @@
             >
                 {!! $reply->text !!}
             </div>
-        </div>
 
-        <div x-show="!showUpdateForm" class="mt-2">
-            <livewire:comments-reactions-manager
-                :key="'reply-reaction-manager' . $reply->getKey()"
-                :comment="$reply"
-                :$guestMode
-                :$relatedModel
-                :enableReply="false"
-            />
+            <div
+                class="flex bg-gray-200 my-4 justify-center items-center h-[1px] max-w-[10%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+            </div>
+
+            <!--Reaction manager -->
+            <div x-show="!showUpdateForm" class="mt-2">
+                <livewire:comments-reactions-manager
+                    :key="'reply-reaction-manager' . $reply->getKey()"
+                    :comment="$reply"
+                    :$guestMode
+                    :$relatedModel
+                    :enableReply="false"
+                />
+            </div>
         </div>
 
         <div x-show="showUpdateForm" x-transition class="basis-full">
