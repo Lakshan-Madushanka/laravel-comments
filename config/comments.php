@@ -12,7 +12,23 @@ return [
     /**
      * Available themes default,github
      */
-    'theme' => 'default',
+    'theme' => 'modern',
+
+    'primary_color' => 'green',
+
+    'secondary_color' => '#000000',
+
+    'bg_primary_color' => '#ededed',
+
+    'bg_secondary_color' => 'white',
+
+    'active_color' => 'rgb(209,213,219)',
+
+    'hover_color' => 'rgb(229,231,235)',
+
+    'button_color' => '#0000FF',
+
+    'button_hover_color' => '#0707a5',
 
     /**
      * Comment Model
