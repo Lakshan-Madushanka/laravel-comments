@@ -10,7 +10,7 @@
         @click.outside="show=false"
         {{$attributes->class(['z-20 rounded border border-gray-200 bg-white dark:bg-slate-800 dark:border-black shadow-lg mx-2 w-full max-h-[50svh] lg:max-h-[65svh] overflow-auto sm:w-auto sm:min-w-[32rem]'])}}
     >
-        <div @click="show=false" class="flex w-full cursor-pointer justify-end p-1">
+        <div @click="show=false" class="flex w-full dark:bg-black cursor-pointer justify-end p-1">
             <x-comments::icons.close />
         </div>
 

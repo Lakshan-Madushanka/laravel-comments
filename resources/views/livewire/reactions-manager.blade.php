@@ -1,10 +1,10 @@
 @php use Illuminate\Support\Number;use LakM\Comments\Helpers; @endphp
 <div x-data="{ showReplyForm: false }">
-    <div class="flex w-full justify-between gap-x-4">
+    <div class="flex w-full justify-between gap-x-4 dark:!text-white">
         <div
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
-                "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
+                "border border-gray-200 bg-white dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
                 "border-none bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
             ])
         >
@@ -39,10 +39,14 @@
                         "
                         @class([
                            "cursor-pointer rounded px-1",
-                           "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-                           "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-                           "bg-gray-100 !rounded-[1000px] !py-1 !px-2 rounded-lg hover:bg-gray-300 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme()
+                           "hover:!bg-["  . config('comments.hover_color') . "]",
+                           "border dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
+                           "dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
+                           "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme()
                        ])
+                        @style([
+                            'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                        ])
                     >
                         <div
                             @click="if($wire.loginRequired || !$wire.secureGuestModeAllowed){return}; isLiked = !isLiked; showUsers=false"
@@ -113,10 +117,14 @@
                         "
                         @class([
                             "cursor-pointer rounded px-1",
-                            "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-                            "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-                            "bg-gray-100 !rounded-[1000px] !py-1 !px-2 rounded-lg hover:bg-gray-200 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
+                            "hover:!bg-["  . config('comments.hover_color') . "]",
+                            "border dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
+                            "dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
+                            "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
                         ])
+                        @style([
+                           'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                       ])
                     >
                         <div
                             @click="if($wire.loginRequired || !$wire.secureGuestModeAllowed){return}; isDisliked = !isDisliked; showUsers=false"
@@ -190,9 +198,28 @@
                             setTimeout(() => {showReplyForm = !showReplyForm}, 2000)
                         }
                      "
-                    @class(["bg-gray-100 !rounded-[1000px] !py-1 !px-2 hover:bg-gray-200 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()])
+                    @class([
+                        "px-1 rounded",
+                        "!rounded-[1000px] !py-1 !px-2 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme(),
+                         "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                    ])
+                    @style([
+                        'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                   ])
                 >
-                    <x-comments::link class="align-text-bottom text-sm" type="popup">{{__('Reply')}}</x-comments::link>
+                    <x-comments::link
+                        @class([
+                            "align-text-bottom text-sm",
+                            "hover:!border-b" => Helpers::isDefaultTheme(),
+                            "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                        ])
+                        type="popup"
+                    >
+                        @if(Helpers::isModernTheme())
+                            <x-comments::icons.reply/>
+                        @endif
+                        <span>{{__('Reply')}}</span>
+                    </x-comments::link>
                 </div>
             @endif
         </div>
@@ -200,8 +227,8 @@
         <div
             @class([
                   "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
-                  "border border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                  "rounded-lg !max-w-[11rem] sm:!max-w-40 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
+                  "border border-gray-200 bg-white dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
+                  "rounded-lg !max-w-[11rem] sm:!max-w-40 md:!max-w-72 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
                 ])
         >
             @foreach ($rReactions as $key => $value)
@@ -235,22 +262,34 @@
             "
         >
             <x-comments::modal loadingTarget="loadReactedUsers">
-                <div class="flex py-4">
+                <div class="flex py-4 dark:bg-black ">
                     <div class="space-y-2 border-r-2 border-gray-200 dark:border-slate-900">
                         <div class="mb-4 border-b-2 border-gray-200 p-4 dark:border-slate-900">
-                            <span class="bg-gray-300 dark:bg-slate-600 px-4 py-2 font-bold">{{ $total }}</span>
+                            <span
+                                class="bg-gray-300 dark:bg-slate-600 px-4 py-2 font-bold"
+                                @style([
+                                    'background: ' . config('comments.active_color') ,
+                                    'color: ' . config('comments.primary_color'),
+                                ])
+                            >
+                                {{ $total }}
+                            </span>
                         </div>
                         @foreach (config("comments.reactions") as $key => $reaction)
                             <div
                                 @if ($reactions[$key]["count"] > 0)
                                     wire:click="loadReactedUsers('{{ $key }}')"
                                 @click="type = '{{ $key }}'"
-                                class="cursor-pointer p-4 relative hover:bg-gray-300 hover:dark:bg-slate-700"
+                                @class([
+                                    "cursor-pointer p-4 relative hover:bg-gray-300 hover:dark:bg-slate-700",
+                                    "hover:!bg-["  . config('comments.hover_color') . "]",
+                                ])
                                 @endif
                                 wire:loading.class="cursor-not-allowed"
                                 target="loadReactedUsers"
                                 class="relative p-4"
-                                :class="type === '{{ $key }}' ? 'bg-gray-300 dark:bg-slate-600' : ''"
+                                :class="type === '{{ $key }}' ? 'dark:bg-slate-600' : ''"
+                                x-bind:style="type === '{{ $key }}' ? 'background: ' + @js(config('comments.active_color')) : ''"
                             >
                                 @if ($reactions[$key]["reacted"])
                                     <x-dynamic-component
@@ -261,7 +300,13 @@
                                     <x-dynamic-component component="comments::icons.{{$key}}" />
                                 @endif
 
-                                <span class="absolute left-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900">
+                                <span
+                                    class="absolute left-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900"
+                                    @style([
+                                        'background: ' . config('comments.bg_primary_color'),
+                                        'color: ' . config('comments.primary_color'),
+                                    ])
+                                >
                                 {{ $reactions[$key]["count"] }}
                             </span>
                             </div>

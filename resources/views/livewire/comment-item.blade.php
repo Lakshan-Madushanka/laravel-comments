@@ -4,8 +4,11 @@
     x-ref="comment{{ $comment->getKey() }}"
     x-data="{ showReplyList: @js($showReplyList), replyCount: @js($comment->replies_count) }"
     @class([
-        "flex gap-x-2 sm:gap-x-4",
+        "flex gap-x-2 sm:gap-x-4 pb-2 dark:!bg-black dark:!text-white",
         "border rounded-lg p-4" => Helpers::isModernTheme(),
+    ])
+    @style([
+        'color: ' . config('comments.secondary_color') . ';' . 'background: ' . config('comments.bg_secondary_color')
     ])
 >
     <div
@@ -42,12 +45,15 @@
         >
             <div
                 @class([
-                    "hidden md:w-[4%]",
+                    "hidden md:block md:w-[4%] rounded-xl",
                     '!hidden' => !Helpers::isModernTheme(),
+                ])
+                @style([
+                    'background: ' . config('comments.bg_primary_color')
                 ])
             >
                 <div
-                    class="h-full rounded-xl flex items-center justify-center bg-gray-100 font-bold"
+                    class="h-full flex items-center justify-center font-bold dark:text-black"
                 >
                     {{$comment->score}}
                 </div>
@@ -84,7 +90,7 @@
                                 {{ Str::limit($comment->ownerName($authMode), 10) }}
                             </span>
 
-                                    <span class="hidden font-semibold sm:inline mr-1">
+                            <span class="hidden font-semibold sm:inline mr-1">
                                 {{ Str::limit($comment->ownerName($authMode), 25) }}
                             </span>
 
@@ -127,14 +133,17 @@
                                     x-show="showEditMenu"
                                     @click.outside="showEditMenu=false"
                                     x-transition
-                                    class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
+                                    class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                                 >
                                     @if ($model->canEditComment($comment))
                                         <li
                                             @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
-                                            class="flex items-center space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
+                                            @class([
+                                                "hover:!bg-[" . config('comments.hover_color') . "]",
+                                                "flex items-center space-x-2 rounded p-2 dark:hover:!bg-slate-900"
+                                            ])
                                         >
-                                            <x-comments::pencil height="13" width="13" strokeColor="blue"/>
+                                            <x-comments::pencil height="13" width="13" strokeColor="{{config('comments.primary_color')}}"/>
 
                                             <x-comments::action class="text-xs hover:!no-underline sm:text-sm">
                                                 {{ __('Edit') }}
@@ -147,7 +156,10 @@
                                             wire:click="delete({{ $comment }})"
                                             wire:confirm="{{ __('Are you sure you want to delete this comment?') }}"
                                             @click="showEditMenu=false"
-                                            class="flex items-center items-center space-x-2 space-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
+                                            @class([
+                                                "hover:!bg-[" . config('comments.hover_color') . "]",
+                                                "flex items-center items-center space-x-2 space-x-2 rounded p-2 dark:hover:!bg-slate-900"
+                                            ])
                                         >
                                             <x-comments::trash height="13" width="13" strokeColor="red"/>
                                             <x-comments::action
@@ -191,7 +203,7 @@
                 </div>
 
                 <!--Reaction manager -->
-                <div x-show="!showUpdateForm">
+                <div x-show="!showUpdateForm" @class(['px-2' => Helpers::isGithubTheme()])>
                     <livewire:comments-reactions-manager
                         :key="'reaction-manager-' . $comment->id"
                         :$comment
@@ -231,14 +243,43 @@
                             <x-comments::link
                                 type="popup"
                                 @class([
-                                    "inline-flex text-sm items-center border-b-0 px-2 py-1 transition hover:rounded hover:border-b-0 hover:bg-gray-200 dark:hover:bg-slate-800 [&>*]:pr-1",
-                                    "bg-gray-100 !rounded-[1000px] hover:rounded-[1000px] hover:bg-gray-200 hover:bg-gray-200" => Helpers::isModernTheme(),
+                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:hover:bg-slate-800 [&>*]:pr-1",
+                                    "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
+                                    "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
+                                    "!rounded-[1000px] hover:rounded-[1000px] space-x-2" => Helpers::isModernTheme(),
+                                ])
+                                @style([
+                                    'background: ' . config('comments.bg_primary_color') => Helpers::isModernTheme(),
                                 ])
                             >
-                                <x-comments::icons.chevron-down x-show="!showReplyList"/>
-                                <x-comments::icons.chevron-up x-show="showReplyList"/>
-                                <span x-text="replyCount"></span>
+                                @if(!Helpers::isModernTheme())
+                                    <span x-show="!showReplyList">
+                                        <x-comments::icons.chevron-down/>
+                                    </span>
+                                    <span x-show="showReplyList">
+                                        <x-comments::icons.chevron-up/>
+                                    </span>
+                                @endif
+
+                                <span
+                                    x-text="replyCount"
+                                    @class([
+                                        "inline-block text-center",
+                                        "border text-xs !py-1 !px-2 rounded-full bg-white" => Helpers::isModernTheme(),
+                                    ])
+                                >
+
+                                </span>
                                 <span>{{ __('Replies') }}</span>
+
+                                @if(Helpers::isModernTheme())
+                                    <span x-show="!showReplyList">
+                                        <x-comments::icons.list-down/>
+                                    </span>
+                                    <span x-show="showReplyList">
+                                        <x-comments::icons.list-up/>
+                                    </span>
+                                @endif
                             </x-comments::link>
                         </div>
                     </div>
@@ -252,11 +293,11 @@
             x-transtion
             @class([
                 "ml-[-2rem] mt-6 sm:ml-8",
-                "!mt-10 sm:!ml-24" => Helpers::isModernTheme()
+                "!mt-6 sm:!ml-24" => Helpers::isModernTheme()
             ])
         >
             <div
-                class="flex bg-gray-200 mb-8 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+                class="flex bg-gray-200 mb-6 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
             </div>
 
             <livewire:comments-reply-list

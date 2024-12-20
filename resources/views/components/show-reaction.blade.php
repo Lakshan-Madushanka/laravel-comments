@@ -17,10 +17,14 @@
     @mouseleave="showUsers=false"
     @class([
           "flex flex-row items-center justify-center rounded-md px-1 py-[2px]",
+          "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
           "border hover:bg-gray-200 dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-          "bg-gray-300 hover:bg-gray-400 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-          "bg-gray-100 !rounded-[1000px] !py-1 !px-2 hover:bg-gray-200 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
+          "dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
+          "!rounded-[1000px] !py-1 !px-2 dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
     ])
+    @style([
+          'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+   ])
 >
     <div
         @if ($authMode)

@@ -29,7 +29,7 @@
     @endif
 
     <div wire:loading.flex wire.target="setSortBy" class="flex items-center gap-x-2 sm:gap-x-4">
-        <x-comments::spin class="!size-5 !text-blue-500" />
+        <x-comments::spin class="!size-5" />
     </div>
 
     @if ($replies->isNotEmpty())

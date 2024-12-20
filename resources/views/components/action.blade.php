@@ -1,5 +1,8 @@
 <span
-    {{ $attributes->merge(['class' => 'font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer']) }}
+    {{ $attributes->merge(['class' => 'font-medium hover:underline cursor-pointer']) }}
+    @style([
+        'color: ' . config('comments.primary_color'),
+    ])
 >
     {{ $slot }}
 </span>

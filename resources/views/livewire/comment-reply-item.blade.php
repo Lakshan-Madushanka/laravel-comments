@@ -2,9 +2,12 @@
 <div
     x-ref="reply{{ $reply->getKey() }}"
     @class([
-       "flex gap-x-2 sm:gap-x-4",
+       "flex gap-x-2 sm:gap-x-4 dark:!text-white",
        "border rounded-lg p-4" => Helpers::isModernTheme(),
    ])
+    @style([
+        'color: ' . config('comments.secondary_color')
+    ])
 >
     <div
         @class([

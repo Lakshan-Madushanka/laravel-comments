@@ -1,6 +1,14 @@
 <div>
     @if ($show)
-        <div class="scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg">
+        <div
+            @class([
+                "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg dark:!text-white dark:!bg-black",
+                "hover:!bg-["  . config('comments.hover_color') . "]",
+            ])
+            @style([
+                'background: ' . config('comments.bg_primary_color'),
+            ])
+        >
             <div
                 x-data="{
                     initFocus:false,
@@ -43,7 +51,12 @@
             @endif
 
             <div wire:loading.flex class="mt-4 flex justify-center">
-                <x-comments::spin class="size-6 text-center !text-blue-500" />
+                <x-comments::spin
+                    class="size-6 text-center !text-blue-500"
+                    @style([
+                        'color: ' . config('comments.primary_color'),
+                    ])
+                />
             </div>
         </div>
     @endif
