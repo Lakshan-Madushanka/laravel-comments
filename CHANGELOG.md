@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.0.11 - 2024-12-11
+
+### What's Changed
+
+* Handle nullable names by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/66
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.10...2.0.11
+
 ## 2.0.10 - 2024-12-01
 
 ### What's Changed
