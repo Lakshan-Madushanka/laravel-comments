@@ -43,6 +43,11 @@ class Helpers
         return config('comments.theme') === 'github';
     }
 
+    public static function isModernTheme(): bool
+    {
+        return config('comments.theme') === 'modern';
+    }
+
     public static function getAuthGuard(): StatefulGuard
     {
         if (SecureGuestMode::enabled()) {
