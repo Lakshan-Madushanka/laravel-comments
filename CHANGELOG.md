@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.1.0 - 2024-12-21
+
+### What's Changed
+
+* This will add a modern theme by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/64
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.0.11...2.1.0
+
 ## 2.0.11 - 2024-12-11
 
 ### What's Changed
