@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.1.1 - 2025-01-10
+
+### What's Changed
+
+* Fix: Loading skeleton not showing and comments' list margin issues by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/70
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.1.0...2.1.1
+
 ## 2.1.0 - 2024-12-21
 
 ### What's Changed
