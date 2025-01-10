@@ -14,7 +14,7 @@ return [
      */
     'theme' => 'modern',
 
-    'primary_color' => 'green',
+    'primary_color' => '#0400ff',
 
     'secondary_color' => '#000000',
 
