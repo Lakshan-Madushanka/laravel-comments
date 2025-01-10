@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Console\InstallCommand;
@@ -25,8 +26,6 @@ use Livewire\Livewire;
 
 class CommentServiceProvider extends ServiceProvider
 {
-    public const MANIFEST_PATH = __DIR__ . '/../public/build/manifest.json';
-
     public function boot(): void
     {
         $this->setRoutes();
@@ -76,14 +75,34 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function setBladeDirectives(): void
     {
-        Blade::directive('commentsStyles', function () {
-            $url = $this->getStyleUrl();
-            return "<link rel='stylesheet' href='{$url}'>";
+        if ($this->app->runningInConsole()) {
+            return;
+        }
+
+        if (!(file_exists(public_path('vendor/lakm/laravel-comments/manifest.json')) ||
+            file_exists(public_path('vendor/lakm/laravel-comments/laravel-comments.hot')))) {
+            return;
+        }
+
+        $styles = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
+            ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
+            ->withEntryPoints(['resources/css/app.css'])
+            ->toHtml();
+
+        $scripts = Vite::useBuildDirectory("vendor/lakm/laravel-comments")
+            ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
+            ->withEntryPoints(['resources/js/app.js'])
+            ->toHtml();
+
+        Vite::useHotFile(public_path('/hot'))
+            ->useBuildDirectory('build');
+
+        Blade::directive('commentsStyles', function () use ($styles) {
+            return $styles;
         });
 
-        Blade::directive('commentsScripts', function () {
-            $url = $this->getScriptUrl();
-            return "<script type='module' src='{$url}'> </script>";
+        Blade::directive('commentsScripts', function () use ($scripts) {
+            return $scripts;
         });
     }
 
@@ -125,7 +144,7 @@ class CommentServiceProvider extends ServiceProvider
         $this->app->bind(AbstractQueries::class, Queries::class);
     }
 
-    public function registerGuards()
+    public function registerGuards(): void
     {
         config()->set('auth.guards.guest', [
             'driver' => 'session',
@@ -145,25 +164,6 @@ class CommentServiceProvider extends ServiceProvider
                 InstallCommand::class,
             ]);
         }
-    }
-
-    protected function getStyleUrl(): string
-    {
-        $stylePath = $this->getManifestData()['resources/js/app.js']['css'][0];
-
-        return asset("vendor/lakm/laravel-comments/build/{$stylePath}");
-    }
-
-    protected function getScriptUrl(): string
-    {
-        $scriptPath = $this->getManifestData()['resources/js/app.js']['file'];
-
-        return asset("vendor/lakm/laravel-comments/build/{$scriptPath}");
-    }
-
-    protected function getManifestData(): array
-    {
-        return json_decode(file_get_contents(self::MANIFEST_PATH), true);
     }
 
     /**
