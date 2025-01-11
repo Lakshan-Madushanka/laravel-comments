@@ -79,17 +79,17 @@ class CommentServiceProvider extends ServiceProvider
             return;
         }
 
-        if (!(file_exists(public_path('vendor/lakm/laravel-comments/manifest.json')) ||
+        if (!(file_exists(public_path('vendor/lakm/laravel-comments/build/manifest.json')) ||
             file_exists(public_path('vendor/lakm/laravel-comments/laravel-comments.hot')))) {
             return;
         }
 
         $styles = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
             ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
-            ->withEntryPoints(['resources/css/app.css'])
+            ->withEntryPoints(['resources/js/app.js'])
             ->toHtml();
 
-        $scripts = Vite::useBuildDirectory("vendor/lakm/laravel-comments")
+        $scripts = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
             ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
             ->withEntryPoints(['resources/js/app.js'])
             ->toHtml();
