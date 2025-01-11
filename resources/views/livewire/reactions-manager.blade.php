@@ -5,7 +5,7 @@
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
                 "border border-gray-200 bg-white dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                "border-none bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
+                "border-none bg-transparent dark:bg-slate-800 dark:border-slate-700 rounded-lg" =>  Helpers::isModernTheme()
             ])
         >
             @foreach ($lReactions as $key => $value)
@@ -40,9 +40,9 @@
                         @class([
                            "cursor-pointer rounded px-1",
                            "hover:!bg-["  . config('comments.hover_color') . "]",
-                           "border dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-                           "dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-                           "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme()
+                           "border dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
+                           "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
+                           "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme()
                        ])
                         @style([
                             'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -118,9 +118,9 @@
                         @class([
                             "cursor-pointer rounded px-1",
                             "hover:!bg-["  . config('comments.hover_color') . "]",
-                            "border dark:border-slate-700 dark:hover:bg-slate-900" => Helpers::isDefaultTheme(),
-                            "dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isGithubTheme(),
-                            "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:bg-slate-900 dark:hover:bg-slate-600" => Helpers::isModernTheme(),
+                            "border dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
+                            "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
+                            "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
                         ])
                         @style([
                            'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -199,8 +199,8 @@
                         }
                      "
                     @class([
-                        "px-1 rounded",
-                        "!rounded-[1000px] !py-1 !px-2 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme(),
+                        "px-1 rounded dark:!bg-slate-800 dark:border-slate-700",
+                        "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
                          "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
@@ -227,8 +227,8 @@
         <div
             @class([
                   "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
-                  "border border-gray-200 bg-white dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                  "rounded-lg !max-w-[11rem] sm:!max-w-40 md:!max-w-72 bg-transparent dark:bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
+                  "border border-gray-200 bg-white dark:!bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
+                  "rounded-lg !max-w-[11rem] sm:!max-w-40 md:!max-w-72 bg-transparent dark:!bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
                 ])
         >
             @foreach ($rReactions as $key => $value)

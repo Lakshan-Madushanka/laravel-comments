@@ -243,7 +243,7 @@
                             <x-comments::link
                                 type="popup"
                                 @class([
-                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:hover:bg-slate-800 [&>*]:pr-1",
+                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pr-1",
                                     "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
                                     "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
                                     "!rounded-[1000px] hover:rounded-[1000px] space-x-2" => Helpers::isModernTheme(),
@@ -265,7 +265,7 @@
                                     x-text="replyCount"
                                     @class([
                                         "inline-block text-center",
-                                        "border text-xs !py-1 !px-2 rounded-full bg-white" => Helpers::isModernTheme(),
+                                        "border text-xs !py-1 !px-2 rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
                                     ])
                                 >
 

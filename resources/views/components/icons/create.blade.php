@@ -3,7 +3,7 @@
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
     <g id="SVGRepo_iconCarrier">
-        <g fill="none" fill-rule="evenodd" stroke="{{config('comments.primary_color')}}" stroke-linecap="round" stroke-linejoin="round"
+        <g fill="none" fill-rule="evenodd" stroke="{{config('comments.primary_color')}}" class="dark:!fill-red-500" stroke-linecap="round" stroke-linejoin="round"
            transform="translate(3 3)">
             <path
                 d="m7 1.5h-4.5c-1.1045695 0-2 .8954305-2 2v9.0003682c0 1.1045695.8954305 2 2 2h10c1.1045695 0 2-.8954305 2-2v-4.5003682"></path>
