@@ -65,9 +65,9 @@ trait BuildAssets
 
         foreach ($resources as $resource) {
             if ($needDarkMode) {
-                file_put_contents($resource->getPathname(), preg_replace('/(?<=^|\s)no-dark:(?=\w)/', 'dark:', $resource->getContents()));
+                file_put_contents($resource->getPathname(), preg_replace('/(?<=^|\s)no-dark:(?=\w|!)/', 'dark:', $resource->getContents()));
             } else {
-                file_put_contents($resource->getPathname(), preg_replace('/(?<=^|\s)dark:(?=\w)/', 'no-dark:', $resource->getContents()));
+                file_put_contents($resource->getPathname(), preg_replace('/(?<=^|\s)dark:(?=\w|!)/', 'no-dark:', $resource->getContents()));
             }
         }
 
@@ -90,10 +90,12 @@ trait BuildAssets
         $this->newLine();
 
         Process::path($basePath)
+            ->timeout(120)
             ->run('npm install')
             ->throw();
 
         Process::path($basePath)
+            ->timeout(120)
             ->run('npm run build')
             ->throw();
     }
