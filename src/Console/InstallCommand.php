@@ -3,26 +3,31 @@
 namespace LakM\Comments\Console;
 
 use Illuminate\Console\Command;
+use LakM\Comments\Console\Concerns\BuildAssets;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class InstallCommand extends Command
 {
+    use BuildAssets;
+
     protected $signature = 'commenter:install';
 
     protected $description = 'This will install the package';
 
-    public function handle()
+    public function handle(): void
     {
         $this->info("❤️ Commenter installer");
+        $this->newLine();
 
         $this->publishConfigs();
+        $built = $this->buildAssets();
         $this->publishAssets();
         $this->publishMigrations();
         $migrated = $this->runMigrations();
 
-        $this->showStatus($migrated);
+        $this->showStatus($migrated, $built);
 
         $this->askSupport();
     }
@@ -54,7 +59,7 @@ class InstallCommand extends Command
         return $confirmed;
     }
 
-    private function showStatus(bool $migrated): void
+    private function showStatus(bool $migrated, bool $assetsBuild): void
     {
         $this->info("✅  Config published");
         $this->info("✅  Assets published");
@@ -63,15 +68,26 @@ class InstallCommand extends Command
         if ($migrated) {
             $this->info("✅  Ran Migrations");
             $this->newLine();
-            $this->warn("All set! Simply add assets to your layout files to finish the installation");
-            return;
+        } else {
+            $this->error("❌  Ran Migrations");
+            $this->newLine();
+            $this->warn("Run 'php artisan migrate' command and add assets to your layout files to finish the installation");
+            $this->newLine();
         }
 
-        $this->error("❌  Ran Migrations");
+        if ($assetsBuild) {
+            $this->info("✅  Assets built");
+            $this->newLine();
+        } else {
+            $this->error("❌  Assets built");
+            $this->newLine();
+        }
 
-        $this->newLine();
-
-        $this->warn("Run 'php artisan migrate' command and add assets to your layout files to finish the installation");
+        if ($migrated && $assetsBuild) {
+            $this->warn("All set! Simply add assets to your layout files to finish the installation");
+        } else {
+            $this->error("🚨 installation uncompleted!");
+        }
     }
 
     private function askSupport(): void
