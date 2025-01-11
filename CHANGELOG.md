@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 2.2.0 - 2025-01-11
+
+### What's Changed
+
+* Add assets build phrase to install command and improve dark mode support by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/71
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/72
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.1.1...2.2.0
+
 ## 2.1.1 - 2025-01-10
 
 ### What's Changed
