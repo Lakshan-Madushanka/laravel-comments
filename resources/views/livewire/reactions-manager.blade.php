@@ -167,7 +167,7 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$secureGuestModeAllowed/>
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$loginRequired :$secureGuestModeAllowed/>
                 @endif
             @endforeach
 
