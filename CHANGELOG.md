@@ -1,5 +1,17 @@
 # Documentation of the changes
 
+## 2.2.1 - 2025-01-14
+
+### What's Changed
+
+* Bug fix: add missing parameter by @zvizvi in https://github.com/Lakshan-Madushanka/laravel-comments/pull/75
+
+### New Contributors
+
+* @zvizvi made their first contribution in https://github.com/Lakshan-Madushanka/laravel-comments/pull/75
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.0...2.2.1
+
 ## 2.2.0 - 2025-01-11
 
 ### What's Changed
