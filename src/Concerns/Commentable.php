@@ -164,7 +164,7 @@ trait Commentable
     {
         $order = Sort::LATEST;
 
-        if (!empty($defaultOrder = config('comments.replies.default_sort'))) {
+        if (!empty($defaultOrder = config('comments.reply.default_sort'))) {
             $order = $defaultOrder;
         }
 

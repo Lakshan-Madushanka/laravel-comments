@@ -114,7 +114,7 @@ it('can get comments sort order defined in model', function () {
 });
 
 it('can get default replies sort order', function () {
-    config(['comments.replies.default_sort' => Sort::LATEST]);
+    config(['comments.reply.default_sort' => Sort::LATEST]);
 
     $video = video();
 
