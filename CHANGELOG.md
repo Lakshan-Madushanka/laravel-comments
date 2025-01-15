@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.2.2 - 2025-01-15
+
+### What's Changed
+
+* Fix replies default_sort bug by @zvizvi in https://github.com/Lakshan-Madushanka/laravel-comments/pull/76
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.1...2.2.2
+
 ## 2.2.1 - 2025-01-14
 
 ### What's Changed
