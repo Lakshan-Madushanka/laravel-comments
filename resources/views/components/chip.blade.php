@@ -46,7 +46,7 @@
     @style([
         'color: ' . config('comments.primary_color'),
         'background: ' . config('comments.bg_primary_color') => !$active && (Helpers::isGithubTheme() || Helpers::isModernTheme()),
-        ';background: ' . config('comments.active_color') => $active && (Helpers::isGithubTheme() || Helpers::isModernTheme()),
+        'background: ' . config('comments.active_color') => $active && (Helpers::isGithubTheme() || Helpers::isModernTheme()),
     ])
 >
     {{ $slot }}
