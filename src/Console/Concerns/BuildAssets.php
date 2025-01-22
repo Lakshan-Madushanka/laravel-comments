@@ -89,12 +89,12 @@ trait BuildAssets
         $this->newLine();
 
         Process::path($basePath)
-            ->timeout(120)
+            ->timeout(300)
             ->run('npm install')
             ->throw();
 
         Process::path($basePath)
-            ->timeout(120)
+            ->timeout(300)
             ->run('npm run build')
             ->throw();
     }
