@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.2.5 - 2025-01-22
+
+### What's Changed
+
+* fix(setup command): ProcessTimedOutException by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/80
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.4...2.2.5
+
 ## 2.2.4 - 2025-01-22
 
 ### What's Changed
