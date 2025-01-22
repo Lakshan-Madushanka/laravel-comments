@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.2.3 - 2025-01-22
+
+### What's Changed
+
+* fix(style): flaky loading indicators by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/78
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.2...2.2.3
+
 ## 2.2.2 - 2025-01-15
 
 ### What's Changed
