@@ -1,5 +1,15 @@
 # Documentation of the changes
 
+## 2.2.4 - 2025-01-22
+
+### What's Changed
+
+* Bump nanoid from 3.3.7 to 3.3.8 by @dependabot in https://github.com/Lakshan-Madushanka/laravel-comments/pull/67
+* Bump rollup from 4.13.2 to 4.22.4 by @dependabot in https://github.com/Lakshan-Madushanka/laravel-comments/pull/38
+* Bump vite from 5.4.6 to 5.4.14 by @dependabot in https://github.com/Lakshan-Madushanka/laravel-comments/pull/79
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.3...2.2.4
+
 ## 2.2.3 - 2025-01-22
 
 ### What's Changed
