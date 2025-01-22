@@ -41,7 +41,7 @@
         @style([$severityStyle])
     >
         <span>{{ $slot }}</span>
-        <x-comments::spin />
+        <x-comments::spin color="white"/>
     </button>
 @endif
 
@@ -75,7 +75,7 @@
             @style([$severityStyle])
         >
             <span>{{ $slot }}</span>
-            <x-comments::spin />
+            <x-comments::spin color="white"/>
         </button>
     </div>
 @endif
