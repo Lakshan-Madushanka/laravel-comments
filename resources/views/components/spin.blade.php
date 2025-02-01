@@ -8,5 +8,5 @@
     role="status"
     aria-label="loading"
 >
-    <span class="sr-only">Loading...</span>
+    <span class="sr-only">@lang('Loading...')</span>
 </span>
