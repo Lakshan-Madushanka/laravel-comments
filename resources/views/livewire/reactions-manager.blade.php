@@ -71,7 +71,7 @@
                                     :fill="$this->fillColor('like')"
                                 />
                             </div>
-                            <div class="pl-1 sm:pl-2">
+                            <div class="ps-1 sm:ps-2">
                                 <span class="text-sm">{{ Number::abbreviate($reactions["like"]["count"]) }}</span>
                             </div>
                         </div>
@@ -83,8 +83,8 @@
                             :$key
                             :$comment
                             :$authMode
-                            class="bottom-[-3.4rem] left-[-2rem]"
-                            wrapperClass="left-1 bottom-[-2.2rem]"
+                            class="bottom-[-3.4rem] start-[-2rem]"
+                            wrapperClass="start-1 bottom-[-2.2rem]"
                         />
                     </div>
                 @elseif ($key === "dislike")
@@ -151,7 +151,7 @@
                                 />
                             </div>
 
-                            <div class="pl-1 sm:pl-2">
+                            <div class="ps-1 sm:ps-2">
                                 <span class="text-sm">{{ Number::abbreviate($reactions["dislike"]["count"]) }}</span>
                             </div>
                         </div>
@@ -162,8 +162,8 @@
                             :$key
                             :$comment
                             :$authMode
-                            class="bottom-[-3.4rem] left-[-2rem]"
-                            wrapperClass="left-1 bottom-[-2.2rem]"
+                            class="bottom-[-3.4rem] start-[-2rem]"
+                            wrapperClass="start-1 bottom-[-2.2rem]"
                         />
                     </div>
                 @else
@@ -246,7 +246,7 @@
     </div>
 
     @if ($enableReply)
-        <div x-show="showReplyForm" x-transition class="my-4 sm:ml-8">
+        <div x-show="showReplyForm" x-transition class="my-4 sm:ms-8">
             <livewire:comments-reply-form :$comment :$guestMode :$relatedModel />
         </div>
     @endif
@@ -301,7 +301,7 @@
                                 @endif
 
                                 <span
-                                    class="absolute left-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900"
+                                    class="absolute start-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900"
                                     @style([
                                         'background: ' . config('comments.bg_primary_color'),
                                         'color: ' . config('comments.primary_color'),
@@ -316,7 +316,7 @@
                     @if ($selectedReactionType)
                         <div class="mt-4 flex w-full flex-col items-start px-4">
                             @foreach ($this->getReactedUsers($selectedReactionType) as $user)
-                                <div class="flex w-full items-center space-x-4 border-b border-gray-200 p-2">
+                                <div class="flex w-full items-center gap-x-4 border-b border-gray-200 p-2">
                                     <div>
                                         <img
                                             class="h-[1.8rem] w-[1.8rem] rounded-full border border-gray-200"
