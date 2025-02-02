@@ -30,10 +30,10 @@ trait Commenter
         return $this->hasMany(Reply::class);
     }
 
-    public function profileUrl(): false|string
+    public function profileUrl(): ?string
     {
         if (is_null($url = config('comments.profile_url_column'))) {
-            return false;
+            return null;
         }
 
         return $this->{$url};

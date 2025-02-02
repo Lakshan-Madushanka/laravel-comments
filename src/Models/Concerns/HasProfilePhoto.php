@@ -8,7 +8,6 @@ trait HasProfilePhoto
     {
         $col = config('comments.profile_photo.url_column');
 
-
         if ($col) {
             if (isset($this->userRelationshipName)) {
                 if ($url = $this->getRelation($this->userRelationshipName)->{$col}) {

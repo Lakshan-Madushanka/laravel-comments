@@ -42,18 +42,19 @@ class CommentReplyItem extends Component
     public ?string $profileUrl;
 
     /**
-     * @param  Comment  $comment
-     * @param  Reply  $reply
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  bool  $guestMode
+     * @param  Comment $comment
+     * @param  Reply $reply
+     * @param  Model&CommentableContract $relatedModel
+     * @param  bool $guestMode
      * @return void
      */
     public function mount(
         Comment $comment,
-        Reply $reply,
-        Model $relatedModel,
-        bool $guestMode,
-    ): void {
+        Reply  $reply,
+        Model  $relatedModel,
+        bool   $guestMode,
+    ): void
+    {
         $this->comment = $comment;
         $this->reply = $reply;
 
@@ -87,12 +88,7 @@ class CommentReplyItem extends Component
 
     private function setProfileUrl(): void
     {
-        /** @var (User&CommenterContract)|null $user */
-        $user = $this->relatedModel->getAuthUser();
-
-        if ($user) {
-            $this->profileUrl = $user->profileUrl();
-        }
+        $this->profileUrl = $this->comment->commenter->profileUrl();
     }
 
     public function setCanManipulate(): bool
