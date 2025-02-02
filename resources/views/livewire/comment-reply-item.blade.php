@@ -95,7 +95,7 @@
 
                 @if ($canManipulate)
                     <div class="flex items-center justify-center space-x-2">
-                        <div title="My Reply">
+                        <div title="{{__('My Reply')}}">
                             <x-comments::user-check height="14" width="14"/>
                         </div>
 
