@@ -121,7 +121,7 @@ return [
      * Keep null to disable this feature.
      * This can be table column name or accessor
      */
-    'profile_url_column' => 'name',
+    'profile_url_column' => 'null',
 
     // When set to false filters won't be displayed in comments list
     'show_filters' => true,

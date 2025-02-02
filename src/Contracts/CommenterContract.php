@@ -13,7 +13,7 @@ interface CommenterContract
 
     public function replies(): HasMany;
 
-    public function profileUrl(): false|string;
+    public function profileUrl(): ?string;
 
     public function photoUrl(): string;
 
