@@ -6,11 +6,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
 use LakM\Comments\Actions\DeleteCommentReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Reply;
 use Livewire\Attributes\Locked;
@@ -50,11 +48,10 @@ class CommentReplyItem extends Component
      */
     public function mount(
         Comment $comment,
-        Reply  $reply,
-        Model  $relatedModel,
-        bool   $guestMode,
-    ): void
-    {
+        Reply $reply,
+        Model $relatedModel,
+        bool $guestMode,
+    ): void {
         $this->comment = $comment;
         $this->reply = $reply;
 

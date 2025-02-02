@@ -47,11 +47,10 @@ class CommentItem extends Component
      */
     public function mount(
         Comment $comment,
-        bool   $guestMode,
-        Model  $model,
-        bool   $showReplyList,
-    ): void
-    {
+        bool $guestMode,
+        Model $model,
+        bool $showReplyList,
+    ): void {
         Helpers::checkCommentableModelValidity($model);
 
         $this->comment = $comment;
