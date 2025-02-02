@@ -24,7 +24,7 @@
                         {{ __('and') }} {{ $reactions[$key]['count'] - 1 }} {{ __('other') }}
                     @endif
 
-                    {{ __('reacted.') }}
+                    {{ __('reacted') }}.
                 </span>
                 @if ($reactions[$key]['count'] > 1)
                     <span
