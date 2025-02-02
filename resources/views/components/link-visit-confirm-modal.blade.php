@@ -31,16 +31,16 @@
     <x-comments::modal class="!w-[32rem]">
         <div class="px-4 py-2 space-y-6">
             <div class="flex flex-col items-center space-y-2">
-                <span class="font-bold text-xl">{{ __('Leaving :app', ['app' => config('app.name')]) }}</span>
-                <span x-show="isURLValid">@lang('Your about to visit the following url')</span>
-                <span x-show="!isURLValid">@lang('Invalid URL')</span>
+                <span class="font-bold text-xl">{{ __('Leaving') }} {{ config('app.name') }}</span>
+                <span x-show="isURLValid">{{ __('Your about to visit the following url') }}</span>
+                <span x-show="!isURLValid">{{ __('Invalid URL') }}</span>
             </div>
             <div class="border p-4 rounded">
                 <p class="overflow-auto break-all"><span x-text=protocol></span><strong x-text="domain"></strong><span x-text="path"></span></p>
             </div>
             <div x-show="isURLValid" @click="window.open(fullUrl, '_blank')" class="flex justify-end">
                 <x-comments::button size="md" type="button">
-                    @lang('Visit Site')
+                    {{ __('Visit Site') }}
                 </x-comments::button>
             </div>
         </div>
