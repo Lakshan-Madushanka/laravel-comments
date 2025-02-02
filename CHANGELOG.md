@@ -1,5 +1,19 @@
 # Documentation of the changes
 
+## 2.2.6 - 2025-02-02
+
+### What's Changed
+
+* fix: The Profile URL points to the current user profile for all comments by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/86
+* Add missing localization to Blade component strings by @viktorruskai in https://github.com/Lakshan-Madushanka/laravel-comments/pull/84
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/87
+
+### New Contributors
+
+* @viktorruskai made their first contribution in https://github.com/Lakshan-Madushanka/laravel-comments/pull/84
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.5...2.2.6
+
 ## 2.2.5 - 2025-01-22
 
 ### What's Changed
