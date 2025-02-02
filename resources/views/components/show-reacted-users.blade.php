@@ -21,10 +21,10 @@
                 <span>
                     {{ Str::limit($lastReactedUserName, 10) }}
                     @if ($reactions[$key]['count'] > 1)
-                        and {{ $reactions[$key]['count'] - 1 }} other
+                        {{ __('and') }} {{ $reactions[$key]['count'] - 1 }} {{ __('other') }}
                     @endif
 
-                    reacted.
+                    {{ __('reacted') }}.
                 </span>
                 @if ($reactions[$key]['count'] > 1)
                     <span
@@ -32,7 +32,7 @@
                         @click="$dispatch('show-user-list', {id: '{{ $comment->getKey() }}', type: '{{ $key }}'})"
                         class="w-full cursor-pointer pb-1 text-center"
                     >
-                        <x-comments::link type="popup">show all</x-comments::link>
+                        <x-comments::link type="popup">{{ __('show all') }}</x-comments::link>
                     </span>
                 @endif
             </div>
