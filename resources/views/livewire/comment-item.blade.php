@@ -97,7 +97,7 @@
                             <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
 
                             @if (config('comments.date_format') === 'diff')
-                                <span class="text-xs">{{ $comment->created_at->diffForHumans() }}</span>
+                                <span class="text-xs" x-bind:title="moment(@js($comment->created_at)).format('YYYY-MM-DD HH:mm')">{{ $comment->created_at->diffForHumans() }}</span>
                             @else
                                 <span
                                     x-text="moment(@js($comment->created_at)).format('YYYY/M/D H:mm')"
