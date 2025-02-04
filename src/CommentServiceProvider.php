@@ -86,7 +86,7 @@ class CommentServiceProvider extends ServiceProvider
 
         $styles = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
             ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
-            ->withEntryPoints(['resources/js/app.js'])
+            ->withEntryPoints(['resources/css/app.css'])
             ->toHtml();
 
         $scripts = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
