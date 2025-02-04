@@ -26,7 +26,6 @@ hljs.configure({
 
 window.hljs = hljs;
 
-import '../css/app.css';
 import 'quill/dist/quill.snow.css';
 import 'highlight.js/styles/github.css';
 
