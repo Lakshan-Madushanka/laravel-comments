@@ -30,6 +30,8 @@ return [
 
     'button_hover_color' => '#0707a5',
 
+    'placeholders_count' => 5,
+
     /**
      * Comment Model
      * Must extend base model LakM\Comments\Models\Comment
