@@ -1,5 +1,16 @@
 # Documentation of the changes
 
+## 2.2.7 - 2025-02-06
+
+### What's Changed
+
+* fix: assets directives(@commentsScripts and @commentsStyles) render the same assets by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/91
+* Fix a few styles issues by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/92
+* Add title attribute to display exact date-time by @zvizvi in https://github.com/Lakshan-Madushanka/laravel-comments/pull/89
+* Adding missing localizations by @zvizvi in https://github.com/Lakshan-Madushanka/laravel-comments/pull/88
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.6...2.2.7
+
 ## 2.2.6 - 2025-02-02
 
 ### What's Changed
