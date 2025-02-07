@@ -30,8 +30,6 @@ return [
 
     'button_hover_color' => '#0707a5',
 
-    'placeholders_count' => 5,
-
     /**
      * Comment Model
      * Must extend base model LakM\Comments\Models\Comment
@@ -93,6 +91,15 @@ return [
      * To approve a comment, approved column must be set to true in comments table.
      */
     'approval_required' => false,
+
+    /**
+     * Skeleton
+     * displays as a placeholder while loading
+     */
+    'skeleton' => [
+        // number of comments to display in the skeleton
+        'no_of_comments' => 5
+    ]
 
     'profile_photo' => [
         /**
