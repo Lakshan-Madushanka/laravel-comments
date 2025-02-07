@@ -25,7 +25,7 @@
         "spatie/laravel-honeypot": "^4.5"
     },
     "require-dev": {
-        "larastan/larastan": "2.9.8",
+        "larastan/larastan": "2.9.13",
         "orchestra/testbench": "8.*",
         "pestphp/pest": "^2.34",
         "pestphp/pest-plugin-laravel": "^2.3",
