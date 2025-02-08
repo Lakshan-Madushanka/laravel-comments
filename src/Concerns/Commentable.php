@@ -43,7 +43,7 @@ trait Commentable
     /**
      * @throws \Throwable
      */
-    public function canCreateComment(Authenticatable $user = null): bool
+    public function canCreateComment(?Authenticatable $user = null): bool
     {
         if (method_exists($this, 'commentCanCreate')) {
             return $this->commentCanCreate($user);
@@ -79,7 +79,7 @@ trait Commentable
         return false;
     }
 
-    public function limitExceeded(Authenticatable $user = null): bool
+    public function limitExceeded(?Authenticatable $user = null): bool
     {
         $limit = $this->getCommentLimit();
 
