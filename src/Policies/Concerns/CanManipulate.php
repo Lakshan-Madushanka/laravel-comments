@@ -13,7 +13,7 @@ trait CanManipulate
     {
         if (!$isGuestMode && $user) {
             return $user->getMorphClass() === $message->commenter_type &&
-                $user->getKey() === $message->commenter->id;
+                $user->getKey() === $message->commenter->getKey();
         }
 
         if (!$isGuestMode && is_null($user)) {
@@ -25,6 +25,8 @@ trait CanManipulate
                 SecureGuestMode::user()?->getMorphClass() === $message->commenter_type;
         }
 
-        return $message->commenter->ip_address === request()->ip();
+        $ipAddress = $message->commenter->ip_address ?? '';
+
+        return $ipAddress === request()->ip();
     }
 }
