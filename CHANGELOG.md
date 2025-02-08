@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.2.8 - 2025-02-08
+
+### What's Changed
+
+* Official PHP 8.4 support by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/95
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.7...2.2.8
+
 ## 2.2.7 - 2025-02-06
 
 ### What's Changed
