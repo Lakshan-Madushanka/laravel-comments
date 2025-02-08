@@ -31,7 +31,7 @@ class CreateCommentReplyAction
      * @param GuestData|null $guest
      * @return mixed
      */
-    public static function execute(Comment $comment, MessageData $replyData, bool $guestMode, GuestData $guest = null): mixed
+    public static function execute(Comment $comment, MessageData $replyData, bool $guestMode, ?GuestData $guest = null): mixed
     {
         if (isset(static::$using)) {
             return static::createUsingCustom($comment, $replyData, $guestMode, $guest);

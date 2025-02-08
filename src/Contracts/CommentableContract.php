@@ -18,11 +18,11 @@ interface CommentableContract
 
     public function getAuthGuard(): string;
 
-    public function canCreateComment(Authenticatable $user = null): bool;
+    public function canCreateComment(?Authenticatable $user = null): bool;
 
     public function guestModeEnabled(): bool;
 
-    public function limitExceeded(Authenticatable $user = null): bool;
+    public function limitExceeded(?Authenticatable $user = null): bool;
 
     public function paginationEnabled(): bool;
 
