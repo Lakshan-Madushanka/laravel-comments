@@ -1,8 +1,10 @@
+@props(['noOfComments' => config('comments.skeleton.no_of_comments', 5)])
+
 <div class="space-y-6">
     <div class="text-lg font-bold">
         {{ __('Comments') }}
     </div>
-    @for($i=0; $i<5; $i++)
+    @for($i=0; $i<$noOfComments; $i++)
         <div class="flex animate-pulse ">
             <div class="shrink-0">
                 <span class="size-12 block bg-gray-200 rounded-full dark:bg-neutral-700"></span>

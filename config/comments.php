@@ -92,6 +92,15 @@ return [
      */
     'approval_required' => false,
 
+    /**
+     * Skeleton
+     * displays as a placeholder while loading
+     */
+    'skeleton' => [
+        // number of comments to display in the skeleton
+        'no_of_comments' => 5,
+    ],
+
     'profile_photo' => [
         /**
          * Database column or model accessor name to
