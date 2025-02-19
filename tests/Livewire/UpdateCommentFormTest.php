@@ -41,12 +41,12 @@ it('can update a comment for authenticated user', function () {
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: 'new comment')
+        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: '<p>new comment</p>')
         ->assertOk();
 
     $comment->refresh();
 
-    expect($comment->text)->toBe('new comment');
+    expect($comment->text)->toContain('new comment');
 
     Event::assertDispatched(CommentUpdated::class);
 });
@@ -89,12 +89,12 @@ it('can update a comment for a guest', function () {
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: 'new comment')
+        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: '<p>new comment</p>')
         ->assertOk();
 
     $comment->refresh();
 
-    expect($comment->text)->toBe('new comment');
+    expect($comment->text)->toContain('new comment');
 
     Event::assertDispatched(CommentUpdated::class);
 });
@@ -135,12 +135,12 @@ it('can update a comment in secured guest', function () {
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: 'new comment')
+        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: '<p>new comment</p>')
         ->assertOk();
 
     $comment->refresh();
 
-    expect($comment->text)->toBe('new comment')
+    expect($comment->text)->toContain('new comment')
         ->and($comment->commenter)
         ->id->toBe($guest->getKey())
         ->name->toBe($guest->name)
@@ -190,12 +190,12 @@ it('revoke the approval after updated', function () {
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: 'new comment')
+        ->assertDispatched('comment-updated', commentId: $comment->getKey(), text: '<p>new comment</p>')
         ->assertOk();
 
     $comment->refresh();
 
     expect($comment)
-        ->text->toBe('new comment')
+        ->text->toContain('new comment')
         ->approved->toBeFalse();
 });

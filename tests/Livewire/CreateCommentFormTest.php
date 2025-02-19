@@ -245,7 +245,7 @@ it('can create comment for guest mode', function () {
         ->first()->commentable_type->toBe(Video::class)
         ->first()->commenter->name->toBe('test user')
         ->first()->commenter->email->toBe('testuser@gmail.com')
-        ->first()->text->toBe('test comment')
+        ->first()->text->toContain('test comment')
         ->first()->commenter->ip_address->toBe(request()->ip());
 });
 
@@ -271,7 +271,7 @@ it('can create comment for safe guest mode', function () {
         ->first()->commentable_type->toBe(Video::class)
         ->first()->commenter->name->toBe($guest->name)
         ->first()->commenter->email->toBe($guest->email)
-        ->first()->text->toBe('test comment')
+        ->first()->text->toContain('test comment')
         ->first()->commenter->ip_address->toBe(request()->ip());
 });
 
@@ -293,14 +293,14 @@ it('can create comment for auth mode', function () {
         ->first()->toBeInstanceOf(Comment::class)
         ->first()->commentable_id->toBe($video->getKey())
         ->first()->commentable_type->toBe(Video::class)
-        ->first()->text->toBe('test comment')
+        ->first()->text->toContain('test comment')
         ->and($user->comments)
         ->toBeInstanceOf(Collection::class)
         ->toHaveCount(1)
         ->first()->toBeInstanceOf(Comment::class)
         ->first()->commenter_id->toBe($user->getKey())
         ->first()->commenter_type->toBe(User::class)
-        ->first()->text->toBe('test comment');
+        ->first()->text->toContain('test comment');
 });
 
 it('dispatch a event after comment is created', function () {

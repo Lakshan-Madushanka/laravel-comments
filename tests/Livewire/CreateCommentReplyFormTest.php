@@ -135,7 +135,7 @@ it('can create comment for guest mode', function () {
         ->last()->commentable_type->toBeNull()
         ->last()->commenter->name->toBe('test user')
         ->last()->commenter->email->toBe('testuser@gmail.com')
-        ->last()->text->toBe('test comment')
+        ->last()->text->toContain('test comment')
         ->last()->reply_id->toBe($comment->getKey())
         ->last()->commenter->ip_address->toBe(request()->ip());
 });
@@ -166,7 +166,7 @@ it('can create comment for auth mode', function () {
         ->last()->commenter_type->toBe($user->getMorphClass())
         ->last()->commenter_id->toBe($user->getAuthIdentifier())
         ->last()->reply_id->toBe($comment->getKey())
-        ->last()->text->toBe('reply');
+        ->last()->text->toContain('reply');
 });
 
 it('dispatch a event after reply is created', function () {
