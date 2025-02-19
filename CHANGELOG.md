@@ -1,5 +1,15 @@
 # Documentation of the changes
 
+## 2.2.9 - 2025-02-19
+
+### What's Changed
+
+* Feature: Configurable Placeholder Count in Comments by @zvizvi in https://github.com/Lakshan-Madushanka/laravel-comments/pull/93
+* Replace graham-campbell/security with mews/purifier by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/97
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/98
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.8...2.2.9
+
 ## 2.2.8 - 2025-02-08
 
 ### What's Changed
