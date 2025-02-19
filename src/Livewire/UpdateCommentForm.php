@@ -12,6 +12,7 @@ use LakM\Comments\Models\Comment;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Mews\Purifier\Facades\Purifier;
 
 class UpdateCommentForm extends Component
 {
@@ -69,7 +70,7 @@ class UpdateCommentForm extends Component
 
     private function getFormData(): array
     {
-        return Security::clean($this->only('text'));
+        return Purifier::clean($this->only('text'));
     }
 
     public function discard(): void

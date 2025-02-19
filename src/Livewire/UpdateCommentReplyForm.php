@@ -14,6 +14,7 @@ use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Mews\Purifier\Facades\Purifier;
 
 class UpdateCommentReplyForm extends Component
 {
@@ -66,7 +67,7 @@ class UpdateCommentReplyForm extends Component
 
     private function getFormData(): array
     {
-        return Security::clean($this->only('text'));
+        return Purifier::clean($this->only('text'));
     }
 
     public function discard(): void

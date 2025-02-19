@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Livewire;
 
-use GrahamCampbell\Security\Facades\Security;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,6 +22,7 @@ use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Mews\Purifier\Facades\Purifier;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
@@ -155,7 +155,7 @@ class CreateCommentForm extends Component
     private function clearFormData(array $data): array
     {
         return array_map(function (string $value) {
-            return Security::clean($value);
+            return Purifier::clean($value);
         }, $data);
     }
 

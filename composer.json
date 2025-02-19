@@ -21,6 +21,7 @@
         "lakm/nopass": "1.*",
         "laravel/framework": "^10.0|^11.0",
         "livewire/livewire": "^3.5",
+        "mews/purifier": "^3.4",
         "spatie/laravel-honeypot": "^4.5"
     },
     "require-dev": {
