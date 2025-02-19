@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Livewire;
 
-use GrahamCampbell\Security\Facades\Security;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use LakM\Comments\Actions\UpdateCommentAction;
