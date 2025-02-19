@@ -22,6 +22,7 @@ use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Mews\Purifier\Facades\Purifier;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
@@ -187,7 +188,7 @@ class CreateCommentReplyForm extends Component
     private function clearFormData(array $data): array
     {
         return array_map(function (string $value) {
-            return Security::clean($value);
+            return Purifier::clean($value);
         }, $data);
     }
 
