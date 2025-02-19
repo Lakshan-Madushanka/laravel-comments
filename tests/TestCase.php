@@ -2,7 +2,6 @@
 
 namespace LakM\Comments\Tests;
 
-use GrahamCampbell\Security\SecurityServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use LakM\Comments\Abstracts\AbstractQueries;
@@ -11,6 +10,7 @@ use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
+use Mews\Purifier\PurifierServiceProvider;
 use Spatie\Honeypot\HoneypotServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -97,7 +97,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             LivewireServiceProvider::class,
             CommentServiceProvider::class,
             HoneypotServiceProvider::class,
-            SecurityServiceProvider::class,
+            PurifierServiceProvider::class,
         ];
     }
 
