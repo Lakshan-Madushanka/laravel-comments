@@ -74,7 +74,7 @@
         :$key
         :$comment
         :$authMode
-        class="!bottom-[-4.8rem] left-[-12rem]"
-        wrapperClass="left-[-0.8rem] bottom-[-3rem]"
+        class="!bottom-[-4.8rem] start-[-12rem]"
+        wrapperClass="start-[-0.8rem] bottom-[-3rem]"
     />
 </div>

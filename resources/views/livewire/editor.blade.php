@@ -10,7 +10,7 @@
             @user-not-mentioned-{{ $editorId }}.window="show=false"
             @user-selected-{{ $editorId }}.window="show=false"
             @keyup.escape.window="if(show){$wire.dispatch('user-not-mentioned-' + '{{ $editorId }}'); show=false}"
-            class="absolute bottom-[12rem] left-0 z-10 w-full"
+            class="absolute bottom-[12rem] start-0 z-10 w-full"
         >
             <livewire:comments-user-list :$guestModeEnabled :$editorId />
         </div>

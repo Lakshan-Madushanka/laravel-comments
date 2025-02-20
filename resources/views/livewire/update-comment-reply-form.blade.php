@@ -28,7 +28,7 @@
                 }
             }"
         >
-            <x-comments::button wire:click="save" size="sm" dirtyTarget="text" loadingTarget="save" class="mr-4">
+            <x-comments::button wire:click="save" size="sm" dirtyTarget="text" loadingTarget="save" class="me-4">
                 {{ __('Save') }}
             </x-comments::button>
             <x-comments::button wire:click="discard" size="sm" severity="info" type="button" loadingTarget="discard">

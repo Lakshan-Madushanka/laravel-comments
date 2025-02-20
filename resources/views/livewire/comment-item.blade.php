@@ -86,15 +86,15 @@
                         </div>
 
                         <div>
-                            <span class="font-semibold sm:hidden mr-1">
+                            <span class="font-semibold sm:hidden me-1">
                                 {{ Str::limit($comment->ownerName($authMode), 10) }}
                             </span>
 
-                            <span class="hidden font-semibold sm:inline mr-1">
+                            <span class="hidden font-semibold sm:inline me-1">
                                 {{ Str::limit($comment->ownerName($authMode), 25) }}
                             </span>
 
-                            <span class="inline-block h-2 w-[1px] bg-black mr-1"></span>
+                            <span class="inline-block h-2 w-[1px] bg-black me-1"></span>
 
                             @if (config('comments.date_format') === 'diff')
                                 <span
@@ -118,7 +118,7 @@
                     </div>
 
                     @if ($canManipulate)
-                        <div class="flex items-center justify-center space-x-2">
+                        <div class="flex items-center justify-center gap-x-2">
                             <div title="{{ __('My Comment') }}">
                                 <x-comments::user-check height="14" width="14"/>
                             </div>
@@ -138,14 +138,14 @@
                                     x-show="showEditMenu"
                                     @click.outside="showEditMenu=false"
                                     x-transition
-                                    class="absolute bottom-[1rem] right-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
+                                    class="absolute bottom-[1rem] end-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                                 >
                                     @if ($model->canEditComment($comment))
                                         <li
                                             @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
                                             @class([
                                                 "hover:!bg-[" . config('comments.hover_color') . "]",
-                                                "flex items-center space-x-2 rounded p-2 dark:hover:!bg-slate-900"
+                                                "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
                                             ])
                                         >
                                             <x-comments::pencil height="13" width="13" strokeColor="{{config('comments.primary_color')}}"/>
@@ -163,7 +163,7 @@
                                             @click="showEditMenu=false"
                                             @class([
                                                 "hover:!bg-[" . config('comments.hover_color') . "]",
-                                                "flex items-center items-center space-x-2 space-x-2 rounded p-2 dark:hover:!bg-slate-900"
+                                                "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
                                             ])
                                         >
                                             <x-comments::trash height="13" width="13" strokeColor="red"/>
@@ -248,10 +248,10 @@
                             <x-comments::link
                                 type="popup"
                                 @class([
-                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pr-1",
+                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
                                     "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
                                     "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
-                                    "!rounded-[1000px] hover:rounded-[1000px] space-x-2" => Helpers::isModernTheme(),
+                                    "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
                                 ])
                                 @style([
                                     'background: ' . config('comments.bg_primary_color') => Helpers::isModernTheme(),
@@ -297,8 +297,8 @@
             x-show="showReplyList"
             x-transtion
             @class([
-                "ml-[-2rem] mt-6 sm:ml-8",
-                "!mt-6 sm:!ml-24" => Helpers::isModernTheme()
+                "ms-[-2rem] mt-6 sm:ms-8",
+                "!mt-6 sm:!ms-24" => Helpers::isModernTheme()
             ])
         >
             <div
