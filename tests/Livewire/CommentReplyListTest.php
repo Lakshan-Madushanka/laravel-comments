@@ -47,7 +47,7 @@ it('can render comment reply list in guest mode', function () {
 
     livewire(CommentReplyList::class, ['comment' => $comment, 'relatedModel' => $video, 'total' => 1])
         ->call('setShowStatus')
-        ->assertSeeText($reply->ownerName(false))
+        ->assertSeeText(Str::limit($reply->ownerName(false), 10))
         ->assertSeeText($text)
         ->assertOk();
 });
