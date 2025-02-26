@@ -3,7 +3,7 @@
 <div
     x-show="show"
     x-transition
-    class='z-10 bg-gray-900/25 z-10 w-full h-screen h-svh overflow-auto flex justify-center items-center fixed top-0 left-0 dark:bg-gray-600/85'
+    class='z-10 bg-gray-900/25 z-10 w-full h-screen h-svh overflow-auto flex justify-center items-center fixed top-0 start-0 dark:bg-gray-600/85'
 >
     <div
         @keydown.escape.window="show=false"
