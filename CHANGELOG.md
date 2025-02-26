@@ -1,5 +1,15 @@
 # Documentation of the changes
 
+## 2.2.10 - 2025-02-26
+
+### What's Changed
+
+* Add RTL support by @zvizvi in https://github.com/Lakshan-Madushanka/laravel-comments/pull/99
+* chore: update to laravel v12 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/102
+* Bump esbuild, laravel-vite-plugin and vite by @dependabot in https://github.com/Lakshan-Madushanka/laravel-comments/pull/103
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.9...2.2.10
+
 ## 2.2.9 - 2025-02-19
 
 ### What's Changed
