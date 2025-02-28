@@ -25,10 +25,10 @@
         "spatie/laravel-honeypot": "^4.5"
     },
     "require-dev": {
-        "larastan/larastan": "2.9.13",
-        "orchestra/testbench": "8.*",
-        "pestphp/pest": "^2.34",
-        "pestphp/pest-plugin-laravel": "^2.3",
+        "larastan/larastan": "^2.9|^3.0",
+        "orchestra/testbench": "8.*|10.*",
+        "pestphp/pest": "^2.34|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.3|^3.0",
         "pestphp/pest-plugin-livewire": "^2.1"
     },
     "autoload": {
