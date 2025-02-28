@@ -167,7 +167,8 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$loginRequired :$secureGuestModeAllowed/>
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode
+                                               :$loginRequired :$secureGuestModeAllowed />
                 @endif
             @endforeach
 
@@ -216,12 +217,44 @@
                         type="popup"
                     >
                         @if(Helpers::isModernTheme())
-                            <x-comments::icons.reply/>
+                            <x-comments::icons.reply />
                         @endif
                         <span>{{__('Reply')}}</span>
                     </x-comments::link>
                 </div>
             @endif
+
+            <div
+                x-data="{showShareMenu: false}"
+                @click="showShareMenu = !showShareMenu"
+                @click.outside="showShareMenu = false"
+                @class([
+                    "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative",
+                    "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
+                     "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                ])
+                @style([
+                    'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+               ])
+
+            >
+                <x-comments::link
+                    @class([
+                        "align-text-bottom text-sm",
+                        "hover:!border-b" => Helpers::isDefaultTheme(),
+                        "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                    ])
+                    type="popup"
+                >
+                    @if(Helpers::isModernTheme())
+                        <x-comments::icons.share />
+                    @endif
+                    <span>{{__('Share')}}</span>
+                </x-comments::link>
+
+
+                <x-comments::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8" />
+            </div>
         </div>
 
         <div

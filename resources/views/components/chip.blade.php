@@ -40,7 +40,7 @@
         "hover:!bg-["  . config('comments.hover_color') . "]",
         "border dark:hover:!bg-slate-800 dark:border-0" => Helpers::isDefaultTheme(),
         "dark:hover:!bg-slate-900" => Helpers::isGithubTheme(),
-        "rounded-lg hover:bg-gray-200 dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
+        "rounded-lg dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
     ])
     ->merge() }}
     @style([
