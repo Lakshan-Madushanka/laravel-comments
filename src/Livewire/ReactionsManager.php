@@ -61,13 +61,15 @@ class ReactionsManager extends Component
     #[Locked]
     public bool $enableReply;
 
+    public bool $shouldEnableShareButton = true;
+
     /**
      * @param  Reply|Comment  $comment
      * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $enableReply
      * @return void
      */
-    public function mount(Reply|Comment $comment, Model $relatedModel, bool $enableReply = true): void
+    public function mount(Reply|Comment $comment, Model $relatedModel, bool $enableReply = true, bool $shouldEnableShareButton = false): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
@@ -79,6 +81,8 @@ class ReactionsManager extends Component
         $this->id = $comment->getKey();
 
         $this->setEnableReply($enableReply);
+
+        $this->shouldEnableShareButton = $shouldEnableShareButton;
 
         $this->authenticated = $this->relatedModel->authCheck();
 

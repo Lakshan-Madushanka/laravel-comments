@@ -214,6 +214,7 @@
                         :key="'reaction-manager-' . $comment->id"
                         :$comment
                         :relatedModel="$model"
+                        :$shouldEnableShareButton
                     />
                 </div>
 

@@ -194,6 +194,7 @@
                     :$guestMode
                     :$relatedModel
                     :enableReply="false"
+                    :$shouldEnableShareButton
                 />
             </div>
         </div>

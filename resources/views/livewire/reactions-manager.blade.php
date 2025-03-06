@@ -229,7 +229,7 @@
                 @click="showShareMenu = !showShareMenu"
                 @click.outside="showShareMenu = false"
                 @class([
-                    "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative",
+                    "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative gap-2",
                     "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
                      "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                 ])
@@ -238,22 +238,39 @@
                ])
 
             >
-                <x-comments::link
-                    @class([
-                        "align-text-bottom text-sm",
-                        "hover:!border-b" => Helpers::isDefaultTheme(),
-                        "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
-                    ])
-                    type="popup"
-                >
-                    @if(Helpers::isModernTheme())
-                        <x-comments::icons.share />
-                    @endif
-                    <span>{{__('Share')}}</span>
-                </x-comments::link>
+                @if($shouldEnableShareButton)
+                    <div x-data="copyToClipboard" class="relative">
+                        <x-comments::link
+                            @class([
+                                "align-text-bottom text-sm",
+                                "hover:!border-b" => Helpers::isDefaultTheme(),
+                                "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                            ])
+                            type="popup"
+                        >
+                            @if(Helpers::isModernTheme())
+                                <x-comments::icons.share />
+                            @endif
+                            <span>{{__('Share')}}</span>
+
+                            <span x-show="isCopied"
+                                  class="absolute start-[calc(100%_+_1rem)] text-nowrap">Link Copied!</span>
+                        </x-comments::link>
+
+                        <x-comments::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
+                            <div @click="
+                                const url = new URL(window.location.href);
+                                url.searchParams.append('commenter_type', 'single');
+                                url.searchParams.append('comment_id', '@js($comment->getKey())');
 
 
-                <x-comments::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8" />
+                                copy(url.href);
+                            ">
+                                <x-comments::input.dropdown-item name="Copy Link" icon="link" />
+                            </div>
+                        </x-comments::input.dropdown>
+                    </div>
+                @endif
             </div>
         </div>
 
