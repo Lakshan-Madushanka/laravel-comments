@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Exceptions\InvalidModelException;
@@ -59,5 +60,14 @@ class Helpers
         }
 
         return config('comments.auth_guard');
+    }
+
+    public static function livewireCurrentURL(): string
+    {
+        if (request()->route()->named('livewire.update')) {
+            return URL::previous();
+        } else {
+            return request()->url();
+        }
     }
 }

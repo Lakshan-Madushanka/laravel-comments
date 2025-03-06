@@ -13,6 +13,7 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Facades\SecureGuestMode;
 use LakM\Comments\Helpers;
+use LakM\Comments\Livewire\Concerns\HasSingleThread;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
@@ -27,6 +28,7 @@ use Livewire\WithPagination;
 class CommentList extends Component
 {
     use WithPagination;
+    use HasSingleThread;
 
     /** @var Model&CommentableContract */
     #[Locked]
@@ -48,7 +50,6 @@ class CommentList extends Component
     public string $filter = '';
 
     public bool $showReplyList = false;
-
 
     /**
      * @param  Model&CommentableContract  $model
@@ -145,7 +146,16 @@ class CommentList extends Component
     #[Computed]
     public function comments(): Collection|LengthAwarePaginator
     {
+        if ($this->shouldShowSingleThread()) {
+            return app(AbstractQueries::class)->relatedComment($this->model, $this->referencedCommentId(), $this->limit, $this->sortBy, $this->filter);
+        }
+
         return app(AbstractQueries::class)->allRelatedComments($this->model, $this->limit, $this->sortBy, $this->filter);
+    }
+
+    public function showAll(): void
+    {
+        $this->showFullThread();
     }
 
     public function placeholder(array $params = []): Factory|View|Application

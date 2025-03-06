@@ -27,6 +27,22 @@ abstract class AbstractQueries
     abstract public static function userCommentCount(Authenticatable $user, Model $relatedModel): int;
 
     /**
+     * @param Model&CommentableContract $relatedModel
+     * @param mixed $commentId
+     * @param  ?int $limit
+     * @param Sort $sortBy
+     * @param string $filter
+     * @return Collection
+     */
+    abstract public static function relatedComment(
+        Model $relatedModel,
+        mixed $commentId,
+        ?int $limit,
+        Sort $sortBy,
+        string $filter = ''
+    ): Collection;
+
+    /**
      * @param  Model&CommentableContract  $relatedModel
      * @param  ?int  $limit
      * @param  Sort  $sortBy

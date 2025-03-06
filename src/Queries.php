@@ -51,14 +51,14 @@ class Queries extends AbstractQueries
      * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
-     * @return LengthAwarePaginator|Collection
+     * @return Builder
      */
-    public static function allRelatedComments(
+    public static function allRelatedCommentsQuery(
         Model $relatedModel,
         ?int $limit,
         Sort $sortBy,
         string $filter = ''
-    ): LengthAwarePaginator|Collection {
+    ): Builder {
         /** @var MessageBuilder<Comment> $commentQuery */
         $commentQuery = $relatedModel->comments();
 
@@ -92,11 +92,53 @@ class Queries extends AbstractQueries
                     ->addScore()
                     ->orderByDesc("score");
             })
+            ->clone();
+    }
+
+    /**
+     * @param Model&CommentableContract $relatedModel
+     * @param int|null $limit
+     * @param Sort $sortBy
+     * @param string $filter
+     * @return LengthAwarePaginator|Collection
+     */
+    public static function allRelatedComments(
+        Model $relatedModel,
+        ?int $limit,
+        Sort $sortBy,
+        string $filter = ''
+    ): LengthAwarePaginator|Collection {
+        /** @var MessageBuilder<Comment> $commentQuery */
+        $commentQuery = $relatedModel->comments();
+
+        return static::allRelatedCommentsQuery($relatedModel, $limit, $sortBy, $filter)
             ->when(
                 $relatedModel->paginationEnabled(),
                 fn (Builder $query) => $query->paginate($limit),
                 fn (Builder $query) => $query->get()
             );
+    }
+
+    /**
+     * @param Model&CommentableContract $relatedModel
+     * @param int|null $limit
+     * @param Sort $sortBy
+     * @param string $filter
+     * @return Collection
+     */
+    public static function relatedComment(
+        Model $relatedModel,
+        mixed $commentId,
+        ?int $limit,
+        Sort $sortBy,
+        string $filter = ''
+    ): Collection {
+        /** @var MessageBuilder<Comment> $commentQuery */
+        $commentQuery = $relatedModel->comments();
+
+        return static::allRelatedCommentsQuery($relatedModel, $limit, $sortBy, $filter)
+            ->whereId($commentId)
+            ->get();
     }
 
     public static function addCount(): array

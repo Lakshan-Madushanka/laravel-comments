@@ -68,7 +68,27 @@
             </div>
         @endif
 
-        <div class="flex gap-x-2">
+        <div
+            @class([
+                "flex gap-x-2 justify-end  items-center",
+                "!justify-between w-full" => $this->shouldShowSingleThread()
+            ])
+        >
+            @if($this->shouldShowSingleThread())
+                <div class="grow flex items-center space-x-4 !me-8">
+                    <span>Single Comment Thread</span>
+                    <hr class="inline-block grow" />
+                    <span
+                        wire:click="showAll"
+                        class="cursor-pointer"
+                        @style([
+                          'color: ' . config('comments.primary_color'),
+                        ])
+                    >
+                        Show Full Thread
+                    </span>
+                </div>
+            @endif
             <div
                 @style([
                     'color: ' . config('comments.primary_color'),
@@ -76,10 +96,11 @@
             >
                 @if(Helpers::isModernTheme())
                     <x-comments::link type="a" route="#create-comment-form">
-                        <x-comments::icons.create/>
+                        <x-comments::icons.create />
                     </x-comments::link>
                 @else
-                   <x-comments::link class="dark:!text-white !border-b-0" type="a" route="#create-comment-form">{{ __('Create Comment') }}</x-comments::link>
+                    <x-comments::link class="dark:!text-white !border-b-0" type="a"
+                                      route="#create-comment-form">{{ __('Create Comment') }}</x-comments::link>
                 @endif
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
