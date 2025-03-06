@@ -167,7 +167,8 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode :$loginRequired :$secureGuestModeAllowed/>
+                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode
+                                               :$loginRequired :$secureGuestModeAllowed />
                 @endif
             @endforeach
 
@@ -216,12 +217,61 @@
                         type="popup"
                     >
                         @if(Helpers::isModernTheme())
-                            <x-comments::icons.reply/>
+                            <x-comments::icons.reply />
                         @endif
                         <span>{{__('Reply')}}</span>
                     </x-comments::link>
                 </div>
             @endif
+
+            <div
+                x-data="{showShareMenu: false}"
+                @click="showShareMenu = !showShareMenu"
+                @click.outside="showShareMenu = false"
+                @class([
+                    "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative gap-2",
+                    "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
+                     "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                ])
+                @style([
+                    'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+               ])
+
+            >
+                @if($shouldEnableShareButton)
+                    <div x-data="copyToClipboard" class="relative">
+                        <x-comments::link
+                            @class([
+                                "align-text-bottom text-sm",
+                                "hover:!border-b" => Helpers::isDefaultTheme(),
+                                "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                            ])
+                            type="popup"
+                        >
+                            @if(Helpers::isModernTheme())
+                                <x-comments::icons.share />
+                            @endif
+                            <span>{{__('Share')}}</span>
+
+                            <span x-show="isCopied"
+                                  class="absolute start-[calc(100%_+_1rem)] text-nowrap">Link Copied!</span>
+                        </x-comments::link>
+
+                        <x-comments::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
+                            <div @click="
+                                const url = new URL(window.location.href);
+                                url.searchParams.append('commenter_type', 'single');
+                                url.searchParams.append('comment_id', '@js($comment->getKey())');
+
+
+                                copy(url.href);
+                            ">
+                                <x-comments::input.dropdown-item name="Copy Link" icon="link" />
+                            </div>
+                        </x-comments::input.dropdown>
+                    </div>
+                @endif
+            </div>
         </div>
 
         <div

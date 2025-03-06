@@ -120,10 +120,10 @@
                     @if ($canManipulate)
                         <div class="flex items-center justify-center gap-x-2">
                             <div title="{{ __('My Comment') }}">
-                                <x-comments::user-check height="14" width="14"/>
+                                <x-comments::user-check height="14" width="14" />
                             </div>
 
-                            <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500"/>
+                            <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500" />
 
                             <div
                                 x-data="{ showEditMenu: false }"
@@ -132,7 +132,7 @@
                                 class="relative cursor-pointer"
                             >
                                 <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                    <x-comments::verticle-ellipsis :height="20" :width="20"/>
+                                    <x-comments::verticle-ellipsis :height="20" :width="20" />
                                 </div>
                                 <ul
                                     x-show="showEditMenu"
@@ -148,7 +148,8 @@
                                                 "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
                                             ])
                                         >
-                                            <x-comments::pencil height="13" width="13" strokeColor="{{config('comments.primary_color')}}"/>
+                                            <x-comments::pencil height="13" width="13"
+                                                                strokeColor="{{config('comments.primary_color')}}" />
 
                                             <x-comments::action class="text-xs hover:!no-underline sm:text-sm">
                                                 {{ __('Edit') }}
@@ -166,7 +167,7 @@
                                                 "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
                                             ])
                                         >
-                                            <x-comments::trash height="13" width="13" strokeColor="red"/>
+                                            <x-comments::trash height="13" width="13" strokeColor="red" />
                                             <x-comments::action
                                                 wire:loading.remove
                                                 wire:target="delete({{$comment}})"
@@ -213,6 +214,7 @@
                         :key="'reaction-manager-' . $comment->id"
                         :$comment
                         :relatedModel="$model"
+                        :$shouldEnableShareButton
                     />
                 </div>
 
@@ -259,10 +261,10 @@
                             >
                                 @if(!Helpers::isModernTheme())
                                     <span x-show="!showReplyList">
-                                        <x-comments::icons.chevron-down/>
+                                        <x-comments::icons.chevron-down />
                                     </span>
                                     <span x-show="showReplyList">
-                                        <x-comments::icons.chevron-up/>
+                                        <x-comments::icons.chevron-up />
                                     </span>
                                 @endif
 
@@ -279,10 +281,10 @@
 
                                 @if(Helpers::isModernTheme())
                                     <span x-show="!showReplyList">
-                                        <x-comments::icons.list-down/>
+                                        <x-comments::icons.list-down />
                                     </span>
                                     <span x-show="showReplyList">
-                                        <x-comments::icons.list-up/>
+                                        <x-comments::icons.list-up />
                                     </span>
                                 @endif
                             </x-comments::link>
@@ -317,7 +319,7 @@
         <!-- Update Form -->
         @if ($model->canEditComment($comment))
             <div x-show="showUpdateForm" x-transition class="basis-full">
-                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model/>
+                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
             </div>
         @endif
 
