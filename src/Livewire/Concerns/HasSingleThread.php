@@ -17,7 +17,7 @@ trait HasSingleThread
 
         parse_str($query, $query);
 
-        $query = collect( $query);
+        $query = collect($query);
 
         if (!($query->has('commenter_type') && $query->get('commenter_type') === 'single')) {
             return false;
@@ -42,7 +42,7 @@ trait HasSingleThread
 
         parse_str($query, $query);
 
-        $query = collect( $query);
+        $query = collect($query);
 
         $query->forget(['commenter_type', 'comment_id']);
 
@@ -61,6 +61,6 @@ trait HasSingleThread
 
         parse_str($query, $query);
 
-        return collect( $query)->get('comment_id');
+        return collect($query)->get('comment_id');
     }
 }
