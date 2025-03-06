@@ -1,5 +1,15 @@
 # Documentation of the changes
 
+## 2.3.0 - 2025-03-06
+
+### What's Changed
+
+* Update dev dependencies to compatible with Laravel 12 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/105
+* Feat: reference link to a single comment by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/106
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/107
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.10...2.3.0
+
 ## 2.2.10 - 2025-02-26
 
 ### What's Changed
