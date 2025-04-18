@@ -19,4 +19,4 @@ jobs:
       - name: Create Release
         run: gh release create ${{ inputs.version }} --generate-notes
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
