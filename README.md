@@ -203,6 +203,7 @@ We truly appreciate any sponsorship you offer. Your contribution is a direct inv
 If you find value in this project, please consider supporting it by visiting the sponsor page: https://github.com/sponsors/Lakshan-Madushanka. Your support means a lot 💗!
 
 ## Intertwined packages
+- [TrueReviewer](https://truereviewer.netlify.app) 
+
 We often find that the majority of packages using Commenter also require a review and rating system. With our [TrueReviewer](https://truereviewer.netlify.app) package, you can seamlessly integrate a complete review and rating solution into your project without breaking a sweat.
 
-<img src="https://github.com/user-attachments/assets/820b82bc-1641-458a-a618-3f642821b438" alt="TrueReviewer logo" width="10"> Get TrueReviewer (sponsor-ware for now): https://truereviewer.netlify.app
