@@ -29,6 +29,7 @@ class InstallCommand extends Command
 
         $this->showStatus($migrated, $built);
 
+        $this->suggestTrueReviewer();
         $this->askSupport();
     }
 
@@ -103,18 +104,39 @@ class InstallCommand extends Command
             )
         );
 
-        $link = "https://github.com/Lakshan-Madushanka/laravel-comments";
+        if ($wantsToSupport === true) {
+            $this->openLink("https://github.com/Lakshan-Madushanka/laravel-comments");
+        }
+    }
+
+    private function suggestTrueReviewer(): void
+    {
+        $this->newLine();
+
+        $wantsToSupport = (new SymfonyQuestionHelper())->ask(
+            new ArrayInput([]),
+            $this->output,
+            new ConfirmationQuestion(
+                ' <options=bold>💡 We often find that commenting systems are closely intertwined with review and rating systems. Want to give our TrueReviewer a try?</>',
+                false,
+            )
+        );
 
         if ($wantsToSupport === true) {
-            if (PHP_OS_FAMILY == 'Darwin') {
-                exec('open ' . $link);
-            }
-            if (PHP_OS_FAMILY == 'Windows') {
-                exec('start ' . $link);
-            }
-            if (PHP_OS_FAMILY == 'Linux') {
-                exec('xdg-open ' . $link);
-            }
+            $this->openLink("https://truereviewer.netlify.app");
+        }
+    }
+
+    private function openLink(string $link): void
+    {
+        if (PHP_OS_FAMILY == 'Darwin') {
+            exec('open ' . $link);
+        }
+        if (PHP_OS_FAMILY == 'Windows') {
+            exec('start ' . $link);
+        }
+        if (PHP_OS_FAMILY == 'Linux') {
+            exec('xdg-open ' . $link);
         }
     }
 }
