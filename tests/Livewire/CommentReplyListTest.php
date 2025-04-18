@@ -5,7 +5,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Livewire\CommentReplyList;
-
 use LakM\Comments\Models\Reply;
 use Pest\Expectation;
 
