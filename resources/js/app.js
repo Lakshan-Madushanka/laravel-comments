@@ -29,9 +29,6 @@ hljs.configure({
 
 window.hljs = hljs;
 
-import 'quill/dist/quill.snow.css';
-import 'highlight.js/styles/github.css';
-
 document.addEventListener('alpine:init', () => {
     Alpine.data('message', (messageId, timeout = 2000) => ({
         showMsg: false,
