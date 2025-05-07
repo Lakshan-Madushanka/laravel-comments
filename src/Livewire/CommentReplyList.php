@@ -81,7 +81,7 @@ class CommentReplyList extends Component
 
         $this->sortBy = $relatedModel->getRepliesSortOrder();
 
-        $this->guestMode = !$this->relatedModel->guestModeEnabled();
+        $this->guestMode = $this->relatedModel->guestModeEnabled();
 
         $this->setPaginationRequired();
 
