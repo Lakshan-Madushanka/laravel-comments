@@ -49,12 +49,12 @@ body:
       label: Steps To Reproduce
       description: Provide detailed steps to reproduce your issue (Issues submitted at this step are given higher priority).
       placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+        1. Folk the https://github.com/Lakshan-Madushanka/commenter-issue-reproducer repo
+        2. Create a branch with issue no, eg: issue-20
+        3. Reproduce the error
+        3. Update the issue with the reproduced branch url in the following input field
   - type: input
     attributes:
       label: Reproduce URL
       description: Please enter your GitHub URL to provide a reproduction of the issue (Issues submitted at this step are given higher priority).
-      placeholder: ex. https://github.com/USERNAME/REPO-NAME
+      placeholder: ex. https://github.com/Lakshan-Madushanka/commenter-issue-reproducer/tree/issue-100
