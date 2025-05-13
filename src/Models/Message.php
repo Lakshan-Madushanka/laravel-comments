@@ -70,7 +70,7 @@ class Message extends Model
     /** @return HasMany<Reaction> */
     public function reactions(): HasMany
     {
-        return $this->hasMany(Reaction::class, 'comment_id');
+        return $this->hasMany(M::reactionClass(), 'comment_id');
     }
 
     public function ownerReactions(): HasMany
