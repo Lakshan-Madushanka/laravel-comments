@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\DB;
 use LakM\Comments\Builders\MessageBuilder;
+use LakM\Comments\Builders\ReactionBuilder;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Concerns\HasOwner;
@@ -25,6 +26,7 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
  *
  * @method MessageBuilder<Comment> query()
  * @method Builder addScore()
+ * @method ReactionBuilder reactions()
  */
 class Comment extends Message
 {
