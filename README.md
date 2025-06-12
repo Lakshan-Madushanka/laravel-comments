@@ -185,9 +185,10 @@ Please see [CHANGELOG](https://github.com/Lakshan-Madushanka/laravel-comments/bl
 
 |Feature                                                   | Status                 | Version                                                                             |    
 |----------------------------------------------------------|------------------------|-------------------------------------------------------------------------------------|                                            
-|Comment/Reply Report                                      | TBI                    | -                                       
-|Guest mode email verification                             | :white_check_mark:     | [2.0.0](https://github.com/Lakshan-Madushanka/laravel-comments/releases/tag/2.0.0)  |
-|Dark Mode Support                                         | :white_check_mark:     | [2.0.0](https://github.com/Lakshan-Madushanka/laravel-comments/releases/tag/2.0.0)  |                                                                        
+|Comment/Reply Report                                      | :TBI                    | -                                       
+|Guest mode email verification                             | :white_check_mark:      | [2.0.0](https://github.com/Lakshan-Madushanka/laravel-comments/releases/tag/2.0.0)  |
+|Dark Mode Support                                         | :white_check_mark:      | [2.0.0](https://github.com/Lakshan-Madushanka/laravel-comments/releases/tag/2.0.0)  |              |Nested replies support                                    | TBI                     | 
+|Pin Comments                                              | TBI                     |  
 
 ## Security
 Please see [here](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/SECURITY.md) for our security policy.
