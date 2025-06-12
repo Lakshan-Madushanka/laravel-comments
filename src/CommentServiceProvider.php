@@ -75,10 +75,6 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function setBladeDirectives(): void
     {
-        if ($this->app->runningInConsole()) {
-            return;
-        }
-
         if (!(file_exists(public_path('vendor/lakm/laravel-comments/build/manifest.json')) ||
             file_exists(public_path('vendor/lakm/laravel-comments/laravel-comments.hot')))) {
             return;
@@ -176,7 +172,7 @@ class CommentServiceProvider extends ServiceProvider
         $filesystem = $this->app->make(Filesystem::class);
 
         return Collection::make([$this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR])
-            ->flatMap(fn ($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->flatMap(fn($path) => $filesystem->glob($path . '*_' . $migrationFileName))
             ->push($this->app->databasePath() . "/migrations/{$timestamp}_{$migrationFileName}")
             ->first();
     }
