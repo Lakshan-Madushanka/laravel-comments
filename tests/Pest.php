@@ -12,7 +12,6 @@ use LakM\Comments\Tests\Fixtures\Post;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
 use LakM\Comments\Tests\TestCase;
-
 use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
@@ -43,11 +42,14 @@ function user(): User
 function guest(bool $forCurrentUser = false): Guest
 {
     return Guest::query()
-        ->create([
-            'name' => fake()->name(),
-            'email' => fake()->email(),
-            'ip_address' => $forCurrentUser ? request()->ip() : fake()->ipv4(),
-        ]);
+        ->firstOrCreate(
+            ['ip_address' => $forCurrentUser ? request()->ip() : fake()->ipv4()],
+            [
+                'name' => fake()->name(),
+                'email' => fake()->email(),
+                'ip_address' => $forCurrentUser ? request()->ip() : fake()->ipv4(),
+            ]
+        );
 }
 
 function post(): Post
@@ -138,7 +140,6 @@ function createCommentRepliesForGuestMode(Comment $comment, int $count = 1, arra
     for ($i = 0; $i < $count; $i++) {
         $reply = $comment->replies()->create([
             'text' => Str::random(),
-            'reply_id' => $comment->getKey(),
             ...$data,
         ]);
 
@@ -161,7 +162,6 @@ function createCommentRepliesForAuthMode(Comment $comment, User $user, int $coun
     for ($i = 0; $i < $count; $i++) {
         $reply = $comment->replies()->create([
             'text' => Str::random(),
-            'reply_id' => $comment->getKey(),
             ...$data,
         ]);
 
@@ -169,6 +169,32 @@ function createCommentRepliesForAuthMode(Comment $comment, User $user, int $coun
     }
 
     $replies = $comment->replies()->get();
+
+    if ($count === 1) {
+        return $replies->last();
+    }
+
+    return $replies;
+}
+
+function createNestedRepliesForGuestMode(Reply $reply, int $count = 1, array $data = [], bool $forCurrentUser = false): Reply|Collection
+{
+    $email = fake()->email();
+    $name = fake()->name();
+
+
+    for ($i = 0; $i < $count; $i++) {
+        $nestedReply = $reply->replies()->create([
+            'text' => Str::random(),
+            ...$data,
+        ]);
+
+        $guest = guest($forCurrentUser);
+
+        $nestedReply->commenter()->associate($guest)->save();
+    }
+
+    $replies = $reply->fresh()->replies;
 
     if ($count === 1) {
         return $replies->last();

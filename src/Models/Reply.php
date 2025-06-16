@@ -4,6 +4,8 @@ namespace LakM\Comments\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
@@ -37,5 +39,10 @@ class Reply extends Message
     public function comment(): BelongsTo
     {
         return $this->belongsTo(M::commentClass());
+    }
+
+    public function replies(): MorphMany
+    {
+        return $this->morphMany(Reply::class, 'reply');
     }
 }

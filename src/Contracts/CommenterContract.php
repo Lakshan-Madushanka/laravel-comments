@@ -11,8 +11,6 @@ interface CommenterContract
     /** @return MorphMany<Comment> */
     public function comments(): MorphMany;
 
-    public function replies(): HasMany;
-
     public function profileUrl(): ?string;
 
     public function photoUrl(): string;

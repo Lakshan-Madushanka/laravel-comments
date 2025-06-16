@@ -4,8 +4,8 @@ namespace LakM\Comments\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\DB;
 use LakM\Comments\Builders\MessageBuilder;
@@ -48,11 +48,11 @@ class Comment extends Message
     }
 
     /**
-     * @return HasMany
+     * @return MorphMany
      */
-    public function replies(): HasMany
+    public function replies(): MorphMany
     {
-        return $this->hasMany(Reply::class, 'reply_id', 'id');
+        return $this->morphMany(Reply::class, 'reply');
     }
 
     public function replyReactions(): HasManyThrough
