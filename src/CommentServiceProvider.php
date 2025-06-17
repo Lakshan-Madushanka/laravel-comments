@@ -76,10 +76,6 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function setBladeDirectives(): void
     {
-        if ($this->app->runningInConsole()) {
-            return;
-        }
-
         if (!(file_exists(public_path('vendor/lakm/laravel-comments/build/manifest.json')) ||
             file_exists(public_path('vendor/lakm/laravel-comments/laravel-comments.hot')))) {
             return;
