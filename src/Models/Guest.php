@@ -38,10 +38,12 @@ class Guest extends Authenticatable implements CommenterContract
             return SecureGuestMode::user();
         }
 
+        $guest = array_filter($data->toArray());
+
         return self::query()
             ->updateOrCreate(
                 ['ip_address' => request()->ip()],
-                $data->toArray(),
+                $guest,
             );
     }
 }
