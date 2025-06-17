@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\DB;
 use LakM\Comments\Builders\MessageBuilder;
 use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 /**
  * @property string $text
@@ -22,8 +24,10 @@ use LakM\Comments\Models\Concerns\HasProfilePhoto;
  * @property bool $approved
  * @property Carbon $created_at
  * @property Carbon $updated_at
- *
  * @property (User|Guest)&CommenterContract $commenter
+ *
+ * @method MessageBuilder<Comment> repliesCount()
+ *
  */
 class Message extends Model
 {
@@ -55,6 +59,19 @@ class Message extends Model
     public function newEloquentBuilder($query): MessageBuilder
     {
         return new MessageBuilder($query);
+    }
+
+    public function scopeRepliesCount(EloquentBuilder $query): EloquentBuilder
+    {
+        $messageTable = $this->getTable();
+        $morphClass = $this->getMorphClass();
+
+        return $query->addSelect([
+            'replies_count' => DB::table("$messageTable as c2")
+                ->selectRaw('count(*)')
+                ->whereColumn('c2.reply_id', "$messageTable.id")
+                ->where('c2.reply_type', $morphClass)
+        ]);
     }
 
     public function isEdited(): bool

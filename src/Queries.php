@@ -68,14 +68,7 @@ class Queries extends AbstractQueries
             ->withOwnerReactions($relatedModel)
             ->with('commenter')
             ->withCount(self::addCount())
-            ->withCount([
-                'replies' => function (MessageBuilder $query) {
-                    $query->when(
-                        config('comments.reply.approval_required'),
-                        fn(MessageBuilder $query) => $query->approved()
-                    );
-                },
-            ])
+            ->repliesCount()
             ->checkApproval($relatedModel)
             ->when(
                 $sortBy === Sort::LATEST,

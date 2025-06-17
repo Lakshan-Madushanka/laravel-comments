@@ -220,6 +220,7 @@
 
                 {{-- Replies count--}}
                 @if (config('comments.reply.enabled'))
+                    lakshan
                     <div
                         @reply-created-{{ $comment->getKey() }}.window="
                             if($event.detail.commentId === {{ $comment->getKey() }}) {
