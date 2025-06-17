@@ -19,6 +19,7 @@ use LakM\Comments\Enums\Sort;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Guest;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 
@@ -114,18 +115,9 @@ class Queries extends AbstractQueries
             );
     }
 
-     public static function nestedReplies(
-        Reply  $reply,
-        ?int   $limit,
-        Sort   $sortBy,
-        string $filter = ''
-    ): LengthAwarePaginator|Collection
-    {
-        dd('aaa');
-    }
-
     /**
      * @param Model&CommentableContract $relatedModel
+     * @param mixed $commentId
      * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
@@ -235,7 +227,7 @@ class Queries extends AbstractQueries
      * @return LengthAwarePaginator|Collection
      */
     public static function commentReplies(
-        Comment $comment,
+        Message $comment,
         Model   $relatedModel,
         bool    $approvalRequired,
         ?int    $limit,
@@ -259,6 +251,7 @@ class Queries extends AbstractQueries
                 return $query->oldest();
             })
             ->withCount(self::addCount())
+            ->repliesCount()
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),

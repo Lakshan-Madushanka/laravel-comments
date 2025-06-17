@@ -56,13 +56,6 @@ abstract class AbstractQueries
         string $filter = ''
     ): LengthAwarePaginator|Collection;
 
-    abstract public static function nestedReplies(
-        Reply $reply,
-        ?int $limit,
-        Sort $sortBy,
-        string $filter = ''
-    ): LengthAwarePaginator|Collection;
-
     abstract public static function addCount(): array;
 
     /**

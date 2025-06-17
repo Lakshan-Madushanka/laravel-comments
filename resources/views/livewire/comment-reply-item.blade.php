@@ -2,7 +2,7 @@
 <div
     x-ref="reply{{ $reply->getKey() }}"
     @class([
-       "flex gap-x-2 sm:gap-x-4 dark:!text-white",
+       "flex flex-col gap-x-2 sm:gap-x-4 dark:!text-white",
        "border rounded-lg p-4" => Helpers::isModernTheme(),
    ])
     @style([
@@ -208,5 +208,93 @@
                 />
             @endif
         </div>
+
+        {{-- Replies count--}}
+        @if (config('comments.reply.enabled'))
+            <div
+                x-data="{replyCount: @js($replyCount), showReplyList: $wire.entangle('showReplyList')}"
+                @reply-created-{{ $reply->getKey() }}.window="
+                            if($event.detail.commentId === {{ $reply->getKey() }}) {
+                                if(!event.detail.approvalRequired) {
+                                    replyCount += 1;
+                                }
+                            }
+                        "
+                @reply-deleted-{{ $reply->getKey() }}.window="
+                            if($event.detail.commentId === {{ $reply->getKey() }}) {
+                                replyCount -= 1;
+                            }
+                        "
+                @unauthorized-reply-updated.window="(e) => {
+                            let key = @js($reply->getKey());
+                            if(e.detail.commentId === key) {
+                                    replyCount -= 1;
+                            }
+                        }"
+                class="mt-2 text-xs"
+            >
+                <div
+                    x-show="replyCount > 0"
+                    x-transition
+                    @click="$dispatch('show-replies.' + @js($reply->getKey()));"
+                    wire:click="loadReplies"
+                    class="inline-block"
+                >
+                    <x-comments::link
+                        type="popup"
+                        @class([
+                            "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
+                            "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
+                            "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
+                            "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
+                        ])
+                        @style([
+                            'background: ' . config('comments.bg_primary_color') => Helpers::isModernTheme(),
+                        ])
+                    >
+                        @if(!Helpers::isModernTheme())
+                            <span x-show="!showReplyList">
+                                        <x-comments::icons.chevron-down />
+                                    </span>
+                            <span x-show="showReplyList">
+                                        <x-comments::icons.chevron-up />
+                                    </span>
+                        @endif
+
+                        <span
+                            x-text="replyCount"
+                                    @class([
+                                        "inline-block text-center",
+                                        "border text-xs !py-1 !px-2 rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
+                                    ])
+                                >
+
+                                </span>
+                        <span>{{ __('Replies') }}</span>
+
+                        @if(Helpers::isModernTheme())
+                            <span x-show="!showReplyList">
+                                        <x-comments::icons.list-down />
+                                    </span>
+                            <span x-show="showReplyList">
+                                        <x-comments::icons.list-up />
+                                    </span>
+                        @endif
+                    </x-comments::link>
+                </div>
+            </div>
+        @endif
     </div>
+
+    @if($showReplyList)
+        <div class="border-t border-gray-100 mt-4">
+            <livewire:comments-reply-list
+                :key="'nested-reply-list-'. $reply->id"
+                :comment="$reply"
+                :$relatedModel
+                :total="$replyCount"
+                :show="true"
+            />
+        </div>
+    @endif
 </div>

@@ -220,7 +220,6 @@
 
                 {{-- Replies count--}}
                 @if (config('comments.reply.enabled'))
-                    lakshan
                     <div
                         @reply-created-{{ $comment->getKey() }}.window="
                             if($event.detail.commentId === {{ $comment->getKey() }}) {
@@ -307,15 +306,14 @@
             <div
                 class="flex bg-gray-200 mb-6 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
             </div>
-
-            <livewire:comments-reply-list
-                :key="'reply-list-'. $comment->id"
-                :$comment
-                :relatedModel="$model"
-                :total="$comment->replies_count"
-            />
         </div>
 
+        <livewire:comments-reply-list
+            :key="'reply-list-'. $comment->id"
+            :$comment
+            :relatedModel="$model"
+            :total="$comment->replies_count"
+        />
 
         <!-- Update Form -->
         @if ($model->canEditComment($comment))

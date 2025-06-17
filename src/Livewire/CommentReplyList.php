@@ -13,6 +13,7 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Livewire\Concerns\HasSingleThread;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Message;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -30,7 +31,7 @@ class CommentReplyList extends Component
     public bool $show = false;
 
     #[Locked]
-    public Comment $comment;
+    public Message $comment;
 
     /** @var Model&CommentableContract */
     #[Locked]
@@ -64,7 +65,7 @@ class CommentReplyList extends Component
      * @param  int  $total
      * @return void
      */
-    public function mount(Comment $comment, Model $relatedModel, int $total): void
+    public function mount(Message $comment, Model $relatedModel, int $total, bool $show = false): void
     {
         if (!$this->show) {
             $this->skipRender();

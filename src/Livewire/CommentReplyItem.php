@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use LakM\Comments\Actions\DeleteCommentReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -21,7 +22,7 @@ class CommentReplyItem extends Component
     public Model $relatedModel;
 
     #[Locked]
-    public Comment $comment;
+    public Message $comment;
 
     #[Locked]
     public Reply $reply;
@@ -41,6 +42,10 @@ class CommentReplyItem extends Component
 
     public bool $shouldEnableShareButton = false;
 
+    public bool $showReplyList = false;
+
+    public int $replyCount = 0;
+
     /**
      * @param  Comment $comment
      * @param  Reply $reply
@@ -49,7 +54,7 @@ class CommentReplyItem extends Component
      * @return void
      */
     public function mount(
-        Comment $comment,
+        Message $comment,
         Reply $reply,
         Model $relatedModel,
         bool $guestMode,
@@ -64,6 +69,8 @@ class CommentReplyItem extends Component
 
         $this->setProfileUrl();
         $this->setCanManipulate();
+
+        $this->replyCount = $reply->replies_count ?? 0;
     }
 
     public function canUpdateReply(Reply $reply): bool
@@ -95,6 +102,10 @@ class CommentReplyItem extends Component
         return $this->canManipulate = $this->canUpdateReply($this->reply) || $this->canDeleteReply($this->reply);
     }
 
+    public function loadReplies(): void
+    {
+        $this->showReplyList = !$this->showReplyList;
+    }
 
     public function render(): View|Factory|Application
     {
