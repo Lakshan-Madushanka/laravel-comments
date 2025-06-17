@@ -16,6 +16,7 @@ use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Message;
 use LakM\Comments\SecureGuestModeManager;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -34,7 +35,7 @@ class CreateCommentReplyForm extends Component
     public SecureGuestModeManager $secureGuestMode;
 
     #[Locked]
-    public Comment $comment;
+    public Message $comment;
 
     /** @var Model&CommentableContract  */
     #[Locked]
@@ -89,7 +90,7 @@ class CreateCommentReplyForm extends Component
      * @param  bool  $guestMode
      * @return void
      */
-    public function mount(Comment $comment, Model $relatedModel, bool $guestMode): void
+    public function mount(Message $comment, Model $relatedModel, bool $guestMode): void
     {
         if (!$this->show) {
             $this->skipRender();

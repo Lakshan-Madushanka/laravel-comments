@@ -193,7 +193,6 @@
                     :comment="$reply"
                     :$guestMode
                     :$relatedModel
-                    :enableReply="false"
                     :$shouldEnableShareButton
                 />
             </div>

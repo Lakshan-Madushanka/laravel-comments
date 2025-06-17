@@ -40,7 +40,7 @@ class CommentReplyItem extends Component
 
     public ?string $profileUrl;
 
-    public bool $shouldEnableShareButton = false;
+    public bool $shouldEnableShareButton = true;
 
     public bool $showReplyList = false;
 
