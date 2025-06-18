@@ -224,21 +224,21 @@
                 </div>
             @endif
 
-            <div
-                x-data="{showShareMenu: false}"
-                @click="showShareMenu = !showShareMenu"
-                @click.outside="showShareMenu = false"
-                @class([
-                    "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative gap-2",
-                    "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
-                     "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
-                ])
-                @style([
-                    'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
-               ])
+            @if($shouldEnableShareButton)
+                <div
+                    x-data="{showShareMenu: false}"
+                    @click="showShareMenu = !showShareMenu"
+                    @click.outside="showShareMenu = false"
+                    @class([
+                        "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative gap-2",
+                        "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
+                         "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                    ])
+                    @style([
+                        'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                   ])
 
-            >
-                @if($shouldEnableShareButton)
+                >
                     <div x-data="copyToClipboard" class="relative">
                         <x-comments::link
                             @class([
@@ -270,8 +270,8 @@
                             </div>
                         </x-comments::input.dropdown>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
 
         <div

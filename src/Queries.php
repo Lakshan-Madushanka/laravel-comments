@@ -48,28 +48,26 @@ class Queries extends AbstractQueries
     }
 
     /**
+     * @param Builder $query
      * @param Model&CommentableContract $relatedModel
-     * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
-     * @return Builder
+     * @return Builder<MessageBuilder<Comment>>
      */
-    public static function allRelatedCommentsQuery(
-        Model  $relatedModel,
-        ?int   $limit,
-        Sort   $sortBy,
-        string $filter = ''
-    ): Builder
+    public static function applyFilters(Builder $query, Model $relatedModel, Sort $sortBy, string $filter): Builder
     {
-        /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments();
-
-        return $commentQuery
-            ->currentUserFilter($relatedModel, $filter)
+        return $query->currentUserFilter($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
             ->with('commenter')
             ->withCount(self::addCount())
-            ->repliesCount()
+            ->withCount([
+                'replies' => function (MessageBuilder $query) {
+                    $query->when(
+                        config('comments.reply.approval_required'),
+                        fn(MessageBuilder $query) => $query->approved()
+                    );
+                },
+            ])
             ->checkApproval($relatedModel)
             ->when(
                 $sortBy === Sort::LATEST,
@@ -86,8 +84,7 @@ class Queries extends AbstractQueries
                 return $query
                     ->addScore()
                     ->orderByDesc("score");
-            })
-            ->clone();
+            });
     }
 
     /**
@@ -105,9 +102,9 @@ class Queries extends AbstractQueries
     ): LengthAwarePaginator|Collection
     {
         /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments();
+        $commentQuery = $relatedModel->comments()->getQuery();
 
-        return static::allRelatedCommentsQuery($relatedModel, $limit, $sortBy, $filter)
+        return static::applyFilters($commentQuery, $relatedModel, $sortBy, $filter)
             ->when(
                 $relatedModel->paginationEnabled(),
                 fn(Builder $query) => $query->paginate($limit),
@@ -132,10 +129,9 @@ class Queries extends AbstractQueries
     ): Collection
     {
         /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments();
+        $commentQuery = ModelResolver::commentQuery()->where('id', $commentId);
 
-        return static::allRelatedCommentsQuery($relatedModel, $limit, $sortBy, $filter)
-            ->whereId($commentId)
+        return self::applyFilters($commentQuery, $relatedModel, $sortBy, $filter)
             ->get();
     }
 

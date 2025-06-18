@@ -42,7 +42,7 @@ class CommentReplyItem extends Component
 
     public bool $shouldEnableShareButton = true;
 
-    public bool $showReplyList = false;
+    public bool $showReplyList = true;
 
     public int $replyCount = 0;
 
