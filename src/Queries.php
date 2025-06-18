@@ -47,23 +47,15 @@ class Queries extends AbstractQueries
     }
 
     /**
+     * @param Builder $query
      * @param Model&CommentableContract $relatedModel
-     * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
-     * @return Builder
+     * @return Builder<MessageBuilder<Comment>>
      */
-    public static function allRelatedCommentsQuery(
-        Model $relatedModel,
-        ?int $limit,
-        Sort $sortBy,
-        string $filter = ''
-    ): Builder {
-        /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments();
-
-        return $commentQuery
-            ->currentUserFilter($relatedModel, $filter)
+    public static function applyFilters(Builder $query, Model $relatedModel, Sort $sortBy, string $filter): Builder
+    {
+        return $query->currentUserFilter($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
             ->with('commenter')
             ->withCount(self::addCount())
@@ -71,14 +63,14 @@ class Queries extends AbstractQueries
                 'replies' => function (MessageBuilder $query) {
                     $query->when(
                         config('comments.reply.approval_required'),
-                        fn (MessageBuilder $query) => $query->approved()
+                        fn(MessageBuilder $query) => $query->approved()
                     );
                 },
             ])
             ->checkApproval($relatedModel)
             ->when(
                 $sortBy === Sort::LATEST,
-                fn (Builder $query) => $query->latest()
+                fn(Builder $query) => $query->latest()
             )
             ->when($sortBy === Sort::OLDEST, function (Builder $query) {
                 return $query->oldest();
@@ -91,8 +83,7 @@ class Queries extends AbstractQueries
                 return $query
                     ->addScore()
                     ->orderByDesc("score");
-            })
-            ->clone();
+            });
     }
 
     /**
@@ -103,19 +94,20 @@ class Queries extends AbstractQueries
      * @return LengthAwarePaginator|Collection
      */
     public static function allRelatedComments(
-        Model $relatedModel,
-        ?int $limit,
-        Sort $sortBy,
+        Model  $relatedModel,
+        ?int   $limit,
+        Sort   $sortBy,
         string $filter = ''
-    ): LengthAwarePaginator|Collection {
+    ): LengthAwarePaginator|Collection
+    {
         /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments();
+        $commentQuery = $relatedModel->comments()->getQuery();
 
-        return static::allRelatedCommentsQuery($relatedModel, $limit, $sortBy, $filter)
+        return static::applyFilters($commentQuery, $relatedModel, $sortBy, $filter)
             ->when(
                 $relatedModel->paginationEnabled(),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
@@ -127,17 +119,17 @@ class Queries extends AbstractQueries
      * @return Collection
      */
     public static function relatedComment(
-        Model $relatedModel,
-        mixed $commentId,
-        ?int $limit,
-        Sort $sortBy,
+        Model  $relatedModel,
+        mixed  $commentId,
+        ?int   $limit,
+        Sort   $sortBy,
         string $filter = ''
-    ): Collection {
+    ): Collection
+    {
         /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments();
+        $commentQuery = ModelResolver::commentQuery()->where('id', $commentId);
 
-        return static::allRelatedCommentsQuery($relatedModel, $limit, $sortBy, $filter)
-            ->whereId($commentId)
+        return self::applyFilters($commentQuery, $relatedModel, $sortBy, $filter)
             ->get();
     }
 
@@ -164,10 +156,11 @@ class Queries extends AbstractQueries
      */
     public static function reactedUsers(
         Reply|Comment $comment,
-        string $reactionType,
-        int $limit,
-        bool $authMode
-    ): \Illuminate\Support\Collection {
+        string        $reactionType,
+        int           $limit,
+        bool          $authMode
+    ): \Illuminate\Support\Collection
+    {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
         $reactionQuery = $comment->reactions();
 
@@ -229,12 +222,13 @@ class Queries extends AbstractQueries
      */
     public static function commentReplies(
         Comment $comment,
-        Model $relatedModel,
-        bool $approvalRequired,
-        ?int $limit,
-        Sort $sortBy,
-        string $filter = ''
-    ): LengthAwarePaginator|Collection {
+        Model   $relatedModel,
+        bool    $approvalRequired,
+        ?int    $limit,
+        Sort    $sortBy,
+        string  $filter = ''
+    ): LengthAwarePaginator|Collection
+    {
         /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
 
@@ -242,8 +236,8 @@ class Queries extends AbstractQueries
             ->currentUserFilter($relatedModel, $filter)
             ->with('commenter')
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn (MessageBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn(MessageBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn(MessageBuilder $query) => $query->approved())
             ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
@@ -254,8 +248,8 @@ class Queries extends AbstractQueries
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
@@ -277,11 +271,11 @@ class Queries extends AbstractQueries
             ->limit($limit)
             ->get()
             ->transform(
-                /**
-                 * @param User&CommenterContract $user
-                 * @return UserData
-                 * @phpstan-ignore-next-line
-                 */
+            /**
+             * @param User&CommenterContract $user
+             * @return UserData
+             * @phpstan-ignore-next-line
+             */
                 function (User $user) {
                     // @phpstan-ignore-next-line
                     return new UserData(name: $user->name(), photo: $user->photoUrl());
