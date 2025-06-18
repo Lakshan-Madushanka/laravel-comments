@@ -300,27 +300,26 @@
             x-transtion
             @class([
                 "ms-[-2rem] mt-6 sm:ms-8",
-                "!mt-6 sm:!ms-24" => Helpers::isModernTheme()
+                "!mt-6 sm:!ms-8" => Helpers::isModernTheme()
             ])
         >
             <div
                 class="flex bg-gray-200 mb-6 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
             </div>
+
+            <livewire:comments-reply-list
+                :key="'reply-list-'. $comment->id"
+                :$comment
+                :relatedModel="$model"
+                :total="$comment->replies_count"
+            />
+
+            <!-- Update Form -->
+            @if ($model->canEditComment($comment))
+                <div x-show="showUpdateForm" x-transition class="basis-full">
+                    <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
+                </div>
+            @endif
         </div>
-
-        <livewire:comments-reply-list
-            :key="'reply-list-'. $comment->id"
-            :$comment
-            :relatedModel="$model"
-            :total="$comment->replies_count"
-        />
-
-        <!-- Update Form -->
-        @if ($model->canEditComment($comment))
-            <div x-show="showUpdateForm" x-transition class="basis-full">
-                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
-            </div>
-        @endif
-
     </div>
 </div>
