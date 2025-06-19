@@ -188,7 +188,7 @@ class Queries extends AbstractQueries
         return $reaction;
     }
 
-    public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int
+    public static function userReplyCountForComment(Message $comment, bool $guestMode, ?Authenticatable $user): int
     {
         /** @var MessageBuilder<Reply> $replyQuery */
         $replyQuery = $comment->replies();
