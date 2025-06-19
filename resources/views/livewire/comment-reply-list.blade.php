@@ -1,5 +1,5 @@
 @php use LakM\Comments\Enums\Sort;use LakM\Comments\Helpers; @endphp
-<div x-data="{ total: $wire.entangle('total') }" class="space-y-6 ml-4">
+<div x-data="{ total: $wire.entangle('total') }" class="space-y-6">
     @if ($total > 1 && config('comments.show_filters') && $showFilters)
         <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex gap-x-2 overflow-auto overflow-x-auto sm:gap-x-3">

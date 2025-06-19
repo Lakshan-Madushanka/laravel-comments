@@ -299,8 +299,8 @@
             x-show="showReplyList"
             x-transtion
             @class([
-                "ms-[-2rem] mt-6 sm:ms-8",
-                "!mt-6 sm:!ms-8" => Helpers::isModernTheme()
+                "ms-[-2rem] mt-4 sm:ms-4",
+                "!mt-4 sm:!ms-4" => Helpers::isModernTheme()
             ])
         >
             <div
