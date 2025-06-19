@@ -286,7 +286,7 @@
     </div>
 
     @if($showReplyList)
-        <div class="border-t border-gray-100 mt-4">
+        <div class="border-t border-gray-100 mt-4 ms-4">
             <livewire:comments-reply-list
                 :key="'nested-reply-list-'. $reply->id"
                 :comment="$reply"
