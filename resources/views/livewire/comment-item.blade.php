@@ -313,13 +313,13 @@
                 :relatedModel="$model"
                 :total="$comment->replies_count"
             />
-
-            <!-- Update Form -->
-            @if ($model->canEditComment($comment))
-                <div x-show="showUpdateForm" x-transition class="basis-full">
-                    <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
-                </div>
-            @endif
         </div>
+
+        <!-- Update Form -->
+        @if ($model->canEditComment($comment))
+            <div x-show="showUpdateForm" x-transition class="basis-full">
+                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
+            </div>
+        @endif
     </div>
 </div>
