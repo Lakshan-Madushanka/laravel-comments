@@ -15,14 +15,14 @@ use LakM\Comments\Models\Reply;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class CommentReplyItem extends Component
+class ReplyItem extends Component
 {
     /** @var Model&CommentableContract */
     #[Locked]
     public Model $relatedModel;
 
     #[Locked]
-    public Message $comment;
+    public Message $message;
 
     #[Locked]
     public Reply $reply;
@@ -47,19 +47,19 @@ class CommentReplyItem extends Component
     public int $replyCount = 0;
 
     /**
-     * @param  Comment $comment
+     * @param  Message $message
      * @param  Reply $reply
      * @param  Model&CommentableContract $relatedModel
      * @param  bool $guestMode
      * @return void
      */
     public function mount(
-        Message $comment,
+        Message $message,
         Reply $reply,
         Model $relatedModel,
         bool $guestMode,
     ): void {
-        $this->comment = $comment;
+        $this->message = $message;
         $this->reply = $reply;
 
         $this->guestMode = $guestMode;
@@ -88,13 +88,13 @@ class CommentReplyItem extends Component
         $this->skipRender();
 
         if ($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
-            $this->dispatch('reply-deleted-' . $this->comment->getKey(), replyId: $reply->getKey(), commentId: $this->comment->getKey());
+            $this->dispatch('reply-deleted-' . $this->message->getKey(), replyId: $reply->getKey(), messageId: $this->message->getKey());
         }
     }
 
     private function setProfileUrl(): void
     {
-        $this->profileUrl = $this->comment->commenter->profileUrl();
+        $this->profileUrl = $this->message->commenter->profileUrl();
     }
 
     public function setCanManipulate(): bool

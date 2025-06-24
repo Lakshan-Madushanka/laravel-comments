@@ -195,7 +195,7 @@
                         }
                      "
                     @reply-created-{{$comment->getKey()}}.window="
-                        if ($event.detail.commentId === @js($comment->getKey())) {
+                        if ($event.detail.messageId === @js($comment->getKey())) {
                             setTimeout(() => {showReplyForm = !showReplyForm}, 2000)
                         }
                      "

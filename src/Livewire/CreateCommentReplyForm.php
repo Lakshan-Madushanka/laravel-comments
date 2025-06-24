@@ -147,7 +147,7 @@ class CreateCommentReplyForm extends Component
         $this->dispatch(
             'reply-created-' . $this->comment->id,
             editorId: $this->editorId,
-            commentId: $this->comment->getKey(),
+            messageId: $this->comment->getKey(),
             approvalRequired: $this->approvalRequired
         );
 
