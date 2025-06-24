@@ -23,7 +23,7 @@ class Like extends ReactionContract
 
     protected function removeDislike(): null|bool
     {
-        return $this->comment
+        return $this->message
             ->reactions()
             ->checkMode($this->authMode)
             ->where('type', 'dislike')
@@ -33,7 +33,7 @@ class Like extends ReactionContract
 
     protected function removeExistingLike(): null|bool
     {
-        return $this->comment
+        return $this->message
             ->reactions()
             ->where('type', 'like')
             ->checkMode($this->authMode)

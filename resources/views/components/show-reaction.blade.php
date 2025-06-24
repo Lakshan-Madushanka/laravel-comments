@@ -3,7 +3,7 @@
     "key",
     "reactions",
     "lastReactedUserName",
-    "comment",
+    "message",
     "authMode",
     "loginRequired",
     "secureGuestModeAllowed",
@@ -72,7 +72,7 @@
         :$lastReactedUserName
         :$reactions
         :$key
-        :$comment
+        :$message
         :$authMode
         class="!bottom-[-4.8rem] start-[-12rem]"
         wrapperClass="start-[-0.8rem] bottom-[-3rem]"

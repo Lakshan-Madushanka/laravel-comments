@@ -13,7 +13,7 @@ it('remove already existing like for auth mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'like')
         ->assertOk();
 
@@ -29,7 +29,7 @@ it('can create like for auth mode', function () {
 
     $comment = createCommentsForAuthUser($user, video());
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'like')
         ->assertOk();
 
@@ -53,7 +53,7 @@ it('can create like when already has disliked for auth mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('dislike');
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'like')
         ->assertOk();
 
@@ -74,7 +74,7 @@ it('remove already existing like for guest mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'like')
         ->assertOk();
 
@@ -88,7 +88,7 @@ it('can create like for guest mode', function () {
 
     $comment = createCommentsForGuest(video());
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'like')
         ->assertOk();
 
@@ -110,7 +110,7 @@ it('can create like when already has disliked for guest mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('dislike');
 
-    livewire(ReactionsManager::class, ['comment' => $comment, 'relatedModel' => video()])
+    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'like')
         ->assertOk();
 

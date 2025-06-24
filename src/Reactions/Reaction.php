@@ -21,7 +21,7 @@ class Reaction extends ReactionContract
 
     protected function removeExistingReaction(): null|bool
     {
-        return $this->comment
+        return $this->message
             ->reactions()
             ->where('type', $this->type)
             ->checkMode($this->authMode)

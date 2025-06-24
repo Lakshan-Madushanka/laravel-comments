@@ -212,7 +212,7 @@
                 <div x-show="!showUpdateForm" @class(['px-2' => Helpers::isGithubTheme()])>
                     <livewire:comments-reactions-manager
                         :key="'reaction-manager-' . $comment->id"
-                        :$comment
+                        :message="$comment"
                         :relatedModel="$model"
                         :$shouldEnableShareButton
                     />

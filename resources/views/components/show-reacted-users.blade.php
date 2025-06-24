@@ -2,7 +2,7 @@
     'lastReactedUserName',
     'reactions',
     'key',
-    'comment',
+    'message',
     'authMode',
 ])
 
@@ -29,7 +29,7 @@
                 @if ($reactions[$key]['count'] > 1)
                     <span
                         wire:click="loadReactedUsers('{{ $key }}')"
-                        @click="$dispatch('show-user-list', {id: '{{ $comment->getKey() }}', type: '{{ $key }}'})"
+                        @click="$dispatch('show-user-list', {id: '{{ $message->getKey() }}', type: '{{ $key }}'})"
                         class="w-full cursor-pointer pb-1 text-center"
                     >
                         <x-comments::link type="popup">{{ __('show all') }}</x-comments::link>

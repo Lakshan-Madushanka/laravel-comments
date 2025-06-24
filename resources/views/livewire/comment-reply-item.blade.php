@@ -190,7 +190,7 @@
             <div x-show="!showUpdateForm" class="mt-2">
                 <livewire:comments-reactions-manager
                     :key="'reply-reaction-manager' . $reply->getKey()"
-                    :comment="$reply"
+                    :message="$reply"
                     :$guestMode
                     :$relatedModel
                     :$shouldEnableShareButton

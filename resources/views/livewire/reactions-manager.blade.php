@@ -1,4 +1,7 @@
-@php use Illuminate\Support\Number;use LakM\Comments\Helpers; @endphp
+@php use Illuminate\Support\Number;
+     use LakM\Comments\Helpers;
+@endphp
+
 <div x-data="{ showReplyForm: false }">
     <div class="flex w-full justify-between gap-x-4 dark:!text-white">
         <div
@@ -16,8 +19,8 @@
                             showUsers: false,
                         }"
                         @mouseleave="showUsers=false"
-                        @comment-disliked.window="(e) => {
-                            if(e.detail.id === @js($comment->getKey())) {
+                        @message-disliked.window="(e) => {
+                            if(e.detail.id === @js($message->getKey())) {
                                     isLiked = false;
                             }
                         }"
@@ -34,7 +37,7 @@
                             }
 
                             if(isLiked === true) {
-                                $dispatch('comment-liked', {id: @js($comment->getKey())});
+                                $dispatch('message-liked', {id: @js($message->getKey())});
                             }
                         "
                         @class([
@@ -81,7 +84,7 @@
                             :$lastReactedUserName
                             :$reactions
                             :$key
-                            :$comment
+                            :$message
                             :$authMode
                             class="bottom-[-3.4rem] start-[-2rem]"
                             wrapperClass="start-1 bottom-[-2.2rem]"
@@ -94,8 +97,8 @@
                             showUsers: false,
                         }"
                         @mouseleave="showUsers=false"
-                        @comment-liked.window="(e) => {
-                            if(e.detail.id === @js($comment->getKey())) {
+                        @message-liked.window="(e) => {
+                            if(e.detail.id === @js($message->getKey())) {
                                     isDisliked = false;
                             }
                         }"
@@ -112,7 +115,7 @@
                             }
 
                             if(isDisliked === true) {
-                                $dispatch('comment-disliked', {id: @js($comment->getKey())});
+                                $dispatch('message-disliked', {id: @js($message->getKey())});
                             }
                         "
                         @class([
@@ -160,15 +163,22 @@
                             :$lastReactedUserName
                             :$reactions
                             :$key
-                            :$comment
+                            :$message
                             :$authMode
                             class="bottom-[-3.4rem] start-[-2rem]"
                             wrapperClass="start-1 bottom-[-2.2rem]"
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction :$comment :$lastReactedUserName :$reactions :$key :$authMode
-                                               :$loginRequired :$secureGuestModeAllowed />
+                    <x-comments::show-reaction
+                        :$message
+                        :$lastReactedUserName
+                        :$reactions
+                        :$key
+                        :$authMode
+                        :$loginRequired
+                        :$secureGuestModeAllowed
+                    />
                 @endif
             @endforeach
 
@@ -186,16 +196,16 @@
                         return;
                     }
 
-                     $dispatch('show-create-reply-form-' + @js($comment->getKey()));
+                     $dispatch('show-create-reply-form-' + @js($message->getKey()));
                      showReplyForm = !showReplyForm;
                     "
                     @reply-discarded.window="
-                        if ($event.detail.commentId === @js($comment->getKey())) {
+                        if ($event.detail.commentId === @js($message->getKey())) {
                             showReplyForm = false;
                         }
                      "
-                    @reply-created-{{$comment->getKey()}}.window="
-                        if ($event.detail.messageId === @js($comment->getKey())) {
+                    @reply-created-{{$message->getKey()}}.window="
+                        if ($event.detail.messageId === @js($message->getKey())) {
                             setTimeout(() => {showReplyForm = !showReplyForm}, 2000)
                         }
                      "
@@ -260,8 +270,8 @@
                         <x-comments::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
                             <div @click="
                                 const url = new URL(window.location.href);
-                                url.searchParams.append('commenter_type', 'single');
-                                url.searchParams.append('comment_id', '@js($comment->getKey())');
+                                url.searchParams.append('message_type', 'single');
+                                url.searchParams.append('message_id', '@js($message->getKey())');
 
 
                                 copy(url.href);
@@ -283,7 +293,7 @@
         >
             @foreach ($rReactions as $key => $value)
                 <x-comments::show-reaction
-                    :$comment
+                    :$message
                     :$lastReactedUserName
                     :$reactions
                     :$key
@@ -297,7 +307,7 @@
 
     @if ($enableReply)
         <div x-show="showReplyForm" x-transition class="my-4 sm:ms-8">
-            <livewire:comments-reply-form :$comment :$guestMode :$relatedModel />
+            <livewire:comments-reply-form :comment="$message" :$guestMode :$relatedModel />
         </div>
     @endif
 
