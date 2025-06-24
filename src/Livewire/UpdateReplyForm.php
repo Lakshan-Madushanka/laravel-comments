@@ -15,7 +15,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Mews\Purifier\Facades\Purifier;
 
-class UpdateCommentReplyForm extends Component
+class UpdateReplyForm extends Component
 {
     public string $editorId;
 
