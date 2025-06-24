@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\CommentReplyCreated;
+use LakM\Comments\Events\ReplyCreated;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
-use LakM\Comments\Livewire\CreateCommentReplyForm;
+use LakM\Comments\Livewire\CreateReplyForm;
 use LakM\Comments\Models\Comment;
 
 use function Pest\Livewire\livewire;
@@ -13,7 +13,7 @@ it('render comment form', function () {
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-    livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
+    livewire(CreateReplyForm::class, ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true])
         ->assertOk();
 });
 
@@ -21,7 +21,7 @@ it('does not show guest name input field when guest mode is disabled', function 
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-    livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
+    livewire(CreateReplyForm::class, ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true])
         ->assertDontSee('comment as')
         ->assertOk();
 });
@@ -32,7 +32,7 @@ it('show guest name input field when guest mode is enabled', function () {
     $video = \video();
     $comment = createCommentsForGuest($video, data: ['ip_address' => fake()->ipv4()]);
 
-    livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
+    livewire(CreateReplyForm::class, ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true])
         ->set('show', true)
         ->assertSee(__('Reply as'))
         ->assertOk();
@@ -44,7 +44,7 @@ it('can validate guest name', function () {
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-    livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
+    livewire(CreateReplyForm::class, ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true])
         ->set('name', '')
         ->call('create')
         ->assertHasErrors(['name' => 'required'])
@@ -57,7 +57,7 @@ it('can validate guest email', function () {
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-    livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
+    livewire(CreateReplyForm::class, ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true])
         ->set('email', 'email')
         ->call('create')
         ->assertHasErrors(['email' => 'email'])
@@ -70,7 +70,7 @@ it('can validate text field', function () {
     $video = \video();
     $comment = createCommentsForGuest($video);
 
-    livewire(CreateCommentReplyForm::class, ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true])
+    livewire(CreateReplyForm::class, ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true])
         ->set('text', '')
         ->call('create')
         ->assertHasErrors(['text' => 'required'])
@@ -89,8 +89,8 @@ it('shows email field when guest mode enabled', function ($emailEnabled, $guestM
     $comment = createCommentsForGuest($video);
 
     $component = livewire(
-        CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => $guestMode]
+        CreateReplyForm::class,
+        ['message' => $comment, 'relatedModel' => $video, 'guestMode' => $guestMode]
     )
         ->set('show', true)
         ->assertOk();
@@ -116,8 +116,8 @@ it('can create comment for guest mode', function () {
     $comment = createCommentsForGuest($video);
 
     livewire(
-        CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true]
+        CreateReplyForm::class,
+        ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true]
     )
         ->call('showForm')
         ->set('name', 'test user')
@@ -148,8 +148,8 @@ it('can create comment for auth mode', function () {
     $comment = createCommentsForAuthUser($user, $video);
 
     livewire(
-        CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
+        CreateReplyForm::class,
+        ['message' => $comment, 'relatedModel' => $video, 'guestMode' => false]
     )
         ->call('showForm')
         ->set('text', 'reply')
@@ -179,8 +179,8 @@ it('dispatch a event after reply is created', function () {
     $comment = createCommentsForAuthUser($user, $video);
 
     livewire(
-        CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
+        CreateReplyForm::class,
+        ['message' => $comment, 'relatedModel' => $video, 'guestMode' => false]
     )
         ->call('showForm')
         ->set('text', 'test comment')
@@ -188,7 +188,7 @@ it('dispatch a event after reply is created', function () {
         ->assertHasNoErrors()
         ->assertOk();
 
-    Event::assertDispatched(CommentReplyCreated::class);
+    Event::assertDispatched(ReplyCreated::class);
 });
 
 it('can limit comments creation for guest mode', function ($shouldLimit) {
@@ -206,8 +206,8 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
     $reply = createCommentRepliesForGuestMode(comment: $comment, forCurrentUser: true);
 
     $c = livewire(
-        CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => true]
+        CreateReplyForm::class,
+        ['message' => $comment, 'relatedModel' => $video, 'guestMode' => true]
     )
         ->call('showForm')
         ->set('text', 'test comment')
@@ -254,8 +254,8 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     $video = \video();
 
     $c = livewire(
-        CreateCommentReplyForm::class,
-        ['comment' => $comment, 'relatedModel' => $video, 'guestMode' => false]
+        CreateReplyForm::class,
+        ['message' => $comment, 'relatedModel' => $video, 'guestMode' => false]
     )
         ->call('showForm')
         ->set('text', 'test comment');

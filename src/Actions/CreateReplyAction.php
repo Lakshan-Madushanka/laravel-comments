@@ -10,12 +10,12 @@ use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
-use LakM\Comments\Events\CommentReplyCreated;
+use LakM\Comments\Events\ReplyCreated;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 
-class CreateCommentReplyAction
+class CreateReplyAction
 {
     /**
      * Create using a custom function
@@ -25,23 +25,23 @@ class CreateCommentReplyAction
 
     /**
      * Model is the commentable model type defined in config
-     * @param Message $comment
+     * @param Message $message
      * @param MessageData $replyData
      * @param bool $guestMode
      * @param GuestData|null $guest
      * @return mixed
      */
-    public static function execute(Message $comment, MessageData $replyData, bool $guestMode, ?GuestData $guest = null): mixed
+    public static function execute(Message $message, MessageData $replyData, bool $guestMode, ?GuestData $guest = null): mixed
     {
         if (isset(static::$using)) {
-            return static::createUsingCustom($comment, $replyData, $guestMode, $guest);
+            return static::createUsingCustom($message, $replyData, $guestMode, $guest);
         }
 
         if ($guestMode) {
-            return static::createForGuest($comment, $replyData, $guest);
+            return static::createForGuest($message, $replyData, $guest);
         }
 
-        return self::createForAuthUser($comment, $replyData);
+        return self::createForAuthUser($message, $replyData);
     }
 
     protected static function createUsingCustom(Model $model, MessageData $replyData, bool $guestMode, GuestData $guest)
@@ -49,12 +49,12 @@ class CreateCommentReplyAction
         return call_user_func(self::$using, $model, $replyData, $guestMode, $guest);
     }
 
-    protected static function createForGuest(Message $comment, MessageData $replyData, GuestData $guestData)
+    protected static function createForGuest(Message $message, MessageData $replyData, GuestData $guestData)
     {
-        $reply = DB::transaction(function () use ($comment, $replyData, $guestData) {
+        $reply = DB::transaction(function () use ($message, $replyData, $guestData) {
             $guest = ModelResolver::guestClass()::createOrUpdate($guestData);
 
-            $reply = $comment
+            $reply = $message
                 ->replies()
                 ->create([
                     'text' => $replyData->text,
@@ -69,18 +69,18 @@ class CreateCommentReplyAction
             return $reply;
         });
 
-        self::dispatchEvent($comment, $reply);
+        self::dispatchEvent($message, $reply);
 
         return $reply;
     }
 
-    protected static function createForAuthUser(Message $comment, MessageData $replyData): Reply
+    protected static function createForAuthUser(Message $message, MessageData $replyData): Reply
     {
         $user = Auth::guard(config('comments.guard'))
             ->user();
 
         /** @var Reply $reply */
-        $reply = $comment
+        $reply = $message
             ->replies()
             ->create([
             'text' => $replyData->text,
@@ -88,18 +88,18 @@ class CreateCommentReplyAction
             'commenter_id' => $user->getAuthIdentifier(),
         ]);
 
-        self::dispatchEvent($comment, $reply);
+        self::dispatchEvent($message, $reply);
 
         return $reply;
     }
 
     /**
-     * @param Message $comment
+     * @param Message $message
      * @param Reply $reply
      * @return void
      */
-    protected static function dispatchEvent(Message $comment, Reply $reply): void
+    protected static function dispatchEvent(Message $message, Reply $reply): void
     {
-        Event::dispatch(new CommentReplyCreated($comment, $reply));
+        Event::dispatch(new ReplyCreated($message, $reply));
     }
 }

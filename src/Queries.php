@@ -150,14 +150,14 @@ class Queries extends AbstractQueries
      * @return \Illuminate\Support\Collection<int, UserData>
      */
     public static function reactedUsers(
-        Reply|Comment $comment,
+        Message $message,
         string        $reactionType,
         int           $limit,
         bool          $authMode
     ): \Illuminate\Support\Collection
     {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
-        $reactionQuery = $comment->reactions();
+        $reactionQuery = $message->reactions();
 
         $reactions = $reactionQuery
             ->whereType($reactionType)
@@ -170,10 +170,10 @@ class Queries extends AbstractQueries
         });
     }
 
-    public static function lastReactedUser(Reply|Comment $comment, string $reactionType, bool $authMode): ?UserData
+    public static function lastReactedUser(Message $message, string $reactionType, bool $authMode): ?UserData
     {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
-        $reactionQuery = $comment->reactions();
+        $reactionQuery = $message->reactions();
 
         $reaction = $reactionQuery
             ->whereType($reactionType)
@@ -188,10 +188,10 @@ class Queries extends AbstractQueries
         return $reaction;
     }
 
-    public static function userReplyCountForComment(Message $comment, bool $guestMode, ?Authenticatable $user): int
+    public static function userReplyCountForMessage(Message $message, bool $guestMode, ?Authenticatable $user): int
     {
         /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $comment->replies();
+        $replyQuery = $message->replies();
 
         return $replyQuery
             ->when(

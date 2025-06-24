@@ -15,7 +15,7 @@ use LakM\Comments\Livewire\CommentList;
 use LakM\Comments\Livewire\ReplyItem;
 use LakM\Comments\Livewire\ReplyList;
 use LakM\Comments\Livewire\CreateCommentForm;
-use LakM\Comments\Livewire\CreateCommentReplyForm;
+use LakM\Comments\Livewire\CreateReplyForm;
 use LakM\Comments\Livewire\Editor;
 use LakM\Comments\Livewire\ReactionsManager;
 use LakM\Comments\Livewire\UpdateCommentForm;
@@ -65,7 +65,7 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-update-form', UpdateCommentForm::class);
         Livewire::component('comments-list', CommentList::class);
         Livewire::component('comments-reactions-manager', ReactionsManager::class);
-        Livewire::component('comments-reply-form', CreateCommentReplyForm::class);
+        Livewire::component('comments-reply-form', CreateReplyForm::class);
         Livewire::component('comments-reply-list', ReplyList::class);
         Livewire::component('comments-reply-update-form', UpdateReplyForm::class);
         Livewire::component('comments-user-list', UserList::class);

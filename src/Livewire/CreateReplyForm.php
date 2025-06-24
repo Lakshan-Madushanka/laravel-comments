@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Actions\CreateCommentReplyAction;
+use LakM\Comments\Actions\CreateReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
@@ -26,7 +26,7 @@ use Mews\Purifier\Facades\Purifier;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
-class CreateCommentReplyForm extends Component
+class CreateReplyForm extends Component
 {
     use UsesSpamProtection;
 
@@ -35,7 +35,7 @@ class CreateCommentReplyForm extends Component
     public SecureGuestModeManager $secureGuestMode;
 
     #[Locked]
-    public Message $comment;
+    public Message $message;
 
     /** @var Model&CommentableContract  */
     #[Locked]
@@ -85,12 +85,12 @@ class CreateCommentReplyForm extends Component
     }
 
     /**
-     * @param  Comment  $comment
+     * @param  Message  $message
      * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $guestMode
      * @return void
      */
-    public function mount(Message $comment, Model $relatedModel, bool $guestMode): void
+    public function mount(Message $message, Model $relatedModel, bool $guestMode): void
     {
         if (!$this->show) {
             $this->skipRender();
@@ -98,7 +98,7 @@ class CreateCommentReplyForm extends Component
 
         $this->secureGuestMode = app(SecureGuestModeManager::class);
 
-        $this->comment = $comment;
+        $this->message = $message;
         $this->relatedModel = $relatedModel;
 
         $this->guestMode = $guestMode;
@@ -137,17 +137,17 @@ class CreateCommentReplyForm extends Component
 
         throw_if($this->limitExceeded, ReplyLimitExceededException::make($this->replyLimit()));
 
-        CreateCommentReplyAction::execute(
-            $this->comment,
+        CreateReplyAction::execute(
+            $this->message,
             MessageData::fromArray($this->getFormData()),
             $this->guestMode,
             $this->getGuestData(),
         );
 
         $this->dispatch(
-            'reply-created-' . $this->comment->id,
+            'reply-created-' . $this->message->id,
             editorId: $this->editorId,
-            messageId: $this->comment->getKey(),
+            messageId: $this->message->getKey(),
             approvalRequired: $this->approvalRequired
         );
 
@@ -194,7 +194,7 @@ class CreateCommentReplyForm extends Component
 
     public function discard(): void
     {
-        $this->dispatch('reply-discarded', commentId: $this->comment->getKey());
+        $this->dispatch('reply-discarded', messageId: $this->message->getKey());
         $this->dispatch('reset-editor-' . $this->editorId, value: '');
     }
 
@@ -255,8 +255,8 @@ class CreateCommentReplyForm extends Component
 
     public function setReplyCount(): void
     {
-        $this->replyCount = $this->queries->userReplyCountForComment(
-            $this->comment,
+        $this->replyCount = $this->queries->userReplyCountForMessage(
+            $this->message,
             $this->guestMode,
             $this->relatedModel->getAuthUser()
         );
@@ -274,7 +274,7 @@ class CreateCommentReplyForm extends Component
         $this->redirect(config('comments.login_route'));
     }
 
-    #[On('show-create-reply-form-{comment.id}')]
+    #[On('show-create-reply-form-{message.id}')]
     public function showForm(): void
     {
         if (!$this->show) {

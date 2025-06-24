@@ -12,9 +12,7 @@ use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
 use LakM\Comments\Reactions\ReactionManager;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -237,7 +235,7 @@ class ReactionsManager extends Component
             $limit += $this->reactedUsers[$type]['limit'];
         }
 
-        $user = app(AbstractQueries::class)->reactedUsers($this->comment, $type, $limit, $this->authMode);
+        $user = app(AbstractQueries::class)->reactedUsers($this->message, $type, $limit, $this->authMode);
 
         $this->reactedUsers[$type]['users'] = $user;
         $this->reactedUsers[$type]['limit'] = $limit;
@@ -245,7 +243,7 @@ class ReactionsManager extends Component
 
     public function lastReactedUser(string $type): void
     {
-        $user = app(AbstractQueries::class)->lastReactedUser($this->comment, $type, $this->authMode);
+        $user = app(AbstractQueries::class)->lastReactedUser($this->message, $type, $this->authMode);
         $this->lastReactedUserName = $user?->name;
     }
 

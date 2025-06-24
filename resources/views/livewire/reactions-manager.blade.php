@@ -200,7 +200,7 @@
                      showReplyForm = !showReplyForm;
                     "
                     @reply-discarded.window="
-                        if ($event.detail.commentId === @js($message->getKey())) {
+                        if ($event.detail.messageId === @js($message->getKey())) {
                             showReplyForm = false;
                         }
                      "
@@ -307,7 +307,7 @@
 
     @if ($enableReply)
         <div x-show="showReplyForm" x-transition class="my-4 sm:ms-8">
-            <livewire:comments-reply-form :comment="$message" :$guestMode :$relatedModel />
+            <livewire:comments-reply-form :message="$message" :$guestMode :$relatedModel />
         </div>
     @endif
 

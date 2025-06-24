@@ -67,15 +67,15 @@ abstract class AbstractQueries
      * @return \Illuminate\Support\Collection<int, UserData>
      */
     abstract public static function reactedUsers(
-        Reply|Comment $comment,
+        Message $message,
         string $reactionType,
         int $limit,
         bool $authMode
     ): \Illuminate\Support\Collection;
 
-    abstract public static function lastReactedUser(Reply|Comment $comment, string $reactionType, bool $authMode): ?UserData;
+    abstract public static function lastReactedUser(Message $message, string $reactionType, bool $authMode): ?UserData;
 
-    abstract public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int;
+    abstract public static function userReplyCountForMessage(Message $message, bool $guestMode, ?Authenticatable $user): int;
 
     /**
      * @param Message $message
