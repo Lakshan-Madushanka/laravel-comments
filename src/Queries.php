@@ -207,16 +207,16 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param Comment $comment
+     * @param Message $message
      * @param Model&CommentableContract $relatedModel
      * @param bool $approvalRequired
-     * @param int $limit
+     * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
      * @return LengthAwarePaginator|Collection
      */
     public static function commentReplies(
-        Message $comment,
+        Message $message,
         Model   $relatedModel,
         bool    $approvalRequired,
         ?int    $limit,
@@ -225,7 +225,7 @@ class Queries extends AbstractQueries
     ): LengthAwarePaginator|Collection
     {
         /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $comment->replies();
+        $replyQuery = $message->replies();
 
         return $replyQuery
             ->currentUserFilter($relatedModel, $filter)

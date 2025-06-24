@@ -2,7 +2,6 @@
 
 namespace LakM\Comments;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -13,8 +12,8 @@ use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Console\InstallCommand;
 use LakM\Comments\Livewire\CommentItem;
 use LakM\Comments\Livewire\CommentList;
-use LakM\Comments\Livewire\CommentReplyItem;
-use LakM\Comments\Livewire\CommentReplyList;
+use LakM\Comments\Livewire\ReplyItem;
+use LakM\Comments\Livewire\ReplyList;
 use LakM\Comments\Livewire\CreateCommentForm;
 use LakM\Comments\Livewire\CreateCommentReplyForm;
 use LakM\Comments\Livewire\Editor;
@@ -67,11 +66,11 @@ class CommentServiceProvider extends ServiceProvider
         Livewire::component('comments-list', CommentList::class);
         Livewire::component('comments-reactions-manager', ReactionsManager::class);
         Livewire::component('comments-reply-form', CreateCommentReplyForm::class);
-        Livewire::component('comments-reply-list', CommentReplyList::class);
+        Livewire::component('comments-reply-list', ReplyList::class);
         Livewire::component('comments-reply-update-form', UpdateCommentReplyForm::class);
         Livewire::component('comments-user-list', UserList::class);
         Livewire::component('comments-item', CommentItem::class);
-        Livewire::component('comments-reply-item', CommentReplyItem::class);
+        Livewire::component('comments-reply-item', ReplyItem::class);
     }
 
     protected function setBladeDirectives(): void

@@ -36,7 +36,7 @@
         @foreach ($replies as $reply)
             <livewire:comments-reply-item
                 :key="'reply-item' . $reply->id"
-                :$comment
+                :$message
                 :$relatedModel
                 :$reply
                 :$guestMode
@@ -83,12 +83,12 @@
         });
 
         $wire.on('unauthorized-reply-updated', (event) => {
-            if (event.commentId === @js($comment->getKey())) {
+            if (event.messageId === @js($message->getKey())) {
                 $wire.$set('total', --$wire.total);
             }
         });
 
-        Livewire.on("reply-created-@js($comment->getKey())", () => {
+        Livewire.on("reply-created-@js($message->getKey())", () => {
             highlight();
         });
 

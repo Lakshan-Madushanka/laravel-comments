@@ -169,7 +169,7 @@
                                      setTimeout(() => {
                                          if(e.detail.approvalRequired) {
                                            $refs[elm].classList.add('hidden')
-                                           $dispatch('unauthorized-reply-updated', {'commentId': @js($comment->getKey()) })
+                                           $dispatch('unauthorized-reply-updated', {'messageId': @js($message->getKey()) })
                                          }
                                          showUpdateForm = false;
                                      }, 2000);
@@ -213,20 +213,20 @@
             <div
                 x-data="{replyCount: @js($replyCount), showReplyList: $wire.entangle('showReplyList')}"
                 @reply-created-{{ $reply->getKey() }}.window="
-                            if($event.detail.commentId === {{ $reply->getKey() }}) {
+                            if($event.detail.messageId === {{ $reply->getKey() }}) {
                                 if(!event.detail.approvalRequired) {
                                     replyCount += 1;
                                 }
                             }
                         "
                 @reply-deleted-{{ $reply->getKey() }}.window="
-                            if($event.detail.commentId === {{ $reply->getKey() }}) {
+                            if($event.detail.messageId === {{ $reply->getKey() }}) {
                                 replyCount -= 1;
                             }
                         "
                 @unauthorized-reply-updated.window="(e) => {
                             let key = @js($reply->getKey());
-                            if(e.detail.commentId === key) {
+                            if(e.detail.messageId === key) {
                                     replyCount -= 1;
                             }
                         }"
@@ -289,7 +289,7 @@
         <div class="border-t mt-4 border-gray-100 ml-2">
             <livewire:comments-reply-list
                 :key="'nested-reply-list-'. $reply->id"
-                :comment="$reply"
+                :message="$reply"
                 :$relatedModel
                 :total="$replyCount"
                 :show="true"

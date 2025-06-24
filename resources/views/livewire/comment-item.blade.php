@@ -222,14 +222,14 @@
                 @if (config('comments.reply.enabled'))
                     <div
                         @reply-created-{{ $comment->getKey() }}.window="
-                            if($event.detail.commentId === {{ $comment->getKey() }}) {
+                            if($event.detail.messageId === {{ $comment->getKey() }}) {
                                 if(!event.detail.approvalRequired) {
                                     replyCount += 1;
                                 }
                             }
                         "
                         @reply-deleted-{{ $comment->getKey() }}.window="
-                            if($event.detail.commentId === {{ $comment->getKey() }}) {
+                            if($event.detail.messageId === {{ $comment->getKey() }}) {
                                 replyCount -= 1;
                             }
                         "
@@ -309,7 +309,7 @@
 
             <livewire:comments-reply-list
                 :key="'reply-list-'. $comment->id"
-                :$comment
+                :message="$comment"
                 :relatedModel="$model"
                 :total="$comment->replies_count"
             />

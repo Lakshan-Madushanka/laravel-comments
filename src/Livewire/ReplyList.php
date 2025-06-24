@@ -12,7 +12,6 @@ use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Livewire\Concerns\HasSingleThread;
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Message;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -23,7 +22,7 @@ use Livewire\WithPagination;
 /**
  * @property \Illuminate\Support\Collection|LengthAwarePaginator $replies
  */
-class CommentReplyList extends Component
+class ReplyList extends Component
 {
     use WithPagination;
     use HasSingleThread;
@@ -31,7 +30,7 @@ class CommentReplyList extends Component
     public bool $show = false;
 
     #[Locked]
-    public Message $comment;
+    public Message $message;
 
     /** @var Model&CommentableContract */
     #[Locked]
@@ -60,18 +59,21 @@ class CommentReplyList extends Component
     public bool $showFilters = true;
 
     /**
-     * @param  Comment  $comment
-     * @param  Model&CommentableContract  $relatedModel
-     * @param  int  $total
+     * @param Message $message
+     * @param Model&CommentableContract $relatedModel
+     * @param int $total
+     * @param bool $show
      * @return void
      */
-    public function mount(Message $comment, Model $relatedModel, int $total, bool $show = false): void
+    public function mount(Message $message, Model $relatedModel, int $total, bool $show = false): void
     {
+        $this->show = $show;
+
         if (!$this->show) {
             $this->skipRender();
         }
 
-        $this->comment = $comment;
+        $this->message = $message;
         $this->relatedModel = $relatedModel;
 
         $this->total = $total;
@@ -127,7 +129,7 @@ class CommentReplyList extends Component
         }
     }
 
-    #[On('show-replies.{comment.id}')]
+    #[On('show-replies.{message.id}')]
     public function setShowStatus(): void
     {
         $this->show = !$this->show;
@@ -135,22 +137,22 @@ class CommentReplyList extends Component
         $this->dispatch('show-reply');
     }
 
-    #[On('reply-created-{comment.id}')]
-    public function onReplyCreated($commentId): void
+    #[On('reply-created-{message.id}')]
+    public function onReplyCreated($messageId): void
     {
         if ($this->approvalRequired) {
             return;
         }
 
-        if ($commentId === $this->comment->getKey()) {
+        if ($messageId === $this->message->getKey()) {
             $this->total += 1;
         }
     }
 
-    #[On('reply-deleted-{comment.id}')]
-    public function onReplyDeleted($commentId): void
+    #[On('reply-deleted-{message.id}')]
+    public function onReplyDeleted($messageId): void
     {
-        if ($commentId === $this->comment->getKey()) {
+        if ($messageId === $this->message->getKey()) {
             $this->total -= 1;
         }
     }
@@ -175,7 +177,7 @@ class CommentReplyList extends Component
     {
         return app(AbstractQueries::class)
             ->commentReplies(
-                $this->comment,
+                $this->message,
                 $this->relatedModel,
                 $this->approvalRequired,
                 $this->limit,

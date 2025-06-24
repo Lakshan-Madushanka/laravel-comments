@@ -11,6 +11,7 @@ use LakM\Comments\Contracts\CommenterContract;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Enums\Sort;
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 
 abstract class AbstractQueries
@@ -77,7 +78,7 @@ abstract class AbstractQueries
     abstract public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int;
 
     /**
-     * @param Comment $comment
+     * @param Message $message
      * @param Model&CommentableContract $relatedModel
      * @param bool $approvalRequired
      * @param int $limit
@@ -86,7 +87,7 @@ abstract class AbstractQueries
      * @return LengthAwarePaginator|Collection
      */
     abstract public static function commentReplies(
-        Comment $comment,
+        Message $message,
         Model $relatedModel,
         bool $approvalRequired,
         int $limit,
