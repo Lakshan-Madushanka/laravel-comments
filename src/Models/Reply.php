@@ -40,9 +40,4 @@ class Reply extends Message
     {
         return $this->belongsTo(M::commentClass());
     }
-
-    public function replies(): MorphMany
-    {
-        return $this->morphMany(Reply::class, 'reply');
-    }
 }

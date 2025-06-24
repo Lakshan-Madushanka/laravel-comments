@@ -46,14 +46,6 @@ class Comment extends Message
         return $this->morphTo();
     }
 
-    /**
-     * @return MorphMany
-     */
-    public function replies(): MorphMany
-    {
-        return $this->morphMany(Reply::class, 'reply');
-    }
-
     public function replyReactions(): HasManyThrough
     {
         return $this->hasManyThrough(M::reactionClass(), Reply::class, 'reply_id', 'comment_id');

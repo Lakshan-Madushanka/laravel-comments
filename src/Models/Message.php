@@ -5,6 +5,7 @@ namespace LakM\Comments\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User;
@@ -82,6 +83,11 @@ class Message extends Model
     public function commenter(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function replies(): MorphMany
+    {
+        return $this->morphMany(Reply::class, 'reply');
     }
 
     /** @return HasMany<Reaction> */
