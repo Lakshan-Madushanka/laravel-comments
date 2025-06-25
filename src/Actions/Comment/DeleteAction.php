@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Comments\Actions\Comment;
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\CommentDeleted;
+use LakM\Comments\Events\Comment\CommentDeleted;
 use LakM\Comments\Models\Comment;
 
-class DeleteCommentAction
+class DeleteAction
 {
     /**
      * Create using a custom function

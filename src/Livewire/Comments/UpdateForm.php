@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Comments;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use LakM\Comments\Actions\UpdateCommentAction;
+use LakM\Comments\Actions\Comment\UpdateAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Helpers;
 use LakM\Comments\Models\Comment;
@@ -13,7 +13,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Mews\Purifier\Facades\Purifier;
 
-class UpdateCommentForm extends Component
+class UpdateForm extends Component
 {
     public string $editorId;
 
@@ -60,7 +60,7 @@ class UpdateCommentForm extends Component
 
         $data = $this->getFormData();
 
-        if ($this->model->canEditComment($this->comment) && UpdateCommentAction::execute($this->comment, $data)) {
+        if ($this->model->canEditComment($this->comment) && UpdateAction::execute($this->comment, $data)) {
             $this->dispatch('comment-updated', commentId: $this->comment->getKey(), text: $data['text']);
 
             $this->resetValidation();
@@ -81,6 +81,6 @@ class UpdateCommentForm extends Component
 
     public function render()
     {
-        return view('comments::livewire.update-comment-form');
+        return view('comments::livewire.comments.update-form');
     }
 }

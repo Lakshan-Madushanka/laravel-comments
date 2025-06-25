@@ -4,10 +4,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use LakM\Comments\Enums\Sort;
-use LakM\Comments\Livewire\ReplyList;
+use LakM\Comments\Livewire\Replies\ListView;
 use LakM\Comments\Models\Reply;
 use Pest\Expectation;
-
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
@@ -24,7 +23,7 @@ it('can render comment reply list in auth mode', function () {
     $comment = createCommentsForAuthUser($user, $video);
     createCommentRepliesForAuthMode(comment: $comment, user: $user, data: ['text' => $text]);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
         ->call('setShowStatus')
         ->assertSee($user->getAuthIdentifierName())
         ->assertSeeText($text)
@@ -44,7 +43,7 @@ it('can render comment reply list in guest mode', function () {
     $comment = createCommentsForGuest(relatedModel: $video);
     $reply = createCommentRepliesForGuestMode(comment: $comment, data: ['text' => $text]);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
         ->call('setShowStatus')
         ->assertSeeText(Str::limit($reply->ownerName(false), 10))
         ->assertSeeText($text)
@@ -62,7 +61,7 @@ it('can render paginated replies list for auth user', function ($count) {
     $comment = createCommentsForAuthUser($user, $video);
     createCommentRepliesForAuthMode(comment: $comment, user: $user, count: 5);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => $count])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => $count])
         ->call('setShowStatus')
         ->assertViewHas('replies', function (LengthAwarePaginator $comments) use ($count) {
             expect($comments)
@@ -88,7 +87,7 @@ it('can render paginated replies list for guest mode', function ($count) {
     $comment = createCommentsForGuest($video);
     createCommentRepliesForGuestMode(comment: $comment, count: 5);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => $count])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => $count])
         ->call('setShowStatus')
         ->assertViewHas('replies', function (LengthAwarePaginator $comments) use ($count) {
             expect($comments)
@@ -118,7 +117,7 @@ it('render only approved reply list in guest mode', function () {
 
     $reply = createCommentRepliesForGuestMode(comment: $comment, data: ['text' => $text, 'approved' => true]);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
         ->call('setShowStatus')
         ->assertViewHas('replies', function (LengthAwarePaginator $replies) use ($reply, $text) {
             expect($replies)
@@ -148,7 +147,7 @@ it('render only approved reply list in auth mode', function () {
 
     $reply = createCommentRepliesForGuestMode(comment: $comment, data: ['text' => $text, 'approved' => true]);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 1])
         ->call('setShowStatus')
         ->assertViewHas('replies', function (LengthAwarePaginator $replies) use ($reply, $text) {
             expect($replies)
@@ -181,7 +180,7 @@ it('can sort comment\'s reply list by latest', function () {
 
     createCommentRepliesForGuestMode($comment, 1, ['text' => $text2]);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 2])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 2])
         ->set('sortBy', Sort::LATEST)
         ->assertSeeTextInOrder([$text2, $text1])
         ->assertOk();
@@ -205,7 +204,7 @@ it('can sort comment\'s reply list by oldest', function () {
 
     createCommentRepliesForGuestMode($comment, 1, ['text' => $text2]);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 2])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 2])
         ->set('sortBy', Sort::OLDEST)
         ->assertSeeTextInOrder([$text1, $text2])
         ->assertOk();
@@ -226,7 +225,7 @@ it('can filter current user replies', function () {
 
     createCommentRepliesForGuestMode(comment: $comment);
 
-    livewire(ReplyList::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 2])
+    livewire(ListView::class, ['message' => $comment, 'relatedModel' => $video, 'total' => 2])
         ->set('filter', 'own')
         ->assertViewHas('replies', function (Collection $replies) use ($reply) {
             expect($replies)

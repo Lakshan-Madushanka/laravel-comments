@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Comments\Actions\Comment;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -10,11 +10,11 @@ use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
-use LakM\Comments\Events\CommentCreated;
+use LakM\Comments\Events\Comment\CommentCreated;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
 
-class CreateCommentAction
+class CreateAction
 {
     /**
      * Create using a custom function

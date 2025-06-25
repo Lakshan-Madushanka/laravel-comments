@@ -1,6 +1,6 @@
 <?php
 
-use LakM\Comments\Livewire\ReactionsManager;
+use LakM\Comments\Livewire\ReactionManager;
 
 use function Pest\Livewire\livewire;
 
@@ -13,7 +13,7 @@ it('remove already existing dislike for auth mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
+    livewire(ReactionManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -29,7 +29,7 @@ it('can create dislike for auth mode', function () {
     $video = video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => $video])
+    livewire(ReactionManager::class, ['message' => $comment, 'relatedModel' => $video])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -53,7 +53,7 @@ it('can create dislike when already has liked for auth mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('like');
 
-    livewire(ReactionsManager::class, ['message' => $comment, 'relatedModel' => video()])
+    livewire(ReactionManager::class, ['message' => $comment, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -74,7 +74,7 @@ it('remove already existing dislike for guest mode', function () {
 
     expect($comment->reactions)->toHaveCount(1);
 
-    livewire(ReactionsManager::class, ['message' => $comment, 'guestMode' => true, 'relatedModel' => video()])
+    livewire(ReactionManager::class, ['message' => $comment, 'guestMode' => true, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -88,7 +88,7 @@ it('can create dislike for guest mode', function () {
 
     $comment = createCommentsForGuest(video());
 
-    livewire(ReactionsManager::class, ['message' => $comment, 'guestMode' => true, 'relatedModel' => video()])
+    livewire(ReactionManager::class, ['message' => $comment, 'guestMode' => true, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 
@@ -110,7 +110,7 @@ it('can create dislike when already has liked for guest mode', function () {
         ->toHaveCount(1)
         ->first()->type->toBe('like');
 
-    livewire(ReactionsManager::class, ['message' => $comment, 'guestMode' => true, 'relatedModel' => video()])
+    livewire(ReactionManager::class, ['message' => $comment, 'guestMode' => true, 'relatedModel' => video()])
         ->call('handle', type: 'dislike')
         ->assertOk();
 

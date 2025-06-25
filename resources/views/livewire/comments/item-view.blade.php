@@ -210,7 +210,7 @@
 
                 <!--Reaction manager -->
                 <div x-show="!showUpdateForm" @class(['px-2' => Helpers::isGithubTheme()])>
-                    <livewire:comments-reactions-manager
+                    <livewire:reaction-manager
                         :key="'reaction-manager-' . $comment->id"
                         :message="$comment"
                         :relatedModel="$model"
@@ -307,7 +307,7 @@
                 class="flex bg-gray-200 mb-6 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
             </div>
 
-            <livewire:comments-reply-list
+            <livewire:replies.list-view
                 :key="'reply-list-'. $comment->id"
                 :message="$comment"
                 :relatedModel="$model"
@@ -318,7 +318,7 @@
         <!-- Update Form -->
         @if ($model->canEditComment($comment))
             <div x-show="showUpdateForm" x-transition class="basis-full">
-                <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
+                <livewire:comments.update-form :key="'update-form-'. $comment->id" :$comment :$model />
             </div>
         @endif
     </div>

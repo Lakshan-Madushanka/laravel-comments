@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\CommentUpdated;
-use LakM\Comments\Livewire\UpdateCommentForm;
-
+use LakM\Comments\Events\Comment\CommentUpdated;
+use LakM\Comments\Livewire\Comments\UpdateForm;
 use function Pest\Livewire\livewire;
 
 it('can validate the form', function () {
@@ -11,7 +10,7 @@ it('can validate the form', function () {
     $video = video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', '')
         ->call('save')
         ->assertHasErrors(['text' => 'required']);
@@ -22,7 +21,7 @@ it('dispatch a event when commit update discarded', function () {
     $video = video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', '')
         ->call('discard')
         ->assertDispatched('comment-update-discarded');
@@ -37,7 +36,7 @@ it('can update a comment for authenticated user', function () {
     $video = video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
@@ -62,7 +61,7 @@ it('cannot update a comment for invalid authenticated user', function () {
     $video = video();
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
@@ -85,7 +84,7 @@ it('can update a comment for a guest', function () {
     $video = video();
     $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
@@ -107,7 +106,7 @@ it('cannot update a comment for a invalid guest', function () {
     $video = video();
     $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
@@ -131,7 +130,7 @@ it('can update a comment in secured guest', function () {
     $video = video();
     $comment = createCommentsForGuest($video, guest: $guest);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
@@ -161,7 +160,7 @@ it('cannot update a comment in secured guest', function () {
     $video = video();
     $comment = createCommentsForGuest($video, data: ['text' => 'comment'], guest: $guest);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()
@@ -186,7 +185,7 @@ it('revoke the approval after updated', function () {
     $video = video();
     $comment = createCommentsForAuthUser($user, $video, 1, ['approved' => true]);
 
-    livewire(UpdateCommentForm::class, ['comment' => $comment, 'model' => $video])
+    livewire(UpdateForm::class, ['comment' => $comment, 'model' => $video])
         ->set('text', 'new comment')
         ->call('save')
         ->assertHasNoErrors()

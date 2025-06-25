@@ -4,22 +4,21 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use LakM\Comments\Events\CommentCreated;
+use LakM\Comments\Events\Comment\CommentCreated;
 use LakM\Comments\Exceptions\CommentLimitExceededException;
-use LakM\Comments\Livewire\CreateCommentForm;
+use LakM\Comments\Livewire\Comments\CreateForm;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Tests\Fixtures\User;
 use LakM\Comments\Tests\Fixtures\Video;
-
 use function Pest\Livewire\livewire;
 
 it('render comment form', function () {
-    livewire(CreateCommentForm::class, ['model' => \post()])
+    livewire(CreateForm::class, ['model' => \post()])
         ->assertOk();
 });
 
 it('does not show guest name input field when guest mode is disabled', function () {
-    livewire(CreateCommentForm::class, ['model' => \post()])
+    livewire(CreateForm::class, ['model' => \post()])
         ->assertDontSee('comment as')
         ->assertOk();
 });
@@ -27,7 +26,7 @@ it('does not show guest name input field when guest mode is disabled', function 
 it('show guest name input field when guest mode is enabled', function () {
     onGuestMode();
 
-    livewire(CreateCommentForm::class, ['model' => \video()])
+    livewire(CreateForm::class, ['model' => \video()])
         ->assertSee('Comment as')
         ->assertOk();
 });
@@ -35,7 +34,7 @@ it('show guest name input field when guest mode is enabled', function () {
 it('doesn\'t show name and email when guest mode is secured', function () {
     onGuestMode(secured: true);
 
-    livewire(CreateCommentForm::class, ['model' => \video()])
+    livewire(CreateForm::class, ['model' => \video()])
         ->assertDontSeeText(__('Comment as'))
         ->assertDontSeeText(__('Email'))
         ->assertOk();
@@ -44,7 +43,7 @@ it('doesn\'t show name and email when guest mode is secured', function () {
 it('requires name and email when sending verify link in safe guest mode', function () {
     onGuestMode(secured: true);
 
-    livewire(CreateCommentForm::class, ['model' => \video()])
+    livewire(CreateForm::class, ['model' => \video()])
         ->call('sendVerifyLink', 'url')
         ->assertHasErrors([
             'name' => 'required',
@@ -60,14 +59,14 @@ test('name must be unique except existing email when sending verify link in safe
 
     $guest = guest();
 
-    livewire(CreateCommentForm::class, ['model' => \video()])
+    livewire(CreateForm::class, ['model' => \video()])
         ->set('email', fake()->email)
         ->set('name', $guest->name)
         ->call('sendVerifyLink', 'url')
         ->assertHasErrors(['name' => 'unique'])
         ->assertOk();
 
-    livewire(CreateCommentForm::class, ['model' => \video()])
+    livewire(CreateForm::class, ['model' => \video()])
         ->set('email', $guest->email)
         ->set('name', $guest->name)
         ->call('sendVerifyLink', 'url')
@@ -80,7 +79,7 @@ it('can validate guest name', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('name', '')
         ->call('create')
         ->assertHasErrors(['name' => 'required'])
@@ -92,7 +91,7 @@ it('can validate guest email', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('email', 'email')
         ->call('create')
         ->assertHasErrors(['email' => 'email'])
@@ -104,7 +103,7 @@ it('can validate text field', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', '')
         ->call('create')
         ->assertHasErrors(['text' => 'required'])
@@ -118,7 +117,7 @@ test('guest name must be unique for different ip address', function () {
 
     $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test')
         ->set('name', $comment->commenter->name)
         ->set('email', fake()->email())
@@ -134,7 +133,7 @@ test('guest name must not be unique for the same ip address', function () {
 
     $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test')
         ->set('name', $comment->commenter->name)
         ->set('email', fake()->email())
@@ -150,7 +149,7 @@ test('email must be unique for different ip address', function () {
 
     $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test')
         ->set('name', fake()->name())
         ->set('email', $comment->commenter->email)
@@ -166,7 +165,7 @@ test('email must not be unique for the same ip address', function () {
 
     $comment = createCommentsForGuest($video, 1, ['ip_address' => request()->ip()]);
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test')
         ->set('name', fake()->name)
         ->set('email', fake()->email())
@@ -179,7 +178,7 @@ it('shows login link when guest mode disabled', function () {
     config(['comments.guest_mode.enabled' => false]);
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->assertSee('login')
         ->assertOk();
 });
@@ -190,7 +189,7 @@ it('shows email field when guest mode enabled', function ($emailEnabled, $guestM
 
     $video = \video();
 
-    $component = livewire(CreateCommentForm::class, ['model' => $video])
+    $component = livewire(CreateForm::class, ['model' => $video])
         ->assertOk();
 
     if (!$guestMode || !$emailEnabled) {
@@ -215,7 +214,7 @@ it('load user data in guest mode', function () {
     $comment1 = createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
     createCommentsForGuest($video);
 
-    $component = livewire(CreateCommentForm::class, ['model' => $video])
+    $component = livewire(CreateForm::class, ['model' => $video])
         ->assertOk();
 
     expect($component->get('name'))
@@ -229,7 +228,7 @@ it('can create comment for guest mode', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('name', 'test user')
         ->set('email', 'testuser@gmail.com')
         ->set('text', 'test comment')
@@ -257,7 +256,7 @@ it('can create comment for safe guest mode', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -281,7 +280,7 @@ it('can create comment for auth mode', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -311,7 +310,7 @@ it('dispatch a event after comment is created', function () {
 
     $video = \video();
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test comment')
         ->call('create')
         ->assertHasNoErrors()
@@ -332,7 +331,7 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
     $video = \video();
     createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
 
-    $c = livewire(CreateCommentForm::class, ['model' => $video])
+    $c = livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test comment')
         ->set('name', 'guest')
         ->set('email', 'gues@mail.com');
@@ -377,7 +376,7 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     $user->comments()->save($comment);
 
 
-    $c = livewire(CreateCommentForm::class, ['model' => $video])
+    $c = livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test comment');
 
     if ($shouldLimit) {
@@ -408,7 +407,7 @@ it('can change the guest name for all the same ip address', function () {
 
     $comment = createCommentsForGuest($video, forCurrentUser: true);
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test')
         ->set('name', 'lakm')
         ->set('email', fake()->email())
@@ -436,7 +435,7 @@ it('can change the guest email for all the same ip address', function () {
 
     $comment = createCommentsForGuest($video, forCurrentUser: true);
 
-    livewire(CreateCommentForm::class, ['model' => $video])
+    livewire(CreateForm::class, ['model' => $video])
         ->set('text', 'test')
         ->set('name', 'lakm')
         ->set('email', 'lakm@gmail.com')
