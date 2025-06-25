@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Actions\DeleteCommentReplyAction;
+use LakM\Comments\Actions\DeleteReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
@@ -86,7 +86,7 @@ class ReplyItem extends Component
     {
         $this->skipRender();
 
-        if ($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
+        if ($this->canDeleteReply($reply) && DeleteReplyAction::execute($reply)) {
             $this->dispatch('reply-deleted-' . $this->message->getKey(), replyId: $reply->getKey(), messageId: $this->message->getKey());
         }
     }

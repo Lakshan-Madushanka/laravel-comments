@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentReplyUpdated;
 use LakM\Comments\Models\Reply;
 
-class UpdateCommentReplyAction
+class UpdateReplyAction
 {
     /**
      * Create using a custom function

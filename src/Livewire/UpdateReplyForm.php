@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
-use LakM\Comments\Actions\UpdateCommentReplyAction;
+use LakM\Comments\Actions\UpdateReplyAction;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -52,7 +52,7 @@ class UpdateReplyForm extends Component
 
         $data = $this->getFormData();
 
-        if ($this->canUpdateReply($this->reply) && UpdateCommentReplyAction::execute($this->reply, $data)) {
+        if ($this->canUpdateReply($this->reply) && UpdateReplyAction::execute($this->reply, $data)) {
             $this->dispatch(
                 'reply-updated',
                 replyId: $this->reply->getKey(),
