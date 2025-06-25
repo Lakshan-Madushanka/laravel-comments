@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Actions\CreateReplyAction;
+use LakM\Comments\Actions\Reply\CreateAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
 use LakM\Comments\Exceptions\ReplyLimitExceededException;
-use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Message;
 use LakM\Comments\SecureGuestModeManager;
 use LakM\Comments\ValidationRules;
@@ -26,7 +25,7 @@ use Mews\Purifier\Facades\Purifier;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
-class CreateReplyForm extends Component
+class ReplyForm extends Component
 {
     use UsesSpamProtection;
 
@@ -137,7 +136,7 @@ class CreateReplyForm extends Component
 
         throw_if($this->limitExceeded, ReplyLimitExceededException::make($this->replyLimit()));
 
-        CreateReplyAction::execute(
+        CreateAction::execute(
             $this->message,
             MessageData::fromArray($this->getFormData()),
             $this->guestMode,
@@ -294,6 +293,6 @@ class CreateReplyForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.create-comment-reply-form');
+        return view('comments::livewire.replies.create-form');
     }
 }

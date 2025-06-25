@@ -4,9 +4,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use LakM\Comments\Enums\Sort;
-use LakM\Comments\Livewire\CommentList;
+use LakM\Comments\Livewire\Comments\ListView;
 use LakM\Comments\Models\Comment;
-
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
@@ -19,7 +18,7 @@ it('can render comment list in auth mode', function () {
 
     createCommentsForAuthUser($user, $video);
 
-    livewire(CommentList::class, ['model' => $video])
+    livewire(ListView::class, ['model' => $video])
         ->assertSee($user->getAuthIdentifierName())
         ->assertOk();
 });
@@ -34,7 +33,7 @@ it('can render paginated comment list for auth user', function ($count) {
 
     createCommentsForAuthUser($user, $video, 5);
 
-    livewire(CommentList::class, ['model' => $video])
+    livewire(ListView::class, ['model' => $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {
             expect($comments)
                 ->toHaveCount($count)
@@ -58,7 +57,7 @@ it('can render paginated comment list for guest', function ($count) {
     $comments = createCommentsForGuest($video, 5);
     $comments->load('commenter');
 
-    livewire(CommentList::class, ['model' => $video])
+    livewire(ListView::class, ['model' => $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($count) {
             expect($comments)
                 ->toHaveCount($count)
@@ -81,7 +80,7 @@ it('only shows approved comments in guest mode when enabled in config', function
     createCommentsForGuest($video, 2);
     createCommentsForGuest($video, 1, ['approved' => true]);
 
-    livewire(CommentList::class, ['model' =>  $video])
+    livewire(ListView::class, ['model' =>  $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($approval) {
             $e = expect($comments);
             if ($approval) {
@@ -108,7 +107,7 @@ it('only shows approved comments in auth mode when enabled in config', function 
     createCommentsForAuthUser(user: $user, relatedModel: $video, count: 2);
     createCommentsForAuthUser(user: $user, relatedModel: $video, data: ['approved' => true]);
 
-    livewire(CommentList::class, ['model' =>  $video])
+    livewire(ListView::class, ['model' =>  $video])
         ->assertViewHas('comments', function (LengthAwarePaginator $comments) use ($approval) {
             $e = expect($comments);
             if ($approval) {
@@ -140,7 +139,7 @@ it('can sort comments', function () {
 
     createCommentsForGuest(relatedModel: $video, data: ['text' => $text2]);
 
-    livewire(CommentList::class, ['model' => $video])
+    livewire(ListView::class, ['model' => $video])
      ->set('sortBy', Sort::LATEST)
        ->assertViewHas('comments', function (Collection $comments) use ($text1, $text2) {
            $expect = [$text2, $text1];
@@ -160,7 +159,7 @@ it('can filter current user comments', function () {
 
     $comment = createCommentsForGuest(relatedModel: $video, forCurrentUser: true);
 
-    livewire(CommentList::class, ['model' => $video])
+    livewire(ListView::class, ['model' => $video])
         ->set('filter', 'own')
         ->assertViewHas('comments', function (Collection $comments) use ($comment) {
             expect($comments)

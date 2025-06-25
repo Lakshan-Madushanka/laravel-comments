@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Comments\Actions\Reply;
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\CommentReplyDeleted;
+use LakM\Comments\Events\Reply\ReplyDeleted;
 use LakM\Comments\Models\Reply;
 
-class DeleteReplyAction
+class DeleteAction
 {
     /**
      * Create using a custom function
@@ -21,7 +21,7 @@ class DeleteReplyAction
         }
 
         if ($reply->delete()) {
-            Event::dispatch(new CommentReplyDeleted($reply));
+            Event::dispatch(new ReplyDeleted($reply));
 
             return true;
         }

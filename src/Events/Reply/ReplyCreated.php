@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Events;
+namespace LakM\Comments\Events\Reply;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

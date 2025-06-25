@@ -1,13 +1,13 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
-use LakM\Comments\Actions\UpdateReplyAction;
+use LakM\Comments\Actions\Reply\UpdateAction;
 use LakM\Comments\Models\Reply;
 use LakM\Comments\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -15,7 +15,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Mews\Purifier\Facades\Purifier;
 
-class UpdateReplyForm extends Component
+class UpdateForm extends Component
 {
     public string $editorId;
 
@@ -52,7 +52,7 @@ class UpdateReplyForm extends Component
 
         $data = $this->getFormData();
 
-        if ($this->canUpdateReply($this->reply) && UpdateReplyAction::execute($this->reply, $data)) {
+        if ($this->canUpdateReply($this->reply) && UpdateAction::execute($this->reply, $data)) {
             $this->dispatch(
                 'reply-updated',
                 replyId: $this->reply->getKey(),
@@ -93,6 +93,6 @@ class UpdateReplyForm extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('comments::livewire.update-comment-reply-form');
+        return view('comments::livewire.replies.update-form');
     }
 }

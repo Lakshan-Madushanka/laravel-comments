@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Comments;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Actions\DeleteCommentAction;
+use LakM\Comments\Actions\Comment\DeleteAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Helpers;
 use LakM\Comments\Models\Comment;
@@ -14,7 +14,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Throwable;
 
-class CommentItem extends Component
+class ItemView extends Component
 {
     /** @var Model&CommentableContract */
     #[Locked]
@@ -69,7 +69,7 @@ class CommentItem extends Component
     {
         $this->skipRender();
 
-        if ($this->model->canDeleteComment($comment) && DeleteCommentAction::execute($comment)) {
+        if ($this->model->canDeleteComment($comment) && DeleteAction::execute($comment)) {
             $this->dispatch('comment-deleted', commentId: $comment->getKey());
         }
     }
@@ -86,6 +86,6 @@ class CommentItem extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.comment-item');
+        return view('comments::livewire.comments.item-view');
     }
 }

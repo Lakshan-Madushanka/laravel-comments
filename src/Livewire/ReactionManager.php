@@ -13,11 +13,11 @@ use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Facades\SecureGuestMode;
 use LakM\Comments\Models\Message;
-use LakM\Comments\Reactions\ReactionManager;
+use LakM\Comments\Reactions\ReactionManager as RM;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class ReactionsManager extends Component
+class ReactionManager extends Component
 {
     public array $lReactions;
     public array $rReactions;
@@ -98,7 +98,7 @@ class ReactionsManager extends Component
         $this->setReactedStatus($message->ownerReactions);
     }
 
-    public function handle(ReactionManager $reactionManager, string $type): void
+    public function handle(RM $reactionManager, string $type): void
     {
         if ($this->loginRequired || !$this->secureGuestModeAllowed) {
             return;
@@ -285,6 +285,6 @@ class ReactionsManager extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.reactions-manager');
+        return view('comments::livewire.reaction-manager');
     }
 }

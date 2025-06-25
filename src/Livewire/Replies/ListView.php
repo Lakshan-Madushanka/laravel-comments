@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -22,7 +22,7 @@ use Livewire\WithPagination;
 /**
  * @property \Illuminate\Support\Collection|LengthAwarePaginator $replies
  */
-class ReplyList extends Component
+class ListView extends Component
 {
     use WithPagination;
     use HasSingleThread;
@@ -189,7 +189,7 @@ class ReplyList extends Component
     public function render(): View|Factory|Application
     {
         return view(
-            'comments::livewire.comment-reply-list',
+            'comments::livewire.replies.list-view',
             ['replies' => $this->replies]
         );
     }

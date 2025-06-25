@@ -10,16 +10,16 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Console\InstallCommand;
-use LakM\Comments\Livewire\CommentItem;
-use LakM\Comments\Livewire\CommentList;
-use LakM\Comments\Livewire\ReplyItem;
-use LakM\Comments\Livewire\ReplyList;
-use LakM\Comments\Livewire\CreateCommentForm;
-use LakM\Comments\Livewire\CreateReplyForm;
+use LakM\Comments\Livewire\Comments\CreateForm;
+use LakM\Comments\Livewire\Comments\ItemView;
+use LakM\Comments\Livewire\Comments\ListView;
+use LakM\Comments\Livewire\Comments\UpdateForm;
 use LakM\Comments\Livewire\Editor;
-use LakM\Comments\Livewire\ReactionsManager;
-use LakM\Comments\Livewire\UpdateCommentForm;
-use LakM\Comments\Livewire\UpdateReplyForm;
+use LakM\Comments\Livewire\ReactionManager;
+use LakM\Comments\Livewire\Replies\ListView as RepliesListView;
+use LakM\Comments\Livewire\Replies\ReplyForm;
+use LakM\Comments\Livewire\Replies\ItemView as ReplyItemView;
+use LakM\Comments\Livewire\Replies\UpdateForm as ReplyUpdateForm;
 use LakM\Comments\Livewire\UserList;
 use LakM\Comments\Models\Guest;
 use Livewire\Livewire;
@@ -61,16 +61,18 @@ class CommentServiceProvider extends ServiceProvider
 
         Livewire::component('comments-editor', Editor::class);
 
-        Livewire::component('comments-create-form', CreateCommentForm::class);
-        Livewire::component('comments-update-form', UpdateCommentForm::class);
-        Livewire::component('comments-list', CommentList::class);
-        Livewire::component('comments-reactions-manager', ReactionsManager::class);
-        Livewire::component('comments-reply-form', CreateReplyForm::class);
-        Livewire::component('comments-reply-list', ReplyList::class);
-        Livewire::component('comments-reply-update-form', UpdateReplyForm::class);
-        Livewire::component('comments-user-list', UserList::class);
-        Livewire::component('comments-item', CommentItem::class);
-        Livewire::component('comments-reply-item', ReplyItem::class);
+        Livewire::component('comments.create-form', CreateForm::class);
+        Livewire::component('comments.update-form', UpdateForm::class);
+        Livewire::component('comments.list-view', ListView::class);
+        Livewire::component('comments.item-view', ItemView::class);
+
+        Livewire::component('replies.create-form', ReplyForm::class);
+        Livewire::component('replies.list-view', RepliesListView::class);
+        Livewire::component('replies.update-form', ReplyUpdateForm::class);
+        Livewire::component('replies.item-view', ReplyItemView::class);
+
+        Livewire::component('user-list', UserList::class);
+        Livewire::component('reaction-manager', ReactionManager::class);
     }
 
     protected function setBladeDirectives(): void

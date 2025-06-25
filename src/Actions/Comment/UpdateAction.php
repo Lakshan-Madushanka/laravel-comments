@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Comments\Actions\Comment;
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\CommentUpdated;
+use LakM\Comments\Events\Comment\CommentUpdated;
 use LakM\Comments\Models\Comment;
 
-class UpdateCommentAction
+class UpdateAction
 {
     /**
      * Create using a custom function

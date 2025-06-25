@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use LakM\Comments\Events\CommentDeleted;
-use LakM\Comments\Livewire\CommentItem;
-
+use LakM\Comments\Events\Comment\CommentDeleted;
+use LakM\Comments\Livewire\Comments\ItemView;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Livewire\livewire;
@@ -20,7 +19,7 @@ it('can render a comment item in guest mode', function () {
     $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
     $comment->replies_count = 0;
 
-    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
         ->assertSeeText(Str::limit($comment->ownerName(false), 25))
         ->assertOk();
 });
@@ -33,7 +32,7 @@ it('can render a comment item in auth mode', function () {
     $comment = createCommentsForAuthUser($user, $video);
     $comment->replies_count = 0;
 
-    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
         ->assertSeeText(Str::limit($comment->ownerName(true), 25))
         ->assertOk();
 });
@@ -46,7 +45,7 @@ it('can delete a comment for authenticated user', function () {
     $comment = createCommentsForAuthUser($user, $video);
     $comment->replies_count = 0;
 
-    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
         ->assertSeeText('Delete')
         ->call('delete', comment: $comment)
         ->assertDispatched('comment-deleted', commentId: $comment->getKey())
@@ -67,7 +66,7 @@ it('cannot delete a comment for invalid authenticated user', function () {
     $comment = createCommentsForAuthUser($user, $video);
     $comment->replies_count = 0;
 
-    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => false, 'model' => $video, 'showReplyList' => false])
         ->assertDontSeeText('Delete')
         ->call('delete', comment: $comment)
         ->assertNotDispatched('comment-deleted', commentId: $comment->getKey())
@@ -86,7 +85,7 @@ it('can delete a comment for a guest', function () {
     $comment = createCommentsForGuest($video, 1, forCurrentUser: true);
     $comment->replies_count = 0;
 
-    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
         ->assertSeeText('Delete')
         ->call('delete', comment: $comment)
         ->assertDispatched('comment-deleted', commentId: $comment->getKey())
@@ -104,7 +103,7 @@ it('cannot delete a comment for a invalid guest', function () {
     $comment = createCommentsForGuest($video, 1, ['ip_address' => fake()->ipv4()]);
     $comment->replies_count = 0;
 
-    livewire(CommentItem::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
         ->assertDontSeeText('Delete')
         ->call('delete', comment: $comment)
         ->assertNotDispatched('comment-deleted', commentId: $comment->getKey())

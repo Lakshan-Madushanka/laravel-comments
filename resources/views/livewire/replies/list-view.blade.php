@@ -34,7 +34,7 @@
 
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
-            <livewire:comments-reply-item
+            <livewire:replies.item-view
                 :key="'reply-item' . $reply->id"
                 :$message
                 :$relatedModel

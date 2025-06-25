@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Comments\Actions\Reply;
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\CommentReplyUpdated;
+use LakM\Comments\Events\Reply\ReplyUpdated;
 use LakM\Comments\Models\Reply;
 
-class UpdateReplyAction
+class UpdateAction
 {
     /**
      * Create using a custom function
@@ -26,7 +26,7 @@ class UpdateReplyAction
         if ($reply->isDirty('text')) {
             $updated = $reply->save();
 
-            Event::dispatch(new CommentReplyUpdated($reply));
+            Event::dispatch(new ReplyUpdated($reply));
 
             return $updated;
         }

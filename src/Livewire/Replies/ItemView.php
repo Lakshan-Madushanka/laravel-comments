@@ -1,20 +1,20 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Actions\DeleteReplyAction;
+use LakM\Comments\Actions\Reply\DeleteAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class ReplyItem extends Component
+class ItemView extends Component
 {
     /** @var Model&CommentableContract */
     #[Locked]
@@ -86,7 +86,7 @@ class ReplyItem extends Component
     {
         $this->skipRender();
 
-        if ($this->canDeleteReply($reply) && DeleteReplyAction::execute($reply)) {
+        if ($this->canDeleteReply($reply) && DeleteAction::execute($reply)) {
             $this->dispatch('reply-deleted-' . $this->message->getKey(), replyId: $reply->getKey(), messageId: $this->message->getKey());
         }
     }
@@ -108,6 +108,6 @@ class ReplyItem extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.comment-reply-item');
+        return view('comments::livewire.replies.item-view');
     }
 }

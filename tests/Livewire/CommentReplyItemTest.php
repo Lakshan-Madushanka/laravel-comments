@@ -2,10 +2,9 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use LakM\Comments\Events\CommentDeleted;
-use LakM\Comments\Events\CommentReplyDeleted;
-use LakM\Comments\Livewire\ReplyItem;
-
+use LakM\Comments\Events\Comment\CommentDeleted;
+use LakM\Comments\Events\Reply\ReplyDeleted;
+use LakM\Comments\Livewire\Replies\ItemView;
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
@@ -19,7 +18,7 @@ it('can render a reply item in guest mode', function () {
     $reply = createCommentRepliesForGuestMode($comment);
 
     livewire(
-        ReplyItem::class,
+        ItemView::class,
         [
             'message' => $comment,
             'reply' => $reply,
@@ -40,7 +39,7 @@ it('can render a reply item in auth mode', function () {
     $reply = createCommentRepliesForAuthMode($comment, $user);
 
     livewire(
-        ReplyItem::class,
+        ItemView::class,
         [
             'message' => $comment,
             'reply' => $reply,
@@ -61,7 +60,7 @@ it('can delete a reply for authenticated user', function () {
     $reply = createCommentRepliesForAuthMode($comment, $user);
 
     livewire(
-        ReplyItem::class,
+        ItemView::class,
         [
             'message' => $comment,
             'reply' => $reply,
@@ -76,7 +75,7 @@ it('can delete a reply for authenticated user', function () {
 
     expect($reply->fresh())->toBeNull();
 
-    Event::assertDispatched(CommentReplyDeleted::class);
+    Event::assertDispatched(ReplyDeleted::class);
 });
 
 it('cannot delete a reply for invalid authenticated user', function () {
@@ -89,7 +88,7 @@ it('cannot delete a reply for invalid authenticated user', function () {
     $reply = createCommentRepliesForAuthMode($comment, $user);
 
     livewire(
-        ReplyItem::class,
+        ItemView::class,
         [
             'message' => $comment,
             'reply' => $reply,
@@ -114,7 +113,7 @@ it('can delete a reply for a guest', function () {
     $reply = createCommentRepliesForGuestMode($comment, forCurrentUser: true);
 
     livewire(
-        ReplyItem::class,
+        ItemView::class,
         [
             'message' => $comment,
             'reply' => $reply,
@@ -129,7 +128,7 @@ it('can delete a reply for a guest', function () {
 
     expect($reply->fresh())->toBeNull();
 
-    Event::assertDispatched(CommentReplyDeleted::class);
+    Event::assertDispatched(ReplyDeleted::class);
 });
 
 it('cannot delete a reply for a invalid guest', function () {
@@ -139,7 +138,7 @@ it('cannot delete a reply for a invalid guest', function () {
     $reply = createCommentRepliesForGuestMode($comment);
 
     livewire(
-        ReplyItem::class,
+        ItemView::class,
         [
             'message' => $comment,
             'reply' => $reply,
@@ -154,5 +153,5 @@ it('cannot delete a reply for a invalid guest', function () {
 
     expect($reply->fresh())->not->toBeNull();
 
-    Event::assertNotDispatched(CommentReplyDeleted::class);
+    Event::assertNotDispatched(ReplyDeleted::class);
 });

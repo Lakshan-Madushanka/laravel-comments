@@ -12,7 +12,7 @@
             @keyup.escape.window="if(show){$wire.dispatch('user-not-mentioned-' + '{{ $editorId }}'); show=false}"
             class="absolute bottom-[12rem] start-0 z-10 w-full"
         >
-            <livewire:comments-user-list :$guestModeEnabled :$editorId />
+            <livewire:user-list :$guestModeEnabled :$editorId />
         </div>
     </div>
 

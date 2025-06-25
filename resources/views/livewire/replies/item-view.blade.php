@@ -188,7 +188,7 @@
 
             <!--Reaction manager -->
             <div x-show="!showUpdateForm" class="mt-2">
-                <livewire:comments-reactions-manager
+                <livewire:reaction-manager
                     :key="'reply-reaction-manager' . $reply->getKey()"
                     :message="$reply"
                     :$guestMode
@@ -200,7 +200,7 @@
 
         <div x-show="showUpdateForm" x-transition class="basis-full">
             @if ($this->canUpdateReply($reply))
-                <livewire:comments-reply-update-form
+                <livewire:replies.update-form
                     :key="'reply-update-form' . $reply->getKey()"
                     :$reply
                     :guestModeEnabled="$guestMode"
@@ -289,7 +289,7 @@
         <div class="ml-2">
             <div class="flex bg-gray-200 mb-6 mt-4 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
             </div>
-            <livewire:comments-reply-list
+            <livewire:replies.list-view
                 :key="'nested-reply-list-'. $reply->id"
                 :message="$reply"
                 :$relatedModel

@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Comments;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Actions\CreateCommentAction;
+use LakM\Comments\Actions\Comment\CreateAction;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
@@ -26,7 +26,7 @@ use Mews\Purifier\Facades\Purifier;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
 use Spatie\Honeypot\Http\Livewire\Concerns\UsesSpamProtection;
 
-class CreateCommentForm extends Component
+class CreateForm extends Component
 {
     use UsesSpamProtection;
 
@@ -118,7 +118,7 @@ class CreateCommentForm extends Component
         $this->validate();
 
         if ($this->model->canCreateComment(Auth::guard($this->model->getAuthGuard())->user())) {
-            CreateCommentAction::execute(
+            CreateAction::execute(
                 $this->model,
                 MessageData::fromArray($this->getFormData()),
                 $this->getGuestData()
@@ -234,6 +234,6 @@ class CreateCommentForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.create-comment-form');
+        return view('comments::livewire.comments.create-form');
     }
 }

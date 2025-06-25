@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Comments\Livewire\Comments;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -25,7 +25,7 @@ use Livewire\WithPagination;
  * @property Collection|LengthAwarePaginator $comments
  */
 #[Lazy]
-class CommentList extends Component
+class ListView extends Component
 {
     use WithPagination;
     use HasSingleThread;
@@ -166,7 +166,7 @@ class CommentList extends Component
     public function render(): View|Factory|Application
     {
         return view(
-            'comments::livewire.comment-list',
+            'comments::livewire.comments.list-view',
             ['comments' => $this->comments]
         );
     }

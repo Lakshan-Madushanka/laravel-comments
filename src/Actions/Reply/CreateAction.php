@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Comments\Actions\Reply;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -10,12 +10,12 @@ use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Data\GuestData;
 use LakM\Comments\Data\MessageData;
 use LakM\Comments\Data\UserData;
-use LakM\Comments\Events\ReplyCreated;
+use LakM\Comments\Events\Reply\ReplyCreated;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 
-class CreateReplyAction
+class CreateAction
 {
     /**
      * Create using a custom function
