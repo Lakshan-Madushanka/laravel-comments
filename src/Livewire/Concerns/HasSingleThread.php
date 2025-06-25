@@ -19,11 +19,11 @@ trait HasSingleThread
 
         $query = collect($query);
 
-        if (!($query->has('commenter_type') && $query->get('commenter_type') === 'single')) {
+        if (!($query->has('message_type') && $query->get('message_type') === 'single')) {
             return false;
         }
 
-        if (!($query->has('comment_id') && filled($query->get('comment_id')))) {
+        if (!($query->has('message_id') && filled($query->get('message_id')))) {
             return false;
         }
 
@@ -44,7 +44,7 @@ trait HasSingleThread
 
         $query = collect($query);
 
-        $query->forget(['commenter_type', 'comment_id']);
+        $query->forget(['message_type', 'message_id']);
 
         $currentURL = Str::before($currentURL, '?');
 
@@ -61,6 +61,6 @@ trait HasSingleThread
 
         parse_str($query, $query);
 
-        return collect($query)->get('comment_id');
+        return collect($query)->get('message_id');
     }
 }

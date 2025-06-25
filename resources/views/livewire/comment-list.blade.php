@@ -18,7 +18,7 @@
         {{ __('Comments') }}
         <span x-text="getTotal()"></span>
     </div>
-    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between !-mb-2">
         @if (($total > 1 || $filter === 'own') && config('comments.show_filters'))
             <div @class([
                     "flex gap-x-4 overflow-auto",

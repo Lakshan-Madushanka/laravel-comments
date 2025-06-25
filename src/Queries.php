@@ -19,6 +19,7 @@ use LakM\Comments\Enums\Sort;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Guest;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reaction;
 use LakM\Comments\Models\Reply;
 
@@ -59,14 +60,7 @@ class Queries extends AbstractQueries
             ->withOwnerReactions($relatedModel)
             ->with('commenter')
             ->withCount(self::addCount())
-            ->withCount([
-                'replies' => function (MessageBuilder $query) {
-                    $query->when(
-                        config('comments.reply.approval_required'),
-                        fn(MessageBuilder $query) => $query->approved()
-                    );
-                },
-            ])
+            ->repliesCount()
             ->checkApproval($relatedModel)
             ->when(
                 $sortBy === Sort::LATEST,
@@ -113,6 +107,7 @@ class Queries extends AbstractQueries
 
     /**
      * @param Model&CommentableContract $relatedModel
+     * @param mixed $commentId
      * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
@@ -155,14 +150,14 @@ class Queries extends AbstractQueries
      * @return \Illuminate\Support\Collection<int, UserData>
      */
     public static function reactedUsers(
-        Reply|Comment $comment,
+        Message $message,
         string        $reactionType,
         int           $limit,
         bool          $authMode
     ): \Illuminate\Support\Collection
     {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
-        $reactionQuery = $comment->reactions();
+        $reactionQuery = $message->reactions();
 
         $reactions = $reactionQuery
             ->whereType($reactionType)
@@ -175,10 +170,10 @@ class Queries extends AbstractQueries
         });
     }
 
-    public static function lastReactedUser(Reply|Comment $comment, string $reactionType, bool $authMode): ?UserData
+    public static function lastReactedUser(Message $message, string $reactionType, bool $authMode): ?UserData
     {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
-        $reactionQuery = $comment->reactions();
+        $reactionQuery = $message->reactions();
 
         $reaction = $reactionQuery
             ->whereType($reactionType)
@@ -193,10 +188,10 @@ class Queries extends AbstractQueries
         return $reaction;
     }
 
-    public static function userReplyCountForComment(Comment $comment, bool $guestMode, ?Authenticatable $user): int
+    public static function userReplyCountForMessage(Message $message, bool $guestMode, ?Authenticatable $user): int
     {
         /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $comment->replies();
+        $replyQuery = $message->replies();
 
         return $replyQuery
             ->when(
@@ -212,16 +207,16 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param Comment $comment
+     * @param Message $message
      * @param Model&CommentableContract $relatedModel
      * @param bool $approvalRequired
-     * @param int $limit
+     * @param int|null $limit
      * @param Sort $sortBy
      * @param string $filter
      * @return LengthAwarePaginator|Collection
      */
     public static function commentReplies(
-        Comment $comment,
+        Message $message,
         Model   $relatedModel,
         bool    $approvalRequired,
         ?int    $limit,
@@ -230,7 +225,7 @@ class Queries extends AbstractQueries
     ): LengthAwarePaginator|Collection
     {
         /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $comment->replies();
+        $replyQuery = $message->replies();
 
         return $replyQuery
             ->currentUserFilter($relatedModel, $filter)
@@ -245,6 +240,7 @@ class Queries extends AbstractQueries
                 return $query->oldest();
             })
             ->withCount(self::addCount())
+            ->repliesCount()
             ->latest()
             ->when(
                 config('comments.reply.pagination.enabled'),

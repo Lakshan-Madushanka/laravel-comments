@@ -2,7 +2,7 @@
 <div
     x-ref="reply{{ $reply->getKey() }}"
     @class([
-       "flex gap-x-2 sm:gap-x-4 dark:!text-white",
+       "flex flex-col gap-x-2 sm:gap-x-4 dark:!text-white",
        "border rounded-lg p-4" => Helpers::isModernTheme(),
    ])
     @style([
@@ -169,7 +169,7 @@
                                      setTimeout(() => {
                                          if(e.detail.approvalRequired) {
                                            $refs[elm].classList.add('hidden')
-                                           $dispatch('unauthorized-reply-updated', {'commentId': @js($comment->getKey()) })
+                                           $dispatch('unauthorized-reply-updated', {'messageId': @js($message->getKey()) })
                                          }
                                          showUpdateForm = false;
                                      }, 2000);
@@ -190,10 +190,9 @@
             <div x-show="!showUpdateForm" class="mt-2">
                 <livewire:comments-reactions-manager
                     :key="'reply-reaction-manager' . $reply->getKey()"
-                    :comment="$reply"
+                    :message="$reply"
                     :$guestMode
                     :$relatedModel
-                    :enableReply="false"
                     :$shouldEnableShareButton
                 />
             </div>
@@ -208,5 +207,95 @@
                 />
             @endif
         </div>
+
+        {{-- Replies count--}}
+        @if (config('comments.reply.enabled'))
+            <div
+                x-data="{replyCount: @js($replyCount), showReplyList: $wire.entangle('showReplyList')}"
+                @reply-created-{{ $reply->getKey() }}.window="
+                            if($event.detail.messageId === {{ $reply->getKey() }}) {
+                                if(!event.detail.approvalRequired) {
+                                    replyCount += 1;
+                                }
+                            }
+                        "
+                @reply-deleted-{{ $reply->getKey() }}.window="
+                            if($event.detail.messageId === {{ $reply->getKey() }}) {
+                                replyCount -= 1;
+                            }
+                        "
+                @unauthorized-reply-updated.window="(e) => {
+                            let key = @js($reply->getKey());
+                            if(e.detail.messageId === key) {
+                                    replyCount -= 1;
+                            }
+                        }"
+                class="mt-2 text-xs"
+            >
+                <div
+                    x-show="replyCount > 0"
+                    x-transition
+                    @click="$dispatch('show-replies.' + @js($reply->getKey()));"
+                    wire:click="loadReplies"
+                    class="inline-block"
+                >
+                    <x-comments::link
+                        type="popup"
+                        @class([
+                            "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
+                            "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
+                            "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
+                            "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
+                        ])
+                        @style([
+                            'background: ' . config('comments.bg_primary_color') => Helpers::isModernTheme(),
+                        ])
+                    >
+                        @if(!Helpers::isModernTheme())
+                            <span x-show="!showReplyList">
+                                        <x-comments::icons.chevron-down />
+                                    </span>
+                            <span x-show="showReplyList">
+                                        <x-comments::icons.chevron-up />
+                                    </span>
+                        @endif
+
+                        <span
+                            x-text="replyCount"
+                                    @class([
+                                        "inline-block text-center",
+                                        "border text-xs !py-1 !px-2 rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
+                                    ])
+                                >
+
+                                </span>
+                        <span>{{ __('Replies') }}</span>
+
+                        @if(Helpers::isModernTheme())
+                            <span x-show="!showReplyList">
+                                        <x-comments::icons.list-down />
+                                    </span>
+                            <span x-show="showReplyList">
+                                        <x-comments::icons.list-up />
+                                    </span>
+                        @endif
+                    </x-comments::link>
+                </div>
+            </div>
+        @endif
     </div>
+
+    @if($showReplyList)
+        <div class="ml-2">
+            <div class="flex bg-gray-200 mb-6 mt-4 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+            </div>
+            <livewire:comments-reply-list
+                :key="'nested-reply-list-'. $reply->id"
+                :message="$reply"
+                :$relatedModel
+                :total="$replyCount"
+                :show="true"
+            />
+        </div>
+    @endif
 </div>

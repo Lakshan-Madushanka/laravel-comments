@@ -42,7 +42,7 @@
             <div
                 x-cloak
                 x-data="message(@js($editorId))"
-                @reply-created-{{ $comment->getKey() }}.window="show($event.detail.editorId)"
+                @reply-created-{{ $message->getKey() }}.window="show($event.detail.editorId)"
             >
                 <span x-show="showMsg" x-transition class="align-top text-xs text-green-500 sm:text-sm">
                     @if ($approvalRequired)

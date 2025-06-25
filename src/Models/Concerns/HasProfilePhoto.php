@@ -25,7 +25,7 @@ trait HasProfilePhoto
         }
 
         if (isset($this->userRelationshipName)) {
-            $email = $this->getRelation($this->userRelationshipName)->email;
+            $email = $this->{$this->userRelationshipName}->email;
         } else {
             throw_unless(isset($this->email), new \Exception('Couldn\'t find email'));
             $email = $this->email;

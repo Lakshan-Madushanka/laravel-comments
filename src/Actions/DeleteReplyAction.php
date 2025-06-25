@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Event;
 use LakM\Comments\Events\CommentReplyDeleted;
 use LakM\Comments\Models\Reply;
 
-class DeleteCommentReplyAction
+class DeleteReplyAction
 {
     /**
      * Create using a custom function

@@ -7,12 +7,13 @@ use LakM\Comments\Data\GuestData;
 use LakM\Comments\ModelResolver;
 use LakM\Comments\Models\Comment;
 use LakM\Comments\Models\Guest;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 
 abstract class ReactionContract
 {
     public function __construct(
-        protected Reply|Comment $comment,
+        protected Message $message,
         protected bool $authMode,
         protected mixed $authId,
         protected ?string $type = null
@@ -37,6 +38,6 @@ abstract class ReactionContract
             $data['owner_type'] = $guest->getMorphClass();
         }
 
-        return $this->comment->reactions()->create($data);
+        return $this->message->reactions()->create($data);
     }
 }

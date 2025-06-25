@@ -212,7 +212,7 @@
                 <div x-show="!showUpdateForm" @class(['px-2' => Helpers::isGithubTheme()])>
                     <livewire:comments-reactions-manager
                         :key="'reaction-manager-' . $comment->id"
-                        :$comment
+                        :message="$comment"
                         :relatedModel="$model"
                         :$shouldEnableShareButton
                     />
@@ -222,14 +222,14 @@
                 @if (config('comments.reply.enabled'))
                     <div
                         @reply-created-{{ $comment->getKey() }}.window="
-                            if($event.detail.commentId === {{ $comment->getKey() }}) {
+                            if($event.detail.messageId === {{ $comment->getKey() }}) {
                                 if(!event.detail.approvalRequired) {
                                     replyCount += 1;
                                 }
                             }
                         "
                         @reply-deleted-{{ $comment->getKey() }}.window="
-                            if($event.detail.commentId === {{ $comment->getKey() }}) {
+                            if($event.detail.messageId === {{ $comment->getKey() }}) {
                                 replyCount -= 1;
                             }
                         "
@@ -299,8 +299,8 @@
             x-show="showReplyList"
             x-transtion
             @class([
-                "ms-[-2rem] mt-6 sm:ms-8",
-                "!mt-6 sm:!ms-24" => Helpers::isModernTheme()
+                "ms-[-2rem] mt-4 sm:ms-4",
+                "!mt-4 sm:!ms-4" => Helpers::isModernTheme()
             ])
         >
             <div
@@ -309,12 +309,11 @@
 
             <livewire:comments-reply-list
                 :key="'reply-list-'. $comment->id"
-                :$comment
+                :message="$comment"
                 :relatedModel="$model"
                 :total="$comment->replies_count"
             />
         </div>
-
 
         <!-- Update Form -->
         @if ($model->canEditComment($comment))
@@ -322,6 +321,5 @@
                 <livewire:comments-update-form :key="'update-form-'. $comment->id" :$comment :$model />
             </div>
         @endif
-
     </div>
 </div>

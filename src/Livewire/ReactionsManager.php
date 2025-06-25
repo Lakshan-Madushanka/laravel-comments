@@ -12,8 +12,7 @@ use Illuminate\Support\Str;
 use LakM\Comments\Abstracts\AbstractQueries;
 use LakM\Comments\Contracts\CommentableContract;
 use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Reply;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Reactions\ReactionManager;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -26,7 +25,7 @@ class ReactionsManager extends Component
     public mixed $id;
 
     #[Locked]
-    public Reply|Comment $comment;
+    public Message $message;
 
     /** @var Model&CommentableContract */
     #[Locked]
@@ -64,21 +63,21 @@ class ReactionsManager extends Component
     public bool $shouldEnableShareButton = true;
 
     /**
-     * @param  Reply|Comment  $comment
+     * @param  Message  $message
      * @param  Model&CommentableContract  $relatedModel
      * @param  bool  $enableReply
      * @return void
      */
-    public function mount(Reply|Comment $comment, Model $relatedModel, bool $enableReply = true, bool $shouldEnableShareButton = false): void
+    public function mount(Message $message, Model $relatedModel, bool $enableReply = true, bool $shouldEnableShareButton = false): void
     {
         $this->lReactions = $this->getLeftSideReactions();
         $this->rReactions = $this->getRightSideReactions();
 
-        $this->comment = $comment;
+        $this->message = $message;
 
         $this->relatedModel = $relatedModel;
 
-        $this->id = $comment->getKey();
+        $this->id = $this->message->getKey();
 
         $this->setEnableReply($enableReply);
 
@@ -94,9 +93,9 @@ class ReactionsManager extends Component
 
         $this->setSecureGuestModeAllowed();
 
-        $this->setReactions($comment);
+        $this->setReactions($message);
 
-        $this->setReactedStatus($comment->ownerReactions);
+        $this->setReactedStatus($message->ownerReactions);
     }
 
     public function handle(ReactionManager $reactionManager, string $type): void
@@ -107,7 +106,7 @@ class ReactionsManager extends Component
 
         if (!$reactionManager->handle(
             $type,
-            $this->comment,
+            $this->message,
             $this->authMode,
             $this->relatedModel->getAuthUser()?->getAuthIdentifier()
         )) {
@@ -141,14 +140,14 @@ class ReactionsManager extends Component
         });
     }
 
-    private function setReactions(Reply|Comment $comment): void
+    private function setReactions(Message $message): void
     {
         $reactions = array_keys(config('comments.reactions'));
 
         foreach ($reactions as $reaction) {
             $countName = $this->reactionCountName($reaction);
-            $this->setReactionCount($reaction, $comment->{$countName});
-            $this->total += $comment->{$countName};
+            $this->setReactionCount($reaction, $message->{$countName});
+            $this->total += $message->{$countName};
         }
     }
 
@@ -236,7 +235,7 @@ class ReactionsManager extends Component
             $limit += $this->reactedUsers[$type]['limit'];
         }
 
-        $user = app(AbstractQueries::class)->reactedUsers($this->comment, $type, $limit, $this->authMode);
+        $user = app(AbstractQueries::class)->reactedUsers($this->message, $type, $limit, $this->authMode);
 
         $this->reactedUsers[$type]['users'] = $user;
         $this->reactedUsers[$type]['limit'] = $limit;
@@ -244,7 +243,7 @@ class ReactionsManager extends Component
 
     public function lastReactedUser(string $type): void
     {
-        $user = app(AbstractQueries::class)->lastReactedUser($this->comment, $type, $this->authMode);
+        $user = app(AbstractQueries::class)->lastReactedUser($this->message, $type, $this->authMode);
         $this->lastReactedUserName = $user?->name;
     }
 

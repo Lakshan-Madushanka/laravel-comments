@@ -7,21 +7,21 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Actions\DeleteCommentReplyAction;
+use LakM\Comments\Actions\DeleteReplyAction;
 use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class CommentReplyItem extends Component
+class ReplyItem extends Component
 {
     /** @var Model&CommentableContract */
     #[Locked]
     public Model $relatedModel;
 
     #[Locked]
-    public Comment $comment;
+    public Message $message;
 
     #[Locked]
     public Reply $reply;
@@ -41,20 +41,24 @@ class CommentReplyItem extends Component
 
     public bool $shouldEnableShareButton = true;
 
+    public bool $showReplyList = false;
+
+    public int $replyCount = 0;
+
     /**
-     * @param  Comment $comment
+     * @param  Message $message
      * @param  Reply $reply
      * @param  Model&CommentableContract $relatedModel
      * @param  bool $guestMode
      * @return void
      */
     public function mount(
-        Comment $comment,
+        Message $message,
         Reply $reply,
         Model $relatedModel,
         bool $guestMode,
     ): void {
-        $this->comment = $comment;
+        $this->message = $message;
         $this->reply = $reply;
 
         $this->guestMode = $guestMode;
@@ -64,6 +68,8 @@ class CommentReplyItem extends Component
 
         $this->setProfileUrl();
         $this->setCanManipulate();
+
+        $this->replyCount = $reply->replies_count ?? 0;
     }
 
     public function canUpdateReply(Reply $reply): bool
@@ -80,14 +86,14 @@ class CommentReplyItem extends Component
     {
         $this->skipRender();
 
-        if ($this->canDeleteReply($reply) && DeleteCommentReplyAction::execute($reply)) {
-            $this->dispatch('reply-deleted-' . $this->comment->getKey(), replyId: $reply->getKey(), commentId: $this->comment->getKey());
+        if ($this->canDeleteReply($reply) && DeleteReplyAction::execute($reply)) {
+            $this->dispatch('reply-deleted-' . $this->message->getKey(), replyId: $reply->getKey(), messageId: $this->message->getKey());
         }
     }
 
     private function setProfileUrl(): void
     {
-        $this->profileUrl = $this->comment->commenter->profileUrl();
+        $this->profileUrl = $this->message->commenter->profileUrl();
     }
 
     public function setCanManipulate(): bool
@@ -95,6 +101,10 @@ class CommentReplyItem extends Component
         return $this->canManipulate = $this->canUpdateReply($this->reply) || $this->canDeleteReply($this->reply);
     }
 
+    public function loadReplies(): void
+    {
+        $this->showReplyList = !$this->showReplyList;
+    }
 
     public function render(): View|Factory|Application
     {

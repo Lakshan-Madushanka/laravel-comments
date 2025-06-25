@@ -25,10 +25,6 @@ trait Commenter
         return $this->morphMany(ModelResolver::commentClass(), 'commenter');
     }
 
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Reply::class);
-    }
 
     public function profileUrl(): ?string
     {

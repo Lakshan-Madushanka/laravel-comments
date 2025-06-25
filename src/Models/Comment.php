@@ -4,13 +4,12 @@ namespace LakM\Comments\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\DB;
 use LakM\Comments\Builders\MessageBuilder;
 use LakM\Comments\Builders\ReactionBuilder;
-use LakM\Comments\ModelResolver;
 use LakM\Comments\ModelResolver as M;
 use LakM\Comments\Models\Concerns\HasOwner;
 use LakM\Comments\Models\Concerns\HasProfilePhoto;
@@ -47,14 +46,6 @@ class Comment extends Message
         return $this->morphTo();
     }
 
-    /**
-     * @return HasMany
-     */
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Reply::class, 'reply_id', 'id');
-    }
-
     public function replyReactions(): HasManyThrough
     {
         return $this->hasManyThrough(M::reactionClass(), Reply::class, 'reply_id', 'comment_id');
@@ -62,8 +53,8 @@ class Comment extends Message
 
     public function scopeAddScore(Builder $query): Builder
     {
-        $reactionsTable = ModelResolver::reactionModel()->getTable();
-        $commentsTable = ModelResolver::commentModel()->getTable();
+        $reactionsTable = M::reactionModel()->getTable();
+        $commentsTable = M::commentModel()->getTable();
 
         $reactionsCount = "(select count(*) from {$reactionsTable} where
             {$commentsTable}.id = {$reactionsTable}.comment_id)";
@@ -83,12 +74,12 @@ class Comment extends Message
 
         return $query->addSelect(
             DB::raw('(select ' .
-            $reactionsCount . ' + ' .
-            $repliesCountQuery . ' + ' .
-            $replyReactionsCount . ' - ' .
-            $dislikesCountQuery . ' - ' .
-            $replyReactionsDislikeCount . ') ' .
-            'as score')
+                $reactionsCount . ' + ' .
+                $repliesCountQuery . ' + ' .
+                $replyReactionsCount . ' - ' .
+                $dislikesCountQuery . ' - ' .
+                $replyReactionsDislikeCount . ') ' .
+                'as score')
         );
     }
 }

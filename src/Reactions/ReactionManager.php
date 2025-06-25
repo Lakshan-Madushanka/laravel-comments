@@ -3,6 +3,7 @@
 namespace LakM\Comments\Reactions;
 
 use LakM\Comments\Models\Comment;
+use LakM\Comments\Models\Message;
 use LakM\Comments\Models\Reply;
 
 class ReactionManager
@@ -11,12 +12,12 @@ class ReactionManager
     {
     }
 
-    public function handle(string $type, Reply|Comment $comment, $authMode, mixed $authId): ?bool
+    public function handle(string $type, Message $message, $authMode, mixed $authId): ?bool
     {
         return match ($type) {
-            'like' => (new Like(comment: $comment, authMode:  $authMode, authId: $authId, type: $type))->handle(),
-            'dislike' => (new Dislike(comment: $comment, authMode:  $authMode, authId: $authId, type: $type))->handle(),
-            default => (new Reaction(comment: $comment, authMode:  $authMode, authId:$authId, type: $type))->handle()
+            'like' => (new Like(message: $message, authMode:  $authMode, authId: $authId, type: $type))->handle(),
+            'dislike' => (new Dislike(message: $message, authMode:  $authMode, authId: $authId, type: $type))->handle(),
+            default => (new Reaction(message: $message, authMode:  $authMode, authId:$authId, type: $type))->handle()
         };
     }
 }

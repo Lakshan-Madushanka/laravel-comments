@@ -70,7 +70,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->id();
             $table->nullableMorphs('commentable');
             $table->nullableMorphs('commenter');
-            $table->unsignedBigInteger('reply_id')->nullable()->index();
+            $table->nullableMorphs('reply');
 
             $table->text('text');
             $table->boolean('approved')->default(false)->index();
