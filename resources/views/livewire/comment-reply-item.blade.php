@@ -286,7 +286,9 @@
     </div>
 
     @if($showReplyList)
-        <div class="border-t mt-4 border-gray-100 ml-2">
+        <div class="ml-2">
+            <div class="flex bg-gray-200 mb-6 mt-4 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+            </div>
             <livewire:comments-reply-list
                 :key="'nested-reply-list-'. $reply->id"
                 :message="$reply"
