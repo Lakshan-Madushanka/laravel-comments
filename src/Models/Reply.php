@@ -1,14 +1,14 @@
 <?php
 
-namespace LakM\Comments\Models;
+namespace LakM\Commenter\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Comments\ModelResolver as M;
-use LakM\Comments\Models\Concerns\HasOwner;
-use LakM\Comments\Models\Concerns\HasProfilePhoto;
+use LakM\Commenter\ModelResolver as M;
+use LakM\Commenter\Models\Concerns\HasOwner;
+use LakM\Commenter\Models\Concerns\HasProfilePhoto;
 
 /**
  * @property string $commenter_type

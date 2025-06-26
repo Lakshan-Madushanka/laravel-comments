@@ -5,7 +5,7 @@
         @if ($guestMode && !$this->secureGuestMode->enabled())
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
-                    <x-comments::input wire:model="name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
+                    <x-commenter::input wire:model="name" :shouldDisable="$limitExceeded" placeholder="{{__('Reply as')}}" />
                     <div class="min-h-6">
                         @if ($errors->has('name'))
                             <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -14,9 +14,9 @@
                         @endif
                     </div>
                 </div>
-                @if (config('comments.reply.email_enabled'))
+                @if (config('commenter.reply.email_enabled'))
                     <div class="flex w-full flex-col">
-                        <x-comments::input wire:model="email" :shouldDisable="$limitExceeded" type="email" placeholder="{{__('Email')}}" />
+                        <x-commenter::input wire:model="email" :shouldDisable="$limitExceeded" type="email" placeholder="{{__('Email')}}" />
                         <div class="min-h-6">
                             @if ($errors->has('email'))
                                 <span class="align-top text-xs text-red-500 sm:text-sm">
@@ -58,7 +58,7 @@
                 <div>
                     <span>
                         {{ __('Please') }}
-                        <x-comments::link
+                        <x-commenter::link
                             wire:click.prevent="redirectToLogin(window.location.href)"
                             class="font-bold text-blue-600"
                         >
@@ -68,13 +68,13 @@
                     </span>
                 </div>
             @elseif(!$this->secureGuestMode->allowed())
-                <x-comments::link type="a" route="#verify-email-button">{{ __('Please verify your email to reply') }}</x-comments::link>
+                <x-commenter::link type="a" route="#verify-email-button">{{ __('Please verify your email to reply') }}</x-comments::link>
             @else
                 <div class="flex gap-x-2">
-                    <x-comments::button loadingTarget="create" class="w-full sm:w-auto" size="sm">
+                    <x-commenter::button loadingTarget="create" class="w-full sm:w-auto" size="sm">
                         {{ __('Create') }}
                     </x-comments::button>
-                    <x-comments::button
+                    <x-commenter::button
                         wire:click="discard"
                         loadingTarget="discard"
                         type="button"

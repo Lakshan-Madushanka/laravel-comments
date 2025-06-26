@@ -1,4 +1,4 @@
-@props(['fill' => config('comments.primary_color')])
+@props(['fill' => config('commenter.primary_color')])
 
 <svg
     viewBox="0 0 16 16"

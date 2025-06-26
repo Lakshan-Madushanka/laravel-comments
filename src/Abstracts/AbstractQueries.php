@@ -1,18 +1,18 @@
 <?php
 
-namespace LakM\Comments\Abstracts;
+namespace LakM\Commenter\Abstracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
-use LakM\Comments\Data\UserData;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Contracts\CommenterContract;
+use LakM\Commenter\Data\UserData;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Reply;
 
 abstract class AbstractQueries
 {

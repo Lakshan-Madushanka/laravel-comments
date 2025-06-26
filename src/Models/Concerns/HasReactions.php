@@ -1,9 +1,9 @@
 <?php
 
-namespace LakM\Comments\Models\Concerns;
+namespace LakM\Commenter\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Comments\ModelResolver;
+use LakM\Commenter\ModelResolver;
 
 trait HasReactions
 {

@@ -1,8 +1,8 @@
 <?php
 
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Reply;
 
 
 test('comment model is a child of base comment model', function () {
@@ -28,7 +28,7 @@ it('can retrieve replies correctly', function () {
         ->and($comment->replies->count())->toBe(5)
         ->and($replies)
         ->each(function ($reply) {
-            $reply->toBeInstanceOf(LakM\Comments\Models\Reply::class);
+            $reply->toBeInstanceOf(Reply::class);
         });
 
 
@@ -55,7 +55,7 @@ it('can retrieve nested replies correctly', function () {
         ->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class)
         ->toHaveCount(1)
         ->each(function ($reply) {
-            $reply->toBeInstanceOf(LakM\Comments\Models\Reply::class);
+            $reply->toBeInstanceOf(Reply::class);
         });
 
 

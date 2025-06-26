@@ -101,8 +101,8 @@ php artisan commenter:install
 Implement `CommentableContract` and import `Commentable` trait in commentable model.
 
 ```php
-use LakM\Comments\Concerns\Commentable;
-use LakM\Comments\Contracts\CommentableContract;
+use LakM\Commenter\Concerns\Commentable;
+use LakM\Commenter\Contracts\CommentableContract;
 
 class Post extends Model implements CommentableContract
 {
@@ -114,8 +114,8 @@ class Post extends Model implements CommentableContract
 Implement `CommenterContract` and import `Commenter` trait in commenter model.
 
 ```php
-use LakM\Comments\Concerns\Commenter;
-use LakM\Comments\Contracts\CommenterContract;
+use LakM\Commenter\Concerns\Commenter;
+use LakM\Commenter\Contracts\CommenterContract;
 
 class User extends Model implements CommenterContract
 {
@@ -146,14 +146,14 @@ Include scripts in your layout.
 Include the comments component with the related model.
 
 ```html
-    <x-comments::index :model="$post" />
+    <x-commenter::index :model="$post" />
 ```
 
 > [!Warning]
 > You can omit the index part but make sure to include the double colon. Otherwise Laravel will search for the component in project instead of package.
 
 ```html
-    <x-comments:: :model="$post" />
+    <x-commenter:: :model="$post" />
 ```
 
 ## Themes

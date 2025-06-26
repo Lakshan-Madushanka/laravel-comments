@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Http\Controllers;
+namespace LakM\Commenter\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use LakM\Comments\Actions\VerifyGuestAction;
+use LakM\Commenter\Actions\VerifyGuestAction;
 
 class VerifyGuestController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Builders\MessageBuilder;
-use LakM\Comments\Builders\ReactionBuilder;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
-use LakM\Comments\Data\UserData;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\ModelResolver as M;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reaction;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Builders\MessageBuilder;
+use LakM\Commenter\Builders\ReactionBuilder;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Contracts\CommenterContract;
+use LakM\Commenter\Data\UserData;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\ModelResolver as M;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Reaction;
+use LakM\Commenter\Models\Reply;
 
 class Queries extends AbstractQueries
 {
@@ -132,7 +132,7 @@ class Queries extends AbstractQueries
     {
         $count = [];
 
-        foreach (array_keys(config('comments.reactions')) as $reaction) {
+        foreach (array_keys(config('commenter.reactions')) as $reaction) {
             $name = Str::plural($reaction);
             $key = "reactions as {$name}_count";
             $count[$key] = function (Builder $query) use ($reaction) {
@@ -243,7 +243,7 @@ class Queries extends AbstractQueries
             ->repliesCount()
             ->latest()
             ->when(
-                config('comments.reply.pagination.enabled'),
+                config('commenter.reply.pagination.enabled'),
                 fn(Builder $query) => $query->paginate($limit),
                 fn(Builder $query) => $query->get()
             );
@@ -281,7 +281,7 @@ class Queries extends AbstractQueries
 
     public static function usersCount(): int
     {
-        return config('comments.user_model')::query()->count();
+        return config('commenter.user_model')::query()->count();
     }
 
     public static function guest(): UserData

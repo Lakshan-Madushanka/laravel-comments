@@ -1,4 +1,4 @@
-@php use Illuminate\Support\Number;use LakM\Comments\Helpers; @endphp
+@php use Illuminate\Support\Number;use LakM\Commenter\Helpers; @endphp
 @props([
     "key",
     "reactions",
@@ -17,13 +17,13 @@
     @mouseleave="showUsers=false"
     @class([
           "flex flex-row items-center justify-center rounded-md px-1 py-[2px]",
-          "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+          "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
           "border hover:!bg-gray-200 dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
           "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
           "!rounded-[1000px] !py-1 !px-2 dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
     ])
     @style([
-          'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+          'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
    ])
 >
     <div
@@ -60,15 +60,15 @@
         title="{{ $key }}"
     >
         @if ($reactions[$key]["reacted"])
-            <x-dynamic-component component="comments::icons.{{$key}}" :fill="$this->fillColor($key)"/>
+            <x-dynamic-component component="commenter::icons.{{$key}}" :fill="$this->fillColor($key)"/>
         @else
-            <x-dynamic-component component="comments::icons.{{$key}}"/>
+            <x-dynamic-component component="commenter::icons.{{$key}}"/>
         @endif
 
         <span class="text-sm">{{ Number::abbreviate($reactions[$key]["count"]) }}</span>
     </div>
 
-    <x-comments::show-reacted-users
+    <x-commenter::show-reacted-users
         :$lastReactedUserName
         :$reactions
         :$key

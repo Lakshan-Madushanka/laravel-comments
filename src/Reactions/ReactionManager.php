@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Reactions;
+namespace LakM\Commenter\Reactions;
 
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Reply;
 
 class ReactionManager
 {

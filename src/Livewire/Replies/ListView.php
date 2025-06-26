@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire\Replies;
+namespace LakM\Commenter\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -8,11 +8,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Livewire\Concerns\HasSingleThread;
-use LakM\Comments\Models\Message;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Livewire\Concerns\HasSingleThread;
+use LakM\Commenter\Models\Message;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -79,8 +79,8 @@ class ListView extends Component
         $this->total = $total;
         $this->currentTotal = $total;
 
-        $this->perPage = config('comments.reply.pagination.per_page');
-        $this->limit = config('comments.reply.pagination.per_page');
+        $this->perPage = config('commenter.reply.pagination.per_page');
+        $this->limit = config('commenter.reply.pagination.per_page');
 
         $this->sortBy = $relatedModel->getRepliesSortOrder();
 
@@ -164,7 +164,7 @@ class ListView extends Component
 
     public function setApprovalRequired(): void
     {
-        $this->approvalRequired = config('comments.reply.approval_required');
+        $this->approvalRequired = config('commenter.reply.approval_required');
     }
 
     public function dispatchFilterAppliedEvent(): void
@@ -189,7 +189,7 @@ class ListView extends Component
     public function render(): View|Factory|Application
     {
         return view(
-            'comments::livewire.replies.list-view',
+            'commenter::livewire.replies.list-view',
             ['replies' => $this->replies]
         );
     }

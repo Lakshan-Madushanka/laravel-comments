@@ -1,16 +1,16 @@
 <?php
 
-namespace LakM\Comments\Builders;
+namespace LakM\Commenter\Builders;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\ModelResolver as M;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Message;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\ModelResolver as M;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Message;
 
 /**
  * @template TModelClass of Message

@@ -1,4 +1,4 @@
-@props(['color' => config('comments.primary_color')])
+@props(['color' => config('commenter.primary_color')])
 
 <span
     {{ $attributes->merge(['class' => 'inline-block size-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-white']) }}

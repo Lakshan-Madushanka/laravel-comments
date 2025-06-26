@@ -1,4 +1,4 @@
-@php use LakM\Comments\Helpers; @endphp
+@php use LakM\Commenter\Helpers; @endphp
 
 <div
     x-ref="comment{{ $comment->getKey() }}"
@@ -8,7 +8,7 @@
         "border rounded-lg p-4" => Helpers::isModernTheme(),
     ])
     @style([
-        'color: ' . config('comments.secondary_color') . ';' . 'background: ' . config('comments.bg_secondary_color')
+        'color: ' . config('commenter.secondary_color') . ';' . 'background: ' . config('commenter.bg_secondary_color')
     ])
 >
     <div
@@ -49,7 +49,7 @@
                     '!hidden' => !Helpers::isModernTheme(),
                 ])
                 @style([
-                    'background: ' . config('comments.bg_primary_color')
+                    'background: ' . config('commenter.bg_primary_color')
                 ])
             >
                 <div
@@ -96,7 +96,7 @@
 
                             <span class="inline-block h-2 w-[1px] bg-black me-1"></span>
 
-                            @if (config('comments.date_format') === 'diff')
+                            @if (config('commenter.date_format') === 'diff')
                                 <span
                                     class="text-xs"
                                     :title="moment(@js($comment->created_at)).format('YYYY/M/D H:mm')"
@@ -120,10 +120,10 @@
                     @if ($canManipulate)
                         <div class="flex items-center justify-center gap-x-2">
                             <div title="{{ __('My Comment') }}">
-                                <x-comments::user-check height="14" width="14" />
+                                <x-commenter::user-check height="14" width="14" />
                             </div>
 
-                            <x-comments::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500" />
+                            <x-commenter::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500" />
 
                             <div
                                 x-data="{ showEditMenu: false }"
@@ -132,7 +132,7 @@
                                 class="relative cursor-pointer"
                             >
                                 <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                    <x-comments::verticle-ellipsis :height="20" :width="20" />
+                                    <x-commenter::verticle-ellipsis :height="20" :width="20" />
                                 </div>
                                 <ul
                                     x-show="showEditMenu"
@@ -144,14 +144,14 @@
                                         <li
                                             @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
                                             @class([
-                                                "hover:!bg-[" . config('comments.hover_color') . "]",
+                                                "hover:!bg-[" . config('commenter.hover_color') . "]",
                                                 "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
                                             ])
                                         >
-                                            <x-comments::pencil height="13" width="13"
-                                                                strokeColor="{{config('comments.primary_color')}}" />
+                                            <x-commenter::pencil height="13" width="13"
+                                                                strokeColor="{{config('commenter.primary_color')}}" />
 
-                                            <x-comments::action class="text-xs hover:!no-underline sm:text-sm">
+                                            <x-commenter::action class="text-xs hover:!no-underline sm:text-sm">
                                                 {{ __('Edit') }}
                                             </x-comments::action>
                                         </li>
@@ -163,12 +163,12 @@
                                             wire:confirm="{{ __('Are you sure you want to delete this comment?') }}"
                                             @click="showEditMenu=false"
                                             @class([
-                                                "hover:!bg-[" . config('comments.hover_color') . "]",
+                                                "hover:!bg-[" . config('commenter.hover_color') . "]",
                                                 "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
                                             ])
                                         >
-                                            <x-comments::trash height="13" width="13" strokeColor="red" />
-                                            <x-comments::action
+                                            <x-commenter::trash height="13" width="13" strokeColor="red" />
+                                            <x-commenter::action
                                                 wire:loading.remove
                                                 wire:target="delete({{$comment}})"
                                                 class="!text-red align-text-bottom text-xs hover:!no-underline sm:text-sm"
@@ -219,7 +219,7 @@
                 </div>
 
                 {{-- Replies count--}}
-                @if (config('comments.reply.enabled'))
+                @if (config('commenter.reply.enabled'))
                     <div
                         @reply-created-{{ $comment->getKey() }}.window="
                             if($event.detail.messageId === {{ $comment->getKey() }}) {
@@ -247,24 +247,24 @@
                             @click="$dispatch('show-replies.' + @js($comment->getKey())); showReplyList = !showReplyList"
                             class="inline-block"
                         >
-                            <x-comments::link
+                            <x-commenter::link
                                 type="popup"
                                 @class([
                                     "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
                                     "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
-                                    "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
+                                    "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
                                     "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
                                 ])
                                 @style([
-                                    'background: ' . config('comments.bg_primary_color') => Helpers::isModernTheme(),
+                                    'background: ' . config('commenter.bg_primary_color') => Helpers::isModernTheme(),
                                 ])
                             >
                                 @if(!Helpers::isModernTheme())
                                     <span x-show="!showReplyList">
-                                        <x-comments::icons.chevron-down />
+                                        <x-commenter::icons.chevron-down />
                                     </span>
                                     <span x-show="showReplyList">
-                                        <x-comments::icons.chevron-up />
+                                        <x-commenter::icons.chevron-up />
                                     </span>
                                 @endif
 
@@ -281,10 +281,10 @@
 
                                 @if(Helpers::isModernTheme())
                                     <span x-show="!showReplyList">
-                                        <x-comments::icons.list-down />
+                                        <x-commenter::icons.list-down />
                                     </span>
                                     <span x-show="showReplyList">
-                                        <x-comments::icons.list-up />
+                                        <x-commenter::icons.list-up />
                                     </span>
                                 @endif
                             </x-comments::link>

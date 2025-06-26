@@ -1,11 +1,11 @@
 <?php
 
-namespace LakM\Comments\Events\Comment;
+namespace LakM\Commenter\Events\Comment;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use LakM\Comments\Models\Comment;
+use LakM\Commenter\Models\Comment;
 
 class CommentCreated
 {

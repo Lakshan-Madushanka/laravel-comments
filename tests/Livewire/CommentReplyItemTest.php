@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use LakM\Comments\Events\Comment\CommentDeleted;
-use LakM\Comments\Events\Reply\ReplyDeleted;
-use LakM\Comments\Livewire\Replies\ItemView;
+use LakM\Commenter\Events\Comment\CommentDeleted;
+use LakM\Commenter\Events\Reply\ReplyDeleted;
+use LakM\Commenter\Livewire\Replies\ItemView;
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {

@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Policies;
+namespace LakM\Commenter\Policies;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use LakM\Comments\Models\Reply;
-use LakM\Comments\Policies\Concerns\CanManipulate;
+use LakM\Commenter\Models\Reply;
+use LakM\Commenter\Policies\Concerns\CanManipulate;
 
 class ReplyPolicy
 {

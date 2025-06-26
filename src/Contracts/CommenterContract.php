@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Contracts;
+namespace LakM\Commenter\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Comments\Models\Comment;
+use LakM\Commenter\Models\Comment;
 
 interface CommenterContract
 {

@@ -1,14 +1,13 @@
 <?php
 
-namespace LakM\Comments\Reactions;
+namespace LakM\Commenter\Reactions;
 
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Data\GuestData;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Data\GuestData;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Reaction;
 
 abstract class ReactionContract
 {
@@ -20,7 +19,7 @@ abstract class ReactionContract
     ) {
     }
 
-    public function createReaction(): \LakM\Comments\Models\Reaction
+    public function createReaction(): Reaction
     {
         $data = [
             'type' => $this->type,

@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Concerns;
+namespace LakM\Commenter\Concerns;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Exceptions\CommentLimitExceededException;
-use LakM\Comments\Helpers;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Comment;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Exceptions\CommentLimitExceededException;
+use LakM\Commenter\Helpers;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Comment;
 
 /**
  * @mixin Model
@@ -33,11 +33,11 @@ trait Commentable
 
     public function getAuthGuard(): string
     {
-        if (config('comments.auth_guard') === 'default') {
+        if (config('commenter.auth_guard') === 'default') {
             return Auth::getDefaultDriver();
         }
 
-        return config('comments.auth_guard');
+        return config('commenter.auth_guard');
     }
 
     /**
@@ -72,7 +72,7 @@ trait Commentable
             return $this->guestMode;
         }
 
-        if (config('comments.guest_mode.enabled')) {
+        if (config('commenter.guest_mode.enabled')) {
             return true;
         }
 
@@ -96,7 +96,7 @@ trait Commentable
 
     public function paginationEnabled(): bool
     {
-        return config('comments.pagination.enabled');
+        return config('commenter.pagination.enabled');
     }
 
     public function checkLimitForGuest(int $limit): bool
@@ -111,7 +111,7 @@ trait Commentable
 
     public function getCommentLimit(): ?int
     {
-        $limit = config('comments.limit');
+        $limit = config('commenter.limit');
 
         if (property_exists($this, 'commentLimit')) {
             $limit = $this->commentLimit;
@@ -126,7 +126,7 @@ trait Commentable
             return $this->approvalRequired;
         }
 
-        return config('comments.approval_required');
+        return config('commenter.approval_required');
     }
 
     /**
@@ -149,7 +149,7 @@ trait Commentable
     {
         $order = Sort::TOP;
 
-        if (!empty($defaultOrder = config('comments.default_sort'))) {
+        if (!empty($defaultOrder = config('commenter.default_sort'))) {
             $order = $defaultOrder;
         }
 
@@ -164,7 +164,7 @@ trait Commentable
     {
         $order = Sort::LATEST;
 
-        if (!empty($defaultOrder = config('comments.reply.default_sort'))) {
+        if (!empty($defaultOrder = config('commenter.reply.default_sort'))) {
             $order = $defaultOrder;
         }
 

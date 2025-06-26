@@ -1,16 +1,16 @@
 <?php
 
-namespace LakM\Comments\Livewire\Replies;
+namespace LakM\Commenter\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
-use LakM\Comments\Actions\Reply\DeleteAction;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Actions\Reply\DeleteAction;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Reply;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
@@ -108,6 +108,6 @@ class ItemView extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.replies.item-view');
+        return view('commenter::livewire.replies.item-view');
     }
 }

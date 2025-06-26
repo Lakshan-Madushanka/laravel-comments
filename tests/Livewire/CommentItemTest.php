@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use LakM\Comments\Events\Comment\CommentDeleted;
-use LakM\Comments\Livewire\Comments\ItemView;
+use LakM\Commenter\Events\Comment\CommentDeleted;
+use LakM\Commenter\Livewire\Comments\ItemView;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Livewire\livewire;

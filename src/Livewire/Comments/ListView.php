@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire\Comments;
+namespace LakM\Commenter\Livewire\Comments;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -8,12 +8,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\Helpers;
-use LakM\Comments\Livewire\Concerns\HasSingleThread;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\Helpers;
+use LakM\Commenter\Livewire\Concerns\HasSingleThread;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
@@ -62,8 +62,8 @@ class ListView extends Component
 
         $this->model = $model;
 
-        $this->perPage = config('comments.pagination.per_page');
-        $this->limit = config('comments.pagination.per_page');
+        $this->perPage = config('commenter.pagination.per_page');
+        $this->limit = config('commenter.pagination.per_page');
 
         $this->sortBy = $model->getCommentsSortOrder();
 
@@ -160,13 +160,13 @@ class ListView extends Component
 
     public function placeholder(array $params = []): Factory|View|Application
     {
-        return view('comments::components.skeleton', $params);
+        return view('commenter::components.skeleton', $params);
     }
 
     public function render(): View|Factory|Application
     {
         return view(
-            'comments::livewire.comments.list-view',
+            'commenter::livewire.comments.list-view',
             ['comments' => $this->comments]
         );
     }
