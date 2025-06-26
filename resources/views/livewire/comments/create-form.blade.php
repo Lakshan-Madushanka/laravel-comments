@@ -8,7 +8,7 @@
             <div x-data="{show:true}">
                 <x-commenter::modal>
                     <div class="text-green-600 text-lg text-center font-bold p-4">Your email verified successfully!</div>
-                </x-comments::modal>
+                </x-commenter::modal>
             </div>
         @endif
         @if ($model->guestModeEnabled() && !$this->secureGuestMode->enabled())
@@ -77,7 +77,7 @@
                             class="font-bold text-blue-600"
                         >
                             {{ __('login') }}
-                        </x-comments::link>
+                        </x-commenter::link>
                         {{ __('to comment !') }}
                     </span>
                 </div>
@@ -93,7 +93,7 @@
                             type="button"
                         >
                             {{ __('verify your email') }}
-                        </x-comments::link>
+                        </x-commenter::link>
                         {{ __('to comment !') }}
                     </span>
 
@@ -132,7 +132,7 @@
                             <div wire:click="sendVerifyLink(window.location.href)">
                                 <x-commenter::button size="sm"  loadingTarget="sendVerifyLink">
                                     Send Link
-                                </x-comments::button>
+                                </x-commenter::button>
                             </div>
                         @else
                             <div x-cloak x-data="countdown(@js(GuestModeRateLimiter::$decaySeconds))" @counter-finished.window="$wire.set('rateLimitExceeded', false)">
@@ -144,7 +144,7 @@
             @else
                 <x-commenter::button wire:click="create" loadingTarget="create" class="w-full sm:w-auto">
                     {{ __('Create') }}
-                </x-comments::button>
+                </x-commenter::button>
             @endif
         @else
             <div>

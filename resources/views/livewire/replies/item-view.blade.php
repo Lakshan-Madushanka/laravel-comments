@@ -133,7 +133,7 @@
                                         <x-commenter::pencil height="13" width="13" strokeColor="blue"/>
                                         <x-commenter::action class="text-sm hover:!no-underline sm:text-sm">
                                             {{ __('Edit') }}
-                                        </x-comments::action>
+                                        </x-commenter::action>
                                     </li>
                                 @endif
 
@@ -151,7 +151,7 @@
                                             class="!text-red align-text-bottom text-xs hover:!no-underline sm:text-sm"
                                         >
                                             {{ __('Delete') }}
-                                        </x-comments::action>
+                                        </x-commenter::action>
                                     </li>
                                 @endif
                             </ul>
@@ -279,7 +279,7 @@
                                         <x-commenter::icons.list-up />
                                     </span>
                         @endif
-                    </x-comments::link>
+                    </x-commenter::link>
                 </div>
             </div>
         @endif
