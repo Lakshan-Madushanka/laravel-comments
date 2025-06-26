@@ -9,21 +9,21 @@
                     :active="$sortBy === Sort::LATEST"
                 >
                     {{ __('Newest') }}
-                </x-comments::chip>
+                </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::OLDEST->value}}')"
                     wire:loading.class="!pointer-events-none"
                     :active="$sortBy === Sort::OLDEST"
                 >
                     {{ __('Oldest') }}
-                </x-comments::chip>
+                </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setFilter('own')"
                     wire:loading.class="!pointer-events-none"
                     :active="$filter === 'own'"
                 >
                     {{ __('My Replies') }}
-                </x-comments::chip>
+                </x-commenter::chip>
             </div>
         </div>
     @endif
@@ -53,7 +53,7 @@
             @if ($limit < $currentTotal)
                 <x-commenter::button wire:click="paginate" size="sm" type="button" loadingTarget="paginate">
                     {{ __('Load More') }}
-                </x-comments::button>
+                </x-commenter::button>
             @else
                 <div class="font-bold">{{ __('End of replies') }}</div>
             @endif

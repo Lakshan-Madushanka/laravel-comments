@@ -35,28 +35,28 @@
                     :active="$sortBy === Sort::TOP"
                 >
                     {{ __('Top') }}
-                </x-comments::chip>
+                </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::LATEST->value}}')"
                     wire:loading.class="!pointer-events-none"
                     :active="$sortBy === Sort::LATEST"
                 >
                     {{ __('Newest') }}
-                </x-comments::chip>
+                </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::OLDEST->value}}')"
                     wire:loading.class="!pointer-events-none"
                     :active="$sortBy === Sort::OLDEST"
                 >
                     {{ __('Oldest') }}
-                </x-comments::chip>
+                </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::REPLIES->value}}')"
                     wire:loading.class="!pointer-events-none"
                     :active="$sortBy === Sort::REPLIES"
                 >
                     {{ __('Replies') }}
-                </x-comments::chip>
+                </x-commenter::chip>
 
                 <x-commenter::chip
                     wire:click="setFilter('own')"
@@ -64,7 +64,7 @@
                     :active="$filter === 'own'"
                 >
                     {{ __('My Comments') }}
-                </x-comments::chip>
+                </x-commenter::chip>
             </div>
         @endif
 
@@ -97,15 +97,15 @@
                 @if(Helpers::isModernTheme())
                     <x-commenter::link type="a" route="#create-comment-form">
                         <x-commenter::icons.create />
-                    </x-comments::link>
+                    </x-commenter::link>
                 @else
                     <x-commenter::link class="dark:!text-white !border-b-0" type="a"
-                                      route="#create-comment-form">{{ __('Create Comment') }}</x-comments::link>
+                                      route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
                 @endif
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
                 <div class="w-1 h-6 bg-slate-500"></div>
-                <x-commenter::link type="button" wire:click="logOut">{{ __('Log out') }}</x-comments::link>
+                <x-commenter::link type="button" wire:click="logOut">{{ __('Log out') }}</x-commenter::link>
             @endif
         </div>
     </div>
@@ -130,7 +130,7 @@
             @if ($limit < $total)
                 <x-commenter::button wire:click="paginate" type="button" loadingTarget="paginate">
                     {{ __('Load More') }}
-                </x-comments::button>
+                </x-commenter::button>
             @else
                 <div class="font-bold">{{ __('End of comments') }}</div>
             @endif

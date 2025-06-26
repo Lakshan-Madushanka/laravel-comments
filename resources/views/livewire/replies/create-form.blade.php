@@ -63,17 +63,17 @@
                             class="font-bold text-blue-600"
                         >
                             {{ __('login') }}
-                        </x-comments::link>
+                        </x-commenter::link>
                         {{ __('to reply !') }}
                     </span>
                 </div>
             @elseif(!$this->secureGuestMode->allowed())
-                <x-commenter::link type="a" route="#verify-email-button">{{ __('Please verify your email to reply') }}</x-comments::link>
+                <x-commenter::link type="a" route="#verify-email-button">{{ __('Please verify your email to reply') }}</x-commenter::link>
             @else
                 <div class="flex gap-x-2">
                     <x-commenter::button loadingTarget="create" class="w-full sm:w-auto" size="sm">
                         {{ __('Create') }}
-                    </x-comments::button>
+                    </x-commenter::button>
                     <x-commenter::button
                         wire:click="discard"
                         loadingTarget="discard"
@@ -82,7 +82,7 @@
                         size="sm"
                     >
                         {{ __('Discard') }}
-                    </x-comments::button>
+                    </x-commenter::button>
                 </div>
             @endif
         @else

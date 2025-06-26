@@ -32,7 +32,7 @@
                         @click="$dispatch('show-user-list', {id: '{{ $message->getKey() }}', type: '{{ $key }}'})"
                         class="w-full cursor-pointer pb-1 text-center"
                     >
-                        <x-commenter::link type="popup">{{ __('show all') }}</x-comments::link>
+                        <x-commenter::link type="popup">{{ __('show all') }}</x-commenter::link>
                     </span>
                 @endif
             </div>
