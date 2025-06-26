@@ -35,17 +35,17 @@ class InstallCommand extends Command
 
     private function publishConfigs(): void
     {
-        $this->callSilent('vendor:publish', ['--tag' => 'comments-config']);
+        $this->callSilent('vendor:publish', ['--tag' => 'commenter-config']);
     }
 
     private function publishAssets(): void
     {
-        $this->callSilent('vendor:publish', ['--tag' => 'comments-assets', '--force' => true]);
+        $this->callSilent('vendor:publish', ['--tag' => 'commenter-assets', '--force' => true]);
     }
 
     private function publishMigrations(): void
     {
-        $this->callSilent('vendor:publish', ['--tag' => 'comments-migrations']);
+        $this->callSilent('vendor:publish', ['--tag' => 'commenter-migrations']);
     }
 
     private function runMigrations(): bool
@@ -105,7 +105,7 @@ class InstallCommand extends Command
         );
 
         if ($wantsToSupport === true) {
-            $this->openLink("https://github.com/Lakshan-Madushanka/laravel-comments");
+            $this->openLink("https://github.com/Lakshan-Madushanka/commenter");
         }
     }
 
