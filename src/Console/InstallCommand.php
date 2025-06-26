@@ -1,9 +1,9 @@
 <?php
 
-namespace LakM\Comments\Console;
+namespace LakM\Commenter\Console;
 
 use Illuminate\Console\Command;
-use LakM\Comments\Console\Concerns\BuildAssets;
+use LakM\Commenter\Console\Concerns\BuildAssets;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Question\ConfirmationQuestion;

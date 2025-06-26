@@ -2,8 +2,8 @@
 
 
 use Illuminate\Database\Eloquent\Collection;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Tests\Fixtures\Post;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Tests\Fixtures\Post;
 
 it('can get approved comment', function () {
     $post = Post::query()->create(['name' => 'post']);

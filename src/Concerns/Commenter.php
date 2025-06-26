@@ -1,15 +1,15 @@
 <?php
 
-namespace LakM\Comments\Concerns;
+namespace LakM\Commenter\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Concerns\HasProfilePhoto;
-use LakM\Comments\Models\Concerns\HasReactions;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Concerns\HasProfilePhoto;
+use LakM\Commenter\Models\Concerns\HasReactions;
+use LakM\Commenter\Models\Reply;
 
 /**
  * @mixin Model
@@ -28,7 +28,7 @@ trait Commenter
 
     public function profileUrl(): ?string
     {
-        if (is_null($url = config('comments.profile_url_column'))) {
+        if (is_null($url = config('commenter.profile_url_column'))) {
             return null;
         }
 
@@ -42,11 +42,11 @@ trait Commenter
 
     public function name(): string
     {
-        return $this->{config('comments.user_name_column')};
+        return $this->{config('commenter.user_name_column')};
     }
 
     public function email(): string
     {
-        return $this->{config('comments.user_email_column')};
+        return $this->{config('commenter.user_email_column')};
     }
 }

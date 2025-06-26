@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Tests\Fixtures;
+namespace LakM\Commenter\Tests\Fixtures;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use LakM\Comments\Concerns\Commenter;
-use LakM\Comments\Contracts\CommenterContract;
+use LakM\Commenter\Concerns\Commenter;
+use LakM\Commenter\Contracts\CommenterContract;
 
 class User extends Authenticatable implements CommenterContract
 {

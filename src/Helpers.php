@@ -1,16 +1,16 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
-use LakM\Comments\Exceptions\InvalidModelException;
-use LakM\Comments\Facades\SecureGuestMode;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Contracts\CommenterContract;
+use LakM\Commenter\Exceptions\InvalidModelException;
+use LakM\Commenter\Facades\SecureGuestMode;
 
 class Helpers
 {
@@ -36,17 +36,17 @@ class Helpers
 
     public static function isDefaultTheme(): bool
     {
-        return config('comments.theme') === 'default';
+        return config('commenter.theme') === 'default';
     }
 
     public static function isGithubTheme(): bool
     {
-        return config('comments.theme') === 'github';
+        return config('commenter.theme') === 'github';
     }
 
     public static function isModernTheme(): bool
     {
-        return config('comments.theme') === 'modern';
+        return config('commenter.theme') === 'modern';
     }
 
     public static function getAuthGuard(): StatefulGuard
@@ -55,11 +55,11 @@ class Helpers
             return Auth::guard('guest');
         }
 
-        if (config('comments.auth_guard') === 'default') {
+        if (config('commenter.auth_guard') === 'default') {
             return Auth::guard(Auth::getDefaultDriver());
         }
 
-        return config('comments.auth_guard');
+        return config('commenter.auth_guard');
     }
 
     public static function livewireCurrentURL(): string

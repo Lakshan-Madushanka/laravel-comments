@@ -1,11 +1,11 @@
 <?php
 
-namespace LakM\Comments\Events\Reply;
+namespace LakM\Commenter\Events\Reply;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Models\Reply;
 
 class ReplyDeleted
 {

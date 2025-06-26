@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Models\Concerns;
+namespace LakM\Commenter\Models\Concerns;
 
 trait HasProfilePhoto
 {
     public function ownerPhotoUrl(): string
     {
-        $col = config('comments.profile_photo.url_column');
+        $col = config('commenter.profile_photo.url_column');
 
         if ($col) {
             if (isset($this->userRelationshipName)) {
@@ -20,7 +20,7 @@ trait HasProfilePhoto
             }
         }
 
-        if ($url = config('comments.profile_photo.default.url')) {
+        if ($url = config('commenter.profile_photo.default.url')) {
             return $url;
         }
 
@@ -32,7 +32,7 @@ trait HasProfilePhoto
         }
 
         $hash = hash("sha256", strtolower(trim($email)));
-        $d = config('comments.profile_photo.default.gravatar.default');
+        $d = config('commenter.profile_photo.default.gravatar.default');
 
         return "https://gravatar.com/avatar/{$hash}?d={$d}";
     }

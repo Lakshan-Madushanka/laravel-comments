@@ -1,8 +1,6 @@
 <?php
 
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Models\Reply;
 
 
 it('has replies relationship', function () {
@@ -24,7 +22,7 @@ it('can retrieve replies correctly', function () {
         ->and($comment->replies->count())->toBe(5)
         ->and($replies)
         ->each(function ($reply) {
-            $reply->toBeInstanceOf(LakM\Comments\Models\Reply::class);
+            $reply->toBeInstanceOf(Reply::class);
         });
 
 
@@ -52,7 +50,7 @@ it('can retrieve nested replies', function () {
         ->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class)
         ->toHaveCount(6)
         ->each(function ($reply) {
-            $reply->toBeInstanceOf(LakM\Comments\Models\Reply::class);
+            $reply->toBeInstanceOf(LakM\Commenter\Models\Reply::class);
         });
 
     $reply->replies->each(function (Reply $nestedReply) use ($reply) {

@@ -3,9 +3,9 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Livewire\Replies\ListView;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Livewire\Replies\ListView;
+use LakM\Commenter\Models\Reply;
 use Pest\Expectation;
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;

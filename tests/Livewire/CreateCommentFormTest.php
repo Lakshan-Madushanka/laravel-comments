@@ -4,12 +4,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use LakM\Comments\Events\Comment\CommentCreated;
-use LakM\Comments\Exceptions\CommentLimitExceededException;
-use LakM\Comments\Livewire\Comments\CreateForm;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Tests\Fixtures\User;
-use LakM\Comments\Tests\Fixtures\Video;
+use LakM\Commenter\Events\Comment\CommentCreated;
+use LakM\Commenter\Exceptions\CommentLimitExceededException;
+use LakM\Commenter\Livewire\Comments\CreateForm;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Tests\Fixtures\User;
+use LakM\Commenter\Tests\Fixtures\Video;
 use function Pest\Livewire\livewire;
 
 it('render comment form', function () {
@@ -175,7 +175,7 @@ test('email must not be unique for the same ip address', function () {
 });
 
 it('shows login link when guest mode disabled', function () {
-    config(['comments.guest_mode.enabled' => false]);
+    config(['commenter.guest_mode.enabled' => false]);
     $video = \video();
 
     livewire(CreateForm::class, ['model' => $video])
@@ -184,8 +184,8 @@ it('shows login link when guest mode disabled', function () {
 });
 
 it('shows email field when guest mode enabled', function ($emailEnabled, $guestMode) {
-    config(['comments.guest_mode.enabled' => $guestMode]);
-    config(['comments.guest_mode.email_enabled' => $emailEnabled]);
+    config(['commenter.guest_mode.enabled' => $guestMode]);
+    config(['commenter.guest_mode.email_enabled' => $emailEnabled]);
 
     $video = \video();
 
@@ -323,9 +323,9 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
     onGuestMode();
 
     if ($shouldLimit) {
-        config(['comments.limit' => 1]);
+        config(['commenter.limit' => 1]);
     } else {
-        config(['comments.limit' => null]);
+        config(['commenter.limit' => null]);
     }
 
     $video = \video();
@@ -366,9 +366,9 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     }
 
     if ($shouldLimit) {
-        config(['comments.limit' => 1]);
+        config(['commenter.limit' => 1]);
     } else {
-        config(['comments.limit' => null]);
+        config(['commenter.limit' => null]);
     }
 
     $video = \video();

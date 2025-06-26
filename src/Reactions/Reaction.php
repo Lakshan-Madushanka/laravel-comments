@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Reactions;
+namespace LakM\Commenter\Reactions;
 
 use Illuminate\Support\Facades\DB;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace LakM\Comments\Policies\Concerns;
+namespace LakM\Commenter\Policies\Concerns;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Reply;
 
 trait CanManipulate
 {

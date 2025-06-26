@@ -1,4 +1,4 @@
-@props(['noOfComments' => config('comments.skeleton.no_of_comments', 5)])
+@props(['noOfComments' => config('commenter.skeleton.no_of_comments', 5)])
 
 <div class="space-y-6">
     <div class="text-lg font-bold">

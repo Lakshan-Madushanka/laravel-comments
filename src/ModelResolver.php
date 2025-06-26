@@ -1,20 +1,20 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User;
-use LakM\Comments\Builders\MessageBuilder;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Reaction;
+use LakM\Commenter\Builders\MessageBuilder;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Reaction;
 
 final class ModelResolver
 {
     /** @return class-string */
     public static function commentClass(): string
     {
-        return  config('comments.model', Comment::class);
+        return  config('commenter.model', Comment::class);
     }
 
     public static function commentModel(): Comment
@@ -33,7 +33,7 @@ final class ModelResolver
     /** @return class-string */
     public static function guestClass(): string
     {
-        return  config('comments.guest_model');
+        return  config('commenter.guest_model');
     }
 
     public static function guestModel(): Guest
@@ -49,7 +49,7 @@ final class ModelResolver
     /** @return class-string */
     public static function reactionClass(): string
     {
-        return  config('comments.reaction_model');
+        return  config('commenter.reaction_model');
     }
 
     public static function reactionModel(): Reaction
@@ -65,7 +65,7 @@ final class ModelResolver
     /** @return class-string */
     public static function userClass(): string
     {
-        return  config('comments.user_model');
+        return  config('commenter.user_model');
     }
 
     public static function userModel(): User

@@ -1,11 +1,11 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\RateLimiter;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Notifications\Guest\VerifyLinkGenerated;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Notifications\Guest\VerifyLinkGenerated;
 use LakM\NoPass\Facades\NoPass;
 use Livewire\Wireable;
 
@@ -13,7 +13,7 @@ final class SecureGuestModeManager implements Wireable
 {
     public function enabled(): bool
     {
-        return config('comments.guest_mode.secured', false);
+        return config('commenter.guest_mode.secured', false);
     }
 
     public function allowed(): bool

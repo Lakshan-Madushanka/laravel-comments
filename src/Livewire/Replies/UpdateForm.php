@@ -1,15 +1,15 @@
 <?php
 
-namespace LakM\Comments\Livewire\Replies;
+namespace LakM\Commenter\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
-use LakM\Comments\Actions\Reply\UpdateAction;
-use LakM\Comments\Models\Reply;
-use LakM\Comments\ValidationRules;
+use LakM\Commenter\Actions\Reply\UpdateAction;
+use LakM\Commenter\Models\Reply;
+use LakM\Commenter\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -77,7 +77,7 @@ class UpdateForm extends Component
 
     public function setApprovalRequired(): void
     {
-        $this->approvalRequired = config('comments.reply.approval_required');
+        $this->approvalRequired = config('commenter.reply.approval_required');
     }
 
     public function canUpdateReply(Reply $reply): bool
@@ -93,6 +93,6 @@ class UpdateForm extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('comments::livewire.replies.update-form');
+        return view('commenter::livewire.replies.update-form');
     }
 }

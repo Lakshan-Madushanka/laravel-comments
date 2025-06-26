@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Actions;
+namespace LakM\Commenter\Actions;
 
 use Illuminate\Http\Request;
-use LakM\Comments\Helpers;
-use LakM\Comments\Models\Guest;
+use LakM\Commenter\Helpers;
+use LakM\Commenter\Models\Guest;
 use LakM\NoPass\Facades\NoPass;
 
 class VerifyGuestAction

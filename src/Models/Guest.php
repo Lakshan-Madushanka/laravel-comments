@@ -1,15 +1,15 @@
 <?php
 
-namespace LakM\Comments\Models;
+namespace LakM\Commenter\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use LakM\Comments\Concerns\Commenter;
-use LakM\Comments\Contracts\CommenterContract;
-use LakM\Comments\Data\GuestData;
-use LakM\Comments\Facades\SecureGuestMode;
+use LakM\Commenter\Concerns\Commenter;
+use LakM\Commenter\Contracts\CommenterContract;
+use LakM\Commenter\Data\GuestData;
+use LakM\Commenter\Facades\SecureGuestMode;
 
 /**
  * @property string $name

@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Comments\Data\GuestData;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
+use LakM\Commenter\Data\GuestData;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Guest;
 
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Models\Reply;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\withoutExceptionHandling;
@@ -56,7 +56,7 @@ it('can create nested replies', function () {
         ->toHaveCount(4)
         ->toBeInstanceOf(Illuminate\Database\Eloquent\Collection::class)
         ->each(function ($nestedReply) {
-            $nestedReply->toBeInstanceOf(LakM\Comments\Models\Reply::class);
+            $nestedReply->toBeInstanceOf(Reply::class);
         });
 
     $nestedReplies->each(function (Reply $nestedReply) use ($reply) {

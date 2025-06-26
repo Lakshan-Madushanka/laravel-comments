@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Number;
-     use LakM\Comments\Helpers;
+     use LakM\Commenter\Helpers;
 @endphp
 
 <div x-data="{ showReplyForm: false }">
@@ -42,13 +42,13 @@
                         "
                         @class([
                            "cursor-pointer rounded px-1",
-                           "hover:!bg-["  . config('comments.hover_color') . "]",
+                           "hover:!bg-["  . config('commenter.hover_color') . "]",
                            "border dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
                            "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
                            "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme()
                        ])
                         @style([
-                            'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                            'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                         ])
                     >
                         <div
@@ -66,11 +66,11 @@
                             title="like"
                         >
                             <div x-show="!isLiked">
-                                <x-dynamic-component component="comments::icons.{{$key}}" />
+                                <x-dynamic-component component="commenter::icons.{{$key}}" />
                             </div>
                             <div x-show="isLiked">
                                 <x-dynamic-component
-                                    component="comments::icons.{{$key}}"
+                                    component="commenter::icons.{{$key}}"
                                     :fill="$this->fillColor('like')"
                                 />
                             </div>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
 
-                        <x-comments::show-reacted-users
+                        <x-commenter::show-reacted-users
                             @mouseleave="showUsers=false"
                             :$lastReactedUserName
                             :$reactions
@@ -120,13 +120,13 @@
                         "
                         @class([
                             "cursor-pointer rounded px-1",
-                            "hover:!bg-["  . config('comments.hover_color') . "]",
+                            "hover:!bg-["  . config('commenter.hover_color') . "]",
                             "border dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
                             "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
                             "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
                         ])
                         @style([
-                           'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                           'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                        ])
                     >
                         <div
@@ -144,12 +144,12 @@
                             title="dislike"
                         >
                             <div x-show="!isDisliked">
-                                <x-dynamic-component component="comments::icons.{{$key}}" />
+                                <x-dynamic-component component="commenter::icons.{{$key}}" />
                             </div>
 
                             <div x-show="isDisliked">
                                 <x-dynamic-component
-                                    component="comments::icons.{{$key}}"
+                                    component="commenter::icons.{{$key}}"
                                     :fill="$this->fillColor('dislike')"
                                 />
                             </div>
@@ -158,7 +158,7 @@
                                 <span class="text-sm">{{ Number::abbreviate($reactions["dislike"]["count"]) }}</span>
                             </div>
                         </div>
-                        <x-comments::show-reacted-users
+                        <x-commenter::show-reacted-users
                             @mouseleave="showUsers=false"
                             :$lastReactedUserName
                             :$reactions
@@ -170,7 +170,7 @@
                         />
                     </div>
                 @else
-                    <x-comments::show-reaction
+                    <x-commenter::show-reaction
                         :$message
                         :$lastReactedUserName
                         :$reactions
@@ -212,13 +212,13 @@
                     @class([
                         "px-1 rounded dark:!bg-slate-800 dark:border-slate-700",
                         "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
-                         "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                         "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
-                        'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                        'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                    ])
                 >
-                    <x-comments::link
+                    <x-commenter::link
                         @class([
                             "align-text-bottom text-sm",
                             "hover:!border-b" => Helpers::isDefaultTheme(),
@@ -227,7 +227,7 @@
                         type="popup"
                     >
                         @if(Helpers::isModernTheme())
-                            <x-comments::icons.reply />
+                            <x-commenter::icons.reply />
                         @endif
                         <span>{{__('Reply')}}</span>
                     </x-comments::link>
@@ -242,15 +242,15 @@
                     @class([
                         "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative gap-2",
                         "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
-                         "hover:!bg-["  . config('comments.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                         "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
-                        'background: ' . config('comments.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                        'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                    ])
 
                 >
                     <div x-data="copyToClipboard" class="relative">
-                        <x-comments::link
+                        <x-commenter::link
                             @class([
                                 "align-text-bottom text-sm",
                                 "hover:!border-b" => Helpers::isDefaultTheme(),
@@ -259,7 +259,7 @@
                             type="popup"
                         >
                             @if(Helpers::isModernTheme())
-                                <x-comments::icons.share />
+                                <x-commenter::icons.share />
                             @endif
                             <span>{{__('Share')}}</span>
 
@@ -267,7 +267,7 @@
                                   class="absolute start-[calc(100%_+_1rem)] text-nowrap">Link Copied!</span>
                         </x-comments::link>
 
-                        <x-comments::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
+                        <x-commenter::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
                             <div @click="
                                 const url = new URL(window.location.href);
                                 url.searchParams.append('message_type', 'single');
@@ -276,7 +276,7 @@
 
                                 copy(url.href);
                             ">
-                                <x-comments::input.dropdown-item name="Copy Link" icon="link" />
+                                <x-commenter::input.dropdown-item name="Copy Link" icon="link" />
                             </div>
                         </x-comments::input.dropdown>
                     </div>
@@ -292,7 +292,7 @@
                 ])
         >
             @foreach ($rReactions as $key => $value)
-                <x-comments::show-reaction
+                <x-commenter::show-reaction
                     :$message
                     :$lastReactedUserName
                     :$reactions
@@ -321,50 +321,50 @@
                 }
             "
         >
-            <x-comments::modal loadingTarget="loadReactedUsers">
+            <x-commenter::modal loadingTarget="loadReactedUsers">
                 <div class="flex py-4 dark:bg-black ">
                     <div class="space-y-2 border-r-2 border-gray-200 dark:border-slate-900">
                         <div class="mb-4 border-b-2 border-gray-200 p-4 dark:border-slate-900">
                             <span
                                 class="bg-gray-300 dark:bg-slate-600 px-4 py-2 font-bold"
                                 @style([
-                                    'background: ' . config('comments.active_color') ,
-                                    'color: ' . config('comments.primary_color'),
+                                    'background: ' . config('commenter.active_color') ,
+                                    'color: ' . config('commenter.primary_color'),
                                 ])
                             >
                                 {{ $total }}
                             </span>
                         </div>
-                        @foreach (config("comments.reactions") as $key => $reaction)
+                        @foreach (config("commenter.reactions") as $key => $reaction)
                             <div
                                 @if ($reactions[$key]["count"] > 0)
                                     wire:click="loadReactedUsers('{{ $key }}')"
                                 @click="type = '{{ $key }}'"
                                 @class([
                                     "cursor-pointer p-4 relative hover:bg-gray-300 hover:dark:bg-slate-700",
-                                    "hover:!bg-["  . config('comments.hover_color') . "]",
+                                    "hover:!bg-["  . config('commenter.hover_color') . "]",
                                 ])
                                 @endif
                                 wire:loading.class="cursor-not-allowed"
                                 target="loadReactedUsers"
                                 class="relative p-4"
                                 :class="type === '{{ $key }}' ? 'dark:bg-slate-600' : ''"
-                                x-bind:style="type === '{{ $key }}' ? 'background: ' + @js(config('comments.active_color')) : ''"
+                                x-bind:style="type === '{{ $key }}' ? 'background: ' + @js(config('commenter.active_color')) : ''"
                             >
                                 @if ($reactions[$key]["reacted"])
                                     <x-dynamic-component
-                                        component="comments::icons.{{$key}}"
+                                        component="commenter::icons.{{$key}}"
                                         :fill="$this->fillColor($key)"
                                     />
                                 @else
-                                    <x-dynamic-component component="comments::icons.{{$key}}" />
+                                    <x-dynamic-component component="commenter::icons.{{$key}}" />
                                 @endif
 
                                 <span
                                     class="absolute start-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900"
                                     @style([
-                                        'background: ' . config('comments.bg_primary_color'),
-                                        'color: ' . config('comments.primary_color'),
+                                        'background: ' . config('commenter.bg_primary_color'),
+                                        'color: ' . config('commenter.primary_color'),
                                     ])
                                 >
                                 {{ $reactions[$key]["count"] }}
@@ -390,7 +390,7 @@
 
                             @if ($this->getReactedUsersLimit($selectedReactionType) < $reactions[$selectedReactionType]["count"])
                                 <div class="!mt-4 flex w-full justify-center">
-                                    <x-comments::button
+                                    <x-commenter::button
                                         wire:click="loadReactedUsers('{{$selectedReactionType}}')"
                                         type="button"
                                         size="sm"

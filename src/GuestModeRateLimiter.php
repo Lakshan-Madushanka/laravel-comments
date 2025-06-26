@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use Illuminate\Support\Facades\RateLimiter;
 

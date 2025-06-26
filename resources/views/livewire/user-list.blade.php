@@ -3,10 +3,10 @@
         <div
             @class([
                 "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg dark:!text-white dark:!bg-black",
-                "hover:!bg-["  . config('comments.hover_color') . "]",
+                "hover:!bg-["  . config('commenter.hover_color') . "]",
             ])
             @style([
-                'background: ' . config('comments.bg_primary_color'),
+                'background: ' . config('commenter.bg_primary_color'),
             ])
         >
             <div
@@ -51,10 +51,10 @@
             @endif
 
             <div wire:loading.flex class="mt-4 flex justify-center">
-                <x-comments::spin
+                <x-commenter::spin
                     class="size-6 text-center !text-blue-500"
                     @style([
-                        'color: ' . config('comments.primary_color'),
+                        'color: ' . config('commenter.primary_color'),
                     ])
                 />
             </div>

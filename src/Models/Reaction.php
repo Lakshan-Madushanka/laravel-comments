@@ -1,16 +1,16 @@
 <?php
 
-namespace LakM\Comments\Models;
+namespace LakM\Commenter\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User;
-use LakM\Comments\Builders\ReactionBuilder;
-use LakM\Comments\Contracts\CommenterContract;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Concerns\HasOwner;
-use LakM\Comments\Models\Concerns\HasProfilePhoto;
+use LakM\Commenter\Builders\ReactionBuilder;
+use LakM\Commenter\Contracts\CommenterContract;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Concerns\HasOwner;
+use LakM\Commenter\Models\Concerns\HasProfilePhoto;
 
 class Reaction extends Model
 {

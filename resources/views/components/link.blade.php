@@ -1,4 +1,4 @@
-@php use LakM\Comments\Helpers; @endphp
+@php use LakM\Commenter\Helpers; @endphp
 @props(['route' => '#', 'type' => 'navigate'])
 
 @php

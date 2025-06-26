@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Commenter\Livewire;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Reactions\ReactionManager as RM;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Reactions\ReactionManager as RM;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
@@ -128,21 +128,21 @@ class ReactionManager extends Component
 
     private function getLeftSideReactions(): array
     {
-        return array_filter(config('comments.reactions'), function (array $data) {
+        return array_filter(config('commenter.reactions'), function (array $data) {
             return $data['position'] === 'left';
         });
     }
 
     private function getRightSideReactions(): array
     {
-        return array_filter(config('comments.reactions'), function (array $data) {
+        return array_filter(config('commenter.reactions'), function (array $data) {
             return $data['position'] === 'right';
         });
     }
 
     private function setReactions(Message $message): void
     {
-        $reactions = array_keys(config('comments.reactions'));
+        $reactions = array_keys(config('commenter.reactions'));
 
         foreach ($reactions as $reaction) {
             $countName = $this->reactionCountName($reaction);
@@ -223,13 +223,13 @@ class ReactionManager extends Component
 
     public function fillColor(string $reaction): string
     {
-        return config("comments.reactions.{$reaction}.fill");
+        return config("commenter.reactions.{$reaction}.fill");
     }
 
     public function loadReactedUsers(string $type): void
     {
         $this->selectedReactionType = $type;
-        $limit = config('comments.pagination.per_page');
+        $limit = config('commenter.pagination.per_page');
 
         if (Arr::get($this->reactedUsers, $type)) {
             $limit += $this->reactedUsers[$type]['limit'];
@@ -269,7 +269,7 @@ class ReactionManager extends Component
 
     public function setEnableReply(bool $enabled): void
     {
-        if (!config('comments.reply.enabled')) {
+        if (!config('commenter.reply.enabled')) {
             $this->enableReply = false;
             return;
         }
@@ -280,11 +280,11 @@ class ReactionManager extends Component
     public function redirectToLogin(string $intendedUrl): void
     {
         session(['url.intended' => $intendedUrl]);
-        $this->redirect(config('comments.login_route'));
+        $this->redirect(config('commenter.login_route'));
     }
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.reaction-manager');
+        return view('commenter::livewire.reaction-manager');
     }
 }

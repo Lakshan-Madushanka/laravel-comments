@@ -1,10 +1,10 @@
 <?php
 
-namespace LakM\Comments\Actions\Reply;
+namespace LakM\Commenter\Actions\Reply;
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\Reply\ReplyDeleted;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Events\Reply\ReplyDeleted;
+use LakM\Commenter\Models\Reply;
 
 class DeleteAction
 {

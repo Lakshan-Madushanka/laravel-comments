@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Notifications\Guest;
+namespace LakM\Commenter\Notifications\Guest;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

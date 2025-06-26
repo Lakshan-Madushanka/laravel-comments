@@ -1,11 +1,11 @@
 <?php
 
-namespace LakM\Comments\Contracts;
+namespace LakM\Commenter\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Models\Comment;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Models\Comment;
 
 interface CommentableContract
 {

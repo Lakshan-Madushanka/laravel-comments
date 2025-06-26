@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
@@ -8,23 +8,23 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Console\InstallCommand;
-use LakM\Comments\Livewire\Comments\CreateForm;
-use LakM\Comments\Livewire\Comments\ItemView;
-use LakM\Comments\Livewire\Comments\ListView;
-use LakM\Comments\Livewire\Comments\UpdateForm;
-use LakM\Comments\Livewire\Editor;
-use LakM\Comments\Livewire\ReactionManager;
-use LakM\Comments\Livewire\Replies\ListView as RepliesListView;
-use LakM\Comments\Livewire\Replies\ReplyForm;
-use LakM\Comments\Livewire\Replies\ItemView as ReplyItemView;
-use LakM\Comments\Livewire\Replies\UpdateForm as ReplyUpdateForm;
-use LakM\Comments\Livewire\UserList;
-use LakM\Comments\Models\Guest;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Console\InstallCommand;
+use LakM\Commenter\Livewire\Comments\CreateForm;
+use LakM\Commenter\Livewire\Comments\ItemView;
+use LakM\Commenter\Livewire\Comments\ListView;
+use LakM\Commenter\Livewire\Comments\UpdateForm;
+use LakM\Commenter\Livewire\Editor;
+use LakM\Commenter\Livewire\ReactionManager;
+use LakM\Commenter\Livewire\Replies\ListView as RepliesListView;
+use LakM\Commenter\Livewire\Replies\ReplyForm;
+use LakM\Commenter\Livewire\Replies\ItemView as ReplyItemView;
+use LakM\Commenter\Livewire\Replies\UpdateForm as ReplyUpdateForm;
+use LakM\Commenter\Livewire\UserList;
+use LakM\Commenter\Models\Guest;
 use Livewire\Livewire;
 
-class CommentServiceProvider extends ServiceProvider
+class CommenterServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
@@ -42,7 +42,7 @@ class CommentServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/comments.php', 'comments');
+        $this->mergeConfigFrom(__DIR__ . '/../config/commenter.php', 'commenter');
     }
 
     public function setRoutes(): void
@@ -52,12 +52,12 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function setViews(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'comments');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'commenter');
     }
 
     protected function setComponents(): void
     {
-        Blade::componentNamespace('LakM\\Comments\\Views\\Components', 'comments');
+        Blade::componentNamespace('LakM\\Commenter\\Views\\Components', 'commenter');
 
         Livewire::component('comments-editor', Editor::class);
 
@@ -77,36 +77,36 @@ class CommentServiceProvider extends ServiceProvider
 
     protected function setBladeDirectives(): void
     {
-        if (!(file_exists(public_path('vendor/lakm/laravel-comments/build/manifest.json')) ||
-            file_exists(public_path('vendor/lakm/laravel-comments/laravel-comments.hot')))) {
+        if (!(file_exists(public_path('vendor/lakm/commenter/build/manifest.json')) ||
+            file_exists(public_path('vendor/lakm/commenter/commenter.hot')))) {
             return;
         }
 
-        $styles = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
-            ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
+        $styles = Vite::useBuildDirectory("vendor/lakm/commenter/build")
+            ->useHotFile('vendor/lakm/commenter/commenter.hot')
             ->withEntryPoints(['resources/css/app.css'])
             ->toHtml();
 
-        $scripts = Vite::useBuildDirectory("vendor/lakm/laravel-comments/build")
-            ->useHotFile('vendor/lakm/laravel-comments/laravel-comments.hot')
+        $scripts = Vite::useBuildDirectory("vendor/lakm/commenter/build")
+            ->useHotFile('vendor/lakm/commenter/commenter.hot')
             ->withEntryPoints(['resources/js/app.js'])
             ->toHtml();
 
         Vite::useHotFile(public_path('/hot'))
             ->useBuildDirectory('build');
 
-        Blade::directive('commentsStyles', function () use ($styles) {
+        Blade::directive('commenterStyles', function () use ($styles) {
             return $styles;
         });
 
-        Blade::directive('commentsScripts', function () use ($scripts) {
+        Blade::directive('commenterScripts', function () use ($scripts) {
             return $scripts;
         });
     }
 
     protected function setGates(): void
     {
-        foreach (config('comments.permissions') as $name => $callback) {
+        foreach (config('commenter.permissions') as $name => $callback) {
             Gate::define($name, $callback);
         }
     }
@@ -118,23 +118,23 @@ class CommentServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/../config/comments.php' => config_path('comments.php')
-        ], 'comments-config');
+            __DIR__ . '/../config/commenter.php' => config_path('commenter.php')
+        ], 'commenter-config');
 
         $this->publishes([
             __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comments_table.php'),
             __DIR__ . '/../database/migrations/create_reactions_table.php.stub' => $this->getMigrationFileName('create_reactions_table.php'),
             __DIR__ . '/../database/migrations/create_guests_table.php.stub' => $this->getMigrationFileName('create_guests_table.php'),
             __DIR__ . '/../database/migrations/drop_guest_columns_from_comments_table.php.stub' => $this->getMigrationFileName('drop_guest_columns_from_comments_table.php'),
-        ], 'comments-migrations');
+        ], 'commenter-migrations');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/lakm/laravel-comments')
-        ], 'comments-assets');
+            __DIR__ . '/../public' => public_path('vendor/lakm/commenter')
+        ], 'commenter-assets');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/comments'),
-        ], 'comments-views');
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/commenter'),
+        ], 'commenter-views');
     }
 
     public function configBindings(): void

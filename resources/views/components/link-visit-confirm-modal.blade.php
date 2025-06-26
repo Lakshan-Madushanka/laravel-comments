@@ -28,7 +28,7 @@
         }"
     class="lakm_commenter"
 >
-    <x-comments::modal class="!w-[32rem]">
+    <x-commenter::modal class="!w-[32rem]">
         <div class="px-4 py-2 space-y-6">
             <div class="flex flex-col items-center space-y-2">
                 <span class="font-bold text-xl">{{ __('Leaving') }} {{ config('app.name') }}</span>
@@ -39,7 +39,7 @@
                 <p class="overflow-auto break-all"><span x-text=protocol></span><strong x-text="domain"></strong><span x-text="path"></span></p>
             </div>
             <div x-show="isURLValid" @click="window.open(fullUrl, '_blank')" class="flex justify-end">
-                <x-comments::button size="md" type="button">
+                <x-commenter::button size="md" type="button">
                     {{ __('Visit Site') }}
                 </x-comments::button>
             </div>

@@ -1,8 +1,9 @@
 <?php
 
-namespace LakM\Comments\Reactions;
+namespace LakM\Commenter\Reactions;
 
 use Illuminate\Support\Facades\DB;
+use LakM\Commenter\Models\Reaction;
 
 class Like extends ReactionContract
 {
@@ -41,7 +42,7 @@ class Like extends ReactionContract
             ?->delete();
     }
 
-    protected function createLike(): \LakM\Comments\Models\Reaction
+    protected function createLike(): Reaction
     {
         return $this->createReaction();
     }
