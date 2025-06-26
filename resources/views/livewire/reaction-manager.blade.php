@@ -230,7 +230,7 @@
                             <x-commenter::icons.reply />
                         @endif
                         <span>{{__('Reply')}}</span>
-                    </x-comments::link>
+                    </x-commenter::link>
                 </div>
             @endif
 
@@ -265,7 +265,7 @@
 
                             <span x-show="isCopied"
                                   class="absolute start-[calc(100%_+_1rem)] text-nowrap">Link Copied!</span>
-                        </x-comments::link>
+                        </x-commenter::link>
 
                         <x-commenter::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
                             <div @click="
@@ -278,7 +278,7 @@
                             ">
                                 <x-commenter::input.dropdown-item name="Copy Link" icon="link" />
                             </div>
-                        </x-comments::input.dropdown>
+                        </x-commenter::input.dropdown>
                     </div>
                 </div>
             @endif
@@ -396,13 +396,13 @@
                                         size="sm"
                                     >
                                         {{__('Load')}}
-                                    </x-comments::button>
+                                    </x-commenter::button>
                                 </div>
                             @endif
                         </div>
                     @endif
                 </div>
-            </x-comments::modal>
+            </x-commenter::modal>
         </div>
     @endif
 </div>

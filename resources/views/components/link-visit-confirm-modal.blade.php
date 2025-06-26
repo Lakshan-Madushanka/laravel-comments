@@ -41,8 +41,8 @@
             <div x-show="isURLValid" @click="window.open(fullUrl, '_blank')" class="flex justify-end">
                 <x-commenter::button size="md" type="button">
                     {{ __('Visit Site') }}
-                </x-comments::button>
+                </x-commenter::button>
             </div>
         </div>
-    </x-comments::modal>
+    </x-commenter::modal>
 </div>

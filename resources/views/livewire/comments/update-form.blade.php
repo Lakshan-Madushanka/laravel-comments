@@ -22,10 +22,10 @@
     >
         <x-commenter::button wire:click="save" class="me-4" size="sm" dirtyTarget="text" loadingTarget="save">
             {{ __('Save') }}
-        </x-comments::button>
+        </x-commenter::button>
         <x-commenter::button wire:click="discard" size="sm" severity="info" type="button" loadingTarget="discard">
             {{ __('Discard') }}
-        </x-comments::button>
+        </x-commenter::button>
     </div>
 
     <div x-show="showMsg" x-transition>
