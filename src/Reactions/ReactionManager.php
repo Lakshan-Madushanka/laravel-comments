@@ -2,9 +2,7 @@
 
 namespace LakM\Commenter\Reactions;
 
-use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Message;
-use LakM\Commenter\Models\Reply;
 
 class ReactionManager
 {

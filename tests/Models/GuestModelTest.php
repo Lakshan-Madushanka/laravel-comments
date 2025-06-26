@@ -1,15 +1,11 @@
 <?php
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Commenter\Data\GuestData;
-use LakM\Commenter\ModelResolver;
-use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Guest;
-
 use LakM\Commenter\Models\Reply;
+
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\withoutExceptionHandling;
 
 it('can create a guest', function () {
     $guest = new GuestData(name: fake()->name, email: fake()->email);

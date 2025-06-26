@@ -4,7 +4,6 @@ use LakM\Commenter\ModelResolver;
 use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Reply;
 
-
 test('comment model is a child of base comment model', function () {
     expect(ModelResolver::commentModel())->toBeInstanceOf(Comment::class);
 });
