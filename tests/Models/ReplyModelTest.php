@@ -2,9 +2,8 @@
 
 use LakM\Commenter\Models\Reply;
 
-
 it('has replies relationship', function () {
-    $reply = new Reply;
+    $reply = new Reply();
     expect($reply->replies())->toBeInstanceOf(Illuminate\Database\Eloquent\Relations\MorphMany::class);
 });
 

@@ -4,8 +4,6 @@ namespace LakM\Commenter\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Commenter\ModelResolver as M;
 use LakM\Commenter\Models\Concerns\HasOwner;
 use LakM\Commenter\Models\Concerns\HasProfilePhoto;

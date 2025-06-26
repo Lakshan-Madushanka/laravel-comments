@@ -12,6 +12,7 @@ use LakM\Commenter\Tests\Fixtures\Post;
 use LakM\Commenter\Tests\Fixtures\User;
 use LakM\Commenter\Tests\Fixtures\Video;
 use LakM\Commenter\Tests\TestCase;
+
 use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');

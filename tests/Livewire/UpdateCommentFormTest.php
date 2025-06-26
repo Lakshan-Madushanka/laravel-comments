@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Event;
 use LakM\Commenter\Events\Comment\CommentUpdated;
 use LakM\Commenter\Livewire\Comments\UpdateForm;
+
 use function Pest\Livewire\livewire;
 
 it('can validate the form', function () {

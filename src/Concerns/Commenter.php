@@ -3,13 +3,11 @@
 namespace LakM\Commenter\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Commenter\ModelResolver;
 use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Concerns\HasProfilePhoto;
 use LakM\Commenter\Models\Concerns\HasReactions;
-use LakM\Commenter\Models\Reply;
 
 /**
  * @mixin Model

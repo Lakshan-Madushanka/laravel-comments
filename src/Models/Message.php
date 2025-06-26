@@ -3,6 +3,7 @@
 namespace LakM\Commenter\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -15,7 +16,6 @@ use LakM\Commenter\Contracts\CommenterContract;
 use LakM\Commenter\ModelResolver as M;
 use LakM\Commenter\Models\Concerns\HasOwner;
 use LakM\Commenter\Models\Concerns\HasProfilePhoto;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 /**
  * @property string $text

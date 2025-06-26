@@ -2,7 +2,6 @@
 
 namespace LakM\Commenter\Contracts;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Commenter\Models\Comment;
 
