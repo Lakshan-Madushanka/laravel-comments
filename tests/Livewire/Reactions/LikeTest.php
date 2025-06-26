@@ -1,6 +1,6 @@
 <?php
 
-use LakM\Comments\Livewire\ReactionManager;
+use LakM\Commenter\Livewire\ReactionManager;
 
 use function Pest\Livewire\livewire;
 

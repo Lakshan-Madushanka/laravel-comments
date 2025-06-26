@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\Comment\CommentUpdated;
-use LakM\Comments\Livewire\Comments\UpdateForm;
+use LakM\Commenter\Events\Comment\CommentUpdated;
+use LakM\Commenter\Livewire\Comments\UpdateForm;
 use function Pest\Livewire\livewire;
 
 it('can validate the form', function () {
@@ -28,7 +28,7 @@ it('dispatch a event when commit update discarded', function () {
 });
 
 it('can update a comment for authenticated user', function () {
-    config(['comments.guest_mode.enabled' => false]);
+    config(['commenter.guest_mode.enabled' => false]);
 
     Event::fake();
 
@@ -51,7 +51,7 @@ it('can update a comment for authenticated user', function () {
 });
 
 it('cannot update a comment for invalid authenticated user', function () {
-    config(['comments.guest_mode.enabled' => false]);
+    config(['commenter.guest_mode.enabled' => false]);
 
     Event::fake();
 
@@ -77,7 +77,7 @@ it('cannot update a comment for invalid authenticated user', function () {
 
 
 it('can update a comment for a guest', function () {
-    config(['comments.guest_mode.enabled' => true]);
+    config(['commenter.guest_mode.enabled' => true]);
 
     Event::fake();
 
@@ -99,7 +99,7 @@ it('can update a comment for a guest', function () {
 });
 
 it('cannot update a comment for a invalid guest', function () {
-    config(['comments.guest_mode.enabled' => true]);
+    config(['commenter.guest_mode.enabled' => true]);
 
     Event::fake();
 

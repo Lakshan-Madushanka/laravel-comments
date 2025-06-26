@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Enums;
+namespace LakM\Commenter\Enums;
 
 enum Sort: string
 {

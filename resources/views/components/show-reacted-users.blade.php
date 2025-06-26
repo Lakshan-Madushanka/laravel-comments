@@ -8,7 +8,7 @@
 
 <div class="absolute" x-show="showUsers" x-transition>
     <div class="{{ $attributes->get('wrapperClass') }} !absolute p-1" wire:loading wire:target="lastReactedUser">
-        <x-comments::spin />
+        <x-commenter::spin />
     </div>
 
     @if ($authMode && $lastReactedUserName)
@@ -32,7 +32,7 @@
                         @click="$dispatch('show-user-list', {id: '{{ $message->getKey() }}', type: '{{ $key }}'})"
                         class="w-full cursor-pointer pb-1 text-center"
                     >
-                        <x-comments::link type="popup">{{ __('show all') }}</x-comments::link>
+                        <x-commenter::link type="popup">{{ __('show all') }}</x-comments::link>
                     </span>
                 @endif
             </div>

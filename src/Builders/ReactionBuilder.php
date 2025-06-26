@@ -1,12 +1,12 @@
 <?php
 
-namespace LakM\Comments\Builders;
+namespace LakM\Commenter\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use LakM\Comments\Facades\SecureGuestMode;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Reaction;
+use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Reaction;
 
 /**
  * @template TModelClass of Reaction

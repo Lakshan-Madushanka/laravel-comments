@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Events\Reply\ReplyCreated;
-use LakM\Comments\Exceptions\ReplyLimitExceededException;
-use LakM\Comments\Livewire\Replies\ReplyForm;
-use LakM\Comments\Models\Comment;
+use LakM\Commenter\Events\Reply\ReplyCreated;
+use LakM\Commenter\Exceptions\ReplyLimitExceededException;
+use LakM\Commenter\Livewire\Replies\ReplyForm;
+use LakM\Commenter\Models\Comment;
 use function Pest\Livewire\livewire;
 
 it('render comment form', function () {
@@ -78,7 +78,7 @@ it('can validate text field', function () {
 
 
 it('shows email field when guest mode enabled', function ($emailEnabled, $guestMode) {
-    config(['comments.reply.email_enabled' => $emailEnabled]);
+    config(['commenter.reply.email_enabled' => $emailEnabled]);
 
     if (!$guestMode) {
         actAsAuth();
@@ -194,9 +194,9 @@ it('can limit comments creation for guest mode', function ($shouldLimit) {
     onGuestMode();
 
     if ($shouldLimit) {
-        config(['comments.reply.limit' => 1]);
+        config(['commenter.reply.limit' => 1]);
     } else {
-        config(['comments.reply.limit' => null]);
+        config(['commenter.reply.limit' => null]);
     }
 
     $video = \video();
@@ -241,9 +241,9 @@ it('can limit comments creation for auth mode', function ($shouldLimit) {
     $user = actAsAuth();
 
     if ($shouldLimit) {
-        config(['comments.reply.limit' => 1]);
+        config(['commenter.reply.limit' => 1]);
     } else {
-        config(['comments.reply.limit' => null]);
+        config(['commenter.reply.limit' => null]);
     }
 
     $video = \video();

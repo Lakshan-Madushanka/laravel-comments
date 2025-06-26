@@ -1,4 +1,4 @@
-@php use LakM\Comments\GuestModeRateLimiter; @endphp
+@php use LakM\Commenter\GuestModeRateLimiter; @endphp
 
 <div @logout.window="$wire.$refresh()">
     <div class="lakm_commenter w-full" method="POST">
@@ -6,7 +6,7 @@
 
         @if($guestEmailVerified)
             <div x-data="{show:true}">
-                <x-comments::modal>
+                <x-commenter::modal>
                     <div class="text-green-600 text-lg text-center font-bold p-4">Your email verified successfully!</div>
                 </x-comments::modal>
             </div>
@@ -14,7 +14,7 @@
         @if ($model->guestModeEnabled() && !$this->secureGuestMode->enabled())
             <div class="flex flex-col gap-x-8 sm:flex-row">
                 <div class="flex w-full flex-col">
-                    <x-comments::input
+                    <x-commenter::input
                         wire:model="name"
                         :shouldDisable="$limitExceeded"
                         placeholder="{{__('Comment as')}}"
@@ -27,9 +27,9 @@
                         @endif
                     </div>
                 </div>
-                @if (config('comments.guest_mode.email_enabled'))
+                @if (config('commenter.guest_mode.email_enabled'))
                     <div class="flex w-full flex-col">
-                        <x-comments::input
+                        <x-commenter::input
                             wire:model="email"
                             :shouldDisable="$limitExceeded"
                             type="email"
@@ -72,7 +72,7 @@
                 <div>
                     <span>
                         {{ __('Please') }}
-                        <x-comments::link
+                        <x-commenter::link
                             wire:click.prevent="redirectToLogin(window.location.href)"
                             class="font-bold text-blue-600"
                         >
@@ -87,7 +87,7 @@
                 <div x-data="{showEmailField: false}" id="verify-email-button">
                     <span x-show="!showEmailField" x-transition>
                         {{ __('Please') }}
-                        <x-comments::link
+                        <x-commenter::link
                             @click="showEmailField=true"
                             class="font-bold text-blue-600"
                             type="button"
@@ -100,7 +100,7 @@
                     <div x-show="showEmailField" x-transition class="flex flex-col gap-y-2">
                         <div class="flex flex-col gap-x-8 sm:flex-row">
                             <div class="flex w-full flex-col">
-                                <x-comments::input
+                                <x-commenter::input
                                     wire:model="name"
                                     placeholder="{{__('Comment as')}}"
                                 />
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <div class="flex w-full flex-col">
-                                <x-comments::input
+                                <x-commenter::input
                                     wire:model="email"
                                     type="email"
                                     placeholder="{{__('Email')}}"
@@ -130,7 +130,7 @@
 
                         @if(!$rateLimitExceeded)
                             <div wire:click="sendVerifyLink(window.location.href)">
-                                <x-comments::button size="sm"  loadingTarget="sendVerifyLink">
+                                <x-commenter::button size="sm"  loadingTarget="sendVerifyLink">
                                     Send Link
                                 </x-comments::button>
                             </div>
@@ -142,7 +142,7 @@
                     </div>
                 </div>
             @else
-                <x-comments::button wire:click="create" loadingTarget="create" class="w-full sm:w-auto">
+                <x-commenter::button wire:click="create" loadingTarget="create" class="w-full sm:w-auto">
                     {{ __('Create') }}
                 </x-comments::button>
             @endif

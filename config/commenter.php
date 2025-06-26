@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\User;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Reaction;
-use LakM\Comments\Policies\CommentPolicy;
-use LakM\Comments\Policies\ReplyPolicy;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Reaction;
+use LakM\Commenter\Policies\CommentPolicy;
+use LakM\Commenter\Policies\ReplyPolicy;
 
 return [
     /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace LakM\Comments\Livewire\Comments;
+namespace LakM\Commenter\Livewire\Comments;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use LakM\Comments\Actions\Comment\UpdateAction;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Helpers;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\ValidationRules;
+use LakM\Commenter\Actions\Comment\UpdateAction;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Helpers;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Mews\Purifier\Facades\Purifier;
@@ -81,6 +81,6 @@ class UpdateForm extends Component
 
     public function render()
     {
-        return view('comments::livewire.comments.update-form');
+        return view('commenter::livewire.comments.update-form');
     }
 }

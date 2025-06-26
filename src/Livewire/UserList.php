@@ -1,11 +1,11 @@
 <?php
 
-namespace LakM\Comments\Livewire;
+namespace LakM\Commenter\Livewire;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use LakM\Comments\Abstracts\AbstractQueries;
+use LakM\Commenter\Abstracts\AbstractQueries;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -100,6 +100,6 @@ class UserList extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.user-list', ['users' => $this->queries->usersStartWithName($this->search, $this->guestMode, $this->limit)]);
+        return view('commenter::livewire.user-list', ['users' => $this->queries->usersStartWithName($this->search, $this->guestMode, $this->limit)]);
     }
 }

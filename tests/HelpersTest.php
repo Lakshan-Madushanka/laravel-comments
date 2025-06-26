@@ -2,12 +2,12 @@
 
 
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Concerns\Commentable;
-use LakM\Comments\Concerns\Commenter;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Contracts\CommenterContract;
-use LakM\Comments\Exceptions\InvalidModelException;
-use LakM\Comments\Helpers;
+use LakM\Commenter\Concerns\Commentable;
+use LakM\Commenter\Concerns\Commenter;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Contracts\CommenterContract;
+use LakM\Commenter\Exceptions\InvalidModelException;
+use LakM\Commenter\Helpers;
 
 it('can validate commentable model', function () {
     $model1 = new class () extends Model implements CommentableContract {

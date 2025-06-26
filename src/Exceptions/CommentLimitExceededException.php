@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Exceptions;
+namespace LakM\Commenter\Exceptions;
 
 use Exception;
 

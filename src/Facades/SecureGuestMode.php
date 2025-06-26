@@ -1,16 +1,17 @@
 <?php
 
-namespace LakM\Comments\Facades;
+namespace LakM\Commenter\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use LakM\Commenter\SecureGuestModeManager;
 
 /**
- * @mixin \LakM\Comments\SecureGuestModeManager
+ * @mixin SecureGuestModeManager
  */
 class SecureGuestMode extends Facade
 {
-    public static function getFacadeAccessor()
+    public static function getFacadeAccessor(): string
     {
-        return \LakM\Comments\SecureGuestModeManager::class;
+        return SecureGuestModeManager::class;
     }
 }

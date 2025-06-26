@@ -4,13 +4,13 @@
     $class = $size === "sm" ? "!py-1 !px-2 !text-sm " : "py-1 px-2 text-sm lg:text-base lg:py-[0.4rem] lg:px-3 ";
 
     $severityClass = match ($severity) {
-        "info" => "hover:!bg-[" . config('comments.button_hover_color') . "] ",
-        "primary" => "hover:!bg-[" . config('comments.button_hover_color') . "] ",
+        "info" => "hover:!bg-[" . config('commenter.button_hover_color') . "] ",
+        "primary" => "hover:!bg-[" . config('commenter.button_hover_color') . "] ",
     };
 
      $severityStyle = match ($severity) {
-        "info" => 'background: ' . config('comments.button_color'),
-        "primary" => 'background: ' . config('comments.button_color'),
+        "info" => 'background: ' . config('commenter.button_color'),
+        "primary" => 'background: ' . config('commenter.button_color'),
     };
 @endphp
 
@@ -41,7 +41,7 @@
         @style([$severityStyle])
     >
         <span>{{ $slot }}</span>
-        <x-comments::spin color="white"/>
+        <x-commenter::spin color="white"/>
     </button>
 @endif
 
@@ -75,7 +75,7 @@
             @style([$severityStyle])
         >
             <span>{{ $slot }}</span>
-            <x-comments::spin color="white"/>
+            <x-commenter::spin color="white"/>
         </button>
     </div>
 @endif

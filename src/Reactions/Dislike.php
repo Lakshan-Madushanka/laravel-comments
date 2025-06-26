@@ -1,9 +1,9 @@
 <?php
 
-namespace LakM\Comments\Reactions;
+namespace LakM\Commenter\Reactions;
 
 use Illuminate\Support\Facades\DB;
-use LakM\Comments\Models\Reaction;
+use LakM\Commenter\Models\Reaction;
 
 class Dislike extends ReactionContract
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace LakM\Comments\Livewire\Concerns;
+namespace LakM\Commenter\Livewire\Concerns;
 
 use Illuminate\Support\Str;
-use LakM\Comments\Helpers;
+use LakM\Commenter\Helpers;
 
 trait HasSingleThread
 {

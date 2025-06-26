@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire\Comments;
+namespace LakM\Commenter\Livewire\Comments;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Actions\Comment\CreateAction;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Data\GuestData;
-use LakM\Comments\Data\MessageData;
-use LakM\Comments\Data\UserData;
-use LakM\Comments\Helpers;
-use LakM\Comments\SecureGuestModeManager;
-use LakM\Comments\ValidationRules;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Actions\Comment\CreateAction;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Data\GuestData;
+use LakM\Commenter\Data\MessageData;
+use LakM\Commenter\Data\UserData;
+use LakM\Commenter\Helpers;
+use LakM\Commenter\SecureGuestModeManager;
+use LakM\Commenter\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -210,7 +210,7 @@ class CreateForm extends Component
     public function redirectToLogin(string $redirectUrl): void
     {
         session(['url.intended' => $redirectUrl]);
-        $this->redirect(config('comments.login_route'));
+        $this->redirect(config('commenter.login_route'));
     }
 
     public function sendVerifyLink(string $url): void
@@ -234,6 +234,6 @@ class CreateForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.comments.create-form');
+        return view('commenter::livewire.comments.create-form');
     }
 }

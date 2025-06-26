@@ -1,19 +1,19 @@
 <?php
 
-namespace LakM\Comments\Actions\Reply;
+namespace LakM\Commenter\Actions\Reply;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Data\GuestData;
-use LakM\Comments\Data\MessageData;
-use LakM\Comments\Data\UserData;
-use LakM\Comments\Events\Reply\ReplyCreated;
-use LakM\Comments\ModelResolver;
-use LakM\Comments\Models\Message;
-use LakM\Comments\Models\Reply;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Data\GuestData;
+use LakM\Commenter\Data\MessageData;
+use LakM\Commenter\Data\UserData;
+use LakM\Commenter\Events\Reply\ReplyCreated;
+use LakM\Commenter\ModelResolver;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Reply;
 
 class CreateAction
 {
@@ -76,7 +76,7 @@ class CreateAction
 
     protected static function createForAuthUser(Message $message, MessageData $replyData): Reply
     {
-        $user = Auth::guard(config('comments.guard'))
+        $user = Auth::guard(config('commenter.guard'))
             ->user();
 
         /** @var Reply $reply */

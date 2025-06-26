@@ -18,7 +18,7 @@
 
     @script
     <script>
-        let editorConfig = @js(config('comments.editor_config'));
+        let editorConfig = @js(config('commenter.editor_config'));
         const quill = new Quill(`#${$wire.editorId}`, editorConfig);
 
         const editorElm = document.querySelector(`#${$wire.editorId} .ql-editor`);

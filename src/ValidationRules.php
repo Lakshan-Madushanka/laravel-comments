@@ -1,13 +1,13 @@
 <?php
 
-namespace LakM\Comments;
+namespace LakM\Commenter;
 
 use http\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Facades\SecureGuestMode;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Facades\SecureGuestMode;
 
 class ValidationRules
 {
@@ -62,12 +62,12 @@ class ValidationRules
      */
     private static function getCreateCommentRules(Model $model): array
     {
-        $commentModel = config('comments.model');
+        $commentModel = config('commenter.model');
         $guestTable = ModelResolver::guestModel()->getTable();
 
         return [
             'email' => [
-                new RequiredIf(($model->guestModeEnabled() && !SecureGuestMode::enabled()) && config('comments.guest_mode.email_enabled')),
+                new RequiredIf(($model->guestModeEnabled() && !SecureGuestMode::enabled()) && config('commenter.guest_mode.email_enabled')),
                 'nullable',
                 'email',
                 Rule::unique($guestTable, 'email')->ignore(request()->ip(), 'ip_address')

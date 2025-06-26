@@ -2,9 +2,9 @@
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Model;
-use LakM\Comments\Concerns\Commentable;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Tests\Fixtures\Post;
+use LakM\Commenter\Concerns\Commentable;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Tests\Fixtures\Post;
 
 it('can create a comment', function () {
     $post = Post::create(['name' => 'post1']);
@@ -45,7 +45,7 @@ it('can authorize to create comment in guest mode', function () {
 });
 
 it('takes priority guest mode of the model over guest mode in config', function () {
-    config(['comments.guest_mode.enabled' => true]);
+    config(['commenter.guest_mode.enabled' => true]);
 
     $post = new Post();
     $post->guestMode = false;
@@ -97,7 +97,7 @@ it('can authorize to edit comment for guest mode', function () {
 
 
 it('can get default comments sort order', function () {
-    config(['comments.default_sort' => Sort::LATEST]);
+    config(['commenter.default_sort' => Sort::LATEST]);
 
     $video = video();
 
@@ -105,7 +105,7 @@ it('can get default comments sort order', function () {
 });
 
 it('can get comments sort order defined in model', function () {
-    config(['comments.default_sort' => Sort::LATEST]);
+    config(['commenter.default_sort' => Sort::LATEST]);
 
     $video = video();
     $video->commmentsSortOrder = Sort::OLDEST;
@@ -114,7 +114,7 @@ it('can get comments sort order defined in model', function () {
 });
 
 it('can get default replies sort order', function () {
-    config(['comments.reply.default_sort' => Sort::LATEST]);
+    config(['commenter.reply.default_sort' => Sort::LATEST]);
 
     $video = video();
 
@@ -122,7 +122,7 @@ it('can get default replies sort order', function () {
 });
 
 it('can get replies sort order defined in model', function () {
-    config(['comments.default_sort' => Sort::LATEST]);
+    config(['commenter.default_sort' => Sort::LATEST]);
 
     $video = video();
     $video->commmentsSortOrder = Sort::OLDEST;

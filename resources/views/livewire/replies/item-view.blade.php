@@ -1,4 +1,4 @@
-@php use LakM\Comments\Helpers; @endphp
+@php use LakM\Commenter\Helpers; @endphp
 <div
     x-ref="reply{{ $reply->getKey() }}"
     @class([
@@ -6,7 +6,7 @@
        "border rounded-lg p-4" => Helpers::isModernTheme(),
    ])
     @style([
-        'color: ' . config('comments.secondary_color')
+        'color: ' . config('commenter.secondary_color')
     ])
 >
     <div
@@ -76,7 +76,7 @@
 
                         <span class="inline-block h-2 w-[1px] bg-black me-1"></span>
 
-                        @if (config('comments.date_format') === 'diff')
+                        @if (config('commenter.date_format') === 'diff')
                             <span
                                 class="text-xs"
                                 :title="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')">
@@ -100,10 +100,10 @@
                 @if ($canManipulate)
                     <div class="flex items-center justify-center gap-x-2">
                         <div title="{{__('My Reply')}}">
-                            <x-comments::user-check height="14" width="14"/>
+                            <x-commenter::user-check height="14" width="14"/>
                         </div>
 
-                        <x-comments::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500"/>
+                        <x-commenter::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500"/>
 
                         <div
                             x-data="{ showEditMenu: false }"
@@ -112,7 +112,7 @@
                             class="relative cursor-pointer"
                         >
                             <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                <x-comments::verticle-ellipsis :height="20" :width="20"/>
+                                <x-commenter::verticle-ellipsis :height="20" :width="20"/>
                             </div>
 
                             <ul
@@ -130,8 +130,8 @@
                                          "
                                         class="flex items-center gap-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
-                                        <x-comments::pencil height="13" width="13" strokeColor="blue"/>
-                                        <x-comments::action class="text-sm hover:!no-underline sm:text-sm">
+                                        <x-commenter::pencil height="13" width="13" strokeColor="blue"/>
+                                        <x-commenter::action class="text-sm hover:!no-underline sm:text-sm">
                                             {{ __('Edit') }}
                                         </x-comments::action>
                                     </li>
@@ -144,8 +144,8 @@
                                         @click="showEditMenu=false"
                                         class="flex items-center gap-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
-                                        <x-comments::trash height="13" width="13" strokeColor="red"/>
-                                        <x-comments::action
+                                        <x-commenter::trash height="13" width="13" strokeColor="red"/>
+                                        <x-commenter::action
                                             wire:loading.remove
                                             wire:target="delete({{$reply}})"
                                             class="!text-red align-text-bottom text-xs hover:!no-underline sm:text-sm"
@@ -209,7 +209,7 @@
         </div>
 
         {{-- Replies count--}}
-        @if (config('comments.reply.enabled'))
+        @if (config('commenter.reply.enabled'))
             <div
                 x-data="{replyCount: @js($replyCount), showReplyList: $wire.entangle('showReplyList')}"
                 @reply-created-{{ $reply->getKey() }}.window="
@@ -239,24 +239,24 @@
                     wire:click="loadReplies"
                     class="inline-block"
                 >
-                    <x-comments::link
+                    <x-commenter::link
                         type="popup"
                         @class([
                             "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
                             "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
-                            "hover:!bg-["  . config('comments.hover_color') . "]" =>  Helpers::isModernTheme(),
+                            "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
                             "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
                         ])
                         @style([
-                            'background: ' . config('comments.bg_primary_color') => Helpers::isModernTheme(),
+                            'background: ' . config('commenter.bg_primary_color') => Helpers::isModernTheme(),
                         ])
                     >
                         @if(!Helpers::isModernTheme())
                             <span x-show="!showReplyList">
-                                        <x-comments::icons.chevron-down />
+                                        <x-commenter::icons.chevron-down />
                                     </span>
                             <span x-show="showReplyList">
-                                        <x-comments::icons.chevron-up />
+                                        <x-commenter::icons.chevron-up />
                                     </span>
                         @endif
 
@@ -273,10 +273,10 @@
 
                         @if(Helpers::isModernTheme())
                             <span x-show="!showReplyList">
-                                        <x-comments::icons.list-down />
+                                        <x-commenter::icons.list-down />
                                     </span>
                             <span x-show="showReplyList">
-                                        <x-comments::icons.list-up />
+                                        <x-commenter::icons.list-up />
                                     </span>
                         @endif
                     </x-comments::link>

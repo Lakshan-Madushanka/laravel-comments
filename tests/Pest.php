@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Support\Str;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Models\Guest;
-use LakM\Comments\Models\Reaction;
-use LakM\Comments\Models\Reply;
-use LakM\Comments\Tests\Fixtures\Post;
-use LakM\Comments\Tests\Fixtures\User;
-use LakM\Comments\Tests\Fixtures\Video;
-use LakM\Comments\Tests\TestCase;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Guest;
+use LakM\Commenter\Models\Reaction;
+use LakM\Commenter\Models\Reply;
+use LakM\Commenter\Tests\Fixtures\Post;
+use LakM\Commenter\Tests\Fixtures\User;
+use LakM\Commenter\Tests\Fixtures\Video;
+use LakM\Commenter\Tests\TestCase;
 use function Pest\Laravel\actingAs;
 
 uses(TestCase::class, LazilyRefreshDatabase::class)->in('');
@@ -64,34 +64,34 @@ function video(): Video
 
 function onGuestMode($status = true, bool $secured = false): void
 {
-    config(['comments.guest_mode.enabled' => $status]);
-    config(['comments.guest_mode.secured' => $secured]);
+    config(['commenter.guest_mode.enabled' => $status]);
+    config(['commenter.guest_mode.secured' => $secured]);
 }
 
 function approvalRequired($comment = false, $reply = false): void
 {
-    config(['comments.approval_required' => $comment]);
-    config(['comments.reply.approval_required' => $reply]);
+    config(['commenter.approval_required' => $comment]);
+    config(['commenter.reply.approval_required' => $reply]);
 }
 
 function setPaginateForComments(int $count = null): void
 {
     if (is_null($count)) {
-        config(['comments.pagination.enabled' => false]);
+        config(['commenter.pagination.enabled' => false]);
         return;
     }
 
-    config(['comments.pagination.per_page' => $count]);
+    config(['commenter.pagination.per_page' => $count]);
 }
 
 function setPaginateForReplies(int $count = null): void
 {
     if (is_null($count)) {
-        config(['comments.reply.pagination.enabled' => false]);
+        config(['commenter.reply.pagination.enabled' => false]);
         return;
     }
 
-    config(['comments.reply.pagination.per_page' => $count]);
+    config(['commenter.reply.pagination.per_page' => $count]);
 }
 
 function createCommentsForAuthUser(User $user, Model $relatedModel, int $count = 1, array $data = []): Model|Collection

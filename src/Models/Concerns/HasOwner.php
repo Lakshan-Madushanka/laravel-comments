@@ -1,13 +1,13 @@
 <?php
 
-namespace LakM\Comments\Models\Concerns;
+namespace LakM\Commenter\Models\Concerns;
 
 trait HasOwner
 {
     public function ownerName(bool $isAuthMode): string
     {
         if ($isAuthMode) {
-            $col = config('comments.user_name_column');
+            $col = config('commenter.user_name_column');
         } else {
             $col = 'name';
         }
@@ -15,7 +15,7 @@ trait HasOwner
         $name = $this->{$this->userRelationshipName}->{$col};
 
         if (empty($name)) {
-            $name = config('comments.replace_null_name', '?');
+            $name = config('commenter.replace_null_name', '?');
         }
 
         return $name;

@@ -1,13 +1,13 @@
 <?php
 
-namespace LakM\Comments\Tests;
+namespace LakM\Commenter\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\CommentServiceProvider;
-use LakM\Comments\Models\Comment;
-use LakM\Comments\Tests\Fixtures\User;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\CommenterServiceProvider;
+use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Tests\Fixtures\User;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 use Mews\Purifier\PurifierServiceProvider;
@@ -22,7 +22,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->setUpDatabase($this->app);
 
         config(['honeypot.enabled' => false]);
-        config(['comments.user_model' => User::class]);
+        config(['commenter.user_model' => User::class]);
 
         AbstractQueries::$guest = null;
 
@@ -95,7 +95,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             LivewireServiceProvider::class,
-            CommentServiceProvider::class,
+            CommenterServiceProvider::class,
             HoneypotServiceProvider::class,
             PurifierServiceProvider::class,
         ];

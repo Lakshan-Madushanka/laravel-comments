@@ -3,9 +3,9 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
-use LakM\Comments\Enums\Sort;
-use LakM\Comments\Livewire\Comments\ListView;
-use LakM\Comments\Models\Comment;
+use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Livewire\Comments\ListView;
+use LakM\Commenter\Models\Comment;
 use function Pest\Laravel\travel;
 use function Pest\Livewire\livewire;
 
@@ -25,8 +25,8 @@ it('can render comment list in auth mode', function () {
 
 it('can render paginated comment list for auth user', function ($count) {
     onGuestMode(false);
-    config(['comments.approval_required' => false]);
-    config(['comments.pagination.per_page' => $count]);
+    config(['commenter.approval_required' => false]);
+    config(['commenter.pagination.per_page' => $count]);
 
     $user = actAsAuth();
     $video = \video();
@@ -48,9 +48,9 @@ it('can render paginated comment list for auth user', function ($count) {
 ]);
 
 it('can render paginated comment list for guest', function ($count) {
-    config(['comments.guest_mode.enabled' => true]);
-    config(['comments.approval_required' => false]);
-    config(['comments.pagination.per_page' => $count]);
+    config(['commenter.guest_mode.enabled' => true]);
+    config(['commenter.approval_required' => false]);
+    config(['commenter.pagination.per_page' => $count]);
 
     $video = \video();
 

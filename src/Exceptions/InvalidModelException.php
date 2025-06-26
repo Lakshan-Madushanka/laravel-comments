@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Exceptions;
+namespace LakM\Commenter\Exceptions;
 
 final class InvalidModelException extends \Exception
 {

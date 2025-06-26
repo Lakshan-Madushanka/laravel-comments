@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Data;
+namespace LakM\Commenter\Data;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Livewire\Wireable;

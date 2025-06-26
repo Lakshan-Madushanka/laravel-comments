@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Console\Concerns;
+namespace LakM\Commenter\Console\Concerns;
 
 use Exception;
 use Illuminate\Support\Facades\File;

@@ -1,6 +1,6 @@
 <?php
 
-namespace LakM\Comments\Livewire\Replies;
+namespace LakM\Commenter\Livewire\Replies;
 
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -8,16 +8,16 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
-use LakM\Comments\Abstracts\AbstractQueries;
-use LakM\Comments\Actions\Reply\CreateAction;
-use LakM\Comments\Contracts\CommentableContract;
-use LakM\Comments\Data\GuestData;
-use LakM\Comments\Data\MessageData;
-use LakM\Comments\Data\UserData;
-use LakM\Comments\Exceptions\ReplyLimitExceededException;
-use LakM\Comments\Models\Message;
-use LakM\Comments\SecureGuestModeManager;
-use LakM\Comments\ValidationRules;
+use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Actions\Reply\CreateAction;
+use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Data\GuestData;
+use LakM\Commenter\Data\MessageData;
+use LakM\Commenter\Data\UserData;
+use LakM\Commenter\Exceptions\ReplyLimitExceededException;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\SecureGuestModeManager;
+use LakM\Commenter\ValidationRules;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -230,12 +230,12 @@ class ReplyForm extends Component
 
     public function setApprovalRequired(): void
     {
-        $this->approvalRequired = config('comments.reply.approval_required');
+        $this->approvalRequired = config('commenter.reply.approval_required');
     }
 
     public function replyLimit(): ?int
     {
-        return config('comments.reply.limit');
+        return config('commenter.reply.limit');
     }
 
     private function setGuest(): void
@@ -270,7 +270,7 @@ class ReplyForm extends Component
     public function redirectToLogin(string $redirectUrl): void
     {
         session(['url.intended' => $redirectUrl]);
-        $this->redirect(config('comments.login_route'));
+        $this->redirect(config('commenter.login_route'));
     }
 
     #[On('show-create-reply-form-{message.id}')]
@@ -293,6 +293,6 @@ class ReplyForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('comments::livewire.replies.create-form');
+        return view('commenter::livewire.replies.create-form');
     }
 }
