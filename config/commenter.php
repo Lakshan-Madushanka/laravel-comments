@@ -32,20 +32,20 @@ return [
 
     /**
      * Comment Model
-     * Must extend base model LakM\Comments\Models\Comment
+     * Must extend base model LakM\Commenter\Models\Comment
      */
     'model' => Comment::class,
 
     /**
      * Comment owner model
      * Must extend Illuminate\Contracts\Auth\Authenticatable
-     * Must implement LakM\Comments\Contracts\CommenterContract
+     * Must implement LakM\Commenter\Contracts\CommenterContract
      */
     'user_model' => User::class,
 
     /**
      * Comment owner model in guest mode
-     * Must extend LakM\Comments\Models\Guest
+     * Must extend LakM\Commenter\Models\Guest
      */
     'guest_model' => Guest::class,
 
@@ -68,7 +68,7 @@ return [
 
     /**
      * Reaction model
-     * Must extend LakM\Comments\Models\Reaction
+     * Must extend LakM\Commenter\Models\Reaction
      */
     'reaction_model' => Reaction::class,
 
