@@ -10,9 +10,7 @@ use LakM\Commenter\Contracts\CommentableContract;
 use LakM\Commenter\Contracts\CommenterContract;
 use LakM\Commenter\Data\UserData;
 use LakM\Commenter\Enums\Sort;
-use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Message;
-use LakM\Commenter\Models\Reply;
 
 abstract class AbstractQueries
 {

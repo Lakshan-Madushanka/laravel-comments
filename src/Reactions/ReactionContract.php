@@ -14,11 +14,10 @@ abstract class ReactionContract
 {
     public function __construct(
         protected Message $message,
-        protected bool    $authMode,
-        protected mixed   $authId,
+        protected bool $authMode,
+        protected mixed $authId,
         protected ?string $type = null
-    )
-    {
+    ) {
     }
 
     public function createReaction(): Reaction

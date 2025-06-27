@@ -22,7 +22,6 @@ class Reaction extends ReactionContract
 
     protected function removeExistingReaction(): null|bool
     {
-
         return $this->reactionBuilder()
             ->where('type', $this->type)
             ->checkMode($this->authMode)
