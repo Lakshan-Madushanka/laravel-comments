@@ -145,7 +145,10 @@ Classes 've been grouped into relevant directories. As instance comment related 
 v3 introduces significant changes that will break the existing version if upgraded.
 Do followings before upgrade to v3 from v2.
 
-1). [Update the database](#database)
-2). Undo the [step 3](https://lakm.gitbook.io/commenter/v2/basics/installation#step-3) and all the steps in [usage section](https://lakm.gitbook.io/commenter/v2/basics/usage)
-3). Remove the v2
-4). Reinstall and set up the package as instructed in v3 [installation](https://lakm.gitbook.io/commenter/basics/installation) section and [usage section](https://lakm.gitbook.io/commenter/basics/usage)
+1️⃣ [Update the database](#database)
+
+2️⃣ Undo the [step 3](https://lakm.gitbook.io/commenter/v2/basics/installation#step-3) and all the steps in [usage section](https://lakm.gitbook.io/commenter/v2/basics/usage)
+
+3️⃣ Remove the v2
+
+4️⃣ Reinstall and set up the package as instructed in v3 [installation](https://lakm.gitbook.io/commenter/basics/installation) section and [usage section](https://lakm.gitbook.io/commenter/basics/usage)
