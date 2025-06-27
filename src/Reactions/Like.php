@@ -3,7 +3,6 @@
 namespace LakM\Commenter\Reactions;
 
 use Illuminate\Support\Facades\DB;
-use LakM\Commenter\Builders\ReactionBuilder;
 use LakM\Commenter\Models\Reaction;
 
 class Like extends ReactionContract
