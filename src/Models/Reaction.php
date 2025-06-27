@@ -12,6 +12,9 @@ use LakM\Commenter\ModelResolver;
 use LakM\Commenter\Models\Concerns\HasOwner;
 use LakM\Commenter\Models\Concerns\HasProfilePhoto;
 
+/**
+ * @method static ReactionBuilder|static query()
+ */
 class Reaction extends Model
 {
     use HasOwner;

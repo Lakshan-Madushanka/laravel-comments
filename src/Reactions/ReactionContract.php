@@ -3,6 +3,7 @@
 namespace LakM\Commenter\Reactions;
 
 use Illuminate\Database\Eloquent\Model;
+use LakM\Commenter\Builders\ReactionBuilder;
 use LakM\Commenter\Data\GuestData;
 use LakM\Commenter\ModelResolver;
 use LakM\Commenter\Models\Guest;
@@ -13,10 +14,11 @@ abstract class ReactionContract
 {
     public function __construct(
         protected Message $message,
-        protected bool $authMode,
-        protected mixed $authId,
+        protected bool    $authMode,
+        protected mixed   $authId,
         protected ?string $type = null
-    ) {
+    )
+    {
     }
 
     public function createReaction(): Reaction
@@ -37,6 +39,19 @@ abstract class ReactionContract
             $data['owner_type'] = $guest->getMorphClass();
         }
 
-        return $this->message->reactions()->create($data);
+        /** @var Reaction $reaction */
+        $reaction =  $this->message->reactions()->create($data);
+
+        return $reaction;
+    }
+
+    public function reactionBuilder(): ReactionBuilder
+    {
+        /** @var ReactionBuilder $reactionBuilder */
+        $reactionBuilder = $this->message
+            ->reactions()
+            ->getQuery();
+
+        return $reactionBuilder;
     }
 }

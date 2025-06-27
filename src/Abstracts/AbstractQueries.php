@@ -60,10 +60,10 @@ abstract class AbstractQueries
     abstract public static function addCount(): array;
 
     /**
-     * @param  Reply|Comment  $comment
-     * @param  string  $reactionType
-     * @param  int  $limit
-     * @param  bool  $authMode
+     * @param Message $message
+     * @param string $reactionType
+     * @param int $limit
+     * @param bool $authMode
      * @return \Illuminate\Support\Collection<int, UserData>
      */
     abstract public static function reactedUsers(

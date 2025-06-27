@@ -3,6 +3,7 @@
 namespace LakM\Commenter\Reactions;
 
 use Illuminate\Support\Facades\DB;
+use LakM\Commenter\Builders\ReactionBuilder;
 use LakM\Commenter\Models\Reaction;
 
 class Dislike extends ReactionContract
@@ -24,8 +25,7 @@ class Dislike extends ReactionContract
 
     protected function removeLike(): null|bool
     {
-        return $this->message
-            ->reactions()
+        return $this->reactionBuilder()
             ->checkMode($this->authMode)
             ->where('type', 'like')
             ->first()
@@ -34,8 +34,7 @@ class Dislike extends ReactionContract
 
     protected function removeExistingDislike(): null|bool
     {
-        return $this->message
-            ->reactions()
+        return $this->reactionBuilder()
             ->checkMode($this->authMode)
             ->where('type', 'dislike')
             ->first()

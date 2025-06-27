@@ -48,13 +48,13 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param Builder $query
+     * @param MessageBuilder $query
      * @param Model&CommentableContract $relatedModel
      * @param Sort $sortBy
      * @param string $filter
-     * @return Builder<MessageBuilder<Comment>>
+     * @return MessageBuilder<Comment>
      */
-    public static function applyFilters(Builder $query, Model $relatedModel, Sort $sortBy, string $filter): Builder
+    public static function applyFilters(MessageBuilder $query, Model $relatedModel, Sort $sortBy, string $filter): MessageBuilder
     {
         return $query->currentUserFilter($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
@@ -141,7 +141,7 @@ class Queries extends AbstractQueries
     }
 
     /**
-     * @param Reply|Comment $comment
+     * @param Message $message
      * @param string $reactionType
      * @param int $limit
      * @param bool $authMode

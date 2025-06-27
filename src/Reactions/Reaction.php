@@ -3,6 +3,7 @@
 namespace LakM\Commenter\Reactions;
 
 use Illuminate\Support\Facades\DB;
+use LakM\Commenter\Models\Reaction as ReactionModel;
 
 class Reaction extends ReactionContract
 {
@@ -21,15 +22,15 @@ class Reaction extends ReactionContract
 
     protected function removeExistingReaction(): null|bool
     {
-        return $this->message
-            ->reactions()
+
+        return $this->reactionBuilder()
             ->where('type', $this->type)
             ->checkMode($this->authMode)
             ->first()
             ?->delete();
     }
 
-    protected function create(): \LakM\Comments\Models\Reaction
+    protected function create(): ReactionModel
     {
         return $this->createReaction();
     }
