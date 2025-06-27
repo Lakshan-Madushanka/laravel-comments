@@ -90,7 +90,16 @@ Following tables have changed their structures.
 ***This adds an additional `reply_type` column, so you’ll need to add that column and update the morph type of existing records in your comments table.***
 
 > [!important]
-> The class namespace has changed ([refer]). Therefore, you must update the morph types in your existing table records—unless you’re using morph maps.
+> The class namespace has changed ([refer]). Therefore, you must update the following morph types in your existing table records—unless you’re using morph maps.
+
+ | Table                         | Column           |   Old Morph Type                   | New Morph Type                 |
+ |-------------------------------|------------------|------------------------------------|--------------------------------|
+ | comments                      | reply_type       | -                                  | LakM\Commenter\Models\Comment  |
+ | comments (guest mode only)    | commenter_type   | LakM\Comments\Models\Guest         | LakM\Commenter\Models\Guest    |  
+ | reactions (guest mode only)   | owner_type       | LakM\Comments\Models\Guest         | LakM\Commenter\Models\Guest    |
+ 
+ 
+ 
 
 ### Namespace
 The package namespace has been changed from `LakM\Commets` to `LakM\Commenter`. 
@@ -130,3 +139,13 @@ Classes 've been grouped into relevant directories. As instance comment related 
 
 - config file is now `commenter.php` under commenter namespace in publishable assets.
 - All the other publishable assets including Assets, Views are published to `vendor/lakm/commenter` directory.
+
+### Conclusion
+
+v3 introduces significant changes that will break the existing version if upgraded.
+Do followings before upgrade to v3 from v2.
+
+1). [Update the database](#database)
+2). Undo the [step 3](https://lakm.gitbook.io/commenter/v2/basics/installation#step-3) and all the steps in [usage section](https://lakm.gitbook.io/commenter/v2/basics/usage)
+3). Remove the v2
+4). Reinstall and set up the package as instructed in v3 [installation](https://lakm.gitbook.io/commenter/basics/installation) section and [usage section](https://lakm.gitbook.io/commenter/basics/usage)
