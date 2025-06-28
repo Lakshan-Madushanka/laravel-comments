@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 2.3.7 - 2025-06-28
+
+### What's Changed
+
+- Fix: Symfony error when running install command [003478d](https://github.com/Lakshan-Madushanka/commenter/commit/003478d0e2d93af806bea2c129ac519d9fed6017), [discussion](#138)
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/commenter/compare/2.3.6...2.3.7
+
 ## 2.3.0 - 2025-03-06
 
 ### What's Changed
