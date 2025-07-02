@@ -11,7 +11,7 @@ trait BuildAssets
 {
     protected function buildAssets(): bool
     {
-        $basePath = base_path('vendor/lakm/commenter/');
+        $basePath = base_path('vendor/lakm/laravel-comments/');
 
         try {
             // Clear build directory if exists
