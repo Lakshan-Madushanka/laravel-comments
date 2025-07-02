@@ -1,5 +1,5 @@
 {
-    "name": "lakm/commenter",
+    "name": "lakm/laravel-comments",
     "description": "Integrate seamless commenting functionality into your Laravel project.",
     "keywords": [
         "laravel",
