@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 3.0.1 - 2025-07-02
+
+### What's Changed
+
+* fix: failing install command by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/140
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/3.0.0...3.0.1
+
 ## 2.3.0 - 2025-03-06
 
 ### What's Changed
