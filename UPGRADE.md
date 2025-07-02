@@ -102,10 +102,10 @@ Following tables have changed their structures.
  
 
 ### Namespace
-The package namespace has been changed from `LakM\Commets` to `LakM\Commenter`. 
+The package namespace has been changed from `LakM\Comments` to `LakM\Commenter`. 
 
 ***You have to change your existing code to use the new namespace. specially in Commentable Model and
-Commenter Model[refer](https://lakm.gitbook.io/commenter/basics/usage)***
+Commenter Model [refer](https://lakm.gitbook.io/commenter/basics/usage)***
 
 ### Asset Directives
 
