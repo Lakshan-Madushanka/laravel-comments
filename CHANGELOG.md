@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 3.0.2 - 2025-07-03
+
+### What's Changed
+
+* fix: Undefined array key commenter #142 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/144
+* fix: not loading published views #143 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/145
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/3.0.1...3.0.2
+
 ## 3.0.1 - 2025-07-02
 
 ### What's Changed
