@@ -10,7 +10,7 @@ trait HasProfilePhoto
 
         if ($col) {
             if (isset($this->userRelationshipName)) {
-                if ($url = $this->getRelation($this->userRelationshipName)->{$col}) {
+                if ($url = $this->{$this->userRelationshipName}->{$col}) {
                     return $url;
                 }
             }
