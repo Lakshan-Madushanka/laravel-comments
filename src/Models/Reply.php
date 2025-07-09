@@ -38,4 +38,9 @@ class Reply extends Message
     {
         return $this->belongsTo(M::commentClass());
     }
+
+      public function commentable(): MorphTo
+  {
+      return $this->morphTo();
+  }
 }
