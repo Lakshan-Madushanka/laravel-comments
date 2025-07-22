@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 3.0.3 - 2025-07-22
+
+### What's Changed
+
+* feat: add commentable relationship in Reply.php by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/148
+* Security: update livewire version to ^3.6.4 to refrain from Livewire remote command execution during property update hydration by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/149
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/3.0.2...3.0.3
+
 ## 3.0.2 - 2025-07-03
 
 ### What's Changed
