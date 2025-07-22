@@ -66,3 +66,17 @@ it('can retrieve nested replies', function () {
             ->and($nestedReply->reply_type)->toBe($firstNestedReply->getMorphClass());
     });
 });
+
+it('it can obtain the parent comment model', function () {
+    $post = post();
+    $user = actAsAuth();
+
+    $comment = createCommentsForAuthUser($user, $post);
+
+    $reply = createCommentRepliesForAuthMode($comment, $user);
+
+    expect($reply->commentable)
+        ->toBeInstanceOf(LakM\Commenter\Models\Comment::class)
+        ->and($reply->commentable)
+        ->id->toBe($comment->getKey());
+});
