@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 3.0.5 - 2025-07-28
+
+### What's Changed
+
+* Fix/binding by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/152
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/3.0.4...3.0.5
+
 ## 3.0.4 - 2025-07-28
 
 ### What's Changed
