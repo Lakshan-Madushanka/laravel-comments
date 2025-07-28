@@ -180,6 +180,12 @@ return [
     ],
 
     /**
+     * whether comment-list should be lazy loaded
+     * see https://livewire.laravel.com/docs/lazy
+     */
+    'lazy_loading' => true,
+
+    /**
      * Quill editor configs
      * @see https://quilljs.com/docs/configuration
      */
