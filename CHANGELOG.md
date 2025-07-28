@@ -1,5 +1,13 @@
 # Documentation of the changes
 
+## 3.0.4 - 2025-07-28
+
+### What's Changed
+
+* Feat: Ability to disable lazy loading by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/151
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/3.0.3...3.0.4
+
 ## 3.0.3 - 2025-07-22
 
 ### What's Changed
