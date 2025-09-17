@@ -27,6 +27,7 @@ A Laravel package that brings powerful commenting functionality to your apps ðŸ˜
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Lakshan-Madushanka/laravel-comments/run-tests.yml)](https://github.com/Lakshan-Madushanka/laravel-comments/actions?query=workflow%3ATests+branch%3Amain)
 [![Packagist Version](https://img.shields.io/packagist/v/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
 [![Downloads](https://img.shields.io/packagist/dt/lakm/laravel-comments)](https://packagist.org/packages/lakm/laravel-comments)
+[![Monthly Downloads](https://poser.pugx.org/lakm/laravel-comments/d/monthly)](https://packagist.org/packages/lakm/laravel-comments)
 [![GitHub License](https://img.shields.io/github/license/Lakshan-Madushanka/laravel-comments)](https://github.com/Lakshan-Madushanka/laravel-comments/blob/main/LICENSE.md)
 
 </div>
@@ -208,4 +209,5 @@ If you find value in this project, please consider supporting it by visiting the
 - [TrueReviewer](https://truereviewer.netlify.app) 
 
 We often find that the majority of packages using Commenter also require a review and rating system. With our [TrueReviewer](https://truereviewer.netlify.app) package, you can seamlessly integrate a complete review and rating solution into your project without breaking a sweat.
+
 
