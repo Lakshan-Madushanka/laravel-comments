@@ -129,7 +129,7 @@ Include styles in your layout.
 ```html
 <html>
     <head>
-        @commentsStyles
+        @commenterStyles
     </head>
 </html>
 ```
@@ -139,7 +139,7 @@ Include scripts in your layout.
 ```html
 <html>
     <body>
-        @commentsScripts
+        @commenterScripts
     </body>
 </html>
 ```
