@@ -23,6 +23,7 @@ use LakM\Commenter\Models\Concerns\HasProfilePhoto;
  * @property string $guest_email
  * @property string $ip_address
  * @property bool $approved
+ * @property bool $is_pinned
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property (User|Guest)&CommenterContract $commenter
@@ -46,6 +47,7 @@ class Message extends Model
 
     protected $casts = [
         'approved' => 'bool',
+        'is_pinned' => 'bool',
     ];
 
     public function getTable()
