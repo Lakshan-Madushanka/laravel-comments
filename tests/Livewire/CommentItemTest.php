@@ -130,6 +130,24 @@ it('shows pin message option', function () {
         ->assertOk();
 });
 
+it('shows unpin message option for already pinned comment', function () {
+    onGuestMode(false);
+
+    authorizePinMessage();
+
+    $user = actAsAuth();
+    $video = video();
+    $comment = createCommentsForAuthUser($user, $video);
+    $comment->is_pinned = true;
+    $comment->save();
+
+    $comment->replies_count = 0;
+
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertSeeText(__('Unpin'))
+        ->assertOk();
+});
+
 it('doesn\'t show pin message option when disabled', function () {
     onGuestMode(false);
 
