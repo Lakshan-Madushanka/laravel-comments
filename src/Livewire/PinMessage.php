@@ -26,6 +26,8 @@ class PinMessage extends Component
         Gate::authorize('pin-message', [$this->commentable, $this->msg]);
 
         $action->execute($this->commentable, $this->msg);
+
+        $this->dispatch('message-pinned');
     }
 
     public function render(): View

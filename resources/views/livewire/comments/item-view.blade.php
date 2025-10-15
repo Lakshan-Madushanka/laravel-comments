@@ -140,6 +140,12 @@
                                     x-transition
                                     class="absolute bottom-[1rem] end-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                                 >
+                                    @if(Helpers::canPinMsg($model, $comment))
+                                        <li>
+                                            <livewire:pin-message :commentable="$model" :msg="$comment"/>
+                                        </li>
+                                    @endif
+
                                     @if ($model->canEditComment($comment))
                                         <li
                                             @click="showUpdateForm = !showUpdateForm; showEditMenu=false"

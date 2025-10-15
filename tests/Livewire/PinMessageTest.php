@@ -10,7 +10,7 @@ it('can render the pin component', function () {
     $comment = createCommentsForAuthUser(user(), $video);
 
     livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
-        ->assertSeeText('pin')
+        ->assertSeeText(__('Pin'))
         ->assertOk();
 });
 
@@ -45,6 +45,7 @@ it('can pin comment', function () {
 
     livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
         ->call('pin')
+        ->assertDispatched('message-pinned')
         ->assertOk();
 
     $pinComment = $video->comments()->where(['is_pinned' => true])->first();
@@ -129,6 +130,7 @@ it('can pin reply', function () {
 
     livewire(PinMessage::class, ['commentable' => $video, 'msg' => $reply])
         ->call('pin')
+        ->assertDispatched('message-pinned')
         ->assertOk();
 
     $pinReply = Comment::query()->where(['is_pinned' => true])->first();
