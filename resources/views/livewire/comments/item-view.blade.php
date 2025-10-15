@@ -118,7 +118,11 @@
                     </div>
 
                     @if ($canManipulate)
-                        <div class="flex items-center justify-center gap-x-2">
+                        <div class="relative flex items-center justify-center gap-x-2">
+                            @if ($comment->is_pinned)
+                                <span class="absolute top-[-26px] right-0 font-bold text-sm">{{__('Pinned')}}</span>
+                            @endif
+
                             <div title="{{ __('My Comment') }}">
                                 <x-commenter::user-check height="14" width="14" />
                             </div>
@@ -141,8 +145,14 @@
                                     class="absolute bottom-[1rem] end-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                                 >
                                     @if(Helpers::canPinMsg($model, $comment))
-                                        <li>
-                                            <livewire:pin-message :commentable="$model" :msg="$comment"/>
+                                        <li
+                                            @click="showEditMenu=false"
+                                            @class([
+                                                "hover:!bg-[" . config('commenter.hover_color') . "]" ,
+                                                "flex items-center gap-x-2 rounded dark:hover:!bg-slate-900"
+                                            ])
+                                        >
+                                            <livewire:pin-message :commentable="$model" :msg="$comment" />
                                         </li>
                                     @endif
 
@@ -155,7 +165,7 @@
                                             ])
                                         >
                                             <x-commenter::pencil height="13" width="13"
-                                                                strokeColor="{{config('commenter.primary_color')}}" />
+                                                                 strokeColor="{{config('commenter.primary_color')}}" />
 
                                             <x-commenter::action class="text-xs hover:!no-underline sm:text-sm">
                                                 {{ __('Edit') }}

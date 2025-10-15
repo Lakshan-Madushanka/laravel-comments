@@ -100,7 +100,7 @@
                     </x-commenter::link>
                 @else
                     <x-commenter::link class="dark:!text-white !border-b-0" type="a"
-                                      route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
+                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
                 @endif
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
@@ -114,6 +114,16 @@
         <div class="basis-14"></div>
         <x-commenter::spin class="!size-5" />
     </div>
+
+    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Comment)
+        <div class='shadow-xl'>
+            <livewire:comments.item-view :key="'pinned-comment'. $this->pinnedMsg" :comment="$this->pinnedMsg" :$guestMode :$model :$showReplyList />
+        </div>
+    @endif
+
+    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Reply)
+        {{$this->pinnedMsg->text}} reply
+    @endif
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
