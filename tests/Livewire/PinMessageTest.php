@@ -201,3 +201,23 @@ it('remove previous pinned comment when new reply is pinned', function () {
         ->and($pinReply->reply_id)->toBe($comment->getKey())
         ->and($pinReply->is_pinned)->toBeTrue();
 });
+
+it('remove already pinned message', function () {
+    authorizePinMessage();
+
+    $user = user();
+    $video = video();
+
+    $comment = createCommentsForAuthUser($user, $video);
+
+    $comment->is_pinned = true;
+    $comment->save();
+
+    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+        ->call('pin')
+        ->assertOk();
+
+    $pinReplies = Comment::query()->where(['is_pinned' => true])->get();
+
+    expect($pinReplies)->toHaveCount(0);
+});

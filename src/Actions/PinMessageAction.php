@@ -17,11 +17,17 @@ class PinMessageAction
 {
     public function execute(CommentableContract $commentable, Message $msg): void
     {
-        $this->removeExistingPinComments($commentable);
-        $this->removeExistingPinReplies($commentable);
+        DB::transaction(function () use ($commentable, $msg) {
+            $this->removeExistingPinComments($commentable);
+            $this->removeExistingPinReplies($commentable);
 
-        $msg->is_pinned = true;
-        $msg->save();
+            if ($msg->is_pinned) {
+                return;
+            }
+
+            $msg->is_pinned = true;
+            $msg->save();
+        });
     }
 
     /**
