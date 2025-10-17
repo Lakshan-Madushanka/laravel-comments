@@ -18,9 +18,9 @@
     @class([
           "flex flex-row items-center justify-center rounded-md px-1 py-[2px]",
           "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
-          "border hover:!bg-gray-200 dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
-          "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
-          "!rounded-[1000px] !py-1 !px-2 dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
+          "border hover:bg-gray-200! no-dark:border-slate-700 no-dark:hover:bg-slate-900!" => Helpers::isDefaultTheme(),
+          "dark:bg-slate-900! no-dark:hover:bg-slate-600!" => Helpers::isGithubTheme(),
+          "rounded-[1000px]! py-1! px-2! no-dark:bg-slate-900! no-dark:hover:bg-slate-600!" => Helpers::isModernTheme(),
     ])
     @style([
           'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -74,7 +74,7 @@
         :$key
         :$message
         :$authMode
-        class="!bottom-[-4.8rem] start-[-12rem]"
-        wrapperClass="start-[-0.8rem] bottom-[-3rem]"
+        class="bottom-[-4.8rem]! -start-48"
+        wrapperClass="start-[-0.8rem] -bottom-12"
     />
 </div>

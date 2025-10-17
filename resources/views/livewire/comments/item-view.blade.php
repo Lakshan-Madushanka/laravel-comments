@@ -4,7 +4,7 @@
     x-ref="comment{{ $comment->getKey() }}"
     x-data="{ showReplyList: @js($showReplyList), replyCount: @js($comment->replies_count) }"
     @class([
-        "flex gap-x-2 sm:gap-x-4 pb-2 dark:!bg-black dark:!text-white",
+        "flex gap-x-2 sm:gap-x-4 pb-2 no-dark:bg-black! no-dark:text-white!",
         "border rounded-lg p-4" => Helpers::isModernTheme(),
     ])
     @style([
@@ -39,21 +39,21 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
+                "rounded-sm border border-gray-200 no-dark:border-slate-700" => Helpers::isGithubTheme(),
                 "flex w-full gap-x-4" => Helpers::isModernTheme(),
             ])
         >
             <div
                 @class([
                     "hidden md:block md:w-[4%] rounded-xl",
-                    '!hidden' => !Helpers::isModernTheme(),
+                    'hidden!' => !Helpers::isModernTheme(),
                 ])
                 @style([
                     'background: ' . config('commenter.bg_primary_color')
                 ])
             >
                 <div
-                    class="h-full flex items-center justify-center font-bold dark:text-black"
+                    class="h-full flex items-center justify-center font-bold no-dark:text-black"
                 >
                     {{$comment->score}}
                 </div>
@@ -63,7 +63,7 @@
                 <div
                     @class([
                         "flex items-center justify-between p-1",
-                        "mb-2 border-b border-gray-100 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme()
+                        "mb-2 border-b border-gray-100 bg-gray-100 no-dark:bg-slate-800 no-dark:border-slate-900" => Helpers::isGithubTheme()
                     ])
                 >
                     <div
@@ -94,7 +94,7 @@
                                 {{ Str::limit($comment->ownerName($authMode), 25) }}
                             </span>
 
-                            <span class="inline-block h-2 w-[1px] bg-black me-1"></span>
+                            <span class="inline-block h-2 w-px bg-black me-1"></span>
 
                             @if (config('commenter.date_format') === 'diff')
                                 <span
@@ -111,7 +111,7 @@
                             @endif
 
                             @if ($comment->isEdited())
-                                <span class="inline-block h-2 w-[1px] bg-black"></span>
+                                <span class="inline-block h-2 w-px bg-black"></span>
                                 <span class="text-xs">{{ __('Edited') }}</span>
                             @endif
                         </div>
@@ -123,7 +123,7 @@
                                 <x-commenter::user-check height="14" width="14" />
                             </div>
 
-                            <x-commenter::spin wire:loading wire:target="delete({{$comment}})" class="!text-blue-500" />
+                            <x-commenter::spin wire:loading wire:target="delete({{$comment}})" class="text-blue-500!" />
 
                             <div
                                 x-data="{ showEditMenu: false }"
@@ -138,20 +138,20 @@
                                     x-show="showEditMenu"
                                     @click.outside="showEditMenu=false"
                                     x-transition
-                                    class="absolute bottom-[1rem] end-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
+                                    class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded-sm border  bg-white no-dark:border-slate-900 no-dark:bg-slate-800 p-1 shadow-lg"
                                 >
                                     @if ($model->canEditComment($comment))
                                         <li
                                             @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
                                             @class([
                                                 "hover:!bg-[" . config('commenter.hover_color') . "]",
-                                                "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
+                                                "flex items-center gap-x-2 rounded-sm p-2 no-dark:hover:bg-slate-900!"
                                             ])
                                         >
                                             <x-commenter::pencil height="13" width="13"
                                                                 strokeColor="{{config('commenter.primary_color')}}" />
 
-                                            <x-commenter::action class="text-xs hover:!no-underline sm:text-sm">
+                                            <x-commenter::action class="text-xs hover:no-underline! sm:text-sm">
                                                 {{ __('Edit') }}
                                             </x-commenter::action>
                                         </li>
@@ -164,14 +164,14 @@
                                             @click="showEditMenu=false"
                                             @class([
                                                 "hover:!bg-[" . config('commenter.hover_color') . "]",
-                                                "flex items-center gap-x-2 rounded p-2 dark:hover:!bg-slate-900"
+                                                "flex items-center gap-x-2 rounded-sm p-2 no-dark:hover:bg-slate-900!"
                                             ])
                                         >
                                             <x-commenter::trash height="13" width="13" strokeColor="red" />
                                             <x-commenter::action
                                                 wire:loading.remove
                                                 wire:target="delete({{$comment}})"
-                                                class="!text-red align-text-bottom text-xs hover:!no-underline sm:text-sm"
+                                                class="!text-red align-text-bottom text-xs hover:no-underline! sm:text-sm"
                                             >
                                                 {{ __('Delete') }}
                                             </x-commenter::action>
@@ -205,7 +205,7 @@
                 </div>
 
                 <div
-                    class="flex bg-gray-200 my-4 justify-center items-center h-[1px] max-w-[10%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+                    class="flex bg-gray-200 my-4 justify-center items-center h-px max-w-[10%] mx-auto bg-linear-to-r from-transparent via-gray-100 to-transparent">
                 </div>
 
                 <!--Reaction manager -->
@@ -250,10 +250,10 @@
                             <x-commenter::link
                                 type="popup"
                                 @class([
-                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
-                                    "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
+                                    "mx-2 no-dark:text-white! inline-flex text-sm items-center transition no-dark:bg-slate-900! no-dark:hover:bg-slate-800! *:pe-1",
+                                    "mx-0! px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
                                     "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
-                                    "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
+                                    "rounded-[1000px]! hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
                                 ])
                                 @style([
                                     'background: ' . config('commenter.bg_primary_color') => Helpers::isModernTheme(),
@@ -272,7 +272,7 @@
                                     x-text="replyCount"
                                     @class([
                                         "inline-block text-center",
-                                        "border text-xs !py-1 !px-2 rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
+                                        "border text-xs py-1! px-2! rounded-full bg-white no-dark:bg-slate-800" => Helpers::isModernTheme(),
                                     ])
                                 >
 
@@ -299,12 +299,12 @@
             x-show="showReplyList"
             x-transtion
             @class([
-                "ms-[-2rem] mt-4 sm:ms-4",
-                "!mt-4 sm:!ms-4" => Helpers::isModernTheme()
+                "-ms-8 mt-4 sm:ms-4",
+                "mt-4! sm:ms-4!" => Helpers::isModernTheme()
             ])
         >
             <div
-                class="flex bg-gray-200 mb-6 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+                class="flex bg-gray-200 mb-6 justify-center items-center h-px max-w-full mx-auto bg-linear-to-r from-transparent via-gray-100 to-transparent">
             </div>
 
             <livewire:replies.list-view

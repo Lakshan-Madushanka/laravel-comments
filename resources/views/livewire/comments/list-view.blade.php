@@ -10,7 +10,7 @@
     class="lakm_commenter space-y-6"
 >
     <div
-        class="text-lg font-bold dark:!text-white"
+        class="text-lg font-bold no-dark:text-white!"
         @style([
             'color: ' . config('commenter.primary_color'),
         ])
@@ -18,7 +18,7 @@
         {{ __('Comments') }}
         <span x-text="getTotal()"></span>
     </div>
-    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between !-mb-2">
+    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between -mb-2!">
         @if (($total > 1 || $filter === 'own') && config('commenter.show_filters'))
             <div @class([
                     "flex gap-x-4 overflow-auto",
@@ -27,32 +27,32 @@
             >
                 <div @class([
                     "hidden",
-                    "!block w-14" => !Helpers::isModernTheme()
+                    "block! w-14" => !Helpers::isModernTheme()
                 ])></div>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::TOP->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::TOP"
                 >
                     {{ __('Top') }}
                 </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::LATEST->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::LATEST"
                 >
                     {{ __('Newest') }}
                 </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::OLDEST->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::OLDEST"
                 >
                     {{ __('Oldest') }}
                 </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::REPLIES->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::REPLIES"
                 >
                     {{ __('Replies') }}
@@ -60,7 +60,7 @@
 
                 <x-commenter::chip
                     wire:click="setFilter('own')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$filter === 'own'"
                 >
                     {{ __('My Comments') }}
@@ -71,11 +71,11 @@
         <div
             @class([
                 "flex gap-x-2 justify-end  items-center",
-                "!justify-between w-full" => $this->shouldShowSingleThread()
+                "justify-between! w-full" => $this->shouldShowSingleThread()
             ])
         >
             @if($this->shouldShowSingleThread())
-                <div class="grow flex items-center space-x-4 !me-8">
+                <div class="grow flex items-center space-x-4 me-8!">
                     <span>Single Comment Thread</span>
                     <hr class="inline-block grow" />
                     <span
@@ -99,7 +99,7 @@
                         <x-commenter::icons.create />
                     </x-commenter::link>
                 @else
-                    <x-commenter::link class="dark:!text-white !border-b-0" type="a"
+                    <x-commenter::link class="dark:text-white! border-b-0!" type="a"
                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
                 @endif
             </div>
@@ -112,7 +112,7 @@
 
     <div wire:loading.flex class="items-center gap-x-2 sm:gap-x-4">
         <div class="basis-14"></div>
-        <x-commenter::spin class="!size-5" />
+        <x-commenter::spin class="size-5!" />
     </div>
 
     @if ($comments->isNotEmpty())
