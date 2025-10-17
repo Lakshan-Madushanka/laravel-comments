@@ -6,11 +6,12 @@
             return '(' + this.total + ')'
         },
     }"
-    @unauthorized-comment-updated.window="$wire.$refresh"
+    @unauthorized-comment-updated.window="$wire.$refresh()"
+    @message-pinned.window="$wire.$refresh()"
     class="lakm_commenter space-y-6"
 >
     <div
-        class="text-lg font-bold dark:!text-white"
+        class="text-lg font-bold no-dark:!text-white"
         @style([
             'color: ' . config('commenter.primary_color'),
         ])
@@ -122,12 +123,20 @@
     @endif
 
     @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Reply)
-        {{$this->pinnedMsg->text}} reply
+        <div class='shadow-xl'>
+            <livewire:replies.item-view
+                :key="'pinned-reply-item' . $this->pinnedMsg->id"
+                :message="$this->pinnedMsg['comment']"
+                :relatedModel="$model"
+                :reply="$this->pinnedMsg"
+                :$guestMode
+            />
+        </div>
     @endif
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
-            <livewire:comments.item-view :key="'comment'. $comment->id" :$comment :$guestMode :$model :$showReplyList />
+            <livewire:comments.item-view :key="'comment'. $comment->id . '-' . microtime()" :$comment :$guestMode :$model :$showReplyList />
         @endforeach
     @elseif ($filter === 'own')
         <div class="text-lg">{{ __('You haven\'t made/approved any comments yet !') }}</div>

@@ -13,6 +13,8 @@ use LakM\Commenter\Contracts\CommenterContract;
 use LakM\Commenter\Exceptions\InvalidModelException;
 use LakM\Commenter\Facades\SecureGuestMode;
 use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Comment;
+
 
 class Helpers
 {
@@ -75,6 +77,8 @@ class Helpers
 
     public static function canPinMsg(CommentableContract $commentable, Message $msg): string
     {
-        return  Gate::allows('pin-message', [$commentable, $msg]) && config('commenter.pin.enable_comment');
+        $configEnabled = $msg instanceof Comment ? config('commenter.pin.enable_comment') : config('commenter.pin.enable_reply');
+
+        return  Gate::allows('pin-message', [$commentable, $msg]) && $configEnabled;
     }
 }

@@ -35,7 +35,7 @@
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
             <livewire:replies.item-view
-                :key="'reply-item' . $reply->id"
+                :key="'reply-item' . $reply->id . '-' . microtime()"
                 :$message
                 :$relatedModel
                 :$reply
