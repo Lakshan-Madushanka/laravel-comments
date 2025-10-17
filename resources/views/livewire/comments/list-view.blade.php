@@ -8,6 +8,8 @@
     }"
     @unauthorized-comment-updated.window="$wire.$refresh()"
     @message-pinned.window="$wire.$refresh()"
+    @unauthorized-comment-updated.window="$wire.$refresh()"
+    @message-pinned.window="$wire.$refresh()"
     class="lakm_commenter space-y-6"
 >
     <div
@@ -102,6 +104,7 @@
                 @else
                     <x-commenter::link class="dark:text-white! border-b-0!" type="a"
                                        route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
+                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
                 @endif
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
@@ -134,8 +137,27 @@
         </div>
     @endif
 
+    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Comment)
+        <div class='shadow-xl'>
+            <livewire:comments.item-view :key="'pinned-comment'. $this->pinnedMsg" :comment="$this->pinnedMsg" :$guestMode :$model :$showReplyList />
+        </div>
+    @endif
+
+    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Reply)
+        <div class='shadow-xl'>
+            <livewire:replies.item-view
+                :key="'pinned-reply-item' . $this->pinnedMsg->id"
+                :message="$this->pinnedMsg['comment']"
+                :relatedModel="$model"
+                :reply="$this->pinnedMsg"
+                :$guestMode
+            />
+        </div>
+    @endif
+
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
+            <livewire:comments.item-view :key="'comment'. $comment->id . '-' . microtime()" :$comment :$guestMode :$model :$showReplyList />
             <livewire:comments.item-view :key="'comment'. $comment->id . '-' . microtime()" :$comment :$guestMode :$model :$showReplyList />
         @endforeach
     @elseif ($filter === 'own')
