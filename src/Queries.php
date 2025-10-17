@@ -157,7 +157,7 @@ class Queries extends AbstractQueries
             $reply = $pinnedComment['replies']->first();
 
             if ($reply) {
-                $replyQuery = ModelResolver::replyQuery()->where('id', $reply->getKey());
+                $replyQuery = ModelResolver::replyQuery()->where('id', $reply->getKey())->with('comment');
 
                 return self::applyFilters($replyQuery, $relatedModel, Sort::LATEST, '')
                     ->first();
