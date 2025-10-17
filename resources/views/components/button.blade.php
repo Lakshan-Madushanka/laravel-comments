@@ -4,8 +4,8 @@
     $class = $size === "sm" ? "py-1! px-2! text-sm! " : "py-1 px-2 text-sm lg:text-base lg:py-[0.4rem] lg:px-3 ";
 
     $severityClass = match ($severity) {
-        "info" => "hover:!bg-[" . config('commenter.button_hover_color') . "] ",
-        "primary" => "hover:!bg-[" . config('commenter.button_hover_color') . "] ",
+        "info" => "hover:bg-[" . config('commenter.button_hover_color') . "]! ",
+        "primary" => "hover:bg-[" . config('commenter.button_hover_color') . "]! ",
     };
 
      $severityStyle = match ($severity) {

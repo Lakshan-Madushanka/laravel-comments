@@ -36,7 +36,7 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded-sm border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
+                "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
             ])
         >
             <div
@@ -98,7 +98,13 @@
 
 
                 @if ($canManipulate)
-                    <div class="flex items-center justify-center gap-x-2">
+                    <div class="relative flex items-center justify-center gap-x-2">
+                        @if($reply->is_pinned)
+                            <span class="absolute top-[-45px] right-[-35px] font-bold text-sm" title="{{__('Pinned')}}">
+                                <x-commenter::icons.pinned height="40" width="40" fill="{{config('commenter.primary_color')}}" />
+                            </span>
+                        @endif
+
                         <div title="{{__('My Reply')}}">
                             <x-commenter::user-check height="14" width="14"/>
                         </div>
@@ -115,12 +121,25 @@
                                 <x-commenter::verticle-ellipsis :height="20" :width="20"/>
                             </div>
 
+
                             <ul
                                 x-show="showEditMenu"
                                 @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded-sm border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
+                                class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                             >
+                                @if(Helpers::canPinMsg($relatedModel, $reply))
+                                    <li
+                                        click="showEditMenu=false"
+                                        @action-cancelled="showEditMenu = false"
+                                        @class([
+                                            "hover:bg-[" . config('commenter.hover_color') . "]!" ,
+                                            "flex items-center gap-x-2 rounded dark:hover:bg-slate-900!"
+                                        ])
+                                    >
+                                        <livewire:pin-message :commentable="$relatedModel" :msg="$reply" />
+                                    </li>
+                                @endif
                                 @if ($this->canUpdateReply($reply))
                                     <li
                                         @click="
@@ -128,9 +147,9 @@
                                          showEditMenu=false
                                          $dispatch('show-reply-update-form-@js($reply->getKey())', {show: showUpdateForm})
                                          "
-                                        class="flex items-center gap-x-2 rounded-sm p-2 hover:bg-gray-200! dark:hover:bg-slate-900!"
+                                        class="flex items-center gap-x-2 rounded p-2 hover:bg-gray-200! dark:hover:bg-slate-900!"
                                     >
-                                        <x-commenter::pencil height="13" width="13" strokeColor="blue"/>
+                                        <x-commenter::pencil height="13" width="13" strokeColor="{{config('commenter.primary_color')}}"/>
                                         <x-commenter::action class="text-sm hover:no-underline! sm:text-sm">
                                             {{ __('Edit') }}
                                         </x-commenter::action>
@@ -142,7 +161,7 @@
                                         wire:click="delete({{ $reply }})"
                                         wire:confirm="{{ __('Are you sure you want to delete this reply?') }}"
                                         @click="showEditMenu=false"
-                                        class="flex items-center gap-x-2 rounded-sm p-2 hover:bg-gray-200! dark:hover:bg-slate-900!"
+                                        class="flex items-center gap-x-2 rounded p-2 hover:bg-gray-200! dark:hover:bg-slate-900!"
                                     >
                                         <x-commenter::trash height="13" width="13" strokeColor="red"/>
                                         <x-commenter::action
@@ -244,7 +263,7 @@
                         @class([
                             "mx-2 dark:text-white! inline-flex text-sm items-center transition dark:bg-slate-900! dark:hover:bg-slate-800! *:pe-1",
                             "mx-0! px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
-                            "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
+                            "hover:bg-["  . config('commenter.hover_color') . "]!" =>  Helpers::isModernTheme(),
                             "rounded-[1000px]! hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
                         ])
                         @style([

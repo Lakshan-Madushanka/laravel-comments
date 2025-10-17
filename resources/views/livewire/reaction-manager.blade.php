@@ -42,7 +42,7 @@
                         "
                         @class([
                            "cursor-pointer rounded-sm px-1",
-                           "hover:!bg-["  . config('commenter.hover_color') . "]",
+                           "hover:bg-["  . config('commenter.hover_color') . "]!",
                            "border dark:border-slate-700 dark:hover:bg-slate-900!" => Helpers::isDefaultTheme(),
                            "dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme(),
                            "rounded-[1000px]! py-1! px-2! rounded-lg dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme()
@@ -120,7 +120,7 @@
                         "
                         @class([
                             "cursor-pointer rounded-sm px-1",
-                            "hover:!bg-["  . config('commenter.hover_color') . "]",
+                            "hover:bg-["  . config('commenter.hover_color') . "]!",
                             "border dark:border-slate-700 dark:hover:bg-slate-900!" => Helpers::isDefaultTheme(),
                             "dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme(),
                             "rounded-[1000px]! py-1! px-2! rounded-lg dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme(),
@@ -212,7 +212,7 @@
                     @class([
                         "px-1 rounded-sm dark:bg-slate-800! dark:border-slate-700",
                         "rounded-[1000px]! py-1! px-2! bg-transparent" =>  Helpers::isModernTheme(),
-                         "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                         "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
                         'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -222,7 +222,8 @@
                         @class([
                             "align-text-bottom text-sm",
                             "hover:border-b!" => Helpers::isDefaultTheme(),
-                            "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                            "!flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                            "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                         ])
                         type="popup"
                     >
@@ -242,7 +243,7 @@
                     @class([
                         "px-1 rounded-sm dark:bg-slate-800! dark:border-slate-700 relative gap-2",
                         "rounded-[1000px]! py-1! px-2! bg-transparent" =>  Helpers::isModernTheme(),
-                         "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                         "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
                         'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -254,7 +255,7 @@
                             @class([
                                 "align-text-bottom text-sm",
                                 "hover:border-b!" => Helpers::isDefaultTheme(),
-                                "flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                                "!flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
                             ])
                             type="popup"
                         >
@@ -342,7 +343,7 @@
                                 @click="type = '{{ $key }}'"
                                 @class([
                                     "cursor-pointer p-4 relative hover:bg-gray-300 dark:hover:bg-slate-700",
-                                    "hover:!bg-["  . config('commenter.hover_color') . "]",
+                                    "hover:bg-["  . config('commenter.hover_color') . "]!",
                                 ])
                                 @endif
                                 wire:loading.class="cursor-not-allowed"

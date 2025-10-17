@@ -39,7 +39,7 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded-sm border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
+                "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
                 "flex w-full gap-x-4" => Helpers::isModernTheme(),
             ])
         >
@@ -118,7 +118,13 @@
                     </div>
 
                     @if ($canManipulate)
-                        <div class="flex items-center justify-center gap-x-2">
+                        <div class="relative flex items-center justify-center gap-x-2">
+                            @if($comment->is_pinned)
+                                <span class="absolute top-[-45px] right-[-35px] font-bold text-sm" title="{{__('Pinned')}}">
+                                    <x-commenter::icons.pinned height="40" width="40" fill="{{config('commenter.primary_color')}}" />
+                                </span>
+                            @endif
+
                             <div title="{{ __('My Comment') }}">
                                 <x-commenter::user-check height="14" width="14" />
                             </div>
@@ -138,18 +144,31 @@
                                     x-show="showEditMenu"
                                     @click.outside="showEditMenu=false"
                                     x-transition
-                                    class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded-sm border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
+                                    class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded border  bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                                 >
+                                    @if(Helpers::canPinMsg($model, $comment))
+                                        <li
+                                            click="showEditMenu=false"
+                                            @action-cancelled="showEditMenu = false"
+                                            @class([
+                                                "hover:bg-[" . config('commenter.hover_color') . "]!" ,
+                                                "flex items-center gap-x-2 rounded dark:hover:bg-slate-900!"
+                                            ])
+                                        >
+                                            <livewire:pin-message :commentable="$model" :msg="$comment" />
+                                        </li>
+                                    @endif
+
                                     @if ($model->canEditComment($comment))
                                         <li
                                             @click="showUpdateForm = !showUpdateForm; showEditMenu=false"
                                             @class([
-                                                "hover:!bg-[" . config('commenter.hover_color') . "]",
-                                                "flex items-center gap-x-2 rounded-sm p-2 dark:hover:bg-slate-900!"
+                                                "hover:bg-[" . config('commenter.hover_color') . "]!",
+                                                "flex items-center gap-x-2 rounded p-2 dark:hover:bg-slate-900!"
                                             ])
                                         >
                                             <x-commenter::pencil height="13" width="13"
-                                                                strokeColor="{{config('commenter.primary_color')}}" />
+                                                                 strokeColor="{{config('commenter.primary_color')}}" />
 
                                             <x-commenter::action class="text-xs hover:no-underline! sm:text-sm">
                                                 {{ __('Edit') }}
@@ -163,8 +182,8 @@
                                             wire:confirm="{{ __('Are you sure you want to delete this comment?') }}"
                                             @click="showEditMenu=false"
                                             @class([
-                                                "hover:!bg-[" . config('commenter.hover_color') . "]",
-                                                "flex items-center gap-x-2 rounded-sm p-2 dark:hover:bg-slate-900!"
+                                                "hover:bg-[" . config('commenter.hover_color') . "]!",
+                                                "flex items-center gap-x-2 rounded p-2 dark:hover:bg-slate-900!"
                                             ])
                                         >
                                             <x-commenter::trash height="13" width="13" strokeColor="red" />
@@ -250,9 +269,9 @@
                             <x-commenter::link
                                 type="popup"
                                 @class([
-                                    "mx-2 dark:text-white! inline-flex text-sm items-center transition dark:bg-slate-900! dark:hover:bg-slate-800! *:pe-1",
+                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:bg-slate-900! dark:hover:bg-slate-800! *:pe-1",
                                     "mx-0! px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
-                                    "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
+                                    "hover:bg-["  . config('commenter.hover_color') . "]!" =>  Helpers::isModernTheme(),
                                     "rounded-[1000px]! hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
                                 ])
                                 @style([

@@ -37,7 +37,7 @@
     ->class([
         $bgColor,
         'px-2 border shadow-sm py-1 dark:text-black! rounded-sm cursor-pointer transition ms-[-6px] sm:ms-[2px] text-nowrap dark:text-white! text-sm',
-        "hover:!bg-["  . config('commenter.hover_color') . "]",
+        "hover:bg-["  . config('commenter.hover_color') . "]!",
         "border dark:hover:bg-slate-800! dark:border-0" => Helpers::isDefaultTheme(),
         "dark:hover:bg-slate-900!" => Helpers::isGithubTheme(),
         "rounded-lg dark:hover:bg-slate-600!" => Helpers::isModernTheme(),

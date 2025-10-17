@@ -38,11 +38,11 @@
         <div
             class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-slate-800 p-4 no-dark:border-outline-dark no-dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
             <button x-on:click="$dispatch('action-cancelled'); modalIsOpen = false" type="button"
-                    class="whitespace-nowrap rounded-radius px-4 py-2 text-center text-sm font-medium tracking-wide text-on-surface transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 no-dark:text-on-surface-dark no-dark:focus-visible:outline-primary-dark">
+                    class="hover:cursor-pointer whitespace-nowrap rounded-radius px-4 py-2 text-center text-sm font-medium tracking-wide text-on-surface transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 no-dark:text-on-surface-dark no-dark:focus-visible:outline-primary-dark">
                 Cancel
             </button>
             <button x-on:click="$dispatch('action-confirmed');modalIsOpen = false" type="button"
-                    class="whitespace-nowrap rounded-radius bg-primary border border-primary no-dark:border-primary-dark px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 no-dark:bg-primary-dark no-dark:text-on-primary-dark no-dark:focus-visible:outline-primary-dark">
+                    class="hover:cursor-pointer whitespace-nowrap rounded-radius bg-primary border border-primary no-dark:border-primary-dark px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 no-dark:bg-primary-dark no-dark:text-on-primary-dark no-dark:focus-visible:outline-primary-dark">
                 Confirm
             </button>
         </div>
