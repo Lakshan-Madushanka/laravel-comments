@@ -4,7 +4,7 @@
     x-ref="comment{{ $comment->getKey() }}"
     x-data="{ showReplyList: @js($showReplyList), replyCount: @js($comment->replies_count) }"
     @class([
-        "flex gap-x-2 sm:gap-x-4 pb-2 no-dark:!bg-black no-dark:!text-white",
+        "flex gap-x-2 sm:gap-x-4 pb-2 dark:!bg-black dark:!text-white",
         "border rounded-lg p-4" => Helpers::isModernTheme(),
     ])
     @style([
@@ -53,7 +53,7 @@
                 ])
             >
                 <div
-                    class="h-full flex items-center justify-center font-bold no-dark:text-black"
+                    class="h-full flex items-center justify-center font-bold dark:text-black"
                 >
                     {{$comment->score}}
                 </div>
@@ -63,7 +63,7 @@
                 <div
                     @class([
                         "flex items-center justify-between p-1",
-                        "mb-2 border-b border-gray-100 bg-gray-100 no-dark:bg-slate-800 no-dark:border-slate-900" => Helpers::isGithubTheme()
+                        "mb-2 border-b border-gray-100 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme()
                     ])
                 >
                     <div
@@ -125,13 +125,6 @@
                                 </span>
                             @endif
 
-                        <div class="relative flex items-center justify-center gap-x-2">
-                            @if($comment->is_pinned)
-                                <span class="absolute top-[-45px] right-[-35px] font-bold text-sm" title="{{__('Pinned')}}">
-                                    <x-commenter::icons.pinned height="40" width="40" fill="{{config('commenter.primary_color')}}" />
-                                </span>
-                            @endif
-
                             <div title="{{ __('My Comment') }}">
                                 <x-commenter::user-check height="14" width="14" />
                             </div>
@@ -175,7 +168,6 @@
                                             ])
                                         >
                                             <x-commenter::pencil height="13" width="13"
-                                                                 strokeColor="{{config('commenter.primary_color')}}" />
                                                                  strokeColor="{{config('commenter.primary_color')}}" />
 
                                             <x-commenter::action class="text-xs hover:no-underline! sm:text-sm">
@@ -277,7 +269,7 @@
                             <x-commenter::link
                                 type="popup"
                                 @class([
-                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:bg-slate-900! dark:hover:bg-slate-800! *:pe-1",
+                                    "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:bg-slate-800! *:pe-1",
                                     "mx-0! px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
                                     "hover:bg-["  . config('commenter.hover_color') . "]!" =>  Helpers::isModernTheme(),
                                     "rounded-[1000px]! hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
@@ -299,7 +291,7 @@
                                     x-text="replyCount"
                                     @class([
                                         "inline-block text-center",
-                                        "border text-xs py-1! px-2! rounded-full bg-white no-dark:bg-slate-800" => Helpers::isModernTheme(),
+                                        "border text-xs py-1! px-2! rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
                                     ])
                                 >
 
