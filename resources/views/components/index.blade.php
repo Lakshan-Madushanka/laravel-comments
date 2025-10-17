@@ -6,7 +6,7 @@
     <div
         x-cloak
         x-data
-        class="space-y-8 no-dark:text-white"
+        class="space-y-8 dark:text-white"
     >
         @if(config('commenter.should_confirm_link_visit'))
             <x-commenter::link-visit-confirm-modal/>

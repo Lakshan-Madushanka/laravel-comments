@@ -1,5 +1,5 @@
 <div>
-    <div wire:ignore class="relative no-dark:text-white no-dark:bg-black">
+    <div wire:ignore class="relative dark:text-white dark:bg-black">
         <div @click.stop id="{{ $editorId }}" class="min-h-32 rounded-sm rounded-t-none pointer-events"></div>
         <div id="{{ $toolbarId }}" class="w-full"></div>
 

@@ -2,7 +2,7 @@
 <div
     x-ref="reply{{ $reply->getKey() }}"
     @class([
-       "flex flex-col gap-x-2 sm:gap-x-4 no-dark:text-white!",
+       "flex flex-col gap-x-2 sm:gap-x-4 dark:text-white!",
        "border rounded-lg p-4" => Helpers::isModernTheme(),
    ])
     @style([
@@ -36,13 +36,13 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded-sm border border-gray-200 no-dark:border-slate-700" => Helpers::isGithubTheme(),
+                "rounded-sm border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
             ])
         >
             <div
                 @class([
                     "flex items-start justify-between gap-x-4 p-1 sm:flex-row sm:items-center sm:justify-between",
-                    "mb-2 border-b border-gray-200 bg-gray-100 no-dark:bg-slate-800 no-dark:border-slate-900" => Helpers::isGithubTheme(),
+                    "mb-2 border-b border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme(),
                 ])
             >
                 <div
@@ -119,7 +119,7 @@
                                 x-show="showEditMenu"
                                 @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded-sm border border-[gray-100] bg-white no-dark:border-slate-900 no-dark:bg-slate-800 p-1 shadow-lg"
+                                class="absolute bottom-4 end-[0.8rem] z-10 min-w-32 space-y-1 rounded-sm border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
                             >
                                 @if ($this->canUpdateReply($reply))
                                     <li
@@ -128,7 +128,7 @@
                                          showEditMenu=false
                                          $dispatch('show-reply-update-form-@js($reply->getKey())', {show: showUpdateForm})
                                          "
-                                        class="flex items-center gap-x-2 rounded-sm p-2 hover:bg-gray-200! no-dark:hover:bg-slate-900!"
+                                        class="flex items-center gap-x-2 rounded-sm p-2 hover:bg-gray-200! dark:hover:bg-slate-900!"
                                     >
                                         <x-commenter::pencil height="13" width="13" strokeColor="blue"/>
                                         <x-commenter::action class="text-sm hover:no-underline! sm:text-sm">
@@ -142,7 +142,7 @@
                                         wire:click="delete({{ $reply }})"
                                         wire:confirm="{{ __('Are you sure you want to delete this reply?') }}"
                                         @click="showEditMenu=false"
-                                        class="flex items-center gap-x-2 rounded-sm p-2 hover:bg-gray-200! no-dark:hover:bg-slate-900!"
+                                        class="flex items-center gap-x-2 rounded-sm p-2 hover:bg-gray-200! dark:hover:bg-slate-900!"
                                     >
                                         <x-commenter::trash height="13" width="13" strokeColor="red"/>
                                         <x-commenter::action
@@ -242,7 +242,7 @@
                     <x-commenter::link
                         type="popup"
                         @class([
-                            "mx-2 no-dark:text-white! inline-flex text-sm items-center transition no-dark:bg-slate-900! no-dark:hover:bg-slate-800! *:pe-1",
+                            "mx-2 dark:text-white! inline-flex text-sm items-center transition dark:bg-slate-900! dark:hover:bg-slate-800! *:pe-1",
                             "mx-0! px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
                             "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
                             "rounded-[1000px]! hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
@@ -264,7 +264,7 @@
                             x-text="replyCount"
                                     @class([
                                         "inline-block text-center",
-                                        "border text-xs py-1! px-2! rounded-full bg-white no-dark:bg-slate-800" => Helpers::isModernTheme(),
+                                        "border text-xs py-1! px-2! rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
                                     ])
                                 >
 
