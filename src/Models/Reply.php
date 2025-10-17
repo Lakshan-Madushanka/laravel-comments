@@ -37,7 +37,7 @@ class Reply extends Message
 
     public function comment(): BelongsTo
     {
-        return $this->belongsTo(M::commentClass());
+        return $this->belongsTo(M::commentClass(), 'reply_id');
     }
 
     public function commentable(): MorphTo

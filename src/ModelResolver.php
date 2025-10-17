@@ -8,6 +8,7 @@ use LakM\Commenter\Builders\MessageBuilder;
 use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Guest;
 use LakM\Commenter\Models\Reaction;
+use LakM\Commenter\Models\Reply;
 
 final class ModelResolver
 {
@@ -28,6 +29,25 @@ final class ModelResolver
     public static function commentQuery(): Builder
     {
         return self::commentModel()->newQuery();
+    }
+
+    /** @return class-string */
+    public static function replyClass(): string
+    {
+        return  Reply::class;
+    }
+
+    public static function replyModel(): Reply
+    {
+        return  app(self::replyClass());
+    }
+
+    /**
+     * @return MessageBuilder<Comment>
+     */
+    public static function replyQuery(): Builder
+    {
+        return self::replyModel()->newQuery();
     }
 
     /** @return class-string */

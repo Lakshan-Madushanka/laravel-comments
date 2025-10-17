@@ -14,6 +14,7 @@ use LakM\Commenter\Exceptions\CommentLimitExceededException;
 use LakM\Commenter\Helpers;
 use LakM\Commenter\ModelResolver;
 use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Message;
 
 /**
  * @mixin Model

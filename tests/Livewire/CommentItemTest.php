@@ -114,3 +114,62 @@ it('cannot delete a comment for a invalid guest', function () {
 
     Event::assertNotDispatched(CommentDeleted::class);
 });
+
+it('shows pin message option', function () {
+    onGuestMode(false);
+
+    authorizePinMessage();
+
+    $user = actAsAuth();
+    $video = video();
+    $comment = createCommentsForAuthUser($user, $video);
+    $comment->replies_count = 0;
+
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertSeeText(__('Pin'))
+        ->assertOk();
+});
+
+it('shows unpin message option for already pinned comment', function () {
+    onGuestMode(false);
+
+    authorizePinMessage();
+
+    $user = actAsAuth();
+    $video = video();
+    $comment = createCommentsForAuthUser($user, $video);
+    $comment->is_pinned = true;
+    $comment->save();
+
+    $comment->replies_count = 0;
+
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertSeeText(__('Unpin'))
+        ->assertOk();
+});
+
+it('doesn\'t show pin message option when disabled', function () {
+    onGuestMode(false);
+
+    canPinMessage(false);
+
+    $user = actAsAuth();
+    $video = video();
+    $comment = createCommentsForAuthUser($user, $video);
+    $comment->replies_count = 0;
+
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertDontSeeText(__('Pin'))
+        ->assertOk();
+
+    canPinMessage();
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertDontSeeText(__('Pin'))
+        ->assertOk();
+
+    canPinMessage();
+    authorizePinMessage();
+    livewire(ItemView::class, ['comment' => $comment, 'guestMode' => true, 'model' => $video, 'showReplyList' => false])
+        ->assertSeeText(__('Pin'))
+        ->assertOk();
+});

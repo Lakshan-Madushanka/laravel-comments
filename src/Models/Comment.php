@@ -22,7 +22,7 @@ use LakM\Commenter\Models\Concerns\HasProfilePhoto;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @method MessageBuilder<Comment> query()
+ * @method static MessageBuilder<Comment> query()
  * @method Builder addScore()
  * @method ReactionBuilder reactions()
  */

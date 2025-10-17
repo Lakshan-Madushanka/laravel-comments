@@ -6,11 +6,15 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use LakM\Commenter\Contracts\CommentableContract;
 use LakM\Commenter\Contracts\CommenterContract;
 use LakM\Commenter\Exceptions\InvalidModelException;
 use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Models\Comment;
+
 
 class Helpers
 {
@@ -69,5 +73,12 @@ class Helpers
         } else {
             return request()->url();
         }
+    }
+
+    public static function canPinMsg(CommentableContract $commentable, Message $msg): string
+    {
+        $configEnabled = $msg instanceof Comment ? config('commenter.pin.enable_comment') : config('commenter.pin.enable_reply');
+
+        return  Gate::allows('pin-message', [$commentable, $msg]) && $configEnabled;
     }
 }

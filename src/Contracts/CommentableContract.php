@@ -6,12 +6,10 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Commenter\Enums\Sort;
 use LakM\Commenter\Models\Comment;
+use LakM\Commenter\Models\Message;
 
 interface CommentableContract
 {
-    /**
-     * @return MorphMany<Comment>
-     */
     public function comments(): MorphMany;
 
     public function authCheck(): bool;
