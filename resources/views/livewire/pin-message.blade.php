@@ -6,12 +6,12 @@
     <div x-on:click="modalIsOpen=true" class="p-2 flex gap-x-2 items-center w-full">
         @if ($msg->is_pinned)
             <x-commenter::icons.unpin height="16" width="16" fill="{{config('commenter.primary_color')}}" />
-            <span class="text-xs hover:!no-underline font-bold">
+            <span class="text-xs hover:no-underline! font-bold">
             {{__('Unpin')}}
         </span>
         @else
             <x-commenter::icons.pin height="16" width="16" fill="{{config('commenter.primary_color')}}" />
-            <span class="text-xs hover:!no-underline font-bold">
+            <span class="text-xs hover:no-underline! font-bold">
             {{__('Pin')}}
         </span>
         @endif
