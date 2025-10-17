@@ -16,8 +16,8 @@ export default {
     plugins: [],
     darkMode: ['selector', '.dark'],
     safelist: [
-        "hover:!bg-[rgb(229,231,235)]",
-        "hover:!bg-[#0707a5]"
+        "hover:bg-[rgb(229,231,235)]!",
+        "hover:bg-[#0707a5]!"
     ],
 }
 

@@ -6,12 +6,11 @@
             return '(' + this.total + ')'
         },
     }"
-    @unauthorized-comment-updated.window="$wire.$refresh()"
-    @message-pinned.window="$wire.$refresh()"
+    @unauthorized-comment-updated.window="$wire.$refresh"
     class="lakm_commenter space-y-6"
 >
     <div
-        class="text-lg font-bold no-dark:!text-white"
+        class="text-lg font-bold dark:text-white!"
         @style([
             'color: ' . config('commenter.primary_color'),
         ])
@@ -19,7 +18,7 @@
         {{ __('Comments') }}
         <span x-text="getTotal()"></span>
     </div>
-    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between !-mb-2">
+    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between -mb-2!">
         @if (($total > 1 || $filter === 'own') && config('commenter.show_filters'))
             <div @class([
                     "flex gap-x-4 overflow-auto",
@@ -28,32 +27,32 @@
             >
                 <div @class([
                     "hidden",
-                    "!block w-14" => !Helpers::isModernTheme()
+                    "block! w-14" => !Helpers::isModernTheme()
                 ])></div>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::TOP->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::TOP"
                 >
                     {{ __('Top') }}
                 </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::LATEST->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::LATEST"
                 >
                     {{ __('Newest') }}
                 </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::OLDEST->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::OLDEST"
                 >
                     {{ __('Oldest') }}
                 </x-commenter::chip>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::REPLIES->value}}')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$sortBy === Sort::REPLIES"
                 >
                     {{ __('Replies') }}
@@ -61,7 +60,7 @@
 
                 <x-commenter::chip
                     wire:click="setFilter('own')"
-                    wire:loading.class="!pointer-events-none"
+                    wire:loading.class="pointer-events-none!"
                     :active="$filter === 'own'"
                 >
                     {{ __('My Comments') }}
@@ -72,11 +71,11 @@
         <div
             @class([
                 "flex gap-x-2 justify-end  items-center",
-                "!justify-between w-full" => $this->shouldShowSingleThread()
+                "justify-between! w-full" => $this->shouldShowSingleThread()
             ])
         >
             @if($this->shouldShowSingleThread())
-                <div class="grow flex items-center space-x-4 !me-8">
+                <div class="grow flex items-center space-x-4 me-8!">
                     <span>Single Comment Thread</span>
                     <hr class="inline-block grow" />
                     <span
@@ -100,8 +99,8 @@
                         <x-commenter::icons.create />
                     </x-commenter::link>
                 @else
-                    <x-commenter::link class="dark:!text-white !border-b-0" type="a"
-                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
+                    <x-commenter::link class="dark:text-white! border-b-0!" type="a"
+                                      route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
                 @endif
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
@@ -113,30 +112,12 @@
 
     <div wire:loading.flex class="items-center gap-x-2 sm:gap-x-4">
         <div class="basis-14"></div>
-        <x-commenter::spin class="!size-5" />
+        <x-commenter::spin class="size-5!" />
     </div>
-
-    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Comment)
-        <div class='shadow-xl'>
-            <livewire:comments.item-view :key="'pinned-comment'. $this->pinnedMsg" :comment="$this->pinnedMsg" :$guestMode :$model :$showReplyList />
-        </div>
-    @endif
-
-    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Reply)
-        <div class='shadow-xl'>
-            <livewire:replies.item-view
-                :key="'pinned-reply-item' . $this->pinnedMsg->id"
-                :message="$this->pinnedMsg['comment']"
-                :relatedModel="$model"
-                :reply="$this->pinnedMsg"
-                :$guestMode
-            />
-        </div>
-    @endif
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
-            <livewire:comments.item-view :key="'comment'. $comment->id . '-' . microtime()" :$comment :$guestMode :$model :$showReplyList />
+            <livewire:comments.item-view :key="'comment'. $comment->id" :$comment :$guestMode :$model :$showReplyList />
         @endforeach
     @elseif ($filter === 'own')
         <div class="text-lg">{{ __('You haven\'t made/approved any comments yet !') }}</div>
