@@ -3,12 +3,12 @@
 @endphp
 
 <div x-data="{ showReplyForm: false }">
-    <div class="flex w-full justify-between gap-x-4 dark:!text-white">
+    <div class="flex w-full justify-between gap-x-4 no-dark:!text-white">
         <div
             @class([
                 "flex items-center gap-x-1 rounded p-1 sm:gap-x-2",
-                "border border-gray-200 bg-white dark:bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                "border-none bg-transparent dark:bg-slate-800 dark:border-slate-700 rounded-lg" =>  Helpers::isModernTheme()
+                "border border-gray-200 bg-white no-dark:bg-slate-800 no-dark:border-slate-700" => Helpers::isGithubTheme(),
+                "border-none bg-transparent no-dark:bg-slate-800 no-dark:border-slate-700 rounded-lg" =>  Helpers::isModernTheme()
             ])
         >
             @foreach ($lReactions as $key => $value)
@@ -43,9 +43,9 @@
                         @class([
                            "cursor-pointer rounded px-1",
                            "hover:!bg-["  . config('commenter.hover_color') . "]",
-                           "border dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
-                           "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
-                           "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme()
+                           "border no-dark:border-slate-700 no-dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
+                           "dark:!bg-slate-900 no-dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
+                           "!rounded-[1000px] !py-1 !px-2 rounded-lg no-dark:!bg-slate-900 no-dark:hover:!bg-slate-600" => Helpers::isModernTheme()
                        ])
                         @style([
                             'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -121,9 +121,9 @@
                         @class([
                             "cursor-pointer rounded px-1",
                             "hover:!bg-["  . config('commenter.hover_color') . "]",
-                            "border dark:border-slate-700 dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
-                            "dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
-                            "!rounded-[1000px] !py-1 !px-2 rounded-lg dark:!bg-slate-900 dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
+                            "border no-dark:border-slate-700 no-dark:hover:!bg-slate-900" => Helpers::isDefaultTheme(),
+                            "dark:!bg-slate-900 no-dark:hover:!bg-slate-600" => Helpers::isGithubTheme(),
+                            "!rounded-[1000px] !py-1 !px-2 rounded-lg no-dark:!bg-slate-900 no-dark:hover:!bg-slate-600" => Helpers::isModernTheme(),
                         ])
                         @style([
                            'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -210,7 +210,7 @@
                         }
                      "
                     @class([
-                        "px-1 rounded dark:!bg-slate-800 dark:border-slate-700",
+                        "px-1 rounded no-dark:!bg-slate-800 no-dark:border-slate-700",
                         "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
                          "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
@@ -240,7 +240,7 @@
                     @click="showShareMenu = !showShareMenu"
                     @click.outside="showShareMenu = false"
                     @class([
-                        "px-1 rounded dark:!bg-slate-800 dark:border-slate-700 relative gap-2",
+                        "px-1 rounded no-dark:!bg-slate-800 no-dark:border-slate-700 relative gap-2",
                         "!rounded-[1000px] !py-1 !px-2 bg-transparent" =>  Helpers::isModernTheme(),
                          "hover:!bg-["  . config('commenter.hover_color') . "]" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
@@ -287,8 +287,8 @@
         <div
             @class([
                   "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded p-1 sm:gap-x-2 md:max-w-72",
-                  "border border-gray-200 bg-white dark:!bg-slate-800 dark:border-slate-700" => Helpers::isGithubTheme(),
-                  "rounded-lg !max-w-[11rem] sm:!max-w-40 md:!max-w-72 bg-transparent dark:!bg-slate-800 dark:border-slate-700" =>  Helpers::isModernTheme()
+                  "border border-gray-200 bg-white no-dark:!bg-slate-800 no-dark:border-slate-700" => Helpers::isGithubTheme(),
+                  "rounded-lg !max-w-[11rem] sm:!max-w-40 md:!max-w-72 bg-transparent no-dark:!bg-slate-800 no-dark:border-slate-700" =>  Helpers::isModernTheme()
                 ])
         >
             @foreach ($rReactions as $key => $value)
@@ -322,11 +322,11 @@
             "
         >
             <x-commenter::modal loadingTarget="loadReactedUsers">
-                <div class="flex py-4 dark:bg-black ">
-                    <div class="space-y-2 border-r-2 border-gray-200 dark:border-slate-900">
-                        <div class="mb-4 border-b-2 border-gray-200 p-4 dark:border-slate-900">
+                <div class="flex py-4 no-dark:bg-black ">
+                    <div class="space-y-2 border-r-2 border-gray-200 no-dark:border-slate-900">
+                        <div class="mb-4 border-b-2 border-gray-200 p-4 no-dark:border-slate-900">
                             <span
-                                class="bg-gray-300 dark:bg-slate-600 px-4 py-2 font-bold"
+                                class="bg-gray-300 no-dark:bg-slate-600 px-4 py-2 font-bold"
                                 @style([
                                     'background: ' . config('commenter.active_color') ,
                                     'color: ' . config('commenter.primary_color'),
@@ -361,7 +361,7 @@
                                 @endif
 
                                 <span
-                                    class="absolute start-8 top-1 rounded bg-gray-400 px-1 text-xs dark:bg-slate-900"
+                                    class="absolute start-8 top-1 rounded bg-gray-400 px-1 text-xs no-dark:bg-slate-900"
                                     @style([
                                         'background: ' . config('commenter.bg_primary_color'),
                                         'color: ' . config('commenter.primary_color'),

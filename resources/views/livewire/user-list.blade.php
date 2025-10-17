@@ -2,7 +2,7 @@
     @if ($show)
         <div
             @class([
-                "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg dark:!text-white dark:!bg-black",
+                "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg no-dark:!text-white no-dark:!bg-black",
                 "hover:!bg-["  . config('commenter.hover_color') . "]",
             ])
             @style([
