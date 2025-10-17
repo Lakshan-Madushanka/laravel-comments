@@ -14,12 +14,15 @@ use LakM\Commenter\Enums\Sort;
 use LakM\Commenter\Facades\SecureGuestMode;
 use LakM\Commenter\Helpers;
 use LakM\Commenter\Livewire\Concerns\HasSingleThread;
+use LakM\Commenter\Models\Message;
+use LakM\Commenter\Queries;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Throwable;
 
 /**
  * @property Collection|LengthAwarePaginator $comments
@@ -54,7 +57,7 @@ class ListView extends Component
     /**
      * @param  Model&CommentableContract  $model
      * @return void
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function mount(Model $model): void
     {
@@ -141,6 +144,12 @@ class ListView extends Component
     public function dispatchFilterAppliedEvent(): void
     {
         $this->dispatch('filter-applied');
+    }
+
+    #[Computed]
+    public function pinnedMsg(): ?Message
+    {
+        return Queries::pinnedMsg($this->model);
     }
 
     #[Computed]

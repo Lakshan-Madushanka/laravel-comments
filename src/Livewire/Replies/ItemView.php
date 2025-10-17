@@ -93,7 +93,7 @@ class ItemView extends Component
 
     private function setProfileUrl(): void
     {
-        $this->profileUrl = $this->message->commenter->profileUrl();
+        $this->profileUrl = $this->reply->commenter->profileUrl();
     }
 
     public function setCanManipulate(): bool

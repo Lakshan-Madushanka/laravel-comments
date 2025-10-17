@@ -55,6 +55,10 @@ abstract class AbstractQueries
         string $filter = ''
     ): LengthAwarePaginator|Collection;
 
+    abstract public static function pinnedMsg(
+        Model $relatedModel,
+    ): ?Message;
+
     abstract public static function addCount(): array;
 
     /**

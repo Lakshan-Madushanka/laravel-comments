@@ -103,4 +103,12 @@ class MessageBuilder extends Builder
             fn (Builder $query) => $query->where('commenter_id', $user->getAuthIdentifier())
         );
     }
+
+    /**
+     * @return MessageBuilder
+     */
+    public function isPinned(): self
+    {
+        return $this->where('is_pinned', true);
+    }
 }

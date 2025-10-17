@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Guest;
@@ -105,7 +106,13 @@ function createCommentsForAuthUser(User $user, Model $relatedModel, int $count =
         $user->comments()->save($comment);
     }
 
-    return $count === 1 ? $user->comments[0] : $user->comments;
+//    if ($data['text'] ?? '' === 'pin comment') {
+//        //dd('laksha');
+//
+//        dd($user->comments->toArray());
+//    }
+
+    return $count === 1 ? $user->comments()->orderByDesc('id')->first() : $user->comments;
 }
 
 function createCommentsForGuest(Model $relatedModel, int $count = 1, array $data = [], bool $forCurrentUser = false, Guest $guest = null): Comment|Collection
@@ -169,7 +176,7 @@ function createCommentRepliesForAuthMode(Comment $comment, User $user, int $coun
         $user->comments()->save($reply);
     }
 
-    $replies = $comment->replies()->get();
+    $replies = $comment->replies()->orderBy('id')->get();
 
     if ($count === 1) {
         return $replies->last();
@@ -241,4 +248,15 @@ function createReactionForAuthMode(Comment $comment, User $user, string $type, i
     }
 
     return Reaction::all();
+}
+
+function canPinMessage(bool $comment = true, bool $reply = true): void
+{
+    config(['commenter.pin.enable_comment' => $comment]);
+    config(['commenter.pin.enable_reply' => $reply]);
+}
+
+function authorizePinMessage(bool $status = true): void
+{
+    Gate::define('pin-message', fn() => true);
 }
