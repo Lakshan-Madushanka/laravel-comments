@@ -7,6 +7,7 @@ use LakM\Commenter\Models\Guest;
 use LakM\Commenter\Models\Reaction;
 use LakM\Commenter\Policies\CommentPolicy;
 use LakM\Commenter\Policies\ReplyPolicy;
+use LakM\Commenter\Policies\PinMessagePolicy;
 
 return [
     /**
@@ -151,6 +152,7 @@ return [
         'create-reply' => [ReplyPolicy::class, 'create'],
         'update-reply' => [ReplyPolicy::class, 'update'],
         'delete-reply' => [ReplyPolicy::class, 'delete'],
+        'pin-message' => [PinMessagePolicy::class, 'pin'],
     ],
 
     /**
@@ -177,6 +179,14 @@ return [
         ],
         // Default comments sort order, available values: Sort::LATEST, Sort::OLDEST
         'default_sort' => Sort::LATEST,
+    ],
+
+    /**
+     * Ability to pin comment or reply
+     */
+    'pin' => [
+        'enable_comment' => true,
+        'enable_reply' => false,
     ],
 
     /**

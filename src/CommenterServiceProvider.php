@@ -15,6 +15,7 @@ use LakM\Commenter\Livewire\Comments\ItemView;
 use LakM\Commenter\Livewire\Comments\ListView;
 use LakM\Commenter\Livewire\Comments\UpdateForm;
 use LakM\Commenter\Livewire\Editor;
+use LakM\Commenter\Livewire\PinMessage;
 use LakM\Commenter\Livewire\ReactionManager;
 use LakM\Commenter\Livewire\Replies\ItemView as ReplyItemView;
 use LakM\Commenter\Livewire\Replies\ListView as RepliesListView;
@@ -73,6 +74,7 @@ class CommenterServiceProvider extends ServiceProvider
 
         Livewire::component('user-list', UserList::class);
         Livewire::component('reaction-manager', ReactionManager::class);
+        Livewire::component('pin-message', PinMessage::class);
     }
 
     protected function setBladeDirectives(): void

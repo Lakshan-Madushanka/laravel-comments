@@ -173,3 +173,54 @@ it('can filter current user comments', function () {
         })
         ->assertOk();
 });
+
+it('can retrieve pinned comment', function () {
+    onGuestMode(false);
+
+    $user = actAsAuth();
+
+    $video = video();
+
+    $comment = createCommentsForAuthUser($user, $video);
+    $comment->is_pinned = true;
+    $comment->save();
+
+    $pinnedComment = livewire(ListView::class, ['model' => $video])
+        ->get('pinnedMsg');
+
+    expect($pinnedComment->is_pinned)->toBeTrue();
+});
+
+it('return null when no pinned comment is found', function () {
+    onGuestMode(false);
+
+    $user = actAsAuth();
+
+    $video = video();
+
+    $comment = createCommentsForAuthUser($user, $video);
+
+    $pinnedComment = livewire(ListView::class, ['model' => $video])
+        ->get('pinnedMsg');
+
+    expect($pinnedComment)->toBeNull();
+});
+
+it('can retrieve pinned reply', function () {
+    onGuestMode(false);
+
+    $user = actAsAuth();
+
+    $video = video();
+
+    $comment = createCommentsForAuthUser($user, $video);
+
+    $reply = createCommentRepliesForAuthMode($comment, $user);
+    $reply->is_pinned = true;
+    $reply->save();
+
+    $pinnedReply = livewire(ListView::class, ['model' => $video])
+        ->get('pinnedMsg');
+
+    expect($pinnedReply->id)->toBe($reply->getKey());
+});

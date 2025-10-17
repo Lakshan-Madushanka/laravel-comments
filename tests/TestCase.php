@@ -89,6 +89,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->string('type');
             $table->timestamps();
         });
+
+        Schema::table('comments', function (Blueprint $table) {
+            $table->boolean('is_pinned')->default(false)->index();
+        });
     }
 
     protected function getPackageProviders($app): array
