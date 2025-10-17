@@ -9,14 +9,14 @@
     <div x-show="modalIsOpen"
          x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity"
          x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100"
-         class="flex max-w-lg shadow-lg text-white flex-col rounded-lg gap-4 overflow-hidden rounded-radius border border-outline bg-surface bg-gray-900 text-on-surface no-dark:border-outline-dark no-dark:bg-surface-dark-alt no-dark:text-on-surface-dark">
+         class="flex max-w-lg shadow-lg text-white flex-col rounded-lg gap-4 overflow-hidden rounded-radius border border-outline bg-surface bg-gray-900 text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark">
 
         <!-- Dialog Header -->
         @if ($header)
             <div
-                class="flex items-center justify-between border-b  border-outline bg-slate-800 p-4 no-dark:border-outline-dark no-dark:bg-surface-dark/20">
+                class="flex items-center justify-between border-b  border-outline bg-slate-800 p-4 dark:border-outline-dark dark:bg-surface-dark/20">
                 <h3 id="defaultModalTitle"
-                    class="font-semibold tracking-wide text-on-surface-strong no-dark:text-on-surface-dark-strong">
+                    class="font-semibold tracking-wide text-on-surface-strong dark:text-on-surface-dark-strong">
                     {{$header}}
                 </h3>
                 <button x-on:click="modalIsOpen = false" aria-label="close modal">
@@ -36,13 +36,13 @@
         </div>
         <!-- Dialog Footer -->
         <div
-            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-slate-800 p-4 no-dark:border-outline-dark no-dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
+            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-slate-800 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
             <button x-on:click="$dispatch('action-cancelled'); modalIsOpen = false" type="button"
-                    class="hover:cursor-pointer whitespace-nowrap rounded-radius px-4 py-2 text-center text-sm font-medium tracking-wide text-on-surface transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 no-dark:text-on-surface-dark no-dark:focus-visible:outline-primary-dark">
+                    class="hover:cursor-pointer whitespace-nowrap rounded-radius px-4 py-2 text-center text-sm font-medium tracking-wide text-on-surface transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 dark:text-on-surface-dark dark:focus-visible:outline-primary-dark">
                 Cancel
             </button>
             <button x-on:click="$dispatch('action-confirmed');modalIsOpen = false" type="button"
-                    class="hover:cursor-pointer whitespace-nowrap rounded-radius bg-primary border border-primary no-dark:border-primary-dark px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 no-dark:bg-primary-dark no-dark:text-on-primary-dark no-dark:focus-visible:outline-primary-dark">
+                    class="hover:cursor-pointer whitespace-nowrap rounded-radius bg-primary border border-primary dark:border-primary-dark px-4 py-2 text-center text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">
                 Confirm
             </button>
         </div>
