@@ -4,7 +4,7 @@
         total: $wire.entangle('total'),
         getTotal: function () {
             return '(' + this.total + ')'
-        },
+        }
     }"
     @unauthorized-comment-updated.window="$wire.$refresh()"
     @message-pinned.window="$wire.$refresh()"
@@ -102,9 +102,9 @@
                         <x-commenter::icons.create />
                     </x-commenter::link>
                 @else
-                    <x-commenter::link class="dark:text-white! border-b-0!" type="a"
-                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
-                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
+                    <x-commenter::link class="dark:text-white! border-b-0!" type="a" route="#create-comment-form">
+                        {{ __('Create Comment') }}
+                    </x-commenter::link>
                 @endif
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
