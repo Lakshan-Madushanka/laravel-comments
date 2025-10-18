@@ -95,14 +95,9 @@
                     'color: ' . config('commenter.primary_color'),
                 ])
             >
-                @if(Helpers::isModernTheme())
-                    <x-commenter::link type="a" route="#create-comment-form">
-                        <x-commenter::icons.create />
-                    </x-commenter::link>
-                @else
-                    <x-commenter::link class="dark:text-white! border-b-0!" type="a"
-                                       route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
-                @endif
+                <x-commenter::link type="a" route="#create-comment-form">
+                    <x-commenter::icons.create />
+                </x-commenter::link>
             </div>
             @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
                 <div class="w-1 h-6 bg-slate-500"></div>
