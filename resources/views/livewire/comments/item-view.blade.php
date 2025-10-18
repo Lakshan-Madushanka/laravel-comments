@@ -33,7 +33,7 @@
                    showUpdateForm = false;
              }
         }"
-        class="basis-full"
+        class="w-full"
     >
         <div
             x-show="!showUpdateForm"
@@ -45,7 +45,7 @@
         >
             <div
                 @class([
-                    "hidden md:block md:w-[4%] rounded-xl",
+                    "hidden md:block md:w-[5%] lg:w-[4%] rounded-xl",
                     'hidden!' => !Helpers::isModernTheme(),
                 ])
                 @style([
@@ -120,8 +120,13 @@
                     @if ($canManipulate)
                         <div class="relative flex items-center justify-center gap-x-2">
                             @if($comment->is_pinned)
-                                <span class="absolute top-[-45px] right-[-35px] font-bold text-sm" title="{{__('Pinned')}}">
-                                    <x-commenter::icons.pinned height="40" width="40" fill="{{config('commenter.primary_color')}}" />
+                                <span class="absolute top-[-45px] right-[-35px] font-bold text-sm"
+                                      title="{{__('Pinned')}}">
+                                    <x-commenter::icons.pinned
+                                        height="40"
+                                        width="40"
+                                        fill="{{config('commenter.primary_color')}}"
+                                    />
                                 </span>
                             @endif
 
@@ -318,8 +323,8 @@
             x-show="showReplyList"
             x-transtion
             @class([
-                "-ms-8 mt-4 sm:ms-4",
-                "mt-4! sm:ms-4!" => Helpers::isModernTheme()
+                "mt-4 -ms-10",
+                "ms-2!" => Helpers::isModernTheme()
             ])
         >
             <div
