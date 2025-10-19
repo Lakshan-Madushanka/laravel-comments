@@ -11,7 +11,7 @@
     class="lakm_commenter space-y-6"
 >
     <div
-        class="text-lg font-bold dark:!text-white"
+        class="text-lg font-bold dark:text-white!"
         @style([
             'color: ' . config('commenter.primary_color'),
         ])

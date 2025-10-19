@@ -247,7 +247,7 @@
                             @class([
                                 "align-text-bottom text-xs",
                                 "hover:border-b!" => Helpers::isDefaultTheme(),
-                                "!flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
+                                "flex! gap-2 justify-center items-center" => Helpers::isModernTheme(),
                             ])
                             type="popup"
                         >

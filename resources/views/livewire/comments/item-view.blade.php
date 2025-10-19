@@ -100,15 +100,15 @@
                         </div>
 
                         <div>
-                            <span class="font-semibold text-sm sm:hidden me-[1px]">
+                            <span class="font-semibold text-sm sm:hidden me-px">
                                 {{ Str::limit($comment->ownerName($authMode), 10) }}
                             </span>
 
-                            <span class="hidden font-semibold text-sm sm:inline me-[1px]">
+                            <span class="hidden font-semibold text-sm sm:inline me-px">
                                 {{ Str::limit($comment->ownerName($authMode), 25) }}
                             </span>
 
-                            <span class="inline-block h-2 w-px bg-black me-[1px]"></span>
+                            <span class="inline-block h-2 w-px bg-black me-px"></span>
 
                             @if (config('commenter.date_format') === 'diff')
                                 <span
@@ -125,7 +125,7 @@
                             @endif
 
                             @if ($comment->isEdited())
-                                <span class="inline-block h-2 w-px bg-black mx-[1px]"></span>
+                                <span class="inline-block h-2 w-px bg-black mx-px"></span>
                                 <span class="text-xs">{{ __('Edited') }}</span>
                             @endif
                         </div>
