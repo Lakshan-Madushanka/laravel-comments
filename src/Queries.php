@@ -69,7 +69,7 @@ class Queries extends AbstractQueries
             ->checkApproval($relatedModel)
             ->when(
                 $sortBy === Sort::LATEST,
-                fn(Builder $query) => $query->latest()
+                fn (Builder $query) => $query->latest()
             )
             ->when($sortBy === Sort::OLDEST, function (Builder $query) {
                 return $query->oldest();
@@ -104,8 +104,8 @@ class Queries extends AbstractQueries
         return static::applyFilters($commentQuery, $relatedModel, $sortBy, $filter)
             ->when(
                 $relatedModel->paginationEnabled(),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -268,8 +268,8 @@ class Queries extends AbstractQueries
             ->currentUserFilter($relatedModel, $filter)
             ->with('commenter')
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn(MessageBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn(MessageBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn (MessageBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
             ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
@@ -281,8 +281,8 @@ class Queries extends AbstractQueries
             ->latest()
             ->when(
                 config('commenter.reply.pagination.enabled'),
-                fn(Builder $query) => $query->paginate($limit),
-                fn(Builder $query) => $query->get()
+                fn (Builder $query) => $query->paginate($limit),
+                fn (Builder $query) => $query->get()
             );
     }
 
@@ -304,11 +304,11 @@ class Queries extends AbstractQueries
             ->limit($limit)
             ->get()
             ->transform(
-            /**
-             * @param User&CommenterContract $user
-             * @return UserData
-             * @phpstan-ignore-next-line
-             */
+                /**
+                 * @param User&CommenterContract $user
+                 * @return UserData
+                 * @phpstan-ignore-next-line
+                 */
                 function (User $user) {
                     // @phpstan-ignore-next-line
                     return new UserData(name: $user->name(), photo: $user->photoUrl());

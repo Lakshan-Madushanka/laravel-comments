@@ -258,5 +258,5 @@ function canPinMessage(bool $comment = true, bool $reply = true): void
 
 function authorizePinMessage(bool $status = true): void
 {
-    Gate::define('pin-message', fn() => true);
+    Gate::define('pin-message', fn () => true);
 }

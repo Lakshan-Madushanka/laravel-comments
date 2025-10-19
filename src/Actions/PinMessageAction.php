@@ -2,16 +2,10 @@
 
 namespace LakM\Commenter\Actions;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use LakM\Commenter\Contracts\CommentableContract;
-use LakM\Commenter\Helpers;
 use LakM\Commenter\Models\Comment;
-use LakM\Commenter\Models\Guest;
 use LakM\Commenter\Models\Message;
-use LakM\Commenter\Models\Reply;
-use LakM\NoPass\Facades\NoPass;
 
 class PinMessageAction
 {
@@ -47,7 +41,7 @@ class PinMessageAction
     {
         $replyIds = $commentable
             ->comments()
-            ->with(['replies' => fn($query) => $query->where('is_pinned', true)])
+            ->with(['replies' => fn ($query) => $query->where('is_pinned', true)])
             ->get()
             ->pluck('replies')
             ->collapse()
