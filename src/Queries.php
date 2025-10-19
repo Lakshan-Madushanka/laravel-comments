@@ -139,7 +139,8 @@ class Queries extends AbstractQueries
         Model $relatedModel,
     ): ?Message {
         /** @var MessageBuilder<Comment> $commentQuery */
-        $commentQuery = $relatedModel->comments()->getQuery()->isPinned();
+        $commentQuery = $relatedModel->comments()->getQuery();
+        $commentQuery  = $commentQuery->isPinned();
 
         $pinnedComment = self::applyFilters($commentQuery, $relatedModel, Sort::TOP, '')
             ->first();

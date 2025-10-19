@@ -74,9 +74,9 @@ class Helpers
         }
     }
 
-    public static function canPinMsg(CommentableContract $commentable, Message $msg): string
+    public static function canPinMsg(CommentableContract $commentable, Message $msg): bool
     {
-        $configEnabled = $msg instanceof Comment ? config('commenter.pin.enable_comment') : config('commenter.pin.enable_reply');
+        $configEnabled = $msg instanceof Comment ? config('commenter.pin.enable_comment', true) : config('commenter.pin.enable_reply', false);
 
         return  Gate::allows('pin-message', [$commentable, $msg]) && $configEnabled;
     }

@@ -43,7 +43,7 @@ final class ModelResolver
     }
 
     /**
-     * @return MessageBuilder<Comment>
+     * @return MessageBuilder<Reply>
      */
     public static function replyQuery(): Builder
     {
