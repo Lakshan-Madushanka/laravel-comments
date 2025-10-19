@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use LakM\Commenter\Livewire\PinMessage;
+use LakM\Commenter\Livewire\PinMessageHandler;
 use LakM\Commenter\Models\Comment;
 use function Pest\Livewire\livewire;
 
@@ -9,7 +9,7 @@ it('can render the pin component', function () {
     $video = video();
     $comment = createCommentsForAuthUser(user(), $video);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment])
         ->assertSeeText(__('Pin'))
         ->assertOk();
 });
@@ -18,7 +18,7 @@ it('wont throws unauthorize exception when unauthorized users trying to pin comm
     $video = video();
     $comment = createCommentsForAuthUser(user(), $video);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment])
         ->call('pin')
         ->assertForbidden();
 });
@@ -30,7 +30,7 @@ it('can authorize user to pin message', function () {
     $video = video();
     $comment = createCommentsForAuthUser(user(), $video);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment])
         ->call('pin')
         ->assertOk();
 });
@@ -43,7 +43,7 @@ it('can pin comment', function () {
 
     $comment = createCommentsForAuthUser($user, $video);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment])
         ->call('pin')
         ->assertDispatched('message-pinned')
         ->assertOk();
@@ -68,7 +68,7 @@ it('remove previous pinned comment when new comment is pinned', function () {
 
     $comment2 = createCommentsForAuthUser($user, $video, 1, ['text' => 'pin comment']);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment2])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment2])
         ->call('pin')
         ->assertOk();
 
@@ -96,7 +96,7 @@ it('remove previous pinned reply when new comment is pinned', function () {
     $reply->is_pinned = true;
     $reply->save();
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment])
         ->call('pin')
         ->assertOk();
 
@@ -128,7 +128,7 @@ it('can pin reply', function () {
 
     $reply = createCommentRepliesForAuthMode($comment, $user);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $reply])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $reply])
         ->call('pin')
         ->assertDispatched('message-pinned')
         ->assertOk();
@@ -156,7 +156,7 @@ it('remove previous pinned reply when new reply is pinned', function () {
 
     $reply2 = createCommentRepliesForAuthMode($comment, $user, 1, ['text' => 'pin reply']);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $reply2])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $reply2])
         ->call('pin')
         ->assertOk();
 
@@ -185,7 +185,7 @@ it('remove previous pinned comment when new reply is pinned', function () {
 
     $reply = createCommentRepliesForAuthMode($comment, $user);
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $reply])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $reply])
         ->call('pin')
         ->assertOk();
 
@@ -213,7 +213,7 @@ it('remove already pinned message', function () {
     $comment->is_pinned = true;
     $comment->save();
 
-    livewire(PinMessage::class, ['commentable' => $video, 'msg' => $comment])
+    livewire(PinMessageHandler::class, ['commentable' => $video, 'msg' => $comment])
         ->call('pin')
         ->assertOk();
 

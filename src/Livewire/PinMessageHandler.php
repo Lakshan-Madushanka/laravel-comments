@@ -9,7 +9,7 @@ use LakM\Commenter\Contracts\CommentableContract;
 use LakM\Commenter\Models\Message;
 use Livewire\Component;
 
-class PinMessage extends Component
+class PinMessageHandler extends Component
 {
     public Message $msg;
 
@@ -32,6 +32,6 @@ class PinMessage extends Component
 
     public function render(): View
     {
-        return view('commenter::livewire.pin-message');
+        return view('commenter::livewire.pin-message-handler');
     }
 }
