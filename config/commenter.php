@@ -6,8 +6,8 @@ use LakM\Commenter\Models\Comment;
 use LakM\Commenter\Models\Guest;
 use LakM\Commenter\Models\Reaction;
 use LakM\Commenter\Policies\CommentPolicy;
-use LakM\Commenter\Policies\ReplyPolicy;
 use LakM\Commenter\Policies\PinMessagePolicy;
+use LakM\Commenter\Policies\ReplyPolicy;
 
 return [
     /**

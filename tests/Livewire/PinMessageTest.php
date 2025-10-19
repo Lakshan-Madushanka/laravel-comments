@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use LakM\Commenter\Livewire\PinMessageHandler;
 use LakM\Commenter\Models\Comment;
+
 use function Pest\Livewire\livewire;
 
 it('can render the pin component', function () {
