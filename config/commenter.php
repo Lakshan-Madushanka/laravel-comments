@@ -215,11 +215,11 @@ return [
     'should_confirm_link_visit' => true,
 
     'reactions' => [
-        'like' => ['position' => 'left', 'fill' => 'gray'],
-        'dislike' => ['position' => 'left', 'fill' => 'gray'],
-        'happy' => ['position' => 'right', 'fill' => 'orange'],
-        'love' => ['position' => 'right', 'fill' => 'red'],
-        'sad' => ['position' => 'right', 'fill' => 'orange'],
+        'like' => ['position' => 'left', 'fill' => 'gray', 'icon' => ['plain' => '🖒', 'filled' => '👍']],
+        'dislike' => ['position' => 'left', 'fill' => 'gray', 'icon' => ['plain' => '🖓', 'filled' => '👎']],
+        'happy' => ['position' => 'right', 'fill' => 'orange', 'icon' => ['plain' => '☺', 'filled' => '😄']],
+        'love' => ['position' => 'right', 'fill' => 'red', 'icon' => ['plain' => '🩶', 'filled' => '❤️']],
+        'sad' => ['position' => 'right', 'fill' => 'orange', 'icon' => ['plain' => '☹', 'filled' => '😢']],
     ],
 
     /**

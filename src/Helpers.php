@@ -81,4 +81,13 @@ class Helpers
 
         return  Gate::allows('pin-message', [$commentable, $msg]) && $configEnabled;
     }
+
+    public static function getReactionEmoji(string $reaction, bool $isFilled = false): ?string
+    {
+        if (!$isFilled) {
+            return config('commenter.reactions.' . $reaction . '.icon.plain', null);
+        }
+
+        return config('commenter.reactions.' . $reaction . '.icon.filled', null);
+    }
 }

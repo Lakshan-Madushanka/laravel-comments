@@ -52,7 +52,7 @@
             wire:target="{{ $loadingTarget }}"
         @endif
         type="button"
-        {{ $attributes->merge(["class" => $class . $severityClass . "inline-flex justify-center items-center gap-x-2 font-semibold rounded-sm border border-transparent text-white disabled:opacity-50 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-gray-600"]) }}
+        {{ $attributes->merge(["class" => $class . $severityClass . "inline-flex hover:cursor-pointer justify-center items-center gap-x-2 font-semibold rounded-sm border border-transparent text-white disabled:opacity-50 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-gray-600"]) }}
         @style([$severityStyle])
     >
         {{ $slot }}

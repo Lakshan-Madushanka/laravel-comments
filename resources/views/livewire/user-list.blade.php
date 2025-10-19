@@ -2,8 +2,7 @@
     @if ($show)
         <div
             @class([
-                "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded-sm bg-gray-200 shadow-lg dark:text-white! dark:bg-black!",
-                "hover:bg-["  . config('commenter.hover_color') . "]!",
+                "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded-sm bg-gray-200 shadow-lg dark:text-white! dark:bg-slate-900!",
             ])
             @style([
                 'background: ' . config('commenter.bg_primary_color'),
@@ -34,7 +33,7 @@
                 @foreach ($users as $user)
                     <button
                         wire:click="userSelected(@js($user->name))"
-                        class="flex w-full cursor-pointer items-center gap-x-4 p-2 transition hover:bg-gray-300 focus:border-0! focus:bg-gray-300! focus:outline-hidden"
+                        class="flex w-full cursor-pointer items-center gap-x-4 p-2 transition hover:bg-gray-300 dark:hover:bg-slate-800! focus:border-0! focus:bg-gray-300! focus:outline-hidden"
                         type="button"
                     >
                         <img src="{{ $user->photo }}" alt="" class="h-8 w-8 rounded-full" />
