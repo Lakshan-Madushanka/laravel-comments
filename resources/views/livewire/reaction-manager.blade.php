@@ -3,7 +3,7 @@
 @endphp
 
 <div x-data="{ showReplyForm: false }">
-    <div class="flex w-full justify-between gap-x-4 dark:text-white!">
+    <div class="flex w-full overflow-x-auto justify-between gap-x-4 dark:text-white!">
         <div
             @class([
                 "flex items-center gap-x-1 rounded-sm p-1 sm:gap-x-2",
@@ -45,7 +45,7 @@
                            "hover:bg-["  . config('commenter.hover_color') . "]!",
                            "border dark:border-slate-700 dark:hover:bg-slate-900!" => Helpers::isDefaultTheme(),
                            "dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme(),
-                           "rounded-[1000px]! py-1! px-2! rounded-lg dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme()
+                           "rounded-[1000px]! py-[2px]! px-[8px]! rounded-lg dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme()
                        ])
                         @style([
                             'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -66,13 +66,10 @@
                             title="like"
                         >
                             <div x-show="!isLiked">
-                                <x-dynamic-component component="commenter::icons.{{$key}}" />
+                                <x-commenter::show-reaction-icon :type="$key" :isFilled="false"/>
                             </div>
                             <div x-show="isLiked">
-                                <x-dynamic-component
-                                    component="commenter::icons.{{$key}}"
-                                    :fill="$this->fillColor('like')"
-                                />
+                                <x-commenter::show-reaction-icon :type="$key" :isFilled="true"/>
                             </div>
                             <div class="ps-1 sm:ps-2">
                                 <span class="text-sm">{{ Number::abbreviate($reactions["like"]["count"]) }}</span>
@@ -123,7 +120,7 @@
                             "hover:bg-["  . config('commenter.hover_color') . "]!",
                             "border dark:border-slate-700 dark:hover:bg-slate-900!" => Helpers::isDefaultTheme(),
                             "dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme(),
-                            "rounded-[1000px]! py-1! px-2! rounded-lg dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme(),
+                            "rounded-[1000px]! py-[2px]! px-[8px]! rounded-lg dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme(),
                         ])
                         @style([
                            'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -144,14 +141,10 @@
                             title="dislike"
                         >
                             <div x-show="!isDisliked">
-                                <x-dynamic-component component="commenter::icons.{{$key}}" />
+                                <x-commenter::show-reaction-icon :type="$key" :isFilled="false"/>
                             </div>
-
                             <div x-show="isDisliked">
-                                <x-dynamic-component
-                                    component="commenter::icons.{{$key}}"
-                                    :fill="$this->fillColor('dislike')"
-                                />
+                                <x-commenter::show-reaction-icon :type="$key" :isFilled="true"/>
                             </div>
 
                             <div class="ps-1 sm:ps-2">
@@ -210,9 +203,9 @@
                         }
                      "
                     @class([
-                        "px-1 rounded-sm dark:bg-slate-800! dark:border-slate-700",
-                        "rounded-[1000px]! py-1! px-2! bg-transparent" =>  Helpers::isModernTheme(),
-                         "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                        "px-1 rounded-sm dark:bg-slate-700! dark:border-slate-700",
+                        "rounded-[1000px]! py-[7px]! px-[8px]! bg-transparent" =>  Helpers::isModernTheme(),
+                         "hover:bg-["  . config('commenter.hover_color') . "]! dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
                         'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -220,10 +213,9 @@
                 >
                     <x-commenter::link
                         @class([
-                            "align-text-bottom text-sm",
+                            "align-text-bottom text-xs",
                             "hover:border-b!" => Helpers::isDefaultTheme(),
-                            "!flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
-                            "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                            "flex! gap-2 justify-center items-center" => Helpers::isModernTheme(),
                         ])
                         type="popup"
                     >
@@ -242,8 +234,8 @@
                     @click.outside="showShareMenu = false"
                     @class([
                         "px-1 rounded-sm dark:bg-slate-800! dark:border-slate-700 relative gap-2",
-                        "rounded-[1000px]! py-1! px-2! bg-transparent" =>  Helpers::isModernTheme(),
-                         "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
+                        "rounded-[1000px]! py-[7px]! px-[8px]! bg-transparent" =>  Helpers::isModernTheme(),
+                        "hover:bg-["  . config('commenter.hover_color') . "]! dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
                         'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -253,7 +245,7 @@
                     <div x-data="copyToClipboard" class="relative">
                         <x-commenter::link
                             @class([
-                                "align-text-bottom text-sm",
+                                "align-text-bottom text-xs",
                                 "hover:border-b!" => Helpers::isDefaultTheme(),
                                 "!flex gap-2 justify-center items-center" => Helpers::isModernTheme(),
                             ])
@@ -287,9 +279,9 @@
 
         <div
             @class([
-                  "flex max-w-40 items-center gap-x-1 overflow-x-auto rounded-sm p-1 sm:gap-x-2 md:max-w-72",
+                  "flex items-center gap-x-1 rounded-sm p-1 sm:gap-x-2",
                   "border border-gray-200 bg-white dark:bg-slate-800! dark:border-slate-700" => Helpers::isGithubTheme(),
-                  "rounded-lg max-w-44! sm:max-w-40! md:max-w-72! bg-transparent dark:bg-slate-800! dark:border-slate-700" =>  Helpers::isModernTheme()
+                  "rounded-lg bg-transparent dark:bg-slate-800! dark:border-slate-700" =>  Helpers::isModernTheme()
                 ])
         >
             @foreach ($rReactions as $key => $value)
@@ -342,23 +334,20 @@
                                     wire:click="loadReactedUsers('{{ $key }}')"
                                 @click="type = '{{ $key }}'"
                                 @class([
-                                    "cursor-pointer p-4 relative hover:bg-gray-300 dark:hover:bg-slate-700",
-                                    "hover:bg-["  . config('commenter.hover_color') . "]!",
+                                    "cursor-pointer p-4 relative dark:hover:bg-slate-700!",
+                                    "hover:bg-["  . config('commenter.hover_color') . "]",
                                 ])
                                 @endif
                                 wire:loading.class="cursor-not-allowed"
                                 target="loadReactedUsers"
-                                class="relative p-4"
-                                :class="type === '{{ $key }}' ? 'dark:bg-slate-600' : ''"
+                                class="relative p-4 hover:cursor-not-allowed"
+                                :class="type === '{{ $key }}' ? 'dark:bg-slate-800!' : ''"
                                 x-bind:style="type === '{{ $key }}' ? 'background: ' + @js(config('commenter.active_color')) : ''"
                             >
                                 @if ($reactions[$key]["reacted"])
-                                    <x-dynamic-component
-                                        component="commenter::icons.{{$key}}"
-                                        :fill="$this->fillColor($key)"
-                                    />
+                                    <x-commenter::show-reaction-icon :type="$key" :isFilled="true"/>
                                 @else
-                                    <x-dynamic-component component="commenter::icons.{{$key}}" />
+                                    <x-commenter::show-reaction-icon :type="$key" :isFilled="false"/>
                                 @endif
 
                                 <span
@@ -380,9 +369,9 @@
                                 <div class="flex w-full items-center gap-x-4 border-b border-gray-200 p-2">
                                     <div>
                                         <img
-                                            class="h-[1.8rem] w-[1.8rem] rounded-full border border-gray-200"
+                                            class="h-[1.8rem] w-[1.8rem] rounded-full border border-gray-200 text-xs"
                                             src="{{ $user->photo }}"
-                                            alt="{{ $user->photo }}"
+                                            alt="{{ $user->name }}"
                                         />
                                     </div>
                                     <div>{{ $user->name }}</div>

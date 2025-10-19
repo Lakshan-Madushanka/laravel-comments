@@ -2,7 +2,7 @@
 <div
     x-ref="reply{{ $reply->getKey() }}"
     @class([
-       "flex flex-col gap-x-2 sm:gap-x-4 dark:!text-white",
+       "flex flex-col gap-x-2 sm:gap-x-4 dark:text-white!",
        "border rounded-lg p-4" => Helpers::isModernTheme(),
    ])
     @style([
@@ -71,17 +71,17 @@
                         </div>
 
                         <div>
-                            <span class="font-semibold sm:hidden me-1">
+                            <span class="text-sm font-semibold sm:hidden me-[1px]">
                                 {{ Str::limit($reply->ownerName($authMode), 10) }}
                             </span>
 
                             <span
-                                class="hidden font-semibold sm:inline me-1"
+                                class="hidden text-sm font-semibold sm:inline me-[1px]"
                             >
                                 {{ Str::limit($reply->ownerName($authMode), 25) }}
                              </span>
 
-                            <span class="inline-block h-2 w-px bg-black me-1"></span>
+                            <span class="inline-block h-2 w-px bg-black me-[1px]"></span>
 
                             @if (config('commenter.date_format') === 'diff')
                                 <span
@@ -98,7 +98,7 @@
                             @endif
 
                             @if ($reply->isEdited())
-                                <span class="inline-block h-2 w-px bg-black"></span>
+                                <span class="inline-block h-2 w-px bg-black mx-[1px]"></span>
                                 <span class="text-xs">{{ __('Edited') }}</span>
                             @endif
                         </div>
@@ -277,7 +277,7 @@
                         <x-commenter::link
                             type="popup"
                             @class([
-                                "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:bg-slate-800! *:pe-1",
+                                "mx-2 dark:text-white! inline-flex text-xs items-center transition dark:bg-slate-900! dark:hover:bg-slate-800! *:pe-1",
                                 "mx-0! px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
                                 "hover:bg-["  . config('commenter.hover_color') . "]!" =>  Helpers::isModernTheme(),
                                 "rounded-[1000px]! hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
@@ -297,13 +297,12 @@
 
                             <span
                                 x-text="replyCount"
-                            @class([
-                                "inline-block text-center",
-                                "border text-xs py-1! px-2! rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
+                                @class([
+                                    "inline-block text-center",
+                                    "border text-xs py-1! px-2! rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
                             ])
-                        >
-
-                        </span>
+                             >
+                             </span>
                             <span>{{ __('Replies') }}</span>
 
                             @if(Helpers::isModernTheme())

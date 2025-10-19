@@ -20,7 +20,7 @@
           "hover:bg-["  . config('commenter.hover_color') . "]!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
           "border hover:bg-gray-200! dark:border-slate-700 dark:hover:bg-slate-900!" => Helpers::isDefaultTheme(),
           "dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme(),
-          "rounded-[1000px]! py-1! px-2! dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme(),
+          "rounded-[1000px]! py-[2px]! px-[8px]! dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isModernTheme(),
     ])
     @style([
           'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
@@ -60,9 +60,9 @@
         title="{{ $key }}"
     >
         @if ($reactions[$key]["reacted"])
-            <x-dynamic-component component="commenter::icons.{{$key}}" :fill="$this->fillColor($key)"/>
+            <x-commenter::show-reaction-icon :type="$key" :isFilled="true"/>
         @else
-            <x-dynamic-component component="commenter::icons.{{$key}}"/>
+            <x-commenter::show-reaction-icon :type="$key" :isFilled="false"/>
         @endif
 
         <span class="text-sm">{{ Number::abbreviate($reactions[$key]["count"]) }}</span>
