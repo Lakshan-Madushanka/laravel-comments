@@ -106,11 +106,8 @@
         </div>
     </div>
 
-    <x-commenter::spin class="size-5!" />
-
     <div wire:loading.flex class="items-center gap-x-2 sm:gap-x-4">
         <div class="basis-14"></div>
-        <p class="text-purple-800">hello</p>
         <x-commenter::spin class="size-5!" />
     </div>
 
