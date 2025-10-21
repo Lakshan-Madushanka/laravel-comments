@@ -128,6 +128,7 @@ class CommenterServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations/create_reactions_table.php.stub' => $this->getMigrationFileName('create_reactions_table.php'),
             __DIR__ . '/../database/migrations/create_guests_table.php.stub' => $this->getMigrationFileName('create_guests_table.php'),
             __DIR__ . '/../database/migrations/drop_guest_columns_from_comments_table.php.stub' => $this->getMigrationFileName('drop_guest_columns_from_comments_table.php'),
+            __DIR__ . '/../database/migrations/add_is_pinned_column_to_comments_table.php.stub' => $this->getMigrationFileName('add_is_pinned_column_to_comments_table.php'),
         ], 'commenter-migrations');
 
         $this->publishes([
