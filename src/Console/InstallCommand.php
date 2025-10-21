@@ -18,7 +18,7 @@ class InstallCommand extends Command
 
     public function handle(): void
     {
-        $this->info("❤️ Commenter installer");
+        $this->info("❤️  Commenter installer");
         $this->newLine();
 
         $this->publishConfigs();
@@ -87,7 +87,7 @@ class InstallCommand extends Command
         if ($migrated && $assetsBuild) {
             $this->warn("All set! Simply add assets to your layout files to finish the installation");
         } else {
-            $this->error("🚨 installation uncompleted!");
+            $this->error("🚨  installation uncompleted!");
         }
     }
 
@@ -99,8 +99,8 @@ class InstallCommand extends Command
             new ArrayInput([]),
             $this->output,
             new ConfirmationQuestion(
-                ' <options=bold>❤️ Wanna encourage us by starring it on GitHub?</>',
-                false,
+                ' <options=bold>❤️  Wanna encourage us by starring it on GitHub?</>',
+                true,
             )
         );
 
@@ -117,8 +117,8 @@ class InstallCommand extends Command
             new ArrayInput([]),
             $this->output,
             new ConfirmationQuestion(
-                ' <options=bold>💡 We often find that commenting systems are closely intertwined with review and rating systems. Want to give our TrueReviewer a try?</>',
-                false,
+                ' <options=bold>🌟🌟🌟 Looking for an elegant product review system with integrated ratings? try our TrueReviewer 🌟🌟🌟</>',
+                true,
             )
         );
 
