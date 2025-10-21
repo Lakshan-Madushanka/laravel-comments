@@ -15,7 +15,7 @@
         "postcss-prefix-selector": "^2.1.0",
         "prettier": "^3.2.5",
         "tailwindcss": "^4.1.14",
-        "vite": "^6.3.4"
+        "vite": "^6.4.1"
     },
     "dependencies": {
         "highlight.js": "^11.9.0",
