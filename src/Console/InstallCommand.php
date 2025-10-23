@@ -117,7 +117,7 @@ class InstallCommand extends Command
             new ArrayInput([]),
             $this->output,
             new ConfirmationQuestion(
-                ' <options=bold>🌟🌟🌟 Looking for an elegant product review system with integrated ratings? try our TrueReviewer 🌟🌟🌟</>',
+                ' <options=bold>🌟🌟🌟  Looking for an elegant product review system with integrated ratings? try our TrueReviewer 🌟🌟🌟</>',
                 true,
             )
         );
