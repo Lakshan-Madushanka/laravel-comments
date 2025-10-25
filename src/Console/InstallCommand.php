@@ -22,7 +22,7 @@ class InstallCommand extends Command
         $this->newLine();
 
         $this->publishConfigs();
-        $built = $this->buildAssets();
+        $built = true;//$this->buildAssets();
         $this->publishAssets();
         $this->publishMigrations();
         $migrated = $this->runMigrations();
