@@ -1,23 +1,16 @@
-@php use LakM\Commenter\Helpers; @endphp
+@php
+    use LakM\Commenter\Helpers;
+@endphp
+
 <div
     x-ref="reply{{ $reply->getKey() }}"
-    @class([
-       "flex flex-col gap-x-2 sm:gap-x-4 dark:!text-white",
-       "border rounded-lg p-4" => Helpers::isModernTheme(),
-   ])
-    @style([
-        'color: ' . config('commenter.secondary_color')
-    ])
+    @class(['flex flex-col gap-x-2 sm:gap-x-4 dark:!text-white', 'rounded-lg border p-4' => Helpers::isModernTheme()])
+    @style(['color: ' . config('commenter.secondary_color')])
 >
-    <div
-        @class([
-                "basis-14",
-                'hidden' => Helpers::isModernTheme()
-        ])
-    >
+    <div @class(['basis-14', 'hidden' => Helpers::isModernTheme()])>
         <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
             <img
-                class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-gray-200"
+                class="h-10 w-10 rounded-full border border-gray-200 sm:h-12 sm:w-12"
                 src="{{ $reply->ownerPhotoUrl($authMode) }}"
                 alt="{{ $reply->ownerName($authMode) }}"
             />
@@ -36,29 +29,28 @@
             x-show="!showUpdateForm"
             x-transition
             @class([
-                "rounded border border-gray-200 dark:border-slate-700" => Helpers::isGithubTheme(),
+                'rounded border border-gray-200 dark:border-slate-700' => Helpers::isGithubTheme(),
             ])
         >
             <div
                 @class([
-                    "flex items-start justify-between gap-x-4 p-1 sm:flex-row sm:items-center sm:justify-between",
-                    "mb-2 border-b border-gray-200 bg-gray-100 dark:bg-slate-800 dark:border-slate-900" => Helpers::isGithubTheme(),
+                    'flex items-start justify-between gap-x-4 p-1 sm:flex-row sm:items-center sm:justify-between',
+                    'mb-2 border-b border-gray-200 bg-gray-100 dark:border-slate-900 dark:bg-slate-800' => Helpers::isGithubTheme(),
                 ])
             >
                 <div
                     @class([
-                        "flex items-center gap-4" => Helpers::isModernTheme()
+                        'flex items-center gap-4' => Helpers::isModernTheme(),
                     ])
                 >
-
                     <div
                         @class([
-                            "hidden" => !Helpers::isModernTheme()
+                            'hidden' => ! Helpers::isModernTheme(),
                         ])
                     >
                         <a href="{{ $profileUrl ?? $reply->ownerPhotoUrl($authMode) }}" target="_blank">
                             <img
-                                class="h-8 w-8 sm:h-10 sm:w-10 rounded-full border border-gray-200"
+                                class="h-8 w-8 rounded-full border border-gray-200 sm:h-10 sm:w-10"
                                 src="{{ $reply->ownerPhotoUrl() }}"
                                 alt="{{ $reply->ownerName($authMode) }}"
                             />
@@ -66,20 +58,18 @@
                     </div>
 
                     <div>
-                        <span class="font-semibold sm:hidden me-1">
+                        <span class="me-1 font-semibold sm:hidden">
                             {{ Str::limit($reply->ownerName($authMode), 10) }}
                         </span>
 
-                        <span class="hidden font-semibold sm:inline me-1">
-                        {{ Str::limit($reply->ownerName($authMode), 25) }}
+                        <span class="me-1 hidden font-semibold sm:inline">
+                            {{ Str::limit($reply->ownerName($authMode), 25) }}
                         </span>
 
-                        <span class="inline-block h-2 w-[1px] bg-black me-1"></span>
+                        <span class="me-1 inline-block h-2 w-[1px] bg-black"></span>
 
                         @if (config('commenter.date_format') === 'diff')
-                            <span
-                                class="text-xs"
-                                :title="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')">
+                            <span class="text-xs" :title="moment(@js($reply->created_at)).format('YYYY/M/D H:mm')">
                                 {{ $reply->created_at->diffForHumans() }}
                             </span>
                         @else
@@ -96,14 +86,13 @@
                     </div>
                 </div>
 
-
                 @if ($canManipulate)
                     <div class="flex items-center justify-center gap-x-2">
-                        <div title="{{__('My Reply')}}">
-                            <x-commenter::user-check height="14" width="14"/>
+                        <div title="{{ __('My Reply') }}">
+                            <x-commenter::user-check height="14" width="14" />
                         </div>
 
-                        <x-commenter::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500"/>
+                        <x-commenter::spin wire:loading wire:target="delete({{$reply}})" class="!text-blue-500" />
 
                         <div
                             x-data="{ showEditMenu: false }"
@@ -112,14 +101,14 @@
                             class="relative cursor-pointer"
                         >
                             <div @click="showEditMenu ? showEditMenu = false : showEditMenu = true">
-                                <x-commenter::verticle-ellipsis :height="20" :width="20"/>
+                                <x-commenter::verticle-ellipsis :height="20" :width="20" />
                             </div>
 
                             <ul
                                 x-show="showEditMenu"
                                 @click.outside="showEditMenu=false"
                                 x-transition
-                                class="absolute bottom-[1rem] end-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white dark:border-slate-900 dark:bg-slate-800 p-1 shadow-lg"
+                                class="absolute bottom-[1rem] end-[0.8rem] z-10 min-w-32 space-y-1 rounded border border-[gray-100] bg-white p-1 shadow-lg dark:border-slate-900 dark:bg-slate-800"
                             >
                                 @if ($this->canUpdateReply($reply))
                                     <li
@@ -130,7 +119,7 @@
                                          "
                                         class="flex items-center gap-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
-                                        <x-commenter::pencil height="13" width="13" strokeColor="blue"/>
+                                        <x-commenter::pencil height="13" width="13" strokeColor="blue" />
                                         <x-commenter::action class="text-sm hover:!no-underline sm:text-sm">
                                             {{ __('Edit') }}
                                         </x-commenter::action>
@@ -144,7 +133,7 @@
                                         @click="showEditMenu=false"
                                         class="flex items-center gap-x-2 rounded p-2 hover:!bg-gray-200 dark:hover:!bg-slate-900"
                                     >
-                                        <x-commenter::trash height="13" width="13" strokeColor="red"/>
+                                        <x-commenter::trash height="13" width="13" strokeColor="red" />
                                         <x-commenter::action
                                             wire:loading.remove
                                             wire:target="delete({{$reply}})"
@@ -183,8 +172,8 @@
             </div>
 
             <div
-                class="flex bg-gray-200 my-4 justify-center items-center h-[1px] max-w-[10%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
-            </div>
+                class="mx-auto my-4 flex h-[1px] max-w-[10%] items-center justify-center bg-gray-200 bg-gradient-to-r from-transparent via-gray-100 to-transparent"
+            ></div>
 
             <!--Reaction manager -->
             <div x-show="!showUpdateForm" class="mt-2">
@@ -208,18 +197,23 @@
             @endif
         </div>
 
-        {{-- Replies count--}}
+        {{-- Replies count --}}
         @if (config('commenter.reply.enabled'))
             <div
-                x-data="{replyCount: @js($replyCount), showReplyList: $wire.entangle('showReplyList')}"
-                @reply-created-{{ $reply->getKey() }}.window="
+                x-data="{
+                    replyCount: @js($replyCount),
+                    showReplyList: $wire.entangle('showReplyList'),
+                }"
+                @reply-created-
+                {{ $reply->getKey() }}.window="
                             if($event.detail.messageId === {{ $reply->getKey() }}) {
                                 if(!event.detail.approvalRequired) {
                                     replyCount += 1;
                                 }
                             }
                         "
-                @reply-deleted-{{ $reply->getKey() }}.window="
+                @reply-deleted-
+                {{ $reply->getKey() }}.window="
                             if($event.detail.messageId === {{ $reply->getKey() }}) {
                                 replyCount -= 1;
                             }
@@ -242,42 +236,40 @@
                     <x-commenter::link
                         type="popup"
                         @class([
-                            "mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1",
-                            "!mx-0 px-2 py-1" => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
-                            "hover:!bg-["  . config('commenter.hover_color') . "]" =>  Helpers::isModernTheme(),
-                            "!rounded-[1000px] hover:rounded-[1000px] gap-x-2" => Helpers::isModernTheme(),
+                            'mx-2 dark:!text-white inline-flex text-sm items-center transition dark:!bg-slate-900 dark:hover:!bg-slate-800 [&>*]:pe-1',
+                            '!mx-0 px-2 py-1' => Helpers::isDefaultTheme() || Helpers::isModernTheme(),
+                            'hover:!bg-[' . config('commenter.hover_color') . ']' => Helpers::isModernTheme(),
+                            '!rounded-[1000px] hover:rounded-[1000px] gap-x-2' => Helpers::isModernTheme(),
                         ])
                         @style([
                             'background: ' . config('commenter.bg_primary_color') => Helpers::isModernTheme(),
                         ])
                     >
-                        @if(!Helpers::isModernTheme())
+                        @if (! Helpers::isModernTheme())
                             <span x-show="!showReplyList">
-                                        <x-commenter::icons.chevron-down />
-                                    </span>
+                                <x-commenter::icons.chevron-down />
+                            </span>
                             <span x-show="showReplyList">
-                                        <x-commenter::icons.chevron-up />
-                                    </span>
+                                <x-commenter::icons.chevron-up />
+                            </span>
                         @endif
 
                         <span
                             x-text="replyCount"
-                                    @class([
-                                        "inline-block text-center",
-                                        "border text-xs !py-1 !px-2 rounded-full bg-white dark:bg-slate-800" => Helpers::isModernTheme(),
-                                    ])
-                                >
-
-                                </span>
+                            @class([
+                                'inline-block text-center',
+                                'rounded-full border bg-white !px-2 !py-1 text-xs dark:bg-slate-800' => Helpers::isModernTheme(),
+                            ])
+                        ></span>
                         <span>{{ __('Replies') }}</span>
 
-                        @if(Helpers::isModernTheme())
+                        @if (Helpers::isModernTheme())
                             <span x-show="!showReplyList">
-                                        <x-commenter::icons.list-down />
-                                    </span>
+                                <x-commenter::icons.list-down />
+                            </span>
                             <span x-show="showReplyList">
-                                        <x-commenter::icons.list-up />
-                                    </span>
+                                <x-commenter::icons.list-up />
+                            </span>
                         @endif
                     </x-commenter::link>
                 </div>
@@ -285,10 +277,11 @@
         @endif
     </div>
 
-    @if($showReplyList)
+    @if ($showReplyList)
         <div class="ml-2">
-            <div class="flex bg-gray-200 mb-6 mt-4 justify-center items-center h-[1px] max-w-[100%] mx-auto bg-gradient-to-r from-transparent via-gray-100 to-transparent">
-            </div>
+            <div
+                class="mx-auto mb-6 mt-4 flex h-[1px] max-w-[100%] items-center justify-center bg-gray-200 bg-gradient-to-r from-transparent via-gray-100 to-transparent"
+            ></div>
             <livewire:replies.list-view
                 :key="'nested-reply-list-'. $reply->id"
                 :message="$reply"

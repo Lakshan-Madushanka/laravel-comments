@@ -1,4 +1,9 @@
-@php use LakM\Commenter\Enums\Sort;use LakM\Commenter\Facades\SecureGuestMode;use LakM\Commenter\Helpers; @endphp
+@php
+    use LakM\Commenter\Enums\Sort;
+    use LakM\Commenter\Facades\SecureGuestMode;
+    use LakM\Commenter\Helpers;
+@endphp
+
 <div
     x-data="{
         total: $wire.entangle('total'),
@@ -11,24 +16,19 @@
 >
     <div
         class="text-lg font-bold dark:!text-white"
-        @style([
-            'color: ' . config('commenter.primary_color'),
-        ])
+        @style(['color: ' . config('commenter.primary_color')])
     >
         {{ __('Comments') }}
         <span x-text="getTotal()"></span>
     </div>
-    <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between !-mb-2">
+    <div class="!-mb-2 flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
         @if (($total > 1 || $filter === 'own') && config('commenter.show_filters'))
-            <div @class([
-                    "flex gap-x-4 overflow-auto",
-                    "px-2 md:px-0" => Helpers::isModernTheme()
-                ])
+            <div
+                @class(['flex gap-x-4 overflow-auto', 'px-2 md:px-0' => Helpers::isModernTheme()])
             >
-                <div @class([
-                    "hidden",
-                    "!block w-14" => !Helpers::isModernTheme()
-                ])></div>
+                <div
+                    @class(['hidden', '!block w-14' => ! Helpers::isModernTheme()])
+                ></div>
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::TOP->value}}')"
                     wire:loading.class="!pointer-events-none"
@@ -69,42 +69,35 @@
         @endif
 
         <div
-            @class([
-                "flex gap-x-2 justify-end  items-center",
-                "!justify-between w-full" => $this->shouldShowSingleThread()
-            ])
+            @class(['flex items-center justify-end gap-x-2', 'w-full !justify-between' => $this->shouldShowSingleThread()])
         >
-            @if($this->shouldShowSingleThread())
-                <div class="grow flex items-center space-x-4 !me-8">
+            @if ($this->shouldShowSingleThread())
+                <div class="!me-8 flex grow items-center space-x-4">
                     <span>Single Comment Thread</span>
                     <hr class="inline-block grow" />
                     <span
                         wire:click="showAll"
                         class="cursor-pointer"
-                        @style([
-                          'color: ' . config('commenter.primary_color'),
-                        ])
+                        @style(['color: ' . config('commenter.primary_color')])
                     >
                         Show Full Thread
                     </span>
                 </div>
             @endif
-            <div
-                @style([
-                    'color: ' . config('commenter.primary_color'),
-                ])
-            >
-                @if(Helpers::isModernTheme())
+
+            <div @style(['color: ' . config('commenter.primary_color')])>
+                @if (Helpers::isModernTheme())
                     <x-commenter::link type="a" route="#create-comment-form">
                         <x-commenter::icons.create />
                     </x-commenter::link>
                 @else
-                    <x-commenter::link class="dark:!text-white !border-b-0" type="a"
-                                      route="#create-comment-form">{{ __('Create Comment') }}</x-commenter::link>
+                    <x-commenter::link class="!border-b-0 dark:!text-white" type="a" route="#create-comment-form">
+                        {{ __('Create Comment') }}
+                    </x-commenter::link>
                 @endif
             </div>
-            @if($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
-                <div class="w-1 h-6 bg-slate-500"></div>
+            @if ($guestMode && SecureGuestMode::enabled() && SecureGuestMode::allowed())
+                <div class="h-6 w-1 bg-slate-500"></div>
                 <x-commenter::link type="button" wire:click="logOut">{{ __('Log out') }}</x-commenter::link>
             @endif
         </div>
@@ -138,30 +131,30 @@
     @endif
 
     @script
-    <script>
-        const highlight = () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        };
+        <script>
+            const highlight = () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            };
 
-        highlight();
-
-        $wire.on('filter-applied', () => {
             highlight();
-        });
 
-        $wire.on('comment-updated', () => {
-            highlight();
-        });
+            $wire.on('filter-applied', () => {
+                highlight();
+            });
 
-        Livewire.on('comment-created', () => {
-            highlight();
-        });
+            $wire.on('comment-updated', () => {
+                highlight();
+            });
 
-        $wire.on('more-comments-loaded', () => {
-            highlight();
-        });
-    </script>
+            Livewire.on('comment-created', () => {
+                highlight();
+            });
+
+            $wire.on('more-comments-loaded', () => {
+                highlight();
+            });
+        </script>
     @endscript
 </div>

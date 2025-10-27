@@ -2,29 +2,27 @@
     @if ($show)
         <div
             @class([
-                "scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg dark:!text-white dark:!bg-black",
-                "hover:!bg-["  . config('commenter.hover_color') . "]",
+                'scrollbar max-h-96 min-h-96 w-full overflow-auto rounded bg-gray-200 shadow-lg dark:!bg-black dark:!text-white',
+                'hover:!bg-[' . config('commenter.hover_color') . ']',
             ])
-            @style([
-                'background: ' . config('commenter.bg_primary_color'),
-            ])
+            @style(['background: ' . config('commenter.bg_primary_color')])
         >
             <div
                 x-data="{
-                    initFocus:false,
-                    setFocusFirst: function() {
-                      if(!this.initFocus) {
-                        this.initFocus = true
-                        $focus.wrap().first()
-                      }
+                    initFocus: false,
+                    setFocusFirst: function () {
+                        if (! this.initFocus) {
+                            this.initFocus = true
+                            $focus.wrap().first()
+                        }
                     },
-                     setFocusLast: function() {
-                      if(!this.initFocus) {
-                        this.initFocus = true
-                        $focus.wrap().last()
-                      }
-                    }
-                 }"
+                    setFocusLast: function () {
+                        if (! this.initFocus) {
+                            this.initFocus = true
+                            $focus.wrap().last()
+                        }
+                    },
+                }"
                 @keydown.up="$focus.wrap().previous();"
                 @keydown.down="$focus.wrap().next()"
                 @keydown.up.window="setFocusFirst()"
@@ -53,9 +51,7 @@
             <div wire:loading.flex class="mt-4 flex justify-center">
                 <x-commenter::spin
                     class="size-6 text-center !text-blue-500"
-                    @style([
-                        'color: ' . config('commenter.primary_color'),
-                    ])
+                    @style(['color: ' . config('commenter.primary_color')])
                 />
             </div>
         </div>

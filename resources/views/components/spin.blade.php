@@ -2,9 +2,7 @@
 
 <span
     {{ $attributes->merge(['class' => 'inline-block size-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-white']) }}
-    @style([
-         'color: ' . $color,
-     ])
+    @style(['color: ' . $color])
     role="status"
     aria-label="loading"
 >

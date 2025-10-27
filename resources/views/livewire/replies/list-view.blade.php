@@ -1,7 +1,11 @@
-@php use LakM\Commenter\Enums\Sort;use LakM\Commenter\Helpers; @endphp
+@php
+    use LakM\Commenter\Enums\Sort;
+    use LakM\Commenter\Helpers;
+@endphp
+
 <div x-data="{ total: $wire.entangle('total') }" class="space-y-6">
     @if ($total > 1 && config('commenter.show_filters') && $showFilters)
-        <div class="flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between !-mb-2">
+        <div class="!-mb-2 flex flex-col gap-y-2 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex gap-x-2 overflow-auto overflow-x-auto sm:gap-x-3">
                 <x-commenter::chip
                     wire:click="setSortBy('{{Sort::LATEST->value}}')"
@@ -34,13 +38,7 @@
 
     @if ($replies->isNotEmpty())
         @foreach ($replies as $reply)
-            <livewire:replies.item-view
-                :key="'reply-item' . $reply->id"
-                :$message
-                :$relatedModel
-                :$reply
-                :$guestMode
-            />
+            <livewire:replies.item-view :key="'reply-item' . $reply->id" :$message :$relatedModel :$reply :$guestMode />
         @endforeach
     @endif
 
@@ -61,40 +59,40 @@
     @endif
 
     @script
-    <script>
-        const highlight = () => {
-            setTimeout(() => {
-                highlightSyntax();
-            }, 1500);
-        };
+        <script>
+            const highlight = () => {
+                setTimeout(() => {
+                    highlightSyntax();
+                }, 1500);
+            };
 
-        highlight();
-
-        $wire.on('show-reply', () => {
             highlight();
-        });
 
-        $wire.on('filter-applied', () => {
-            highlight();
-        });
+            $wire.on('show-reply', () => {
+                highlight();
+            });
 
-        $wire.on('reply-updated', () => {
-            highlight();
-        });
+            $wire.on('filter-applied', () => {
+                highlight();
+            });
 
-        $wire.on('unauthorized-reply-updated', (event) => {
-            if (event.messageId === @js($message->getKey())) {
-                $wire.$set('total', --$wire.total);
-            }
-        });
+            $wire.on('reply-updated', () => {
+                highlight();
+            });
 
-        Livewire.on("reply-created-@js($message->getKey())", () => {
-            highlight();
-        });
+            $wire.on('unauthorized-reply-updated', (event) => {
+                if (event.messageId === @js($message->getKey())) {
+                    $wire.$set('total', --$wire.total);
+                }
+            });
 
-        $wire.on('more-replies-loaded', () => {
-            highlight();
-        });
-    </script>
+            Livewire.on('reply-created-@js($message->getKey())', () => {
+                highlight();
+            });
+
+            $wire.on('more-replies-loaded', () => {
+                highlight();
+            });
+        </script>
     @endscript
 </div>

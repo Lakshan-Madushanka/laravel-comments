@@ -17,11 +17,13 @@
             wire:loading.remove
             wire:target="lastReactedUser"
         >
-            <div class="flex w-full flex-col rounded border border-gray-200 bg-white dark:!bg-black p-1 text-sm shadow dark:bg-slate-800 dark:border-slate-700">
+            <div
+                class="flex w-full flex-col rounded border border-gray-200 bg-white p-1 text-sm shadow dark:border-slate-700 dark:!bg-black dark:bg-slate-800"
+            >
                 <span>
                     {{ Str::limit($lastReactedUserName, 10) }}
                     @if ($reactions[$key]['count'] > 1)
-                        {{ __('and') }} {{ $reactions[$key]['count'] - 1 }} {{ __('other') }}
+                            {{ __('and') }} {{ $reactions[$key]['count'] - 1 }} {{ __('other') }}
                     @endif
 
                     {{ __('reacted') }}.
