@@ -1,19 +1,5 @@
 # Documentation of the changes
 
-## 4.0.0 - 2025-10-27
-
-### What's Changed
-
-* chore(deps-dev): bump vite from 6.3.4 to 6.3.6 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/153
-* Feat: Pin comments/replies by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/157
-* Upgrade: Tailwing css to v4 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/158
-* Fix: fix & improve some design issues by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/159
-* design: improve design & fix some design related issues by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/160
-* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/161
-* chore(deps-dev): bump vite from 6.3.4 to 6.4.1 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/162
-
-**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/3.0.5...4.0.0
-
 ## 3.0.5 - 2025-07-28
 
 ### What's Changed
