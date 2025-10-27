@@ -152,3 +152,29 @@ Do followings before upgrade to v3 from v2.
 3️⃣ Remove the v2
 
 4️⃣ Reinstall and set up the package as instructed in v3 [installation](https://lakm.gitbook.io/commenter/basics/installation) section and [usage section](https://lakm.gitbook.io/commenter/basics/usage)
+
+
+## v3 to v4 [⚠️Breaking Changes⚠️]
+
+This version adds pin message features. In order to support that, some breaking changes have been made.
+
+- `is_pinned` column has been added to `comments` table. 
+
+### Step 1: Upgrade to v4
+
+```json
+{
+    "require": {
+        "lakm/laravel-comments": "^4.0"
+    }
+}
+```
+Run following command
+
+```bash
+composer update lakm/laravel-comments:^4.0
+```
+
+### Step 2
+
+Run commenter install command to automatically take care of the changes.
