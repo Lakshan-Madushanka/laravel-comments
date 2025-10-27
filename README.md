@@ -49,7 +49,7 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 ](https://medium.com/@epmadushanka/enable-commenting-in-seconds-with-laravel-6cb7cc7eb6f2)
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/6e5d0938-8b3a-4a3e-a2e0-52c9e3eb8010" alt="screenshot">
+<img src="https://github.com/user-attachments/assets/4f0204d6-dfc3-4dbb-89f9-9d013aa7ecf9" alt="screenshot">
 </p>
 
 ## Key Features
