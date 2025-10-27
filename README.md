@@ -49,7 +49,7 @@ See the [documentation](https://lakm.gitbook.io/commenter/basics/installation) f
 ](https://medium.com/@epmadushanka/enable-commenting-in-seconds-with-laravel-6cb7cc7eb6f2)
 
 <p align="center">
-<img src="https://github.com/user-attachments/assets/4f0204d6-dfc3-4dbb-89f9-9d013aa7ecf9" alt="screenshot">
+<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/47297673/505837695-4f0204d6-dfc3-4dbb-89f9-9d013aa7ecf9.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20251027%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20251027T061634Z&X-Amz-Expires=300&X-Amz-Signature=b6f56efe3e55faa2b3687388e69515ec585083b9931afd20688b757b7abfe3ff&X-Amz-SignedHeaders=host" alt="screenshot">
 </p>
 
 ## Key Features
