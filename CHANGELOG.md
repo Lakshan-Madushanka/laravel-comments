@@ -63,7 +63,7 @@
 ### What's Changed
 
 * Update dev dependencies to compatible with Laravel 12 by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/105
-* Feat: reference link to a single comment by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/106
+* Feat: reference link to a single comment (share) by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/106
 * Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/107
 
 **Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/2.2.10...2.3.0
