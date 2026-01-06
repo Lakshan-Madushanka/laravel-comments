@@ -18,7 +18,7 @@ body:
     attributes:
       label: Commenter Version
       description: Provide the commenter version that you are using.
-      placeholder: 2.0.5
+      placeholder: Provide exact commenter version you use
     validations:
       required: true
   - type: dropdown
