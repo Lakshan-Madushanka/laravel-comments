@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 4.0.1 - 2026-01-06
+
+### What's Changed
+
+* chore(deps-dev): bump tar from 7.5.1 to 7.5.2 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/165
+* fix: timeout issue in asset building phrase by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/170
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.0.0...4.0.1
+
 ## 4.0.0 - 2025-10-27
 
 ### What's Changed
