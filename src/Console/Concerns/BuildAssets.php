@@ -88,13 +88,15 @@ trait BuildAssets
         $this->info('🛠️  Building assets this might take a while...');
         $this->newLine();
 
+        $timeout = 600;
+
         Process::path($basePath)
-            ->timeout(300)
+            ->timeout($timeout)
             ->run('npm install')
             ->throw();
 
         Process::path($basePath)
-            ->timeout(300)
+            ->timeout($timeout)
             ->run('npm run build')
             ->throw();
     }
