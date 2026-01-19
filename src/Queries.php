@@ -67,7 +67,7 @@ class Queries extends AbstractQueries
             ->withCount(self::addCount())
             ->repliesCount()
             ->checkApproval($relatedModel)
-            ->addScore()
+            ->when(Helpers::isModernTheme(), fn ( $query) => $query->addScore())
             ->when(
                 $sortBy === Sort::LATEST,
                 fn (Builder $query) => $query->latest()
