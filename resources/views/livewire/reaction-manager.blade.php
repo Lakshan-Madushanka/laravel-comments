@@ -299,7 +299,7 @@
     </div>
 
     @if ($enableReply)
-        <div x-show="showReplyForm" x-transition class="my-4 sm:ms-8">
+        <div x-show="showReplyForm" x-transition class="my-4">
             <livewire:replies.create-form :message="$message" :$guestMode :$relatedModel />
         </div>
     @endif

@@ -337,8 +337,9 @@
             x-show="showReplyList"
             x-transtion
             @class([
-                "mt-4 -ms-10",
-                "ms-2!" => Helpers::isModernTheme()
+                "mt-4",
+                "-ms-10" => !Helpers::isModernTheme(),
+                "ms-2 md:ms-8" => Helpers::isModernTheme()
             ])
         >
             <div
