@@ -67,6 +67,7 @@ class Queries extends AbstractQueries
             ->withCount(self::addCount())
             ->repliesCount()
             ->checkApproval($relatedModel)
+            ->addScore()
             ->when(
                 $sortBy === Sort::LATEST,
                 fn (Builder $query) => $query->latest()
@@ -80,7 +81,6 @@ class Queries extends AbstractQueries
             ->when($sortBy === Sort::TOP, function (Builder $query) {
                 // @phpstan-ignore-next-line
                 return $query
-                    ->addScore()
                     ->orderByDesc("score");
             });
     }
