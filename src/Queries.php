@@ -61,13 +61,18 @@ class Queries extends AbstractQueries
         Sort $sortBy,
         string $filter
     ): MessageBuilder {
+        $commentClass = ModelResolver::commentClass();
+
         return $query->currentUserFilter($relatedModel, $filter)
             ->withOwnerReactions($relatedModel)
             ->with('commenter')
             ->withCount(self::addCount())
             ->repliesCount()
             ->checkApproval($relatedModel)
-            ->when(Helpers::isModernTheme(), fn ( $query) => $query->addScore())
+            ->when(
+                Helpers::isModernTheme() && $query->getModel() instanceof $commentClass,
+                fn (Builder $query) => $query->addScore()
+            )
             ->when(
                 $sortBy === Sort::LATEST,
                 fn (Builder $query) => $query->latest()

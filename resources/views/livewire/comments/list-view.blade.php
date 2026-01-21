@@ -1,4 +1,11 @@
-@php use LakM\Commenter\Enums\Sort;use LakM\Commenter\Facades\SecureGuestMode;use LakM\Commenter\Helpers; @endphp
+@php
+ use LakM\Commenter\Enums\Sort;
+ use LakM\Commenter\Facades\SecureGuestMode;
+ use LakM\Commenter\Helpers;
+ use LakM\Commenter\Models\Comment;
+ use LakM\Commenter\Models\Reply;
+@endphp
+
 <div
     x-data="{
         total: $wire.entangle('total'),
@@ -111,13 +118,18 @@
         <x-commenter::spin class="size-5!" />
     </div>
 
-    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Comment)
+    @if($this->pinnedMsg instanceof Comment)
         <div class='shadow-xl'>
-            <livewire:comments.item-view :key="'pinned-comment'. $this->pinnedMsg" :comment="$this->pinnedMsg" :$guestMode :$model :$showReplyList />
+            <livewire:comments.item-view
+                :key="'pinned-comment'. $this->pinnedMsg"
+                :comment="$this->pinnedMsg"
+                :$guestMode
+                :$model
+                :$showReplyList />
         </div>
     @endif
 
-    @if($this->pinnedMsg instanceof \LakM\Commenter\Models\Reply)
+    @if($this->pinnedMsg instanceof Reply)
         <div class='shadow-xl'>
             <livewire:replies.item-view
                 :key="'pinned-reply-item' . $this->pinnedMsg->id"
@@ -131,7 +143,13 @@
 
     @if ($comments->isNotEmpty())
         @foreach ($comments as $comment)
-            <livewire:comments.item-view :key="'comment'. $comment->id . '-' . microtime()" :$comment :$guestMode :$model :$showReplyList />
+            <livewire:comments.item-view
+                :key="'comment'. $comment->id . '-' . microtime()"
+                :$comment
+                :$guestMode
+                :$model
+                :$showReplyList
+            />
         @endforeach
     @elseif ($filter === 'own')
         <div class="text-lg">{{ __('You haven\'t made/approved any comments yet !') }}</div>
