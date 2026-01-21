@@ -71,6 +71,7 @@ class Queries extends AbstractQueries
             ->checkApproval($relatedModel)
             ->when(
                 Helpers::isModernTheme() && $query->getModel() instanceof $commentClass,
+                // @phpstan-ignore-next-line
                 fn (Builder $query) => $query->addScore()
             )
             ->when(
