@@ -13,7 +13,7 @@ return [
     /**
      * Available themes default, github, modern
      */
-    'theme' => 'github',
+    'theme' => 'modern',
 
     'primary_color' => '#000000',
 
