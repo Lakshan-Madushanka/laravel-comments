@@ -81,6 +81,7 @@ class Queries extends AbstractQueries
             ->when($sortBy === Sort::TOP, function (Builder $query) {
                 // @phpstan-ignore-next-line
                 return $query
+                    ->addScore()
                     ->orderByDesc("score");
             });
     }
