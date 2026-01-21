@@ -60,9 +60,11 @@
                         ])
                     >
                     </div>
-                    <div class="p-[6px_12px] rounded-full bg-gray-200 text-sm">
-                        {{$comment->score}}
-                    </div>
+                    @if(isset($comment->score))
+                        <div class="p-[6px_12px] rounded-full bg-gray-200 text-sm">
+                            {{$comment->score}}
+                        </div>
+                    @endif
                     <div
                         class="w-[2px] h-[30%] bg-black"
                         @style([

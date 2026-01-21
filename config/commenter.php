@@ -11,7 +11,7 @@ use LakM\Commenter\Policies\ReplyPolicy;
 
 return [
     /**
-     * Available themes default,github
+     * Available themes default, github, modern
      */
     'theme' => 'modern',
 
@@ -131,7 +131,7 @@ return [
      * Keep null to disable this feature.
      * This can be table column name or accessor
      */
-    'profile_url_column' => 'null',
+    'profile_url_column' => null,
 
     // When set to false filters won't be displayed in comments list
     'show_filters' => true,
