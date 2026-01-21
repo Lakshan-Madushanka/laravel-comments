@@ -69,6 +69,7 @@ class Queries extends AbstractQueries
             ->withCount(self::addCount())
             ->repliesCount()
             ->checkApproval($relatedModel)
+            ->addScore()
             ->when(
                 Helpers::isModernTheme() && $query->getModel() instanceof $commentClass,
                 fn (Builder $query) => $query->addScore()
@@ -86,7 +87,6 @@ class Queries extends AbstractQueries
             ->when($sortBy === Sort::TOP, function (Builder $query) {
                 // @phpstan-ignore-next-line
                 return $query
-                    ->addScore()
                     ->orderByDesc("score");
             });
     }
