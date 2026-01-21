@@ -11,7 +11,7 @@ use LakM\Commenter\Policies\ReplyPolicy;
 
 return [
     /**
-     * Available themes default,github
+     * Available themes default, github, modern
      */
     'theme' => 'modern',
 
