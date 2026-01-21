@@ -1,5 +1,16 @@
 # Documentation of the changes
 
+## 4.0.2 - 2026-01-21
+
+### What's Changed
+
+* Fix: Throwing missing attribute exceptions by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/174
+* Fix some style issues by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/175
+* chore(deps-dev): bump tar from 7.5.2 to 7.5.3 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/173
+* chore(deps-dev): bump tar from 7.5.3 to 7.5.6 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/176
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.0.1...4.0.2
+
 ## 4.0.1 - 2026-01-06
 
 ### What's Changed
