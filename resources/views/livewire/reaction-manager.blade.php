@@ -172,6 +172,16 @@
                         :$loginRequired
                         :$secureGuestModeAllowed
                     />
+                    <x-commenter::show-reacted-users
+                        @mouseleave="showUsers=false"
+                        :$lastReactedUserName
+                        :$reactions
+                        :$key
+                        :$message
+                        :$authMode
+                        class="bottom-[-3.4rem] -start-8"
+                        wrapperClass="start-1 bottom-[-2.2rem]"
+                    />
                 @endif
             @endforeach
 
