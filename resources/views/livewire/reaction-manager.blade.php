@@ -2,7 +2,7 @@
      use LakM\Commenter\Helpers;
 @endphp
 
-<div x-data="{ showReplyForm: false }">
+<div x-data="{ showReplyForm: false, showShareMenu: false, shareButtonPosition: {x: 0, y: 0} }">
     <div class="flex w-full overflow-x-auto justify-between gap-x-4 dark:text-white!">
         <div
             @class([
@@ -220,7 +220,7 @@
                         type="popup"
                     >
                         @if(Helpers::isModernTheme())
-                            <x-commenter::icons.reply />
+                            <x-commenter::icons.reply/>
                         @endif
                         <span>{{__('Reply')}}</span>
                     </x-commenter::link>
@@ -229,20 +229,23 @@
 
             @if($shouldEnableShareButton)
                 <div
-                    x-data="{showShareMenu: false}"
-                    @click="showShareMenu = !showShareMenu"
+                    @click="
+                        const rect = $el.getBoundingClientRect();
+                        shareButtonPosition.y = rect.top + window.scrollY
+                        shareButtonPosition.x = rect.left + window.scrollX
+                        showShareMenu = !showShareMenu;
+                    "
                     @click.outside="showShareMenu = false"
                     @class([
-                        "px-1 rounded-sm dark:bg-slate-800! dark:border-slate-700 relative gap-2",
+                        "px-1 rounded-sm dark:bg-slate-800! dark:border-slate-700 gap-2",
                         "rounded-[1000px]! py-[7px]! px-[8px]! bg-transparent" =>  Helpers::isModernTheme(),
                         "hover:bg-["  . config('commenter.hover_color') . "]! dark:bg-slate-900! dark:hover:bg-slate-600!" => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                     ])
                     @style([
                         'background: ' . config('commenter.bg_primary_color') => Helpers::isGithubTheme() || Helpers::isModernTheme(),
                    ])
-
                 >
-                    <div x-data="copyToClipboard" class="relative">
+                    <div>
                         <x-commenter::link
                             @class([
                                 "align-text-bottom text-xs",
@@ -252,27 +255,38 @@
                             type="popup"
                         >
                             @if(Helpers::isModernTheme())
-                                <x-commenter::icons.share />
+                                <x-commenter::icons.share/>
                             @endif
                             <span>{{__('Share')}}</span>
 
-                            <span x-show="isCopied"
-                                  class="absolute start-[calc(100%+1rem)] text-nowrap">Link Copied!</span>
                         </x-commenter::link>
+                    </div>
+                </div>
 
-                        <x-commenter::input.dropdown x-show="showShareMenu" class="absolute start-0 top-8">
+                <div
+                    x-cloak
+                    x-data="copyToClipboard"
+                    class="absolute z-[200]"
+                    :style="{left: shareButtonPosition.x + 20 + 'px', top: shareButtonPosition.y - 50 + 'px'}"
+                >
+                    <div x-show="showShareMenu">
+                        <x-commenter::input.dropdown x-show="showShareMenu">
                             <div @click="
                                 const url = new URL(window.location.href);
                                 url.searchParams.append('message_type', 'single');
                                 url.searchParams.append('message_id', '@js($message->getKey())');
-
-
                                 copy(url.href);
                             ">
-                                <x-commenter::input.dropdown-item name="Copy Link" icon="link" />
+                                <x-commenter::input.dropdown-item name="Copy Link" icon="link"/>
                             </div>
                         </x-commenter::input.dropdown>
                     </div>
+                    <span
+                        x-show="isCopied"
+                        class="text-nowrap"
+                    >
+                            Link Copied!
+                        </span>
                 </div>
             @endif
         </div>
@@ -300,7 +314,7 @@
 
     @if ($enableReply)
         <div x-show="showReplyForm" x-transition class="my-4">
-            <livewire:replies.create-form :message="$message" :$guestMode :$relatedModel />
+            <livewire:replies.create-form :message="$message" :$guestMode :$relatedModel/>
         </div>
     @endif
 
