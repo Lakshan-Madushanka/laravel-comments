@@ -124,11 +124,11 @@ class CommenterServiceProvider extends ServiceProvider
         ], 'commenter-config');
 
         $this->publishes([
-            __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comments_table.php'),
-            __DIR__ . '/../database/migrations/create_reactions_table.php.stub' => $this->getMigrationFileName('create_reactions_table.php'),
-            __DIR__ . '/../database/migrations/create_guests_table.php.stub' => $this->getMigrationFileName('create_guests_table.php'),
-            __DIR__ . '/../database/migrations/drop_guest_columns_from_comments_table.php.stub' => $this->getMigrationFileName('drop_guest_columns_from_comments_table.php'),
-            __DIR__ . '/../database/migrations/add_is_pinned_column_to_comments_table.php.stub' => $this->getMigrationFileName('add_is_pinned_column_to_comments_table.php'),
+            __DIR__ . '/../database/migrations/create_comments_table.php.stub' => $this->getMigrationFileName('create_comments_table.php', 1),
+            __DIR__ . '/../database/migrations/create_reactions_table.php.stub' => $this->getMigrationFileName('create_reactions_table.php', 2),
+            __DIR__ . '/../database/migrations/create_guests_table.php.stub' => $this->getMigrationFileName('create_guests_table.php', 3),
+            __DIR__ . '/../database/migrations/drop_guest_columns_from_comments_table.php.stub' => $this->getMigrationFileName('drop_guest_columns_from_comments_table.php', 4),
+            __DIR__ . '/../database/migrations/add_is_pinned_column_to_comments_table.php.stub' => $this->getMigrationFileName('add_is_pinned_column_to_comments_table.php', 5),
         ], 'commenter-migrations');
 
         $this->publishes([
@@ -170,9 +170,9 @@ class CommenterServiceProvider extends ServiceProvider
     /**
      * Returns existing migration file if found, else uses the current timestamp.
      */
-    protected function getMigrationFileName(string $migrationFileName): string
+    protected function getMigrationFileName(string $migrationFileName, int $order): string
     {
-        $timestamp = date('Y_m_d_His');
+        $timestamp = now()->addSeconds($order)->format('Y_m_d_His');
 
         $filesystem = $this->app->make(Filesystem::class);
 
