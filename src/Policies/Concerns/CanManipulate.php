@@ -11,13 +11,13 @@ trait CanManipulate
 {
     private function canManipulate(?Authenticatable $user, Reply|Comment $message, bool $isGuestMode): bool
     {
-        if (!$isGuestMode && $user) {
+        if (!$isGuestMode) {
+            if (is_null($user)) {
+                return false;
+            }
+
             return $user->getMorphClass() === $message->commenter_type &&
                 $user->getKey() === $message->commenter->getKey();
-        }
-
-        if (!$isGuestMode && is_null($user)) {
-            return false;
         }
 
         if (SecureGuestMode::enabled()) {

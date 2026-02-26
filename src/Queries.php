@@ -42,9 +42,12 @@ class Queries extends AbstractQueries
     {
         $alias = $relatedModel->getMorphClass();
 
-        return $user
+        /** @var MessageBuilder<Comment> $commentQuery */
+        $commentQuery = $user
             ->comments()
-            ->currentUser($user)
+            ->getQuery();
+
+           return $commentQuery->currentUser($user)
             ->count();
     }
 
@@ -72,11 +75,11 @@ class Queries extends AbstractQueries
             ->when(
                 Helpers::isModernTheme() && $query->getModel() instanceof $commentClass,
                 // @phpstan-ignore-next-line
-                fn (Builder $query) => $query->addScore()
+                fn(Builder $query) => $query->addScore()
             )
             ->when(
                 $sortBy === Sort::LATEST,
-                fn (Builder $query) => $query->latest()
+                fn(Builder $query) => $query->latest()
             )
             ->when($sortBy === Sort::OLDEST, function (Builder $query) {
                 return $query->oldest();
@@ -85,8 +88,8 @@ class Queries extends AbstractQueries
                 return $query->orderByDesc('replies_count');
             })
             ->when($sortBy === Sort::TOP, function (Builder $query) {
-                // @phpstan-ignore-next-line
                 return $query
+                    // @phpstan-ignore-next-line
                     ->addScore()
                     ->orderByDesc("score");
             });
@@ -111,8 +114,8 @@ class Queries extends AbstractQueries
         return static::applyFilters($commentQuery, $relatedModel, $sortBy, $filter)
             ->when(
                 $relatedModel->paginationEnabled(),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
@@ -147,7 +150,7 @@ class Queries extends AbstractQueries
     ): ?Message {
         /** @var MessageBuilder<Comment> $commentQuery */
         $commentQuery = $relatedModel->comments()->getQuery();
-        $commentQuery  = $commentQuery->isPinned();
+        $commentQuery = $commentQuery->isPinned();
 
         $pinnedComment = self::applyFilters($commentQuery, $relatedModel, Sort::TOP, '')
             ->first();
@@ -157,7 +160,7 @@ class Queries extends AbstractQueries
         }
 
         /** @var MessageBuilder<Comment> $commentQuery */
-        $pinnedComment = $relatedModel->comments()->with('replies', function (MorphMany $query) {
+        $pinnedComment = $relatedModel->comments()->with('replies', function ($query) {
             $query->where('is_pinned', true);
         })->first();
 
@@ -203,7 +206,7 @@ class Queries extends AbstractQueries
         bool $authMode
     ): \Illuminate\Support\Collection {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
-        $reactionQuery = $message->reactions();
+        $reactionQuery = $message->reactions()->getQuery();
 
         $reactions = $reactionQuery
             ->whereType($reactionType)
@@ -219,7 +222,7 @@ class Queries extends AbstractQueries
     public static function lastReactedUser(Message $message, string $reactionType, bool $authMode): ?UserData
     {
         /** @var ReactionBuilder<Reaction> $reactionQuery */
-        $reactionQuery = $message->reactions();
+        $reactionQuery = $message->reactions()->getQuery();
 
         $reaction = $reactionQuery
             ->whereType($reactionType)
@@ -237,7 +240,7 @@ class Queries extends AbstractQueries
     public static function userReplyCountForMessage(Message $message, bool $guestMode, ?Authenticatable $user): int
     {
         /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $message->replies();
+        $replyQuery = $message->replies()->getQuery();
 
         return $replyQuery
             ->when(
@@ -270,14 +273,14 @@ class Queries extends AbstractQueries
         string $filter = ''
     ): LengthAwarePaginator|Collection {
         /** @var MessageBuilder<Reply> $replyQuery */
-        $replyQuery = $message->replies();
+        $replyQuery = $message->replies()->getQuery();
 
         return $replyQuery
             ->currentUserFilter($relatedModel, $filter)
             ->with('commenter')
             ->withOwnerReactions($relatedModel)
-            ->when(!$relatedModel->guestModeEnabled(), fn (MessageBuilder $query) => $query->with('commenter'))
-            ->when($approvalRequired, fn (MessageBuilder $query) => $query->approved())
+            ->when(!$relatedModel->guestModeEnabled(), fn(MessageBuilder $query) => $query->with('commenter'))
+            ->when($approvalRequired, fn(MessageBuilder $query) => $query->approved())
             ->when($sortBy === Sort::LATEST, function (Builder $query) {
                 return $query->latest();
             })
@@ -289,8 +292,8 @@ class Queries extends AbstractQueries
             ->latest()
             ->when(
                 config('commenter.reply.pagination.enabled'),
-                fn (Builder $query) => $query->paginate($limit),
-                fn (Builder $query) => $query->get()
+                fn(Builder $query) => $query->paginate($limit),
+                fn(Builder $query) => $query->get()
             );
     }
 
@@ -312,11 +315,11 @@ class Queries extends AbstractQueries
             ->limit($limit)
             ->get()
             ->transform(
-                /**
-                 * @param User&CommenterContract $user
-                 * @return UserData
-                 * @phpstan-ignore-next-line
-                 */
+            /**
+             * @param User&CommenterContract $user
+             * @return UserData
+             * @phpstan-ignore-next-line
+             */
                 function (User $user) {
                     // @phpstan-ignore-next-line
                     return new UserData(name: $user->name(), photo: $user->photoUrl());

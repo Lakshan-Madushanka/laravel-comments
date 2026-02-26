@@ -38,10 +38,13 @@ class Reaction extends Model
         return new ReactionBuilder($query);
     }
 
-    /** @return BelongsTo<User&CommenterContract, Reaction> **/
+    /** @return BelongsTo<User&CommenterContract, $this> **/
     public function user(): BelongsTo
     {
-        return $this->belongsTo(ModelResolver::userModel());
+        /** @var class-string<User&CommenterContract> $class */
+        $class = ModelResolver::userClass();
+
+        return $this->belongsTo($class);
     }
 
     public function owner(): MorphTo

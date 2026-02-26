@@ -92,10 +92,13 @@ class Message extends Model
         return $this->morphMany(Reply::class, 'reply');
     }
 
-    /** @return HasMany<Reaction> */
+    /** @return HasMany<Reaction, $this> */
     public function reactions(): HasMany
     {
-        return $this->hasMany(M::reactionClass(), 'comment_id');
+        /** @var class-string<Reaction> $class */
+        $class = M::reactionClass();
+
+        return $this->hasMany($class, 'comment_id');
     }
 
     public function ownerReactions(): HasMany
