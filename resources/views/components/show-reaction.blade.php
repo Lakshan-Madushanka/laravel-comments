@@ -74,7 +74,7 @@
         :$key
         :$message
         :$authMode
-        class="bottom-[-4.8rem]! -start-48"
+        class="bottom-[-4.8rem]! -start-8"
         wrapperClass="start-[-0.8rem] -bottom-12"
     />
 </div>
