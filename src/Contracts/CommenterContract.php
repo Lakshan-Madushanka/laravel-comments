@@ -4,7 +4,6 @@ namespace LakM\Commenter\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-
 interface CommenterContract
 {
     public function comments(): MorphMany;
