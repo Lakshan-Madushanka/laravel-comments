@@ -1,18 +1,29 @@
 # Documentation of the changes
 
+## 4.1.1 - 2026-02-26
+
+### What's Changed
+
+* fix: styles of showing reacted users when hover by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/190
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.1.0...4.1.1
+
 ## 4.1.0 - 2026-02-26
 
 ### What's Changed
 
 ### Drop Support:
-   -  PHP v8.1 & v8.2 support
-   - Livewire v3 support
-   - Laravel framework v10 support
 
-### Add Support: 
-  - Livewire v4
+- PHP v8.1 & v8.2 support
+- Livewire v3 support
+- Laravel framework v10 support
+
+### Add Support:
+
+- Livewire v4
 
 ### Features & Fixes:
+
 * fix: migration are published in wrong order by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/181
 * Feat/upgrade by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/182
 * Fix: Not showing single thread by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/184
