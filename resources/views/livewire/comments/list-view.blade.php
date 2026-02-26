@@ -121,7 +121,7 @@
     @if($this->pinnedMsg instanceof Comment)
         <div class='shadow-xl'>
             <livewire:comments.item-view
-                :key="'pinned-comment'. $this->pinnedMsg"
+                :key="'pinned-comment'. $this->pinnedMsg->id"
                 :comment="$this->pinnedMsg"
                 :$guestMode
                 :$model
