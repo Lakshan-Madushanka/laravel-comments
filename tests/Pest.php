@@ -76,7 +76,7 @@ function approvalRequired($comment = false, $reply = false): void
     config(['commenter.reply.approval_required' => $reply]);
 }
 
-function setPaginateForComments(int $count = null): void
+function setPaginateForComments(?int $count = null): void
 {
     if (is_null($count)) {
         config(['commenter.pagination.enabled' => false]);
