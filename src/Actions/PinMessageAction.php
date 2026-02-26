@@ -12,10 +12,12 @@ class PinMessageAction
     public function execute(CommentableContract $commentable, Message $msg): void
     {
         DB::transaction(function () use ($commentable, $msg) {
+            $isPinned = $msg->is_pinned;
+
             $this->removeExistingPinComments($commentable);
             $this->removeExistingPinReplies($commentable);
 
-            if ($msg->is_pinned) {
+            if ($isPinned) {
                 return;
             }
 
