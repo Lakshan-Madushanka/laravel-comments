@@ -2,6 +2,8 @@
 
 namespace LakM\Commenter\Livewire\Comments;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use LakM\Commenter\Actions\Comment\UpdateAction;
@@ -79,8 +81,8 @@ class UpdateForm extends Component
         $this->dispatch('reset-editor-' . $this->editorId, value: $this->comment->text);
     }
 
-    public function render()
+    public function render(): Factory|View
     {
-        return view('commenter::livewire.comments.update-form');
+        return view(Helpers::getLivewireViewString('comments.update-form'));
     }
 }

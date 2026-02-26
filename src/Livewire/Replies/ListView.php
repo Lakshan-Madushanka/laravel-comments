@@ -11,6 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use LakM\Commenter\Abstracts\AbstractQueries;
 use LakM\Commenter\Contracts\CommentableContract;
 use LakM\Commenter\Enums\Sort;
+use LakM\Commenter\Helpers;
 use LakM\Commenter\Livewire\Concerns\HasSingleThread;
 use LakM\Commenter\Models\Message;
 use Livewire\Attributes\Computed;
@@ -189,7 +190,7 @@ class ListView extends Component
     public function render(): View|Factory|Application
     {
         return view(
-            'commenter::livewire.replies.list-view',
+            Helpers::getLivewireViewString('replies.list-view'),
             ['replies' => $this->replies]
         );
     }

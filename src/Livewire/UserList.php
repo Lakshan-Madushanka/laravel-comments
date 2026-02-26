@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use LakM\Commenter\Abstracts\AbstractQueries;
+use LakM\Commenter\Helpers;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -100,6 +101,9 @@ class UserList extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('commenter::livewire.user-list', ['users' => $this->queries->usersStartWithName($this->search, $this->guestMode, $this->limit)]);
+        return view(
+            Helpers::getLivewireViewString('user-list'),
+            ['users' => $this->queries->usersStartWithName($this->search, $this->guestMode, $this->limit)]
+        );
     }
 }

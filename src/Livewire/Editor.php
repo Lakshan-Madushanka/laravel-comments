@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use LakM\Commenter\Exceptions\InvalidEditorIDException;
+use LakM\Commenter\Helpers;
 use Livewire\Attributes\Modelable;
 use Livewire\Component;
 
@@ -43,6 +44,6 @@ class Editor extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('commenter::livewire.editor');
+        return view(Helpers::getLivewireViewString('editor'));
     }
 }

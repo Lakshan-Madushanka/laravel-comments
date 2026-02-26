@@ -86,9 +86,6 @@ class ItemView extends Component
 
     public function render(): View|Factory|Application
     {
-        /** @var view-string $view */
-        $view = 'commenter::livewire.comments.item-view';
-
-        return view($view);
+        return view(Helpers::getLivewireViewString('comments.item-view'));
     }
 }

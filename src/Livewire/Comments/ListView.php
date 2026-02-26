@@ -177,11 +177,8 @@ class ListView extends Component
 
     public function render(): View|Factory|Application
     {
-        /** @var view-string $view */
-        $view = 'commenter::livewire.comments.list-view';
-
         return view(
-            $view,
+            Helpers::getLivewireViewString('comments.list-view'),
             ['comments' => $this->comments]
         );
     }

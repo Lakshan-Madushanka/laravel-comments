@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use LakM\Commenter\Abstracts\AbstractQueries;
 use LakM\Commenter\Contracts\CommentableContract;
 use LakM\Commenter\Facades\SecureGuestMode;
+use LakM\Commenter\Helpers;
 use LakM\Commenter\Models\Message;
 use LakM\Commenter\Reactions\ReactionManager as RM;
 use Livewire\Attributes\Locked;
@@ -285,6 +286,6 @@ class ReactionManager extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('commenter::livewire.reaction-manager');
+        return view(Helpers::getLivewireViewString('reaction-manager'));
     }
 }

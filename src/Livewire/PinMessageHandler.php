@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use LakM\Commenter\Actions\PinMessageAction;
 use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Helpers;
 use LakM\Commenter\Models\Message;
 use Livewire\Component;
 
@@ -32,6 +33,6 @@ class PinMessageHandler extends Component
 
     public function render(): View
     {
-        return view('commenter::livewire.pin-message-handler');
+        return view(Helpers::getLivewireViewString('pin-message-handler'));
     }
 }

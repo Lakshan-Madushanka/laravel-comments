@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use LakM\Commenter\Actions\Reply\DeleteAction;
 use LakM\Commenter\Contracts\CommentableContract;
+use LakM\Commenter\Helpers;
 use LakM\Commenter\Models\Message;
 use LakM\Commenter\Models\Reply;
 use Livewire\Attributes\Locked;
@@ -108,6 +109,6 @@ class ItemView extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('commenter::livewire.replies.item-view');
+        return view(Helpers::getLivewireViewString('replies.item-view'));
     }
 }

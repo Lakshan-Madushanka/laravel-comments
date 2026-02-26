@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use LakM\Commenter\Actions\Reply\UpdateAction;
+use LakM\Commenter\Helpers;
 use LakM\Commenter\Models\Reply;
 use LakM\Commenter\ValidationRules;
 use Livewire\Attributes\Locked;
@@ -93,6 +94,6 @@ class UpdateForm extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('commenter::livewire.replies.update-form');
+        return view(Helpers::getLivewireViewString('replies.update-form'));
     }
 }

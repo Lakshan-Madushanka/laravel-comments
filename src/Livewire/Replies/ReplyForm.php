@@ -15,6 +15,7 @@ use LakM\Commenter\Data\GuestData;
 use LakM\Commenter\Data\MessageData;
 use LakM\Commenter\Data\UserData;
 use LakM\Commenter\Exceptions\ReplyLimitExceededException;
+use LakM\Commenter\Helpers;
 use LakM\Commenter\Models\Message;
 use LakM\Commenter\SecureGuestModeManager;
 use LakM\Commenter\ValidationRules;
@@ -293,6 +294,6 @@ class ReplyForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('commenter::livewire.replies.create-form');
+        return view(Helpers::getLivewireViewString('replies.create-form'));
     }
 }

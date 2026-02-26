@@ -79,4 +79,13 @@ class Helpers
 
         return config('commenter.reactions.' . $reaction . '.icon.filled', null);
     }
+
+    /**
+     * @param string $viewName
+     * @return view-string
+     */
+    public static function getLivewireViewString(string $viewName): string
+    {
+        return "commenter::livewire." . $viewName;
+    }
 }
