@@ -234,6 +234,9 @@ class CreateForm extends Component
 
     public function render(): View|Factory|Application
     {
-        return view('commenter::livewire.comments.create-form');
+        /** @var view-string $view */
+        $view = 'commenter::livewire.comments.create-form';
+
+        return view($view);
     }
 }

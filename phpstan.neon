@@ -8,8 +8,9 @@ parameters:
     # Level 9 is the highest level
     level: 5
 
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
+    ignoreErrors:
+#       - '#PHPDoc tag @var#'
+        - '#Trait LakM\\Commenter\\Concerns\\Commentable is used zero times#'
 #
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php

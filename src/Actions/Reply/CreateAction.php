@@ -54,6 +54,7 @@ class CreateAction
         $reply = DB::transaction(function () use ($message, $replyData, $guestData) {
             $guest = ModelResolver::guestClass()::createOrUpdate($guestData);
 
+            /** @var Reply $reply */
             $reply = $message
                 ->replies()
                 ->create([

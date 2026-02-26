@@ -169,13 +169,19 @@ class ListView extends Component
 
     public function placeholder(array $params = []): Factory|View|Application
     {
-        return view('commenter::components.skeleton', $params);
+        /** @var view-string $view */
+        $view = 'commenter::components.skeleton';
+
+        return view($view, $params);
     }
 
     public function render(): View|Factory|Application
     {
+        /** @var view-string $view */
+        $view = 'commenter::livewire.comments.list-view';
+
         return view(
-            'commenter::livewire.comments.list-view',
+            $view,
             ['comments' => $this->comments]
         );
     }
