@@ -1,5 +1,32 @@
 # Documentation of the changes
 
+## 4.1.0 - 2026-02-26
+
+### What's Changed
+
+### Drop Support:
+   -  PHP v8.1 & v8.2 support
+   - Livewire v3 support
+   - Laravel framework v10 support
+
+### Add Support: 
+  - Livewire v4
+
+### Features & Fixes:
+* fix: migration are published in wrong order by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/181
+* Feat/upgrade by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/182
+* Fix: Not showing single thread by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/184
+* fix: unpin message functionality not working by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/185
+* Fix: Invalid snapshot issue by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/186
+* Fix: Share button drilling by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/187
+* Fix: Vite manifest generating absolute paths by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/188
+* Apply fixes from StyleCI by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/189
+* chore(deps-dev): bump tar from 7.5.6 to 7.5.9 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/180
+* chore(deps): bump rollup from 4.52.5 to 4.59.0 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/183
+* chore(deps): bump lodash-es from 4.17.21 to 4.17.23 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/177
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.0.2...4.1.0
+
 ## 4.0.2 - 2026-01-21
 
 ### What's Changed
