@@ -17,12 +17,14 @@ trait Commenter
     use HasProfilePhoto;
     use HasReactions;
 
-    /** @return MorphMany<Comment> */
+    /** @return MorphMany<Comment, $this> */
     public function comments(): MorphMany
     {
-        return $this->morphMany(ModelResolver::commentClass(), 'commenter');
-    }
+        /** @var class-string<Comment> $class*/
+        $class = ModelResolver::commentClass();
 
+        return $this->morphMany($class, 'commenter');
+    }
 
     public function profileUrl(): ?string
     {
