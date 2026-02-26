@@ -4,6 +4,15 @@
 
 ### What's Changed
 
+### Drop Support:
+   -  PHP v8.1 & v8.2 support
+   - Livewire v3 support
+   - Laravel framework v10 support
+
+### Add Support: 
+  - Livewire v4
+
+### Features & Fixes:
 * fix: migration are published in wrong order by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/181
 * Feat/upgrade by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/182
 * Fix: Not showing single thread by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/184
