@@ -1,5 +1,17 @@
 # Documentation of the changes
 
+## 4.1.2 - 2026-04-20
+
+### What's Changed
+
+* feat: laravel 13 support by @Lakshan-Madushanka in https://github.com/Lakshan-Madushanka/laravel-comments/pull/198
+* chore(deps-dev): bump vite from 7.1.12 to 7.3.2 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/196
+* chore(deps): bump lodash-es from 4.17.23 to 4.18.1 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/195
+* chore(deps): bump picomatch by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/194
+* chore(deps-dev): bump tar from 7.5.9 to 7.5.11 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/192
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.1.1...4.1.2
+
 ## 4.1.1 - 2026-02-26
 
 ### What's Changed
