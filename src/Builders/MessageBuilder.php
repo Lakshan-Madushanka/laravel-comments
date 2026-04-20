@@ -20,9 +20,9 @@ use LakM\Commenter\Models\Message;
  */
 class MessageBuilder extends Builder
 {
-    /** @return MessageBuilder<Message> */
-    public function approved(): self
+    public function approved(): static
     {
+        /** @var static */
         return $this->whereApproved(true);
     }
 
