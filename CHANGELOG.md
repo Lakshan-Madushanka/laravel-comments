@@ -1,5 +1,9 @@
 # Documentation of the changes
 
+## 4.1.3 - 2026-04-22
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.1.2...4.1.3
+
 ## 4.1.2 - 2026-04-20
 
 ### What's Changed
