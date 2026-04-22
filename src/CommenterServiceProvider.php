@@ -135,6 +135,14 @@ class CommenterServiceProvider extends ServiceProvider
             __DIR__ . '/../public' => public_path('vendor/lakm/commenter')
         ], 'commenter-assets');
 
+        $this->publishes(
+            [
+                __DIR__ . '/../resources/css/styles.css' => resource_path('css/commenter.css'),
+                __DIR__ . '/../resources/js/app.js' => resource_path('js/commenter.js'),
+            ],
+            'commenter-raw-assets'
+        );
+
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/commenter'),
         ], 'commenter-views');
@@ -177,7 +185,7 @@ class CommenterServiceProvider extends ServiceProvider
         $filesystem = $this->app->make(Filesystem::class);
 
         return Collection::make([$this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR])
-            ->flatMap(fn ($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->flatMap(fn($path) => $filesystem->glob($path . '*_' . $migrationFileName))
             ->push($this->app->databasePath() . "/migrations/{$timestamp}_{$migrationFileName}")
             ->first();
     }
