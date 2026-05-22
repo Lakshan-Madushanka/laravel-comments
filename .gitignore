@@ -7,3 +7,4 @@ node_modules
 public/laravel-comments.hot
 *.sqlite
 public/build/
+public/commenter.hot

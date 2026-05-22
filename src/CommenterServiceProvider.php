@@ -85,12 +85,12 @@ class CommenterServiceProvider extends ServiceProvider
         }
 
         $styles = Vite::useBuildDirectory("vendor/lakm/commenter/build")
-            ->useHotFile('vendor/lakm/commenter/commenter.hot')
+            ->useHotFile(public_path('vendor/lakm/commenter/commenter.hot'))
             ->withEntryPoints(['resources/css/app.css'])
             ->toHtml();
 
         $scripts = Vite::useBuildDirectory("vendor/lakm/commenter/build")
-            ->useHotFile('vendor/lakm/commenter/commenter.hot')
+            ->useHotFile(public_path('vendor/lakm/commenter/commenter.hot'))
             ->withEntryPoints(['resources/js/app.js'])
             ->toHtml();
 
