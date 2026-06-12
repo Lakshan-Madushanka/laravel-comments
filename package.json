@@ -10,12 +10,12 @@
     },
     "devDependencies": {
         "@tailwindcss/postcss": "^4.1.14",
-        "laravel-vite-plugin": "^2.0.1",
+        "laravel-vite-plugin": "^3.1.0",
         "postcss": "^8.4.38",
         "postcss-prefix-selector": "^2.1.0",
         "prettier": "^3.2.5",
         "tailwindcss": "^4.1.14",
-        "vite": "^7.3.2"
+        "vite": "^8.0.16"
     },
     "dependencies": {
         "highlight.js": "^11.9.0",
