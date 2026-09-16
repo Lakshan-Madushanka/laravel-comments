@@ -26,7 +26,10 @@ trait BuildAssets
             // Build assets
             $this->build($basePath);
         } catch (Exception $e) {
-            $this->error("❌  Failed to build assets", $e);
+            $this->error("❌  Failed to build assets");
+            $this->newLine();
+            $this->info( $e->getMessage());
+
             return false;
         } finally {
             if (File::exists($basePath . 'node_modules')) {
