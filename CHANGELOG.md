@@ -1,5 +1,14 @@
 # Documentation of the changes
 
+## 4.1.4 - 2026-09-16
+
+### What's Changed
+
+* chore(deps-dev): bump postcss from 8.5.6 to 8.5.25 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/203
+* chore(deps-dev): bump tar from 7.5.11 to 7.5.22 by @dependabot[bot] in https://github.com/Lakshan-Madushanka/laravel-comments/pull/202
+
+**Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.1.3...4.1.4
+
 ## 4.1.3 - 2026-04-22
 
 **Full Changelog**: https://github.com/Lakshan-Madushanka/laravel-comments/compare/4.1.2...4.1.3
